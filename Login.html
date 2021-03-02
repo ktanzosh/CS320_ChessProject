@@ -1,31 +1,37 @@
-<!-- 	Johnny Quinteros 
-		02/22/2021	-->
 
 <!DOCTYPE html>
 
 <html>
 	<head>
-		<title>Log-In</title>
+		<title>Log-In</title>									<!--Page Banner Title-->
 
-		<link rel = "stylesheet" href = "possibleLook.css">
+		<link rel = "stylesheet" href = "possibleLook.css">		<!--CSS style-->
 
 	</head>
 
 	<body>
 		
+		<!--Username field-->
 		<tr>
 			<td class="label">Username:</td> <br>								
 			<td><input type="text" name="user" size="20"  /></td> <br>
 		</tr>
+
+		<!--Password field-->
 		<tr>
 			<td class="label">Password:</td> <br>
 			<td><input type="text" name="password" size="20"  /></td> <br>
 		</tr>
 
-		<button type="button">Log In</button> <br>
+		<!--Log in Button-->
+		<a href = "newGame - seeHistory.html">
+            <button>Log In</button>
+        </a> <br>
 		
-    	<span class="link">Forgot password? <a href="#">Reset Password</a></span> <br>
+    	<!--Reset Password Link-->
+		<span class="link">Forgot password? <a href="AccountRecovery.html">Reset Password</a></span> <br>
 
+		<!--New Account Link-->
 		<span class="link">Don't have an account? <a href="SignUp.html">Sign up</a></span>
 		
 	</body>
