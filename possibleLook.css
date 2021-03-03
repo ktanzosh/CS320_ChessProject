@@ -25,6 +25,9 @@ button{
 	  margin: 4px 2px;
 	  cursor: pointer;
 }
+a{							/* Hyperlink color */
+	  color: white;
+}
 border{
 	border: 10px solid transparent;
 	padding: 15px;
