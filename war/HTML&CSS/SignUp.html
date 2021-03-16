@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Sign-up Form</title>										<!--Page Banner Title-->
+		
+		<style type="text/css"></style>
+
+		<link rel = "stylesheet" href = "possibleLook.css">				<!--CSS style-->
+
+	</head>
+
+	<body>
+		<!--Username Field-->
+		<tr>
+			<td class="label">Username:</td> <br>
+			<td><input type="text" name="user" size="20"  /></td> <br>
+		</tr>
+
+		<!--Password Field-->
+		<tr>
+			<td class="label">Password:</td> <br>
+			<td><input type="text" name="password" size="20"  /></td> <br>
+		</tr>
+
+		<!--Security Question Dropdown-->
+		<label for="securityq">Security Question:</label> <br>
+
+		<select name="secrityq" id="secrityq">
+			<option value="base">-Select-</option>
+			<option value="question1">Who was your favorite teacher?</option>
+			<option value="question2">What was your first car?</option>
+			<option value="question3">Who was your first pet?</option>
+		</select>
+
+		<br>
+
+		<!--Security Answer Field-->
+		<tr>
+			<td class="label">Security Answer:</td> <br>
+			<td><input type="text" name="securitya" size="20"  /></td> <br>
+		</tr>
+
+		<!--Submit Button-->
+		<a href = "Login.html">
+            <button>Submit</button>
+        </a> <br>
+
+		<!--Sign-in Link-->
+		<span class="link">Already have an account? <a href="Login.html">Sign in</a></span> <br>
+
+	</body>
+</html>
+
