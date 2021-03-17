@@ -12,46 +12,47 @@
   </servlet>
   
   <servlet>
-    <servlet-name>AddNumbersServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.ChessProject.servlet.AddNumbersServlet</servlet-class>
+    <servlet-name>NewGameServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.ChessProject.servlet.NewGameServlet</servlet-class>
   </servlet>
-  
-  <servlet>
-    <servlet-name>GuessingGameServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.ChessProject.servlet.GuessingGameServlet</servlet-class>
-  </servlet>
+
   
     <servlet>
-    <servlet-name>MultiplyNumbersServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.ChessProject.servlet.MultiplyNumbersServlet</servlet-class>
+    <servlet-name>GameHistoryServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.ChessProject.servlet.GameHistoryServlet</servlet-class>
   </servlet>
   
-
-  
-
-  
-  <!-- AJAX servlets. -->
-  <servlet>
-    <servlet-name>AddNumbersAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.ChessProject.servlet.ajax.AddNumbersAjaxServlet</servlet-class>
+      <servlet>
+    <servlet-name>LoginPageServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.ChessProject.servlet.LoginPageServlet</servlet-class>
   </servlet>
-  
-  <servlet>
-    <servlet-name>NextGuessAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.ChessProject.servlet.ajax.NextGuessAjaxServlet</servlet-class>
+    
+      <servlet>
+    <servlet-name>SignUpServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.ChessProject.servlet.SignUpServlet</servlet-class>
   </servlet>
-  
-    <servlet>
-    <servlet-name>MultiplyNumbersAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.ChessProject.servlet.ajax.MultiplyNumbersAjaxServlet</servlet-class>
+      
+      <servlet>
+    <servlet-name>AccountRecoveryServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.ChessProject.servlet.AccountRecoveryServlet</servlet-class>
   </servlet>
+       
+      <servlet>
+    <servlet-name>SecurityServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.ChessProject.servlet.SecurityServlet</servlet-class>
+  </servlet>
+       
+      <servlet>
+    <servlet-name>PasswordResetServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.ChessProject.servlet.PasswordResetServlet</servlet-class>
+  </servlet>
+ 
+  
+         
+
   
 
   
-
-  
-
-
   <!-- Servlet mappings -->
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
@@ -59,41 +60,45 @@
   </servlet-mapping>
   
   <servlet-mapping>
-    <servlet-name>AddNumbersServlet</servlet-name>
-    <url-pattern>/addNumbers</url-pattern>
+    <servlet-name>NewGameServlet</servlet-name>
+    <url-pattern>/newGame</url-pattern>
   </servlet-mapping>
+
   
-  <servlet-mapping>
-    <servlet-name>GuessingGameServlet</servlet-name>
-    <url-pattern>/guessingGame</url-pattern>
+    <servlet-mapping>
+    <servlet-name>GameHistoryServlet</servlet-name>
+    <url-pattern>/gameHistory</url-pattern>
+  </servlet-mapping>
+    
+    <servlet-mapping>
+    <servlet-name>LoginPageServlet</servlet-name>
+    <url-pattern>/loginPage</url-pattern>
   </servlet-mapping>
   
     <servlet-mapping>
-    <servlet-name>MultiplyNumbersServlet</servlet-name>
-    <url-pattern>/multiplyNumbers</url-pattern>
+    <servlet-name>SignUpServlet</servlet-name>
+    <url-pattern>/signupPage</url-pattern>
   </servlet-mapping>
-  
 
+    <servlet-mapping>
+    <servlet-name>AccountRecoveryServlet</servlet-name>
+    <url-pattern>/accountRecovery</url-pattern>
+  </servlet-mapping>
   
+    <servlet-mapping>
+    <servlet-name>SecurityServlet</servlet-name>
+    <url-pattern>/security</url-pattern>
+  </servlet-mapping>
+     <servlet-mapping>
+     
+    <servlet-name>PasswordResetServlet</servlet-name>
+    <url-pattern>/passwordReset</url-pattern>
+  </servlet-mapping>
+  
+ 
+       
+ 
 
-  
-  <!--  AJAX servlet mappings. -->
-  <servlet-mapping>
-    <servlet-name>AddNumbersAjaxServlet</servlet-name>
-    <url-pattern>/ajax/addNumbers</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>NextGuessAjaxServlet</servlet-name>
-    <url-pattern>/ajax/nextGuess</url-pattern>
-  </servlet-mapping>
-  
-  
-  <servlet-mapping>
-    <servlet-name>MultiplyNumbersAjaxServlet</servlet-name>
-    <url-pattern>/ajax/multiplyNumbers</url-pattern>
-  </servlet-mapping>
-  
 
   
  

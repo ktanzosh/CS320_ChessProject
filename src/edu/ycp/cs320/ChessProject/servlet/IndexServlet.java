@@ -14,7 +14,7 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Index Servlet: doGet");
+		System.out.println("Index Servlet / Main Menu: doGet");
 		
 		req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 	}
