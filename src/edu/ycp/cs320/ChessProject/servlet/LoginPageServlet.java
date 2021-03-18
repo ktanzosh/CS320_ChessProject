@@ -6,9 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import edu.ycp.cs320.ChessProject.controller.NumbersController;
-import edu.ycp.cs320.ChessProject.model.Numbers;
+import edu.ycp.cs320.ChessProject.controller.LoginPageController;
+import edu.ycp.cs320.ChessProject.model.LoginPage;
 
 public class LoginPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -17,7 +16,7 @@ public class LoginPageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("Login Page Servlet: doGet");	
+		System.out.println("LoginPage Servlet: doGet");	
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
@@ -27,42 +26,46 @@ public class LoginPageServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Login Page Servlet: doPost");
-		
-		
-		Numbers model = new Numbers();
+		System.out.println("LoginPage Servlet: doPost");
 		
 
-		NumbersController controller = new NumbersController();
+		LoginPage model = new LoginPage();
+		
+
+		LoginPageController controller = new LoginPageController();
 		controller.setModel(model);
 		
-
 		// holds the error message text, if there is any
 		String errorMessage = null;
+		
+		String errorMessageInvalidC = null;
 
-		// result of calculation goes here
-		Double result = null;
 		
 		// decode POSTed form parameters and dispatch to controller
 		try {
-			Double first = getDoubleFromParameter(req, "first");
-			Double second = getDoubleFromParameter(req, "second");
+			String user = getStringFromParameter(req, "user");
+			String password = getStringFromParameter(req,"password");
 
 			// check for errors in the form data before using is in a calculation
-			if (first == null || second == null) {
-				errorMessage = "Please specify two numbers";
+			if (user == null) {
+				errorMessage = "Please enter a username";
 			}
+			
+			if (password == null) {
+				errorMessage = "Please enter a password";
+			}
+			
 			// otherwise, data is good, do the calculation
 			// must create the controller each time, since it doesn't persist between POSTs
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
 			else {
-				model.setFirst(first);
-				model.setSecond(second);
-				model.setResult(controller.MultiplyNumbersController(first, second));
+				model.setUser(user);
+				model.setPassword(password);
+				model.setInfo(controller.checkInfo(user, password));
 			}
 		} catch (NumberFormatException e) {
-			errorMessage = "Invalid double";
+			errorMessage = "Invalid entry";
 		}
 		
 		// Add parameters as request attributes
@@ -71,25 +74,33 @@ public class LoginPageServlet extends HttpServlet {
 		// they don't have to be named the same, but in this case, since we are passing them back
 		// and forth, it's a good idea
 		req.setAttribute("model", model);
-		
-		//req.setAttribute("first", req.getParameter("first"));
 		//req.setAttribute("second", req.getParameter("second"));
+		//req.setAttribute("third", req.getParameter("third"));
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
-		//req.setAttribute("result", product);
+		//req.setAttribute("result", result);
 		
 		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
+		if (model.getInfo() == true) {
+			req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
+		}
+		else {
+			errorMessageInvalidC = "Invalid Username or Password";
+			req.setAttribute("errorMessage", errorMessageInvalidC);
+			req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
+		}
+	
 	}
 
 	// gets double from the request with attribute named s
-	private Double getDoubleFromParameter(HttpServletRequest request, String name) {
+	private String getStringFromParameter(HttpServletRequest request, String name) {
 		if (request.getParameter(name) == null || request.getParameter(name).equals("")) {
 			return null;
-		} else {
-			return Double.parseDouble(request.getParameter(name));
+		} 
+		else {
+			return new String (request.getParameter(name));
 		}
 	}
 }
