@@ -10,9 +10,6 @@
             .error {
                 color: red;
             }
-			.form {
-                text-align: right;
-            }
 			a{							/* Hyperlink color */
 	  			color: lightblue;
 			}
@@ -29,12 +26,14 @@
 		<form action="${pageContext.servletContext.contextPath}/loginPage" method="post">
 				<tr>
 					<td class="label">Username:</td></br>
-					<td><input type="text" name="user" size="12" value="${model.user}" required = true/></td></tr></br>
+					<td><input type="text" name="user" size="12" value="${model.user}" required=true /></td>
 				</tr>
+				</br>
 				<tr>
 					<td class="label">Password:</td></br>
-					<td><input type="password" name="password" size="12" value="${model.password}" required = true /></td></tr></br>
+					<td><input type="password" name="password" size="12" value="${model.password}" required=true /></td>
 				</tr>
+			</br>
             <input type="Submit" name="submit" value="Log In">
         </form>
 

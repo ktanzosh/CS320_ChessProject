@@ -5,22 +5,36 @@
 <html>
 	<head>
 		<title>Add Numbers</title>
-	</head>
 	
-<link rel="stylesheet" type="text/css" href="_view/possibleLook.css"/>
+		<link rel = "stylesheet" type="text/css" href="_view/possibleLook.css"/>
+        <style type="text/css">
+            .error {
+                color: red;
+            }
+			.form {
+                text-align: right;
+            }
+			a{							/* Hyperlink color */
+	  			color: lightblue;
+			}
+        </style>
+
+	</head>
 
 	<body>
+        
+		<c:if test="${! empty errorMessage}">
+			<div class="error">${errorMessage}</div>
+		</c:if>
 	
-		
+		<form action="${pageContext.servletContext.contextPath}/security" method="post">
 				<tr>
 					<td class="label">What was your first car?</td><br/>
-					<td><input type="text" name="first" size="12" value="${model.first}" /></td>
+					<td><input type="text" name="securityAnswer" size="12" value="${model.securityAnswer}" required= true/></td>
 				</tr>
 		<br/>
-		
-		<a href = "passwordReset">
 		<input type="Submit" name="submit" value="Create a New Password"/>
-		<a/>
+		</form>
 		
 	</body>
 </html>

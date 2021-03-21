@@ -7,8 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.ChessProject.controller.NumbersController;
-import edu.ycp.cs320.ChessProject.model.Numbers;
+import edu.ycp.cs320.ChessProject.controller.SecurityController;
+import edu.ycp.cs320.ChessProject.model.Security;
+import edu.ycp.cs320.ChessProject.model.PasswordReset;
 
 public class SecurityServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,36 +31,38 @@ public class SecurityServlet extends HttpServlet {
 		System.out.println("Security Servlet: doPost");
 		
 		
-		Numbers model = new Numbers();
+		Security model = new Security();
 		
 
-		NumbersController controller = new NumbersController();
+		SecurityController controller = new SecurityController();
 		controller.setModel(model);
 		
 
 		// holds the error message text, if there is any
 		String errorMessage = null;
-
-		// result of calculation goes here
-		Double result = null;
+		
+		String errorMessageInvalidC = null;
 		
 		// decode POSTed form parameters and dispatch to controller
 		try {
-			Double first = getDoubleFromParameter(req, "first");
-			Double second = getDoubleFromParameter(req, "second");
+			String securitya = getStringFromParameter(req, "securityAnswer");
 
 			// check for errors in the form data before using is in a calculation
-			if (first == null || second == null) {
-				errorMessage = "Please specify two numbers";
+			if (securitya == null) {
+				errorMessage = "Please fill in your answer";
+			}
+			
+			else if(controller.isRightAnswer(securitya) == false)
+			{
+				errorMessage = "Incorrect security answer";
 			}
 			// otherwise, data is good, do the calculation
 			// must create the controller each time, since it doesn't persist between POSTs
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
 			else {
-				model.setFirst(first);
-				model.setSecond(second);
-				model.setResult(controller.MultiplyNumbersController(first, second));
+				model.setSecurityAnswer(securitya);
+				model.setInfo(controller.isRightAnswer(securitya));
 			}
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid double";
@@ -81,15 +84,27 @@ public class SecurityServlet extends HttpServlet {
 		//req.setAttribute("result", product);
 		
 		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
+		//req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
+		
+		if (model.getInfo() == true) {
+			PasswordReset prModel = new PasswordReset();
+			req.setAttribute("model", prModel);
+			req.getRequestDispatcher("/_view/passwordReset.jsp").forward(req, resp);
+			
+		}
+		else {
+			errorMessageInvalidC = "Invalid username";
+			req.setAttribute("errorMessage", errorMessageInvalidC);
+			req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
+		}
 	}
 
 	// gets double from the request with attribute named s
-	private Double getDoubleFromParameter(HttpServletRequest request, String name) {
-		if (request.getParameter(name) == null || request.getParameter(name).equals("")) {
-			return null;
-		} else {
-			return Double.parseDouble(request.getParameter(name));
-		}
-	}
+	private String getStringFromParameter(HttpServletRequest request, String name) {
+        if (request.getParameter(name) == null || request.getParameter(name).equals("")) {
+            return null;
+        } else {
+            return new String (request.getParameter(name));
+        }
+    }
 }

@@ -7,8 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.ChessProject.controller.NumbersController;
-import edu.ycp.cs320.ChessProject.model.Numbers;
+import edu.ycp.cs320.ChessProject.controller.PasswordResetController;
+import edu.ycp.cs320.ChessProject.model.PasswordReset;
+import edu.ycp.cs320.ChessProject.model.LoginPage;
 
 public class PasswordResetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,36 +31,40 @@ public class PasswordResetServlet extends HttpServlet {
 		System.out.println("Password Reset Servlet: doPost");
 		
 		
-		Numbers model = new Numbers();
+		PasswordReset model = new PasswordReset();
 		
 
-		NumbersController controller = new NumbersController();
+		PasswordResetController controller = new PasswordResetController();
 		controller.setModel(model);
 		
 
 		// holds the error message text, if there is any
 		String errorMessage = null;
-
-		// result of calculation goes here
-		Double result = null;
+		
+		String errorMessageInvalidC = null;
 		
 		// decode POSTed form parameters and dispatch to controller
 		try {
-			Double first = getDoubleFromParameter(req, "first");
-			Double second = getDoubleFromParameter(req, "second");
+			String newpass = getStringFromParameter(req, "newPassword");
+			String passcompare = getStringFromParameter(req, "checkPassword");
 
 			// check for errors in the form data before using is in a calculation
-			if (first == null || second == null) {
-				errorMessage = "Please specify two numbers";
+			if (newpass == null || passcompare == null) {
+				errorMessage = "Please put in both passwords";
 			}
 			// otherwise, data is good, do the calculation
 			// must create the controller each time, since it doesn't persist between POSTs
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
+			else if(controller.equalPassword(newpass, passcompare) == false)
+			{
+				errorMessage = "Passwords are not the same";
+			}
+			
 			else {
-				model.setFirst(first);
-				model.setSecond(second);
-				model.setResult(controller.MultiplyNumbersController(first, second));
+				model.setNewPassword(newpass);
+				model.setCheckPassword(passcompare);
+				model.setInfo(controller.equalPassword(newpass, passcompare));
 			}
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid double";
@@ -81,15 +86,26 @@ public class PasswordResetServlet extends HttpServlet {
 		//req.setAttribute("result", product);
 		
 		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/passwordReset.jsp").forward(req, resp);
+		//req.getRequestDispatcher("/_view/passwordReset.jsp").forward(req, resp);
+		
+		if (model.getInfo() == true) {
+			LoginPage lpModel = new LoginPage();
+			req.setAttribute("model", lpModel);
+			req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
+		}
+		else {
+			errorMessageInvalidC = "Passwords are not the same";
+			req.setAttribute("errorMessage", errorMessageInvalidC);
+			req.getRequestDispatcher("/_view/passwordReset.jsp").forward(req, resp);
+		}
 	}
 
 	// gets double from the request with attribute named s
-	private Double getDoubleFromParameter(HttpServletRequest request, String name) {
-		if (request.getParameter(name) == null || request.getParameter(name).equals("")) {
-			return null;
-		} else {
-			return Double.parseDouble(request.getParameter(name));
-		}
-	}
+	private String getStringFromParameter(HttpServletRequest request, String name) {
+        if (request.getParameter(name) == null || request.getParameter(name).equals("")) {
+            return null;
+        } else {
+            return new String (request.getParameter(name));
+        }
+    }
 }
