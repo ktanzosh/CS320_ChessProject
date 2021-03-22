@@ -87,6 +87,7 @@ public class SecurityServlet extends HttpServlet {
 		//req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
 		
 		if (model.getInfo() == true) {
+			//starts up the next information
 			PasswordReset prModel = new PasswordReset();
 			req.setAttribute("model", prModel);
 			req.getRequestDispatcher("/_view/passwordReset.jsp").forward(req, resp);

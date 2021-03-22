@@ -81,6 +81,7 @@ public class AccountRecoveryServlet extends HttpServlet {
 		//req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 	
 		if (model.getInfo() == true) {
+			//starts up the next information
 			Security sModel = new Security();
 			req.setAttribute("model", sModel);
 			req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
