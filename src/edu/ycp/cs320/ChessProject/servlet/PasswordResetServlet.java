@@ -89,7 +89,6 @@ public class PasswordResetServlet extends HttpServlet {
 		//req.getRequestDispatcher("/_view/passwordReset.jsp").forward(req, resp);
 		
 		if (model.getInfo() == true) {
-			//starts up the next information
 			LoginPage lpModel = new LoginPage();
 			req.setAttribute("model", lpModel);
 			req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
