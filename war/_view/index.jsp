@@ -4,7 +4,17 @@
 	<head>
 		<title>Index view</title>
 	</head>
+<style type="text/css">
+p{
+	text-shadow: 2px 2px 5px black;
+	font-size:40px;
+}
+</style>
+
 <link rel="stylesheet" type="text/css" href="_view/possibleLook.css"/>
+<h1>Hi,
+${model.user}</h1>
+
 	<body>
 		Pick what you want todo
 		<br/><br/>
