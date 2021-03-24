@@ -1,0 +1,35 @@
+body {
+	text-align: center;
+	color: white;
+	text-shadow: 2px 2px 5px black;
+	font-size:30px;
+	background-repeat: no-repeat;
+	margin: 0;
+	background-image: linear-gradient(to bottom right, blue, gray);
+	background-attachment: fixed;
+	height: 100%;
+	
+	border: 10px solid transparent;
+	padding: 155px;
+	border-image: url(border.png) 2% round;
+}
+input{
+	background-color: black;
+	  border: none;
+	  color: white;
+	  padding: 10px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+	  margin: 4px 2px;
+	  cursor: pointer;
+}
+a{							/* Hyperlink color */
+	  color: white;
+}
+border{
+	border: 10px solid transparent;
+	padding: 15px;
+	border-image: url(border.png) 20% round;
+}
