@@ -3,114 +3,14 @@
 <head>
 <title>New Game</title>
 
-<style type="text/css">
-
-body{
-	margin: 0;
-	background-image: linear-gradient(to bottom right, blue, gray);
-	background-attachment: fixed;
-	height: 100%;
-	padding: 20px;
-}
-#whitePawn{
-	position: absolute;
-	top: 475px;
-	left: 30px;
-}
-#whitePawn1{
-	position: absolute;
-	top: 475px;
-	left: 105px;
-}
-#whitePawn2{
-	position: absolute;
-	top: 475px;
-	left: 180px;
-}
-#whitePawn3{
-	position: absolute;
-	top: 475px;
-	left: 255px;
-}
-#whitePawn4{
-	position: absolute;
-	top: 475px;
-	left: 330px;
-}
-#whitePawn5{
-	position: absolute;
-	top: 475px;
-	left: 405px;
-}
-#whitePawn6{
-	position: absolute;
-	top: 475px;
-	left: 480px;
-}
-#whitePawn7{
-	position: absolute;
-	top: 475px;
-	left: 555px;
-}
-
-
-
-#whiteKnight{
-position: absolute;
-	top: 550px;
-	left: 105px;
-}
-#whiteKnight1{
-position: absolute;
-	top: 550px;
-	left: 480px;
-}
-
-
-#whiteBishop{
-position: absolute;
-	top: 550px;
-	left: 180px;
-}
-#whiteBishop1{
-position: absolute;
-	top: 550px;
-	left: 405px;
-}
-
-
-
-#whiteKing{
-position: absolute;
-	top: 550px;
-	left: 330px;
-}
-#whiteQueen{
-position: absolute;
-	top: 550px;
-	left: 255px;
-}
-
-#whiteRook{
-position: absolute;
-	top: 550px;
-	left: 30px;
-}
-#whiteRook1{
-position: absolute;
-	top: 550px;
-	left: 555px;
-}
-
-</style>
-
+<link rel="stylesheet" type="text/css" href="_view/newGameCSS.css"/>
 
 <canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;">
 Your browser does not support the HTML canvas tag.
 </canvas>
 
-
 <body>
+
 <img id="whitePawn" src="_view/whitePawn.png" width="60" height="60">
 <img id="whitePawn1" src="_view/whitePawn.png" width="60" height="60">
 <img id="whitePawn2" src="_view/whitePawn.png" width="60" height="60">
@@ -674,7 +574,6 @@ whiteRook1.ondragstart = function() {
 //*****************************************************************************
 //*****************************************************************************
 	
-
 	for(var i = 0; i < 600; i+=150)
 	{
 		for(var j = 0; j < 600; j+=150)
