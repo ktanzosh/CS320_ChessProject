@@ -3,7 +3,7 @@
 <head>
 <title>New Game</title>
 
-<link rel="stylesheet" type="text/css" href="_view/newGameCSS.css"/>
+<link rel="stylesheet" type="text/css" href="_view/newGameCSS_.css"/>
 
 <canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;">
 Your browser does not support the HTML canvas tag.
@@ -20,17 +20,38 @@ Your browser does not support the HTML canvas tag.
 <img id="whitePawn6" src="_view/whitePawn.png" width="60" height="60">
 <img id="whitePawn7" src="_view/whitePawn.png" width="60" height="60">
 
+<img id="blackPawn" src="_view/blackPawn.png" width="60" height="60">
+<img id="blackPawn1" src="_view/blackPawn.png" width="60" height="60">
+<img id="blackPawn2" src="_view/blackPawn.png" width="60" height="60">
+<img id="blackPawn3" src="_view/blackPawn.png" width="60" height="60">
+<img id="blackPawn4" src="_view/blackPawn.png" width="60" height="60">
+<img id="blackPawn5" src="_view/blackPawn.png" width="60" height="60">
+<img id="blackPawn6" src="_view/blackPawn.png" width="60" height="60">
+<img id="blackPawn7" src="_view/blackPawn.png" width="60" height="60">
+
 <img id="whiteKnight" src="_view/whiteKnight.png" width="60" height="60">
 <img id="whiteKnight1" src="_view/whiteKnight.png" width="60" height="60">
+
+<img id="blackKnight" src="_view/blackKnight.png" width="60" height="60">
+<img id="blackKnight1" src="_view/blackKnight.png" width="60" height="60">
 
 <img id="whiteBishop" src="_view/whiteBishop.png" width="60" height="60">
 <img id="whiteBishop1" src="_view/whiteBishop.png" width="60" height="60">
 
+<img id="blackBishop" src="_view/blackBishop.png" width="60" height="60">
+<img id="blackBishop1" src="_view/blackBishop.png" width="60" height="60">
+
 <img id="whiteKing" src="_view/whiteKing.png" width="60" height="60">
 <img id="whiteQueen" src="_view/whiteQueen.png" width="60" height="60">
 
+<img id="blackKing" src="_view/blackKing.png" width="60" height="60">
+<img id="blackQueen" src="_view/blackQueen.png" width="60" height="60">
+
 <img id="whiteRook" src="_view/whiteRook.png" width="60" height="60">
 <img id="whiteRook1" src="_view/whiteRook.png" width="60" height="60">
+
+<img id="blackRook" src="_view/blackRook.png" width="60" height="60">
+<img id="blackRook1" src="_view/blackRook.png" width="60" height="60">
 
 <script>
 	
@@ -573,6 +594,563 @@ whiteRook1.ondragstart = function() {
 //*****************************************************************************
 //*****************************************************************************
 //*****************************************************************************
+blackPawn.onmousedown = function(event) {
+  let shiftX = event.clientX - blackPawn.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackPawn.getBoundingClientRect().top;
+
+  blackPawn.style.position = 'absolute';
+  blackPawn.style.zIndex = 1000;
+  document.body.append(blackPawn);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackPawn.style.left = pageX - shiftX + 'px';
+    blackPawn.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackPawn.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackPawn.onmouseup = null;
+  };
+
+};
+
+blackPawn.ondragstart = function() {
+  return false;
+};
+
+//*****************************************************************************
+blackPawn1.onmousedown = function(event) {
+  let shiftX = event.clientX - blackPawn1.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackPawn1.getBoundingClientRect().top;
+
+  blackPawn1.style.position = 'absolute';
+  blackPawn1.style.zIndex = 1000;
+  document.body.append(blackPawn1);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackPawn1.style.left = pageX - shiftX + 'px';
+    blackPawn1.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackPawn1.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackPawn1.onmouseup = null;
+  };
+
+};
+
+blackPawn1.ondragstart = function() {
+  return false;
+};
+
+//*****************************************************************************
+blackPawn2.onmousedown = function(event) {
+  let shiftX = event.clientX - blackPawn2.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackPawn2.getBoundingClientRect().top;
+
+  blackPawn2.style.position = 'absolute';
+  blackPawn2.style.zIndex = 1000;
+  document.body.append(whitePawn);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackPawn2.style.left = pageX - shiftX + 'px';
+    blackPawn2.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackPawn2.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackPawn2.onmouseup = null;
+  };
+
+};
+
+blackPawn2.ondragstart = function() {
+  return false;
+};
+
+//*****************************************************************************
+blackPawn3.onmousedown = function(event) {
+  let shiftX = event.clientX - blackPawn3.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackPawn3.getBoundingClientRect().top;
+
+  blackPawn3.style.position = 'absolute';
+  blackPawn3.style.zIndex = 1000;
+  document.body.append(blackPawn3);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackPawn3.style.left = pageX - shiftX + 'px';
+    blackPawn3.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackPawn3.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackPawn3.onmouseup = null;
+  };
+
+};
+
+blackPawn3.ondragstart = function() {
+  return false;
+};
+
+//*****************************************************************************
+blackPawn4.onmousedown = function(event) {
+  let shiftX = event.clientX - blackPawn4.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackPawn4.getBoundingClientRect().top;
+
+  blackPawn4.style.position = 'absolute';
+  blackPawn4.style.zIndex = 1000;
+  document.body.append(blackPawn4);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackPawn4.style.left = pageX - shiftX + 'px';
+    blackPawn4.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackPawn4.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackPawn4.onmouseup = null;
+  };
+
+};
+
+blackPawn4.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+
+blackPawn5.onmousedown = function(event) {
+  let shiftX = event.clientX - blackPawn5.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackPawn5.getBoundingClientRect().top;
+
+  blackPawn5.style.position = 'absolute';
+  blackPawn5.style.zIndex = 1000;
+  document.body.append(blackPawn5);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackPawn5.style.left = pageX - shiftX + 'px';
+    blackPawn5.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackPawn5.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackPawn5.onmouseup = null;
+  };
+
+};
+
+blackPawn5.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+
+blackPawn6.onmousedown = function(event) {
+  let shiftX = event.clientX - blackPawn6.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackPawn6.getBoundingClientRect().top;
+
+  blackPawn6.style.position = 'absolute';
+  blackPawn6.style.zIndex = 1000;
+  document.body.append(blackPawn6);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackPawn6.style.left = pageX - shiftX + 'px';
+    blackPawn6.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackPawn6.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackPawn6.onmouseup = null;
+  };
+
+};
+
+blackPawn6.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+
+blackPawn7.onmousedown = function(event) {
+  let shiftX = event.clientX - blackPawn7.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackPawn7.getBoundingClientRect().top;
+
+  blackPawn7.style.position = 'absolute';
+  blackPawn7.style.zIndex = 1000;
+  document.body.append(blackPawn7);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackPawn7.style.left = pageX - shiftX + 'px';
+    blackPawn7.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackPawn7.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackPawn7.onmouseup = null;
+  };
+
+};
+
+blackPawn7.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+
+blackKnight.onmousedown = function(event) {
+
+  let shiftX = event.clientX - blackKnight.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackKnight.getBoundingClientRect().top;
+
+  blackKnight.style.position = 'absolute';
+  blackKnight.style.zIndex = 1000;
+  document.body.append(blackKnight);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackKnight.style.left = pageX - shiftX + 'px';
+    blackKnight.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackKnight.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackKnight.onmouseup = null;
+  };
+
+};
+
+blackKnight.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+blackKnight1.onmousedown = function(event) {
+
+  let shiftX = event.clientX - blackKnight1.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackKnight1.getBoundingClientRect().top;
+
+  blackKnight1.style.position = 'absolute';
+  blackKnight1.style.zIndex = 1000;
+  document.body.append(whiteKnight);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackKnight1.style.left = pageX - shiftX + 'px';
+    blackKnight1.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackKnight1.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackKnight1.onmouseup = null;
+  };
+
+};
+
+blackKnight1.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+blackBishop.onmousedown = function(event) {
+
+  let shiftX = event.clientX - blackBishop.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackBishop.getBoundingClientRect().top;
+
+  blackBishop.style.position = 'absolute';
+  blackBishop.style.zIndex = 1000;
+  document.body.append(blackBishop);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackBishop.style.left = pageX - shiftX + 'px';
+    blackBishop.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackBishop.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackBishop.onmouseup = null;
+  };
+
+};
+
+blackBishop.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+blackBishop1.onmousedown = function(event) {
+
+  let shiftX = event.clientX - blackBishop1.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackBishop1.getBoundingClientRect().top;
+
+  blackBishop1.style.position = 'absolute';
+  blackBishop1.style.zIndex = 1000;
+  document.body.append(blackBishop1);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackBishop1.style.left = pageX - shiftX + 'px';
+    blackBishop1.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackBishop1.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackBishop1.onmouseup = null;
+  };
+
+};
+
+blackBishop1.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+blackQueen.onmousedown = function(event) {
+
+  let shiftX = event.clientX - blackQueen.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackQueen.getBoundingClientRect().top;
+
+  blackQueen.style.position = 'absolute';
+  blackQueen.style.zIndex = 1000;
+  document.body.append(blackQueen);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackQueen.style.left = pageX - shiftX + 'px';
+    blackQueen.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackQueen.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackQueen.onmouseup = null;
+  };
+
+};
+
+blackQueen.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+blackKing.onmousedown = function(event) {
+
+  let shiftX = event.clientX - blackKing.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackKing.getBoundingClientRect().top;
+
+  blackKing.style.position = 'absolute';
+  blackKing.style.zIndex = 1000;
+  document.body.append(blackKing);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackKing.style.left = pageX - shiftX + 'px';
+    blackKing.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackKing.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackKing.onmouseup = null;
+  };
+
+};
+
+blackKing.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+blackRook.onmousedown = function(event) {
+
+  let shiftX = event.clientX - blackRook.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackRook.getBoundingClientRect().top;
+
+  blackRook.style.position = 'absolute';
+  blackRook.style.zIndex = 1000;
+  document.body.append(blackRook);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackRook.style.left = pageX - shiftX + 'px';
+    blackRook.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackRook.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackRook.onmouseup = null;
+  };
+
+};
+
+blackRook.ondragstart = function() {
+  return false;
+};
+//*****************************************************************************
+blackRook1.onmousedown = function(event) {
+
+  let shiftX = event.clientX - blackRook1.getBoundingClientRect().left;
+  let shiftY = event.clientY - blackRook1.getBoundingClientRect().top;
+
+  blackRook1.style.position = 'absolute';
+  blackRook1.style.zIndex = 1000;
+  document.body.append(blackRook1);
+
+  moveAt(event.pageX, event.pageY);
+
+  function moveAt(pageX, pageY) {
+    blackRook1.style.left = pageX - shiftX + 'px';
+    blackRook1.style.top = pageY - shiftY + 'px';
+  }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  document.addEventListener('mousemove', onMouseMove);
+
+  blackRook1.onmouseup = function() {
+    document.removeEventListener('mousemove', onMouseMove);
+    blackRook1.onmouseup = null;
+  };
+
+};
+
+blackRook1.ondragstart = function() {
+  return false;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	for(var i = 0; i < 600; i+=150)
 	{
