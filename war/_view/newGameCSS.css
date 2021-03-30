@@ -71,8 +71,6 @@ position: absolute;
 	left: 405px;
 }
 
-
-
 #whiteKing{
 position: absolute;
 	top: 550px;
@@ -93,4 +91,95 @@ position: absolute;
 position: absolute;
 	top: 550px;
 	left: 555px;
+}
+
+
+#blackPawn{
+	position: absolute;
+	top: 100px;
+	left: 30px;
+}
+#blackPawn1{
+	position: absolute;
+	top: 25px;
+	left: 105px;
+}
+#blackPawn2{
+	position: absolute;
+	top: 100px;
+	left: 180px;
+}
+#blackPawn3{
+	position: absolute;
+	top: 100px;
+	left: 255px;
+}
+#blackPawn4{
+	position: absolute;
+	top: 100px;
+	left: 330px;
+}
+#whitePawn5{
+	position: absolute;
+	top: 100px;
+	left: 405px;
+}
+#blackPawn6{
+	position: absolute;
+	top: 100px;
+	left: 480px;
+}
+#blackPawn7{
+	position: absolute;
+	top: 25px;
+	left: 555px;
+}
+
+
+
+#blackKnight{
+position: absolute;
+	top: 25px;
+	left: 105px;
+}
+#blackKnight1{
+position: absolute;
+	top: 25px;
+	left: 480px;
+}
+
+
+#blackBishop{
+position: absolute;
+	top: 550px;
+	left: 180px;
+}
+#blackBishop1{
+position: absolute;
+	top: 25px;
+	left: 405px;
+}
+
+#blackKing{
+position: absolute;
+	top: 550px;
+	left: 330px;
+}
+#blackQueen{
+position: absolute;
+	top: 25px;
+	left: 255px;
+}
+
+#blackRook{
+position: absolute;
+	top: 25px;
+	left: 30px;
+}
+#blackRook1{
+position: absolute;
+	top: 25px;
+	left: 555px;
+}px;
+}55px;
 }
