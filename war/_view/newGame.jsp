@@ -4,8 +4,8 @@
 <title>New Game</title>
 </head>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
-<link rel="stylesheet" type="text/css" href="_view/newGameCSS.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="_view/newGameCSS_.css"/>
 
 
 <body>
@@ -99,7 +99,7 @@ var S = {
   turnInt:1, selectedPiece:0, moves:0, 
   
   ChangeTurn:function() {
-    $(this.selectedPiece).removeClass("pcActive");    
+    $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
     $([".w",".b"][this.turnInt]).removeClass("pcTurn");
     this.selectedPiece = this.moves = 0; 
     this.turnInt = 1 - this.turnInt;
@@ -110,13 +110,11 @@ var S = {
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
       this.ClickPiece(child); 
     }
-    
     else if (this.selectedPiece !== 0) {
       var squareID = parseInt(square.attr("id"));
       if ($.inArray(squareID, this.moves) > -1) {
-        var msg = 0;
         if (child.hasClass(["b","w"][this.turnInt])) {          
-          child.remove();          
+          child.remove();
         }
         square.append(this.selectedPiece);
         this.ChangeTurn();
@@ -177,9 +175,11 @@ function GetPieceMoveArray (enemyStr, piece) {
     case 'rook': return GetMoves(enemyStr,pcStr,sqInt,[-8,-1,1,8],7);
     case 'bishop': return GetMoves(enemyStr,pcStr,sqInt,[-9,-7,7,9],7);
     case 'knight': return GetMoves(enemyStr,pcStr,sqInt,[-17,-15,-10,-6,6,10,15,17],1);
-    case 'pawn': 
-      var mult = (enemyStr === "b" ? 1 : -1);
-      return GetMoves(enemyStr, pcStr, sqInt, [7 * mult,8 * mult, 10 * mult], 2); //other for pawn
+    case 'pawn': return GetMoves(enemyStr, pcStr, sqInt, [-7,7,-8,8,-10,10,-2,2], 2); //other for pawn
+      
+      //var mult = (enemyStr === "b" ? 1 : -1);
+      //return GetMoves(enemyStr, pcStr, sqInt, [7 * mult,8 * mult, 10 * mult], 2); //other for pawn
+      
   }
 }
 
@@ -187,6 +187,7 @@ function GetMoves (enemyStr, pcStr, sqInt, dirArr, maxSteps) {
   var moves = [];
   for (var i = 0; i < 8; i++) {
     for(var j = 1; j <= maxSteps; j++) {  
+      
       var v = GetSquareStatus(enemyStr, pcStr, sqInt, j, dirArr[i]);
        if (v < 2) {
         moves.push(sqInt + j * dirArr[i]); 
@@ -200,8 +201,8 @@ function GetMoves (enemyStr, pcStr, sqInt, dirArr, maxSteps) {
 }
 
 function GetSquareStatus (enemyStr, pcStr, startSq, step, dir) {
-  var sqFrom = startSq + ((step - 1) * dir);
-  var sqTo = startSq + (step * dir); 
+  var sqFrom = startSq + ((step - 1) * dir); //intial
+  var sqTo = startSq + (step * dir); //move to 
   
   
     // rcs: 0=move&Cont 1=move&Stop 2=illegal 3=blocked 4=pawnFail
@@ -238,6 +239,7 @@ function GetSquareStatus (enemyStr, pcStr, startSq, step, dir) {
     }
   }  
   return 0;
-}</script>
+}
+</script>
 </body>
 </html>
