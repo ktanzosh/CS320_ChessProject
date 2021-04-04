@@ -1,5 +1,12 @@
 package edu.ycp.cs320.ChessProject.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import edu.ycp.cs320.ChessProject.UserDatabase.User;
+import edu.ycp.cs320.ChessProject.UserDatabase.UsersList;
+
 // model class for Numbers
 // only the controller should be allowed to call the set methods
 // the JSP will call the "get" and "is" methods implicitly
@@ -37,4 +44,22 @@ public class LoginPage {
 	public boolean getInfo() {
 		return info;
 	}
+	
+	public boolean checkInfo(String User, String Password) {
+		
+		List<User> usersList;
+		usersList = new ArrayList<User>();
+		usersList.addAll(UsersList.createUsersList());
+		for (User user : usersList) {
+			if (user.getUser().equals(User)) {
+				if(user.getPassword().equals(Password))
+					return true;
+			}
+		}
+		return false;
+		
+	}
+	
+
+	
 }

@@ -9,7 +9,7 @@ package edu.ycp.cs320.ChessProject.model;
 //    a call to model.isDone()
 public class SignUpPage {
 	private String user, password, confirmPassword, sec_question, sec_answer;
-	private boolean storeInfo, passwordMatch;
+	private boolean storeInfo;
 
 	public SignUpPage() {
 	}
@@ -61,12 +61,13 @@ public class SignUpPage {
 	public boolean getStoreInfo() {
 		return storeInfo;
 	}
-	
-	public void setCheckPasswordMatch(boolean passwordMatch) {
-		this.passwordMatch = passwordMatch;
-	}
-	
-	public boolean getCheckPasswordMatch() {
-		return passwordMatch;
+
+	public boolean CheckPasswordMatch(String Password1, String Password2) {
+		if(Password1.equals(Password2)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

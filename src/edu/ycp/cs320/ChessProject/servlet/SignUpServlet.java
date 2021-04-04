@@ -6,7 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import edu.ycp.cs320.ChessProject.controller.SignUpPageController;
+
+import edu.ycp.cs320.ChessProject.UserDatabase.User;
 import edu.ycp.cs320.ChessProject.model.SignUpPage;
 
 public class SignUpServlet extends HttpServlet {
@@ -29,11 +30,17 @@ public class SignUpServlet extends HttpServlet {
 		System.out.println("SignUpPage Servlet: doPost");
 		
 
-		SignUpPage model = new SignUpPage();
-		
+		SignUpPage signUpModel = new SignUpPage();
+		User userModel = new User();
+		String user = null;
+		String password = null;
+		String confirmPassword = null;
+		String securityQ = null;
+		String securityA = null;
+		boolean userExists = false;
 
-		SignUpPageController controller = new SignUpPageController();
-		controller.setModel(model);
+		//SignUpPageController controller = new SignUpPageController();
+		//controller.setModel(model);
 		
 		// holds the error message text, if there is any
 		String errorMessage = null;
@@ -43,39 +50,30 @@ public class SignUpServlet extends HttpServlet {
 		
 		// decode POSTed form parameters and dispatch to controller
 		try {
-			String user = getStringFromParameter(req, "user");
-			System.out.println(user);
-			
-			String password = getStringFromParameter(req,"password");
-			System.out.println(password);
-			
-			String confirmPassword = getStringFromParameter(req, "confirmPassword");
-			System.out.println(confirmPassword);
-			
-			String securityQ = getStringFromParameter(req,"sec_question");
-			System.out.println(securityQ);
-			
-			String securityA = getStringFromParameter(req,"sec_answer");
-			System.out.println(securityA);
+			user = getStringFromParameter(req, "user");
+			password = getStringFromParameter(req,"password");
+			confirmPassword = getStringFromParameter(req, "confirmPassword");
+			securityQ = getStringFromParameter(req,"sec_question");
+			securityA = getStringFromParameter(req,"sec_answer");
 
 			// check for errors in the form data before using is in a calculation
 			if (user == null) {
 				errorMessage = "Please enter a username";
 			}
 			
-			if (password == null) {
+			else if (password == null) {
 				errorMessage = "Please enter a password";
 			}
 			
-			if (confirmPassword == null) {
+			else if (confirmPassword == null) {
 				errorMessage = "Please enter the password confirmation";
 			}
 			
-			//if (securityQ == null) {
-			//	errorMessage = "Please choose a security question";
-			//}
+			else if (securityQ == null) {
+				errorMessage = "Please choose a security question";
+			}
 			
-			if (securityA == null) {
+			else if (securityA == null) {
 				errorMessage = "Please enter a security answer";
 			}
 			
@@ -84,70 +82,36 @@ public class SignUpServlet extends HttpServlet {
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
 			else {
-				model.setUser(user);
-				System.out.println(model.getUser());
-				
-				model.setPassword(password);
-				System.out.println(model.getPassword());
-				
-				model.setPasswordConfirmation(confirmPassword);
-				System.out.println(model.getPasswordConfirmation());
-				
-				//model.setSecurityQuestion(securityQ);
-				//System.out.println(model.getUser());
-				
-				model.setSecurityAnswer(securityA);
-				System.out.println(model.getSecurityAnswer());
-				
-				model.setStoreInfo(controller.storeInfo(user, password, securityA));
-				System.out.println(model.getStoreInfo());
-				
-				model.setCheckPasswordMatch(controller.checkPasswordMatch(password, confirmPassword));
-				System.out.println(model.getCheckPasswordMatch());
+				userExists = userModel.checkIfUserExsists(user);
 				
 			}
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid entry";
 		}
 		
-		// Add parameters as request attributes
-		// this creates attributes named "first" and "second for the response, and grabs the
-		// values that were originally assigned to the request attributes, also named "first" and "second"
-		// they don't have to be named the same, but in this case, since we are passing them back
-		// and forth, it's a good idea
-		req.setAttribute("model", model);
-		//req.setAttribute("second", req.getParameter("second"));
-		//req.setAttribute("third", req.getParameter("third"));
-		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
-		//req.setAttribute("result", result);
 		
 		// Forward to view to render the result HTML document
-		if (model.getStoreInfo() == true) {
-			if (model.getCheckPasswordMatch() == true) {
-				System.out.println("Trying to go to Login");
+		if (!userExists == true) {
+			if (signUpModel.CheckPasswordMatch(password, confirmPassword) == true) {
+
+				//TODO: CREATE NEW USER IN DATABASE
+				
 				req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
 			}
+			
 			else {
-				System.out.println("Password Problem");
 				errorMessageInvalidC = "Passwords do not Match.";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
 				req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
 			}
 		}
 		else {
-			System.out.println("Username Problem");
-			
 			errorMessageInvalidC = "Username already taken.";
-			System.out.println(errorMessageInvalidC);
-			
 			req.setAttribute("errorMessage", errorMessageInvalidC);
-			System.out.println("The error message was set");
-			
 			req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
-			System.out.println("The request dispatcher was performed.");
 		}
 	
 	}

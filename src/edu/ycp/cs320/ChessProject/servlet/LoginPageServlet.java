@@ -6,7 +6,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import edu.ycp.cs320.ChessProject.controller.LoginPageController;
+import javax.servlet.http.HttpSession;
+
+import edu.ycp.cs320.ChessProject.UserDatabase.User;
+//import edu.ycp.cs320.ChessProject.controller.LoginPageController;
 import edu.ycp.cs320.ChessProject.model.LoginPage;
 
 public class LoginPageServlet extends HttpServlet {
@@ -17,6 +20,13 @@ public class LoginPageServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		System.out.println("LoginPage Servlet: doGet");	
+		
+		HttpSession userSession = req.getSession(false);
+		
+		if(userSession != null) {
+			String errorMessageNoLogin = "Please Login";
+			req.setAttribute("errorMessage", errorMessageNoLogin);
+		}
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
@@ -29,11 +39,14 @@ public class LoginPageServlet extends HttpServlet {
 		System.out.println("LoginPage Servlet: doPost");
 		
 
-		LoginPage model = new LoginPage();
-		
+		LoginPage loginModel = new LoginPage();
+		User userModel = new User();
+		boolean userFound = false;
+		String user = null;
+		String password = null;
 
-		LoginPageController controller = new LoginPageController();
-		controller.setModel(model);
+		//LoginPageController controller = new LoginPageController();
+		//controller.setModel(model);
 		
 		// holds the error message text, if there is any
 		String errorMessage = null;
@@ -43,15 +56,15 @@ public class LoginPageServlet extends HttpServlet {
 		
 		// decode POSTed form parameters and dispatch to controller
 		try {
-			String user = getStringFromParameter(req, "user");
-			String password = getStringFromParameter(req,"password");
+			user = getStringFromParameter(req, "user");
+			password = getStringFromParameter(req,"password");
 
 			// check for errors in the form data before using is in a calculation
 			if (user == null) {
 				errorMessage = "Please enter a username";
 			}
 			
-			if (password == null) {
+			else if (password == null) {
 				errorMessage = "Please enter a password";
 			}
 			
@@ -60,10 +73,9 @@ public class LoginPageServlet extends HttpServlet {
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
 			else {
-				model.setUser(user);
-				model.setPassword(password);
-				model.setInfo(controller.checkInfo(user, password));
+				userFound = loginModel.checkInfo(user, password);
 			}
+			
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid entry";
 		}
@@ -73,7 +85,7 @@ public class LoginPageServlet extends HttpServlet {
 		// values that were originally assigned to the request attributes, also named "first" and "second"
 		// they don't have to be named the same, but in this case, since we are passing them back
 		// and forth, it's a good idea
-		req.setAttribute("model", model);
+		req.setAttribute("model", userModel);
 		//req.setAttribute("second", req.getParameter("second"));
 		//req.setAttribute("third", req.getParameter("third"));
 		
@@ -83,8 +95,12 @@ public class LoginPageServlet extends HttpServlet {
 		//req.setAttribute("result", result);
 		
 		// Forward to view to render the result HTML document
-		if (model.getInfo() == true) {
-			req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
+		if (userFound == true) {
+			userModel = userModel.getUserInfo(user);
+			HttpSession userSession = req.getSession(true);
+			userSession.setAttribute("userInfo", userModel);
+			resp.sendRedirect("/ChessProject/index");
+			return;
 		}
 		else {
 			errorMessageInvalidC = "Invalid Username or Password";
