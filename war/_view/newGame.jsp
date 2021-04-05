@@ -209,7 +209,7 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
 }
 
 function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
-  var sqFrom = startSquare + ((step - 1) * dir); //intial
+  var fromSquare = startSquare + ((step - 1) * dir); //intial
   var toSquare = startSquare + (step * dir); //move to 
   
   
