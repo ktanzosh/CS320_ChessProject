@@ -100,85 +100,90 @@ var S = {
   
   ChangeTurn:function() {
     $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
-    $([".w",".b"][this.turnInt]).removeClass("pcTurn");
-    this.selectedPiece = this.moves = 0; 
-    this.turnInt = 1 - this.turnInt;
-    $([".w",".b"][this.turnInt]).addClass("pcTurn");       
+    $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
+    this.selectedPiece = this.moves = 0;  //set equal to none
+    this.turnInt = 1 - this.turnInt; //change turn 
+    $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b    
   },  
-  ClickSquare:function (square) {  
+  //******************************************************************************************
+  ClickSquare:function (square) {
     var child = square.children().eq(0);
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
-      this.ClickPiece(child); 
+      this.ClickPiece(child); // ~child is chess piece~
     }
     else if (this.selectedPiece !== 0) {
-      var squareID = parseInt(square.attr("id"));
+      var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
       if ($.inArray(squareID, this.moves) > -1) {
-        if (child.hasClass(["b","w"][this.turnInt])) {          
+        if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
-        square.append(this.selectedPiece);
-        this.ChangeTurn();
+        square.append(this.selectedPiece);  //append piece to square
+        this.ChangeTurn();  //change turn
 
       }
     }
   },
   
   ClickPiece:function (piece) {
-    if (piece.hasClass(["w","b"][this.turnInt])) {
-      $(this.selectedPiece).removeClass("pcActive");
-      this.selectedPiece = piece;
-      $(this.selectedPiece).addClass("pcActive");
-      this.moves = GetPieceMoveArray(["b","w"][this.turnInt], $(piece));
+    if (piece.hasClass(["w","b"][this.turnInt])) {  //if piece has a .w or .b 
+      $(this.selectedPiece).removeClass("pcActive");  //remove pcActive class from selected piece
+      this.selectedPiece = piece; //set selected piece to piece passed in
+      $(this.selectedPiece).addClass("pcActive"); //add class pcActive to selected piece
+      this.moves = GetPieceMoveArray(["b","w"][this.turnInt], $(piece)); //go to GetPieceMoveArray and get the next move
     }
     else if (this.selectedPiece !== 0) {
-      this.ClickSquare($(piece.parent())); 
+      this.ClickSquare($(piece.parent())); //else just click the square
       }
   },  
   
   
   Deselect:function () {
-    $(this.selectedPiece).removeClass("pcActive");
-    this.selectedPiece = 0;
+    $(this.selectedPiece).removeClass("pcActive"); //remove pcActive class from selectedPiece
+    this.selectedPiece = 0; // back to none when selected
   }
+  
+  
 }; //END OF BIG FUNC
 
 S.ChangeTurn();
 
 $(document).ready(function() {  //CLICK EVENT
-  $(document).mousedown(function( event ) {        
-    if ($(event.target).is(".pc")){
-      S.ClickPiece($(event.target)); 
+  $(document).mousedown(function( event ) { //once mousedown event triggered       
+    if ($(event.target).is(".pc")){ //event target for individual pieces
+      S.ClickPiece($(event.target)); //Get the element that triggered a specific event
     }
-    else if ($(event.target).is(".sq")){
-      S.ClickSquare($(event.target)); 
+    else if ($(event.target).is(".sq")){ //event target for squares (if selected)
+      S.ClickSquare($(event.target)); //Get the element that triggered a specific event
     }
     else {
-      S.Deselect(); 
+      S.Deselect(); //  deselect piece 
     }
   });
 });
 
 function GetPieceString (piece) {
-  var classList = $(piece).attr('class').split(/\s+/);  
-  for (var i = 0; i < classList.length; i++) {
-     if (classList[i].length > 2) { return classList[i]; }
+  var classList = $(piece).attr('class').split(/\s+/);  // classList = array of pieces [1,2,3,4...] from "class="
+  for (var i = 0; i < classList.length; i++) {  //for the length of classList array, if the length is greater than 2 return
+     if (classList[i].length > 2) {
+       return classList[i]; 
+     }
   }
 }
 
 function GetPieceMoveArray (enemyStr, piece) {
-  var sqInt = parseInt($(piece).parent().attr('id'));
-  var pcStr = GetPieceString($(piece));
+  var sqInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
+  var pcStr = GetPieceString($(piece)); //set pcStr to the pieces passed in
   
   switch (pcStr) {
+      // case for each piece
+      // fix game logic -- some issues going on 
+      // re-look at numbers given in array - issues with moves
     case 'king': return GetMoves(enemyStr,pcStr,sqInt,[-9,-8,-7,-1,1,7,8,9],1);   
     case 'queen': return GetMoves(enemyStr,pcStr,sqInt,[-9,-8,-7,-1,1,7,8,9],7);
     case 'rook': return GetMoves(enemyStr,pcStr,sqInt,[-8,-1,1,8],7);
     case 'bishop': return GetMoves(enemyStr,pcStr,sqInt,[-9,-7,7,9],7);
     case 'knight': return GetMoves(enemyStr,pcStr,sqInt,[-17,-15,-10,-6,6,10,15,17],1);
-    case 'pawn': return GetMoves(enemyStr, pcStr, sqInt, [-7,7,-8,8,-10,10,-2,2], 2); //other for pawn
-      
-      //var mult = (enemyStr === "b" ? 1 : -1);
-      //return GetMoves(enemyStr, pcStr, sqInt, [7 * mult,8 * mult, 10 * mult], 2); //other for pawn
+    case 'pawn': return GetMoves(enemyStr, pcStr, sqInt, [-7,7,-8,8,-10,10,-2,2], 2); 
       
   }
 }
@@ -188,11 +193,14 @@ function GetMoves (enemyStr, pcStr, sqInt, dirArr, maxSteps) {
   for (var i = 0; i < 8; i++) {
     for(var j = 1; j <= maxSteps; j++) {  
       
-      var v = GetSquareStatus(enemyStr, pcStr, sqInt, j, dirArr[i]);
-       if (v < 2) {
-        moves.push(sqInt + j * dirArr[i]); 
+      var squareStatus = GetSquareStatus(enemyStr, pcStr, sqInt, j, dirArr[i]);
+      
+      // bringing in logic that came from GetSquare Status -> squareStatus
+       if (squareStatus < 2) {
+        moves.push(sqInt + j * dirArr[i]);  // passes -- gets added into moves array 
       }
-      if (v > 0) {
+      
+      if (squareStatus > 0) { // illegal move being made
         break; 
       }
     }
@@ -205,30 +213,12 @@ function GetSquareStatus (enemyStr, pcStr, startSq, step, dir) {
   var sqTo = startSq + (step * dir); //move to 
   
   
-    // rcs: 0=move&Cont 1=move&Stop 2=illegal 3=blocked 4=pawnFail
-  if (startSq === sqTo || sqTo < 1 || sqTo > 64) {
+    // returns: 0=move&Cont 1=move&Stop 2=illegal 3=blocked 4=pawnFail
+  if (startSq === sqTo || sqTo < 1 || sqTo > 64) {  //if starting pos is same as chosen OR out of bounds
     return 0; 
   }
-  
-  if (Math.abs((sqFrom - 1) % 8 - (sqTo - 1) % 8) > 2) {
-    return 0; 
-  }
-  
-  if ($('#' + sqTo).children().length > 0) {
-    
-    if (pcStr === "pawn" && (dir % 8 === 0 || step > 1)) {
-      return 0; 
-    }
-    
-    if ($('#' + sqTo).children().eq(0).hasClass(enemyStr)) {
-      return 0; 
-    }
-    else {
-      return 0; 
-    }
-  } 
-  
-  if (pcStr === "pawn") {
+
+  if (pcStr === "pawn") { // if piece is pawn -> 
     if (dir % 8 !== 0) {
       return 4; 
     }
