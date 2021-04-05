@@ -170,34 +170,34 @@ function GetPieceString (piece) {
   }
 }
 
-function GetPieceMoveArray (enemyStr, piece) {
-  var sqInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
-  var pcStr = GetPieceString($(piece)); //set pcStr to the pieces passed in
+function GetPieceMoveArray (enemyString, piece) {
+  var squareInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
+  var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
   
-  switch (pcStr) {
+  switch (stringOfPieces) {
       // case for each piece
       // fix game logic -- some issues going on 
       // re-look at numbers given in array - issues with moves
-    case 'king': return GetMoves(enemyStr,pcStr,sqInt,[-9,-8,-7,-1,1,7,8,9],1);   
-    case 'queen': return GetMoves(enemyStr,pcStr,sqInt,[-9,-8,-7,-1,1,7,8,9],7);
-    case 'rook': return GetMoves(enemyStr,pcStr,sqInt,[-8,-1,1,8],7);
-    case 'bishop': return GetMoves(enemyStr,pcStr,sqInt,[-9,-7,7,9],7);
-    case 'knight': return GetMoves(enemyStr,pcStr,sqInt,[-17,-15,-10,-6,6,10,15,17],1);
-    case 'pawn': return GetMoves(enemyStr, pcStr, sqInt, [-7,7,-8,8,-10,10,-2,2], 2); 
+    case 'king': return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-8,-7,-1,1,7,8,9],1);   
+    case 'queen': return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-8,-7,-1,1,7,8,9],7);
+    case 'rook': return GetMoves(enemyString,stringOfPieces,squareInt,[-8,-1,1,8],7);
+    case 'bishop': return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-7,7,9],7);
+    case 'knight': return GetMoves(enemyString,stringOfPieces,squareInt,[-17,-15,-10,-6,6,10,15,17],1);
+    case 'pawn': return GetMoves(enemyString, stringOfPieces, squareInt, [-7,7,-8,8,-10,10,-2,2], 2); 
       
   }
 }
 
-function GetMoves (enemyStr, pcStr, sqInt, dirArr, maxSteps) {
+function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
   var moves = [];
   for (var i = 0; i < 8; i++) {
     for(var j = 1; j <= maxSteps; j++) {  
       
-      var squareStatus = GetSquareStatus(enemyStr, pcStr, sqInt, j, dirArr[i]);
+      var squareStatus = GetSquareStatus(enemyString, stringOfPieces, squareInt, j, dirArr[i]);
       
       // bringing in logic that came from GetSquare Status -> squareStatus
        if (squareStatus < 2) {
-        moves.push(sqInt + j * dirArr[i]);  // passes -- gets added into moves array 
+        moves.push(squareInt + j * dirArr[i]);  // passes -- gets added into moves array 
       }
       
       if (squareStatus > 0) { // illegal move being made
@@ -208,22 +208,25 @@ function GetMoves (enemyStr, pcStr, sqInt, dirArr, maxSteps) {
   return moves;
 }
 
-function GetSquareStatus (enemyStr, pcStr, startSq, step, dir) {
-  var sqFrom = startSq + ((step - 1) * dir); //intial
-  var sqTo = startSq + (step * dir); //move to 
+function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
+  var sqFrom = startSquare + ((step - 1) * dir); //intial
+  var toSquare = startSquare + (step * dir); //move to 
   
   
-    // returns: 0=move&Cont 1=move&Stop 2=illegal 3=blocked 4=pawnFail
-  if (startSq === sqTo || sqTo < 1 || sqTo > 64) {  //if starting pos is same as chosen OR out of bounds
+    // 0=move and go
+    // 1=move and stop 
+    //2=illegal 
+    //4=pawnFail
+  if (startSquare === toSquare || toSquare < 1 || toSquare > 64) {  //if starting pos is same as chosen OR out of bounds
     return 0; 
   }
 
-  if (pcStr === "pawn") { // if piece is pawn -> 
+  if (stringOfPieces === "pawn") { // if piece is pawn -> 
     if (dir % 8 !== 0) {
       return 4; 
     }
     if (step > 1) {
-      if ((dir > 0 && startSq > 16) || (dir < 0 && startSq < 49)) {
+      if ((dir > 0 && startSquare > 16) || (dir < 0 && startSquare < 49)) {
         return 4; 
       }
     }
