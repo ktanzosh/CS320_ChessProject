@@ -24,8 +24,8 @@ public class AccountRecoveryServlet extends HttpServlet {
 
 		System.out.println("Account Recovery Servlet: doGet");	
 		
-		//HttpSession resetSession = req.getSession(false);
-		//if(resetSession == null) {
+		HttpSession resetSession = req.getSession(false);
+		if(resetSession == null) {
 			String securityQAnswereds = null;
 			req.setAttribute("securityQAnswereds", securityQAnswereds);
 			String usernameFounds = null;
