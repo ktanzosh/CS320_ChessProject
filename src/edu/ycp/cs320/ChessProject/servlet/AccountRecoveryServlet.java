@@ -9,11 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
-//import edu.ycp.cs320.ChessProject.controller.AccountRecoveryController;
-//import edu.ycp.cs320.ChessProject.controller.SecurityController;
-//import edu.ycp.cs320.ChessProject.model.AccountRecovery;
-//import edu.ycp.cs320.ChessProject.model.PasswordReset;
-//import edu.ycp.cs320.ChessProject.model.Security;
 
 public class AccountRecoveryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,13 +19,16 @@ public class AccountRecoveryServlet extends HttpServlet {
 
 		System.out.println("Account Recovery Servlet: doGet");	
 		
-		HttpSession resetSession = req.getSession(false);
-		if(resetSession == null) {
-			String securityQAnswereds = null;
-			req.setAttribute("securityQAnswereds", securityQAnswereds);
-			String usernameFounds = null;
-			req.setAttribute("usernameFounds", usernameFounds);
-		//}
+		HttpSession resetSession = req.getSession(true);
+		
+		boolean securityQAnswered = false;
+		resetSession.setAttribute("securityQAnswered", securityQAnswered);
+		req.setAttribute("securityQAnswered", securityQAnswered);
+		
+		boolean usernameFound = false;
+		resetSession.setAttribute("usernameFound", usernameFound);
+		req.setAttribute("usernameFound", usernameFound);
+		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 	}
@@ -43,15 +41,15 @@ public class AccountRecoveryServlet extends HttpServlet {
 		System.out.println("Account Recovery Servlet: doPost");
 		HttpSession resetSession = req.getSession(false);
 		//HttpSession userSession = req.getSession(false);
-		String securityQAnswereds = "filled";
-		req.setAttribute("securityQAnswereds", securityQAnswereds);
-		String usernameFounds = null;
-		req.setAttribute("usernameFounds", usernameFounds);
+		//String securityQAnswereds = "filled";
+		//req.setAttribute("securityQAnswereds", securityQAnswereds);
+		//String usernameFounds = null;
+		//req.setAttribute("usernameFounds", usernameFounds);
 		//boolean securityQAnswered = false;
 		//boolean usernameFound = false;
 		
-		if(resetSession == null) {
-			resetSession = req.getSession(true);
+		if((boolean) (resetSession.getAttribute("usernameFound")) == false) {
+			//resetSession = req.getSession(true);
 			//AccountRecovery recoverModel = new AccountRecovery();
 			User userModel = new User();
 			boolean usernameFound = false;
@@ -84,53 +82,14 @@ public class AccountRecoveryServlet extends HttpServlet {
 				resetSession.setAttribute("userInfo", userModel);
 				String username = userModel.getUser();
 				req.setAttribute("username", username);
+				String securityQuestion = userModel.getSecurtyQuestion();				
+				req.setAttribute("securityQuestion", securityQuestion);
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
 			else {
 			errorMessageInvalidC = "Invalid Username";
 			req.setAttribute("errorMessage", errorMessageInvalidC);
 			req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
-			}
-		}
-		
-		else if((boolean) (resetSession.getAttribute("usernameFound")) == true) {
-			boolean securityAnswerCorrect = false;
-			User userModel = new User();
-			// holds the error message text, if there is any
-			String errorMessage = null;
-			String errorMessageInvalidC = null;
-			
-			// decode POSTed form parameters and dispatch to controller
-			try {
-				String securitya = getStringFromParameter(req, "securityAnswer");
-
-				userModel = (User) resetSession.getAttribute("userInfo");
-				String user = userModel.getUser(); 
-				securityAnswerCorrect = userModel.checkUserSecurityAnswer(user, securitya);
-
-			} catch (NumberFormatException e) {
-				errorMessage = "Invalid Input";
-			}
-
-			// add result objects as attributes
-			// this adds the errorMessage text and the result to the response
-			req.setAttribute("errorMessage", errorMessage);
-			//req.setAttribute("result", product);
-			
-			// Forward to view to render the result HTML document
-			//req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
-			
-			if (securityAnswerCorrect == true) {
-				resetSession.setAttribute("securityQAnswered", true);
-				String securityAnswer = userModel.getSecurityAnswer();
-				req.setAttribute("securityAnswer", securityAnswer);
-				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
-				
-			}
-			else {
-				errorMessageInvalidC = "Incorrect Security Answer";
-				req.setAttribute("errorMessage", errorMessageInvalidC);
-				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
 		}
 		
@@ -182,6 +141,53 @@ public class AccountRecoveryServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
 		}
+		
+		else if((boolean) (resetSession.getAttribute("usernameFound")) == true) {
+			boolean securityAnswerCorrect = false;
+			User userModel = new User();
+			// holds the error message text, if there is any
+			String errorMessage = null;
+			String errorMessageInvalidC = null;
+			
+			// decode POSTed form parameters and dispatch to controller
+			try {
+				String securitya = getStringFromParameter(req, "securityAnswer");
+
+				userModel = (User) resetSession.getAttribute("userInfo");
+				String user = userModel.getUser(); 
+				securityAnswerCorrect = userModel.checkUserSecurityAnswer(user, securitya);
+
+			} catch (NumberFormatException e) {
+				errorMessage = "Invalid Input";
+			}
+
+			// add result objects as attributes
+			// this adds the errorMessage text and the result to the response
+			req.setAttribute("errorMessage", errorMessage);
+			//req.setAttribute("result", product);
+			
+			// Forward to view to render the result HTML document
+			//req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
+			
+			if (securityAnswerCorrect == true) {
+				resetSession.setAttribute("securityQAnswered", true);
+				String securityAnswer = userModel.getSecurityAnswer();
+				req.setAttribute("securityAnswer", securityAnswer);
+				String username = userModel.getUser();
+				req.setAttribute("username", username);
+				String securityQuestion = userModel.getSecurtyQuestion();				
+				req.setAttribute("securityQuestion", securityQuestion);
+				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
+				
+			}
+			else {
+				errorMessageInvalidC = "Incorrect Security Answer";
+				req.setAttribute("errorMessage", errorMessageInvalidC);
+				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
+			}
+		}
+		
+		
 		
 	}
 
