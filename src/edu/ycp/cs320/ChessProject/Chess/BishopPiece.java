@@ -9,6 +9,11 @@ public class BishopPiece extends ChessPiece
 		this.setColor(w);
 	}
 	
+	public String whatInitial()
+	{
+		return "B";
+	}
+	
 	public String whatPiece()
 	{
 		return "Bishop";

@@ -24,6 +24,11 @@ public class PawnPiece extends ChessPiece
 		return this.haveMoved;
 	}
 	
+	public String whatInitial()
+	{
+		return "P";
+	}
+	
 	public String whatPiece()
 	{
 		return "Pawn";
@@ -84,7 +89,7 @@ public class PawnPiece extends ChessPiece
 			{
 				if(this.getColor() == true)//color is white
 				{
-					if((changeY == 1 || changeY == 2) && changeX == 0)
+					if((changeY == -1 || changeY == -2) && changeX == 0)
 					{
 						return true;
 					}
@@ -97,7 +102,7 @@ public class PawnPiece extends ChessPiece
 				
 				if(this.getColor() == false)//color is black
 				{
-					if((changeY == -1 || changeY == -2) && changeX == 0)
+					if((changeY == 1 || changeY == 2) && changeX == 0)
 					{
 						return true;
 					}
@@ -113,7 +118,7 @@ public class PawnPiece extends ChessPiece
 			{
 				if(this.getColor() == true)//color is white
 				{
-					if(changeY == 1 && changeX == 0)
+					if(changeY == -1 && changeX == 0)
 					{
 						return true;
 					}
@@ -126,7 +131,7 @@ public class PawnPiece extends ChessPiece
 				
 				else if(this.getColor() == false) //color is black
 				{
-					if(changeY == -1 && changeX == 0)
+					if(changeY == 1 && changeX == 0)
 					{
 						return true;
 					}
@@ -148,13 +153,13 @@ public class PawnPiece extends ChessPiece
 			}
 			
 			//not moving forward
-			if(this.getColor() == true && changeY != 1)
+			if(this.getColor() == true && changeY != -1)
 			{
 				return false;
 			}
 			
 			//not moving forward
-			if(this.getColor() == false && changeY != -1)
+			if(this.getColor() == false && changeY != 1)
 			{
 				return false;
 			}

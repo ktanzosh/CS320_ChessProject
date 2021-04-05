@@ -22,6 +22,11 @@ public class RookPiece extends ChessPiece
 		return this.haveMoved;
 	}
 	
+	public String whatInitial()
+	{
+		return "R";
+	}
+	
 	public String whatPiece()
 	{
 		return "Rook";

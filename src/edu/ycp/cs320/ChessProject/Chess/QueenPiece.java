@@ -9,6 +9,11 @@ public class QueenPiece extends ChessPiece
 		this.setColor(w);
 	}
 	
+	public String whatInitial()
+	{
+		return "Q";
+	}
+	
 	public String whatPiece()
 	{
 		return "Queen";

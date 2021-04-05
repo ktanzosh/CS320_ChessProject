@@ -22,6 +22,11 @@ public class KingPiece extends ChessPiece
 		return this.haveMoved;
 	}
 	
+	public String whatInitial()
+	{
+		return "K";
+	}
+	
 	public String whatPiece()
 	{
 		return "King";
@@ -44,7 +49,7 @@ public class KingPiece extends ChessPiece
 		{
 			if(cb.getTile(newx, newy).getPiece().getColor() == this.getColor())
 			{
-				System.out.println("");
+				System.out.println("Someone here at " + newx + ", " + newy + " with a matching color");
 				return false;
 			}
 		}
