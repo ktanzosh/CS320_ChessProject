@@ -26,10 +26,10 @@ public class AccountRecoveryServlet extends HttpServlet {
 		
 		//HttpSession resetSession = req.getSession(false);
 		//if(resetSession == null) {
-			String securityQAnswered = "filled";
-			req.setAttribute("securityQAnswered", securityQAnswered);
-			String usernameFound = null;
-			req.setAttribute("usernameFound", usernameFound);
+			String securityQAnswereds = null;
+			req.setAttribute("securityQAnswereds", securityQAnswereds);
+			String usernameFounds = null;
+			req.setAttribute("usernameFounds", usernameFounds);
 		//}
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
