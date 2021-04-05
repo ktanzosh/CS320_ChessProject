@@ -24,76 +24,76 @@
 		<c:if test="${! empty errorMessage}">
 			<div class="error">${errorMessage}</div>
 		</c:if>
-		
-		<c:if test="${! empty securityQAnswered}">
-			The Third Step </br>
-			<!--
-			<form action="${pageContext.servletContext.contextPath}/accountRecovery" method="post">
-				<tr>
-					<td class="label">Account Username:</td><br/>
-					<td><input type="label" name="username" size="12" value="${username}" required= true/></td>
-				</tr>
-				<br/>
+		<c:choose>
+			<c:when test="${! empty securityQAnswereds}">
+				The Third Step </br>
+				<!--
+				<form action="${pageContext.servletContext.contextPath}/accountRecovery" method="post">
+					<tr>
+						<td class="label">Account Username:</td><br/>
+						<td><input type="label" name="username" size="12" value="${username}" required= true/></td>
+					</tr>
+					<br/>
 
-				<tr>
-					<td class="label">What was your first car?</td><br/>
-					<td><input type="text" name="securityAnswer" size="12" value="${securityAnswer}" required= true/></td>
-				</tr>
-				<br/>
-		
-				<tr>
-					<td class="label">New Password:</td><br/>
-					<td><input type="password" name="newPassword" size="12" value="${newPassword}" required= true/></td>
-				</tr>
-				<br/>
+					<tr>
+						<td class="label">What was your first car?</td><br/>
+						<td><input type="text" name="securityAnswer" size="12" value="${securityAnswer}" required= true/></td>
+					</tr>
+					<br/>
+			
+					<tr>
+						<td class="label">New Password:</td><br/>
+						<td><input type="password" name="newPassword" size="12" value="${newPassword}" required= true/></td>
+					</tr>
+					<br/>
 
-				<tr>
-					<td class="label">Confirm New Password:</td><br/>
-					<td><input type="password" name="checkPassword" size="12" value="${checkPassword}" required= true/></td>
-				</tr>
-				<br/>
-				
-				<input type="Submit" name="submit" value="Reset Password"/>
-			</form>
-			-->
-		</c:if> 
-
-		<c:if test="${! empty usernameFound}">
-			The Second Step </br>
-			<!--
-			<form action="${pageContext.servletContext.contextPath}/accountRecovery" method="post">
-				<tr>
-					<td class="label">Account Username:</td><br/>
-					<td><input type="label" name="username" size="12" value="${username}" required= true/></td>
-				</tr>
-				<br/>
-
-				<tr>
-					<td class="label">What was your first car?</td><br/>
-					<td><input type="text" name="securityAnswer" size="12" value="${securityAnswer}" required= true/></td>
-				</tr>
-				<br/>
+					<tr>
+						<td class="label">Confirm New Password:</td><br/>
+						<td><input type="password" name="checkPassword" size="12" value="${checkPassword}" required= true/></td>
+					</tr>
+					<br/>
 					
-				<input type="Submit" name="submit" value="Create a new Password"/>
+					<input type="Submit" name="submit" value="Reset Password"/>
+				</form>
+				-->
+			</c:when> 
 
-			</form>
-			-->
-		</c:if>
+			<c:when test="${! empty usernameFounds}">
+				The Second Step </br>
+				<!--
+				<form action="${pageContext.servletContext.contextPath}/accountRecovery" method="post">
+					<tr>
+						<td class="label">Account Username:</td><br/>
+						<td><input type="label" name="username" size="12" value="${username}" required= true/></td>
+					</tr>
+					<br/>
 
-		<c:if test="${empty securityQAnswered}">    <!-- else condition -->
-			The First Step </br>
-			<!--
-			<form action="${pageContext.servletContext.contextPath}/accountRecovery" method="post">
-				<tr>
-					<td class="label">Account Username:</td><br/>
-					<td><input type="label" name="username" size="12" value="${username}" required= true/></td>
-				</tr>
-				<br/>
-					
-				<input type="Submit" name="submit" value="Access Security Question"/>
-			</form>
-			-->
-		</c:if>
+					<tr>
+						<td class="label">What was your first car?</td><br/>
+						<td><input type="text" name="securityAnswer" size="12" value="${securityAnswer}" required= true/></td>
+					</tr>
+					<br/>
+						
+					<input type="Submit" name="submit" value="Create a new Password"/>
 
+				</form>
+				-->
+			</c:when>
+
+			<c:otherwise">    <!-- else condition -->
+				The First Step </br>
+				<!--
+				<form action="${pageContext.servletContext.contextPath}/accountRecovery" method="post">
+					<tr>
+						<td class="label">Account Username:</td><br/>
+						<td><input type="label" name="username" size="12" value="${username}" required= true/></td>
+					</tr>
+					<br/>
+						
+					<input type="Submit" name="submit" value="Access Security Question"/>
+				</form>
+				-->
+			</c:otherwise>
+	</c:choose>
 	</body>
 </html>
