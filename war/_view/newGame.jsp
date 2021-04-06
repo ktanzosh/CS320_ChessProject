@@ -233,11 +233,23 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   if (startSquare === toSquare || toSquare < 1 || toSquare > 64) {  //if starting pos is same as chosen OR out of bounds
     return 0; 
   }
-
+  if ($('#' + toSquare).children().length > 0) {
+    if (stringOfPieces === "pawn" && (dir % 8 === 0 || step > 1)) {
+     return 3; 
+     }
+    if ($('#' + toSquare).children().eq(0).hasClass(enemyString)) {
+     return 1; 
+     }
+    else {
+     return 3; 
+     }
+  }
   if (stringOfPieces === "pawn") { // if piece is pawn -> 
     if (dir % 8 !== 0) {
       return 4; 
     }
+    
+    
     if (step > 1) {
       if ((dir > 0 && startSquare > 16) || (dir < 0 && startSquare < 49)) {
         return 4; 
