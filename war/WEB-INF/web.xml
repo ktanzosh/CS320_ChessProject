@@ -36,16 +36,6 @@
     <servlet-name>AccountRecoveryServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.ChessProject.servlet.AccountRecoveryServlet</servlet-class>
   </servlet>
-       
-      <servlet>
-    <servlet-name>SecurityServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.ChessProject.servlet.SecurityServlet</servlet-class>
-  </servlet>
-       
-      <servlet>
-    <servlet-name>PasswordResetServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.ChessProject.servlet.PasswordResetServlet</servlet-class>
-  </servlet>
  
         <servlet>
     <servlet-name>LogoutPageServlet</servlet-name>
@@ -87,16 +77,6 @@
     <servlet-mapping>
     <servlet-name>AccountRecoveryServlet</servlet-name>
     <url-pattern>/accountRecovery</url-pattern>
-  </servlet-mapping>
-  
-    <servlet-mapping>
-    <servlet-name>SecurityServlet</servlet-name>
-    <url-pattern>/security</url-pattern>
-  </servlet-mapping>
-     <servlet-mapping>
-     
-    <servlet-name>PasswordResetServlet</servlet-name>
-    <url-pattern>/passwordReset</url-pattern>
   </servlet-mapping>
   
      <servlet-mapping>

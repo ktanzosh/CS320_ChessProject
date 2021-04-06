@@ -88,7 +88,8 @@ public class User {
 		usersList.addAll(UsersList.createUsersList());
 		for (User user : usersList) {
 			if (user.getUser().equals(User)) {
-				user.setPassword(newpass);			}
+				user.setPassword(newpass);			
+			}
 		}
 		
 	}

@@ -95,7 +95,7 @@ public class SignUpServlet extends HttpServlet {
 		
 		// Forward to view to render the result HTML document
 		if (!userExists == true) {
-			if (signUpModel.CheckPasswordMatch(password, confirmPassword) == true) {
+			if ((password.equals(confirmPassword)) == true) {
 
 				//TODO: CREATE NEW USER IN DATABASE
 				
