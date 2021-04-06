@@ -1,3 +1,5 @@
 
 .DS_Store
 Login.jsp
+test-bin/edu/ycp/cs320/ChessProject/model/LoginPageTest.class
+*.class
