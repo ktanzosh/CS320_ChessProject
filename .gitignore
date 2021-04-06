@@ -1,3 +1,6 @@
 
 .DS_Store
 Login.jsp
+*.json
+.vs/CS320_ChessProject/v16/.suo
+*.sqlite
