@@ -2,7 +2,6 @@ package edu.ycp.cs320.ChessProject.model;
 
 public class SignUpPage {
 	private String user, password, confirmPassword, sec_question, sec_answer;
-	//private boolean storeInfo;
 
 	public SignUpPage() {
 	}

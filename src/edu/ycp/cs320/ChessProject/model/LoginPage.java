@@ -29,15 +29,7 @@ public class LoginPage {
 	public String getPassword() {
 		return password;
 	}
-	/*
-	public void setInfo(boolean info) {
-		this.info = info;
-	}
-	
-	public boolean getInfo() {
-		return info;
-	}
-	*/
+
 	public boolean checkInfo(String User, String Password) {
 		
 		List<User> usersList;
