@@ -1,0 +1,81 @@
+html {
+  min-height: 100%; 
+}
+body { 
+  background-image: linear-gradient(to bottom right, blue, red);
+}
+
+.wrapper {
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  width: 800px;
+}
+
+.sq {
+	position: relative;
+  display: inline-block;
+	height: 96px;
+  width: 96px; 
+}
+.sq:hover {
+  cursor: pointer; 
+}
+
+.l {
+  background-color: pink;
+  
+}
+.l:hover {
+  background-color: grey; 
+  outline: 1px solid white;
+  animation: mymove 1.5s infinite;
+}
+
+@keyframes mymove {
+  50% {outline: 5px solid white;}
+}
+
+.d { 
+  background-color: brown;
+}
+.d:hover { 
+  background-color: grey; 
+    outline: 1px solid black;
+  animation: mymove 1.5s infinite;
+}
+.pc { 
+  position: absolute; 
+  left: 12px;
+}
+
+.pcTurn {
+  text-shadow: 2px 2px 4px white;
+}
+
+@keyframes selected {
+  50%{font-size: 68px;}
+}
+.pcActive {
+  text-shadow: 2px 2px 4px red;
+  animation: selected 1s infinite;
+  
+}
+.pawn {
+  font-size:  70px;
+}
+.knight {
+   font-size:  70px;
+}
+.bishop { 
+  font-size:  70px;
+}
+.rook {
+  font-size:  70px;
+}
+.queen {
+   font-size:  70px;
+}
+.king {
+   font-size:  70px;
+}
