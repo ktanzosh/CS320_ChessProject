@@ -11,14 +11,14 @@ import javax.servlet.http.HttpSession;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 
-public class IndexServlet extends HttpServlet {
+public class LogoutPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("Index Servlet / Main Menu: doGet");
+		System.out.println("Logout: doGet");
 		
 		
 		
@@ -29,7 +29,7 @@ public class IndexServlet extends HttpServlet {
 			resp.sendRedirect("/ChessProject/loginPage");
 			return;
 		}
-		
+
 		else {
 			User userModel = (User) userSession.getAttribute("userInfo");
 			
@@ -40,29 +40,22 @@ public class IndexServlet extends HttpServlet {
 			
 			String username = userModel.getUser();
 			req.setAttribute("username", username);
-			req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/logoutPage.jsp").forward(req, resp);
+			userSession.invalidate();
 		}
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
 		
-		System.out.println("Index Servlet: doPost");
+		System.out.println("Logout Servlet: doPost");
+		
+		
+		if(req.getParameter("login") != null) {
 			
-			if(req.getParameter("newGame") != null) {
-				resp.sendRedirect("/ChessProject/newGame");
-				return;		
-			}
-			
-			else if(req.getParameter("gameHistory") != null) {
-				resp.sendRedirect("/ChessProject/gameHistory");
-				return;		
-			}
-			
-			else if(req.getParameter("logout") != null) {
-				resp.sendRedirect("/ChessProject/logoutPage");
-				return;		
-			}
+			LoginPageServlet login = new LoginPageServlet();
+			login.doGet(req, resp);
+		}
 
 		}
 

@@ -1,6 +1,9 @@
 
 .DS_Store
 Login.jsp
+test-bin/edu/ycp/cs320/ChessProject/model/LoginPageTest.class
+*.class
+
 *.json
 .vs/CS320_ChessProject/v16/.suo
 *.sqlite

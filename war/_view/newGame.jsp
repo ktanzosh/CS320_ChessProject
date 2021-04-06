@@ -1,3 +1,7 @@
+
+<!DOCTYPE html>
+
+
 <html ng-app>
 
 <head>
@@ -9,6 +13,9 @@
 
 
 <body>
+
+  <h1>Welcome to a new game, ${username}</h1>
+
 <div class="wrapper">
   <div class="row">
     <span id="57" class="sq l"><span class="pc b rook">&#9820</span></span>
@@ -91,8 +98,6 @@
     <span id="8" class="sq l"><span class="pc w rook">&#9814</span></span>
   </div>
 </div>
-
-
 
 <script>
 var S = { 
