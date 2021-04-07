@@ -316,10 +316,10 @@ public class Game
 	
 	public String getMoveList()
 	{
-		String finalString = null;
+		String finalString = "";
 		for(Move m : this.MoveList)
 		{
-			finalString += m.getMove() + "/n";
+			finalString += m.getMove() + "\n";
 		}
 		return finalString;
 	}

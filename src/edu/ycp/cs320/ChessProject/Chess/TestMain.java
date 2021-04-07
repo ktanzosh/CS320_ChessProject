@@ -23,6 +23,8 @@ public class TestMain
 		testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(0,  3).getPiece(), 4, 7);
 		drawBoard(testGame);
 		
+		System.out.println(testGame.getMoveList());
+		
 		
 		KingPiece kp = new KingPiece(7, 4, true);
 		if(WhitePlayer.isCheck(testGame.getChessBoard(), kp))
