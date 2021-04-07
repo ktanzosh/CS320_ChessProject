@@ -49,7 +49,7 @@ public class Game
 	
 	public Game()
 	{
-		
+		MoveList = new ArrayList<Move>();
 	}
 	
 	public void setGame(boolean f)
@@ -62,7 +62,6 @@ public class Game
 		cb = new ChessBoard();
 		WhitePlayer = new Player(true);
 		BlackPlayer = new Player(false);
-		MoveList = new ArrayList<Move>();
 		WhitePieces = new ArrayList<ChessPiece>();
 		BlackPieces = new ArrayList<ChessPiece>();
 		
@@ -233,6 +232,11 @@ public class Game
 		
 	}
 	
+	public void setChessBoard(ChessBoard c)
+	{
+		this.cb = c;
+	}
+	
 	public ChessBoard getChessBoard()
 	{
 		return this.cb;
@@ -269,15 +273,62 @@ public class Game
 		}
 		
 		Move thisMove = new Move(cp, x, y);
-		//MoveList.add(thisMove);
+		MoveList.add(thisMove);
 		
+	}
+	
+	public String getResult(Player player, ChessBoard cb, KingPiece kingPiece, ArrayList<ChessPiece> pieces)
+	{
+		String result;
+		if(player.isCheck(cb, kingPiece) == true)
+		{
+			//if in check, check to see if they are also in checkmate
+			if(player.isCheckmate(cb, kingPiece, pieces) == true)
+			{
+				result = "Checkmate";
+			}
+			else
+			{
+				result = "Check";
+			}
+		}
+		
+		else if(player.isDraw(cb, kingPiece, pieces) == true)
+		{
+			result = "Draw";
+		}
+		
+		else
+		{
+			result = "";
+		}
+		
+		return result;
+	}
+	
+	public void printMoveList()
+	{
+		for(Move m : this.MoveList)
+		{
+			m.printMove();
+		}
+	}
+	
+	public String getMoveList()
+	{
+		String finalString = null;
+		for(Move m : this.MoveList)
+		{
+			finalString += m.getMove() + "/n";
+		}
+		return finalString;
 	}
 	
 	public void playGame(Player player1, Player player2)
 	{
 		this.setGame();
 		
-		while(this.WhitePlayer.isCheckmate(this.getChessBoard(), WhiteKing) == false && this.BlackPlayer.isCheckmate(this.getChessBoard(), BlackKing) == false)
+		//while(this.WhitePlayer.isCheckmate(this.getChessBoard(), WhiteKing) == false && this.BlackPlayer.isCheckmate(this.getChessBoard(), BlackKing) == false)
 		{
 			/*Player 1
 			boolean selected = false;

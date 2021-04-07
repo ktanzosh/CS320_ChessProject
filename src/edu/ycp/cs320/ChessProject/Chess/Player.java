@@ -1,5 +1,7 @@
 package edu.ycp.cs320.ChessProject.Chess;
 
+import java.util.ArrayList;
+
 public class Player 
 {
 	private boolean color;
@@ -642,7 +644,7 @@ public class Player
 		return false;
 	}
 	
-	public boolean isCheckmate(ChessBoard cb, KingPiece kingPiece)
+	public boolean isCheckmate(ChessBoard cb, KingPiece kingPiece, ArrayList<ChessPiece> pieces)
 	{
 		System.out.println("TESTING CHECKMATE:");
 		
@@ -655,146 +657,286 @@ public class Player
 		
 		int oldx = kingPiece.getPosX();
 		int oldy = kingPiece.getPosY();
+		Game testGame = new Game();
+		testGame.setChessBoard(cb);
 		
 		//+1,0
 		int newx = kingPiece.getPosX() + 1;
 		int newy = kingPiece.getPosY();
 		
-		//all of this is to not change the original board, but to get information on a potential move
-		//we change the original position of the king, and test the updated board
-		KingPiece testKing = new KingPiece(newx, newy, kingPiece.getColor());
-		ChessBoard testBoard = cb;
-		
-		Tile kingTile = new Tile(testKing);
-		//testBoard.setTile(newx, newy, kingTile);
-		//testBoard.setTile(oldx,  oldy);
-		
-		//if there is a legal move where king is not in check, king is not in checkmate
-		if(this.isCheck(testBoard, testKing) == false && kingPiece.checkMove(newx, newy, testBoard) == true)
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			return false;
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+			
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
 		}
 		
-		//+1+1
+		//+1, +1
 		newx = kingPiece.getPosX() + 1;
 		newy = kingPiece.getPosY() + 1;
 		
-		testKing = new KingPiece(newx, newy, kingPiece.getColor());
-		testBoard = cb;
-		kingTile = new Tile(testKing);
-		testBoard.setTile(newx, newy, kingTile);
-		//deletes where old 
-		testBoard.setTile(oldx,  oldy);
-		
-		//if there is a legal move where king is not in check, king is not in checkmate
-		if(this.isCheck(testBoard, testKing) == false && kingPiece.checkMove(newx, newy, testBoard) == true)
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			System.out.println(newx + ", " + newy + " is a legal move to get them out of check");
-			return false;
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+			
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
 		}
 		
-		//+1-1
+		//+1, -1
 		newx = kingPiece.getPosX() + 1;
 		newy = kingPiece.getPosY() - 1;
 				
-		testKing = new KingPiece(newx, newy, kingPiece.getColor());
-		testBoard = cb;
-		kingTile = new Tile(testKing);
-		testBoard.setTile(newx, newy, kingTile);
-		testBoard.setTile(oldx,  oldy);
-				
-		//if there is a legal move where king is not in check, king is not in checkmate
-		if(this.isCheck(testBoard, testKing) == false && kingPiece.checkMove(newx, newy, testBoard) == true)
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			return false;
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+					
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
 		}
 		
-		//0+1
+		//+1, -1
+		newx = kingPiece.getPosX() + 1;
+		newy = kingPiece.getPosY() - 1;
+				
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
+		{
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+					
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
+		}
+		
+		//0, +1
 		newx = kingPiece.getPosX();
 		newy = kingPiece.getPosY() + 1;
 				
-		testKing = new KingPiece(newx, newy, kingPiece.getColor());
-		testBoard = cb;
-		kingTile = new Tile(testKing);
-		testBoard.setTile(newx, newy, kingTile);
-		testBoard.setTile(oldx,  oldy);
-				
-		//if there is a legal move where king is not in check, king is not in checkmate
-		if(this.isCheck(testBoard, testKing) == false && kingPiece.checkMove(newx, newy, testBoard) == true)
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			return false;
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+					
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
 		}
 		
-		//0-1
+		//0, -1
 		newx = kingPiece.getPosX();
 		newy = kingPiece.getPosY() - 1;
 				
-		testKing = new KingPiece(newx, newy, kingPiece.getColor());
-		testBoard = cb;
-		kingTile = new Tile(testKing);
-		testBoard.setTile(newx, newy, kingTile);
-		testBoard.setTile(oldx,  oldy);
-				
-		//if there is a legal move where king is not in check, king is not in checkmate
-		if(this.isCheck(testBoard, testKing) == false && kingPiece.checkMove(newx, newy, testBoard) == true)
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			return false;
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+					
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
 		}
 		
-		//-1+1
-		newx = kingPiece.getPosX() - 1;
-		newy = kingPiece.getPosY() + 1;
-				
-		testKing = new KingPiece(newx, newy, kingPiece.getColor());
-		testBoard = cb;
-		kingTile = new Tile(testKing);
-		testBoard.setTile(newx, newy, kingTile);
-		testBoard.setTile(oldx,  oldy);
-				
-		//if there is a legal move where king is not in check, king is not in checkmate
-		if(this.isCheck(testBoard, testKing) == false && kingPiece.checkMove(newx, newy, testBoard) == true)
-		{
-			return false;
-		}
-		
-		//-1,0
+		//-1, 0
 		newx = kingPiece.getPosX() - 1;
 		newy = kingPiece.getPosY();
 				
-		testKing = new KingPiece(newx, newy, kingPiece.getColor());
-		testBoard = cb;
-		kingTile = new Tile(testKing);
-		testBoard.setTile(newx, newy, kingTile);
-		testBoard.setTile(oldx,  oldy);
-				
-		//if there is a legal move where king is not in check, king is not in checkmate
-		if(this.isCheck(testBoard, testKing) == false && kingPiece.checkMove(newx, newy, testBoard) == true)
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			return false;
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+			
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
 		}
 		
-		//-1-1
-		newx = kingPiece.getPosX() + 1;
+		//-1, +1
+		newx = kingPiece.getPosX() - 1;
 		newy = kingPiece.getPosY() + 1;
 				
-		testKing = new KingPiece(newx, newy, kingPiece.getColor());
-		testBoard = cb;
-		kingTile = new Tile(testKing);
-		testBoard.setTile(newx, newy, kingTile);
-		testBoard.setTile(oldx,  oldy);
-				
-		//if there is a legal move where king is not in check, king is not in checkmate
-		if(this.isCheck(testBoard, testKing) == false && kingPiece.checkMove(newx, newy, testBoard) == true)
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			return false;
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+					
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
+		}
+		
+		//-1, -1
+		newx = kingPiece.getPosX() - 1;
+		newy = kingPiece.getPosY() - 1;
+				
+		//if legal move, check to see if it's out of check, if not not important
+		if(kingPiece.checkMove(newx, newy, cb) == true)
+		{
+			testGame.doMove(cb,  kingPiece, newx, newy);
+			if(this.isCheck(testGame.getChessBoard(), kingPiece))
+			{
+				//if still in check, go back to oldx, oldy and continue the program
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+			}
+					
+			else 
+			{
+				//if not in check, return the board just in case, then 
+				testGame.doMove(cb, kingPiece, oldx, oldy);
+				return false;
+			}
+		}
+		
+		//for all friendly pieces
+		for(ChessPiece piece : pieces)
+		{
+			//as long as the piece is not killed
+			if(piece.getKilled() == false)
+			{
+				for(int i = 0; i < 8; i++)
+				{
+					for(int j = 0; j < 8; j++)
+					{
+						//if there is a legal move that has the king not in check
+						if(piece.checkMove(i, j, cb) == true)
+						{
+							//do move, then check to see if it puts them in check
+							testGame.doMove(testGame.getChessBoard(),  piece,  i,  j);
+							if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
+							{
+								//return move to og spot
+								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+								return false;
+							}
+							
+							else
+							{
+								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+							}
+						}
+					}
+				}
+			}
 		}
 		
 		//if no possible moves, return true
 		return true;
 	}
 	
-	public boolean isDraw()
+	public boolean isDraw(ChessBoard cb, KingPiece kingPiece, ArrayList<ChessPiece> pieces)
 	{
-		return false;
+		//If in check, can't be a draw
+		if(this.isCheck(cb,  kingPiece) == false)
+		{
+			System.out.println("Not in check");
+			return true;
+		}
+		
+		Game testGame = new Game();
+		testGame.setChessBoard(cb);
+		//for all friendly pieces
+		for(ChessPiece piece : pieces)
+		{
+			//as long as the piece is not killed
+			if(piece.getKilled() == false)
+			{
+				for(int i = 0; i < 8; i++)
+				{
+					for(int j = 0; j < 8; j++)
+					{
+						//if there is a legal move that has the king not in check
+						if(piece.checkMove(i, j, cb) == true)
+						{
+							//do move, then check to see if it puts them in check
+							testGame.doMove(testGame.getChessBoard(),  piece,  i,  j);
+							if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
+							{
+								//return move to og spot
+								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+								return false;
+							}
+									
+							else
+							{
+								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return true;
 	}
 }
