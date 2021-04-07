@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-
+import java.util.ArrayList;
 import edu.ycp.cs320.ChessProject.Chess.ChessBoard;
 import edu.ycp.cs320.ChessProject.Chess.ChessPiece;
 import edu.ycp.cs320.ChessProject.Chess.RookPiece;
@@ -253,23 +253,37 @@ public class ChessPieceTest {
 	@Test
 	public void testCheckmate()
 	{
+		ArrayList<ChessPiece> friendlyPieces;
+		friendlyPieces = new ArrayList<ChessPiece>();
 		test = new Tile(KingTest);
 		board.setTile(1,1, test);
-		assertTrue(testPlayer.isCheckmate(board, KingTest) == false);
+		assertTrue(testPlayer.isCheckmate(board, KingTest, friendlyPieces) == false);
 		
-		/*RookPiece problemRook = new RookPiece(1, 5, false);
+		RookPiece problemRook = new RookPiece(1, 5, false);
 		Tile PutInCheck = new Tile(problemRook);
 		board.setTile(1, 5, PutInCheck);
-		assertTrue(testPlayer.isCheckmate(board, KingTest));
+		assertTrue(testPlayer.isCheck(board, KingTest));
+		assertTrue(testPlayer.isCheckmate(board, KingTest, friendlyPieces) == false);
 		
-		/*RookPiece problemRook2 = new RookPiece(0, 5, false);
+		RookPiece problemRook2 = new RookPiece(0, 5, false);
 		Tile PutInCheck2 = new Tile(problemRook2);
 		board.setTile(0, 5, PutInCheck2);
-		assertTrue(testPlayer.isCheckmate(board, KingTest) == false);
+		assertTrue(testPlayer.isCheck(board, KingTest));
+		assertTrue(testPlayer.isCheckmate(board, KingTest, friendlyPieces) == false);
 		
 		QueenPiece problemQueen = new QueenPiece(2, 5, false);
 		Tile PutInCheck3 = new Tile(problemQueen);
 		board.setTile(2,  5, PutInCheck3);
-		assertTrue(testPlayer.isCheck(board, KingTest));*/
+		assertTrue(testPlayer.isCheck(board, KingTest));
+		assertTrue(testPlayer.isCheckmate(board, KingTest, friendlyPieces));
+		
+		KnightPiece friendlyKnight = new KnightPiece(3, 6, true);
+		friendlyPieces.add(friendlyKnight);
+		Tile getOutofCheck = new Tile(friendlyKnight);
+		board.setTile(3,  6, getOutofCheck);
+		assertTrue(testPlayer.isCheck(board, KingTest));
+		//knight can take threatening piece
+		assertTrue(testPlayer.isCheckmate(board, KingTest, friendlyPieces) == false);
+		
 	}
 }

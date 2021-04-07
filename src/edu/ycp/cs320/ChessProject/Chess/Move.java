@@ -55,6 +55,11 @@ public class Move
 	
 	public void printMove()
 	{
-		System.out.println(movedPiece.whatPiece() + "" + xpos + "" + ypos);
+		System.out.println(movedPiece.whatInitial() + "" + xpos + "" + ypos);
+	}
+	
+	public String getMove()
+	{
+		return movedPiece.whatInitial() + "" + xpos + "" + ypos;
 	}
 }
