@@ -129,8 +129,13 @@ public class AccountRecoveryServlet extends HttpServlet {
 			if (passwordsMatch == true) {
 				userModel.getSecurityAnswer();
 				userModel = (User) resetSession.getAttribute("userInfo");
-				String user = userModel.getUser(); 
-				userModel.setNewPassord(user, newpass);
+				String username = userModel.getUser();
+				userModel.setNewPassord(username, newpass);
+				String securityAnswer = userModel.getSecurityAnswer();
+				req.setAttribute("securityAnswer", securityAnswer);
+				req.setAttribute("username", username);
+				String securityQuestion = userModel.getSecurtyQuestion();				
+				req.setAttribute("securityQuestion", securityQuestion);
 				resp.sendRedirect("/ChessProject/index");
 				return;
 				
@@ -138,6 +143,12 @@ public class AccountRecoveryServlet extends HttpServlet {
 			else {
 				errorMessageInvalidC = "Passwords Do Not Match";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
+				String username = userModel.getUser();
+				req.setAttribute("username", username);
+				String securityQuestion = userModel.getSecurtyQuestion();				
+				req.setAttribute("securityQuestion", securityQuestion);
+				String securityAnswer = userModel.getSecurityAnswer();			
+				req.setAttribute("securityAnswer", securityAnswer);
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
 		}
@@ -154,7 +165,7 @@ public class AccountRecoveryServlet extends HttpServlet {
 				String securitya = getStringFromParameter(req, "securityAnswer");
 
 				userModel = (User) resetSession.getAttribute("userInfo");
-				String user = userModel.getUser(); 
+				String user = userModel.getUser();
 				securityAnswerCorrect = userModel.checkUserSecurityAnswer(user, securitya);
 
 			} catch (NumberFormatException e) {
@@ -183,6 +194,10 @@ public class AccountRecoveryServlet extends HttpServlet {
 			else {
 				errorMessageInvalidC = "Incorrect Security Answer";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
+				String username = userModel.getUser();
+				req.setAttribute("username", username);
+				String securityQuestion = userModel.getSecurtyQuestion();				
+				req.setAttribute("securityQuestion", securityQuestion);
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
 		}

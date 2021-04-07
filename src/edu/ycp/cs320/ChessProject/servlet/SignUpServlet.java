@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
-import edu.ycp.cs320.ChessProject.model.SignUpPage;
 
 public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +29,6 @@ public class SignUpServlet extends HttpServlet {
 		System.out.println("SignUpPage Servlet: doPost");
 		
 
-		SignUpPage signUpModel = new SignUpPage();
 		User userModel = new User();
 		String user = null;
 		String password = null;
@@ -38,9 +36,6 @@ public class SignUpServlet extends HttpServlet {
 		String securityQ = null;
 		String securityA = null;
 		boolean userExists = false;
-
-		//SignUpPageController controller = new SignUpPageController();
-		//controller.setModel(model);
 		
 		// holds the error message text, if there is any
 		String errorMessage = null;

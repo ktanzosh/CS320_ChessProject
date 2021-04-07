@@ -94,4 +94,20 @@ public class User {
 		
 	}
 	
+	public boolean checkInfo(String User, String Password) {
+		
+		List<User> usersList;
+		usersList = new ArrayList<User>();
+		usersList.addAll(UsersList.createUsersList());
+		for (User user : usersList) {
+			if (user.getUser().equals(User)) {
+				if(user.getPassword().equals(Password))
+					return true;
+			}
+		}
+		return false;
+		
+	}
+
+	
 }

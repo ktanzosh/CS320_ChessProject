@@ -49,5 +49,16 @@ public class UserTest {
 		assertFalse(model.checkUserSecurityAnswer("user123", "notBread"));
 	}
 	
+	@Test
+	public void testCheckInfo() {
+		String realUser = "user123";
+		String realPassword = "password123";
+		String fakeUser = "notAUser";
+		String fakePassword = "wrongPassword";
+		assertTrue(model.checkInfo(realUser, realPassword));
+		assertFalse(model.checkInfo(fakeUser, realPassword));
+		assertFalse(model.checkInfo(realUser, fakePassword));
+	}
+	
 	 
 }

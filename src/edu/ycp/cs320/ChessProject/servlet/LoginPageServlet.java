@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 //import edu.ycp.cs320.ChessProject.controller.LoginPageController;
-import edu.ycp.cs320.ChessProject.model.LoginPage;
+//import edu.ycp.cs320.ChessProject.model.LoginPage;
 
 public class LoginPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class LoginPageServlet extends HttpServlet {
 		System.out.println("LoginPage Servlet: doPost");
 		
 
-		LoginPage loginModel = new LoginPage();
+		//LoginPage loginModel = new LoginPage();
 		User userModel = new User();
 		boolean userFound = false;
 		String user = null;
@@ -73,7 +73,7 @@ public class LoginPageServlet extends HttpServlet {
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
 			else {
-				userFound = loginModel.checkInfo(user, password);
+				userFound = userModel.checkInfo(user, password);
 			}
 			
 		} catch (NumberFormatException e) {
