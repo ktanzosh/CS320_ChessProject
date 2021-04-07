@@ -1,6 +1,17 @@
+h1{
+	position: absolute;
+	top: 25px;
+	right: 100px;
+	color: white;
+	border: solid;
+	font-size: 50px;
+	font-family: 'Courier New', monospace;
+}
+
 html {
   min-height: 100%; 
 }
+
 body { 
   background-image: linear-gradient(to bottom right, blue, red);
 }
@@ -78,4 +89,12 @@ body {
 }
 .king {
    font-size:  70px;
+}e:  70px;
+}
+.queen {
+   font-size:  70px;
+}
+.king {
+   font-size:  70px;
+}ont-size:  70px;
 }

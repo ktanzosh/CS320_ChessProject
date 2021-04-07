@@ -9,7 +9,7 @@
 </head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="_view/newGameCSS_.css"/>
+<link rel="stylesheet" type="text/css" href="_view/newGameCSS.css"/>
 
 
 <body>
@@ -188,7 +188,15 @@ function GetPieceMoveArray (enemyString, piece) {
     case 'rook': return GetMoves(enemyString,stringOfPieces,squareInt,[-8,-1,1,8],7);
     case 'bishop': return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-7,7,9],7);
     case 'knight': return GetMoves(enemyString,stringOfPieces,squareInt,[-17,-15,-10,-6,6,10,15,17],1);
-    case 'pawn': return GetMoves(enemyString, stringOfPieces, squareInt, [-7,7,-8,8,-10,10,-2,2], 2); 
+    case 'pawn': 
+     var mult;
+      if (enemyString === "b"){
+        mult = 1;
+      }
+      else{
+        mult = -1;
+      }
+      return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
       
   }
 }
@@ -225,11 +233,23 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   if (startSquare === toSquare || toSquare < 1 || toSquare > 64) {  //if starting pos is same as chosen OR out of bounds
     return 0; 
   }
-
+  if ($('#' + toSquare).children().length > 0) {
+    if (stringOfPieces === "pawn" && (dir % 8 === 0 || step > 1)) {
+     return 3; 
+     }
+    if ($('#' + toSquare).children().eq(0).hasClass(enemyString)) {
+     return 1; 
+     }
+    else {
+     return 3; 
+     }
+  }
   if (stringOfPieces === "pawn") { // if piece is pawn -> 
     if (dir % 8 !== 0) {
       return 4; 
     }
+    
+    
     if (step > 1) {
       if ((dir > 0 && startSquare > 16) || (dir < 0 && startSquare < 49)) {
         return 4; 
