@@ -1,0 +1,12 @@
+
+The following files were re-factored and used from examples given in the CS320 Resources tab for 2021:
+
+DatabaseProvider.java
+DBUtil.java
+DerbyDatabase.java
+IDatabase.java
+InitDatabase.java
+PersistenceException.java
+
+Thanks for reading this.
+

@@ -3,8 +3,11 @@ package edu.ycp.cs320.ChessProject.UserDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ycp.cs320.ChessProject.Chess.Game;
+
 public class User {
 	private String user, password, sec_question, sec_answer;
+	private List<Game> gameList = new ArrayList<Game>();
 	//private User blankUser = new User();
 	//private List<User> usersList;
 	//private ArrayList<User> usersList = new ArrayList<User>();
@@ -95,7 +98,6 @@ public class User {
 	}
 	
 	public boolean checkInfo(String User, String Password) {
-		
 		List<User> usersList;
 		usersList = new ArrayList<User>();
 		usersList.addAll(UsersList.createUsersList());
@@ -108,6 +110,25 @@ public class User {
 		return false;
 		
 	}
-
+	
+	public List<Game> getGameList() {
+		return gameList;
+	}
+	
+	public void addGameToGameList(Game g) {
+		gameList.add(g);
+	}
+	
+	public void printMoves() {
+		for (Game g : gameList) {
+				g.printMoveList();
+		}
+	}
+	
+	public void getMoves() {
+		for (Game g : gameList) {
+				g.getMoveList();
+		}
+	}
 	
 }
