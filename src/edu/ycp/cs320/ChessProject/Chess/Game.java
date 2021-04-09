@@ -7,6 +7,9 @@ public class Game
 	private ChessBoard cb;
 	private Player WhitePlayer;
 	private Player BlackPlayer;
+	private Player winnerPlayer;
+	private boolean finished;
+	
 	private ArrayList<Move> MoveList;
 	private ArrayList<ChessPiece> WhitePieces;
 	private ArrayList<ChessPiece> BlackPieces;
@@ -50,6 +53,7 @@ public class Game
 	public Game()
 	{
 		MoveList = new ArrayList<Move>();
+		finished = false;
 	}
 	
 	public void setGame(boolean f)
@@ -242,6 +246,24 @@ public class Game
 		return this.cb;
 	}
 	
+	public boolean getFinish()
+	{
+		return this.finished;
+	}
+	
+	public Player getWinner()
+	{
+		if(this.getFinish() == true)
+		{
+			return this.winnerPlayer;
+		}
+		
+		else
+		{
+			return null;
+		}
+	}
+	
 	public void doMove(ChessBoard cb, ChessPiece cp, int x, int y)
 	{	
 		int oldx = cp.getPosX();
@@ -282,20 +304,25 @@ public class Game
 		String result;
 		if(player.isCheck(cb, kingPiece) == true)
 		{
+			System.out.println("In some form of check");
 			//if in check, check to see if they are also in checkmate
 			if(player.isCheckmate(cb, kingPiece, pieces) == true)
 			{
 				result = "Checkmate";
+				finished = true;
 			}
 			else
 			{
 				result = "Check";
 			}
 		}
+	
 		
 		else if(player.isDraw(cb, kingPiece, pieces) == true)
 		{
+			System.out.println("Not in any type of check");
 			result = "Draw";
+			finished = true;
 		}
 		
 		else

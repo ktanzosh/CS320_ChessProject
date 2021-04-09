@@ -22,7 +22,7 @@ public class Player
 		int y = kingPiece.getPosY();
 		
 		System.out.println("");
-		System.out.println("TESTING CHECK");
+		System.out.println("TESTING CHECK, King Piece at " + x + ", " + y);
 		
 		//maxes out to 7,7
 		//diaganol movement ++
@@ -871,18 +871,24 @@ public class Player
 						//if there is a legal move that has the king not in check
 						if(piece.checkMove(i, j, cb) == true)
 						{
+							System.out.println(piece.whatPiece() + "can move to " + i + ", " + j);
+							//get old position to get old move
+							oldx = piece.getPosX();
+							oldy = piece.getPosY();
 							//do move, then check to see if it puts them in check
 							testGame.doMove(testGame.getChessBoard(),  piece,  i,  j);
+							
+							//if there is a move where the king is not in check, is not a draw
 							if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
 							{
 								//return move to og spot
-								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+								testGame.doMove(testGame.getChessBoard(), piece, oldx, oldy);
 								return false;
 							}
-							
+									
 							else
 							{
-								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+								testGame.doMove(testGame.getChessBoard(), piece, oldx, oldy);
 							}
 						}
 					}
@@ -897,12 +903,13 @@ public class Player
 	public boolean isDraw(ChessBoard cb, KingPiece kingPiece, ArrayList<ChessPiece> pieces)
 	{
 		//If in check, can't be a draw
-		if(this.isCheck(cb,  kingPiece) == false)
+		if(this.isCheck(cb,  kingPiece) == true)
 		{
-			System.out.println("Not in check");
-			return true;
+			System.out.println("In check");
+			return false;
 		}
 		
+		System.out.println("Not in check");
 		Game testGame = new Game();
 		testGame.setChessBoard(cb);
 		//for all friendly pieces
@@ -915,21 +922,51 @@ public class Player
 				{
 					for(int j = 0; j < 8; j++)
 					{
-						//if there is a legal move that has the king not in check
+						//if there is a legal move
 						if(piece.checkMove(i, j, cb) == true)
 						{
-							//do move, then check to see if it puts them in check
-							testGame.doMove(testGame.getChessBoard(),  piece,  i,  j);
-							if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
+							if(piece.whatPiece() == "King")
 							{
-								//return move to og spot
-								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
-								return false;
+								//get old position to get old move
+								int oldx = piece.getPosX();
+								int oldy = piece.getPosY();
+								//do move, then check to see if it puts them in check
+								testGame.doMove(testGame.getChessBoard(),  kingPiece,  i,  j);
+
+								if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
+								{
+									//return move to og spot
+									testGame.doMove(testGame.getChessBoard(), kingPiece, oldx, oldy);
+									System.out.println(piece.whatPiece() + "can move to " + i + ", " + j + " without putting the king in Check");
+									return false;
+								}
+										
+								else
+								{
+									testGame.doMove(testGame.getChessBoard(), kingPiece, oldx, oldy);
+								}
 							}
-									
+							
 							else
 							{
-								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+								//get old position to get old move
+								int oldx = piece.getPosX();
+								int oldy = piece.getPosY();
+								//do move, then check to see if it puts them in check
+								testGame.doMove(testGame.getChessBoard(),  piece,  i,  j);
+
+								if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
+								{
+									//return move to og spot
+									testGame.doMove(testGame.getChessBoard(), piece, oldx, oldy);
+									System.out.println(piece.whatPiece() + "can move to " + i + ", " + j + "without putting the king in Check");
+									return false;
+								}
+										
+								else
+								{
+									testGame.doMove(testGame.getChessBoard(), piece, oldx, oldy);
+								}
 							}
 						}
 					}

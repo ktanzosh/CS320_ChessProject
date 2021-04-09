@@ -1,5 +1,9 @@
 package edu.ycp.cs320.ChessProject.Chess;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 public class TestMain 
 {
 	public static void main(String[] args)
