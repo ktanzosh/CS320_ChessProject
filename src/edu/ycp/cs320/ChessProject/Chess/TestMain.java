@@ -1,5 +1,9 @@
 package edu.ycp.cs320.ChessProject.Chess;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 public class TestMain 
 {
 	public static void main(String[] args)
@@ -22,6 +26,8 @@ public class TestMain
 		
 		testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(0,  3).getPiece(), 4, 7);
 		drawBoard(testGame);
+		
+		System.out.println(testGame.getMoveList());
 		
 		
 		KingPiece kp = new KingPiece(7, 4, true);

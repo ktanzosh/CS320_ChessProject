@@ -2,24 +2,13 @@ package edu.ycp.cs320.ChessProject.Chess;
 
 public class KingPiece extends ChessPiece
 {
-	private boolean haveMoved;
 	
 	public KingPiece(int x, int y, boolean w)
 	{
 		this.setPosX(x);
 		this.setPosY(y);
 		this.setColor(w);
-		haveMoved = false;
-	}
-	
-	public void setHaveMoved(boolean hm)
-	{
-		haveMoved = hm;
-	}
-	
-	public boolean getHaveMoved()
-	{
-		return this.haveMoved;
+		this.setHaveMoved(false);
 	}
 	
 	public String whatInitial()
@@ -35,6 +24,11 @@ public class KingPiece extends ChessPiece
 	public boolean checkMove(int newx, int newy, ChessBoard cb)
 	{
 		System.out.println("King Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
+		
+		//if(this.canCastle(newx, newy, cb) == true)
+		//{
+			//Have to implement but basically if they can castle, and do some repeat logic then checkMove returns true
+		//}
 		
 		if(newx < 0 || newx > 7 || newy < 0 || newy > 7)
 		{
@@ -69,5 +63,140 @@ public class KingPiece extends ChessPiece
 		{
 			return false;
 		}
+	}
+	
+	public boolean canCastle(int newx, int newy, ChessBoard cb)
+	{
+		System.out.println("");
+		System.out.println("Testing Castling");
+		if(this.getHaveMoved() == true)
+		{
+			return false;
+		}
+		
+		try
+		{
+			ChessPiece castleRook = cb.getTile(newx, newy).getPiece();
+			if(castleRook.whatPiece() != "Rook")
+			{
+				System.out.println("Not a rook");
+				return false;
+			}
+			
+			else if(castleRook.getHaveMoved() == true)
+			{
+				System.out.println("Rook has moved");
+				return false;
+			}
+			
+			else if(castleRook.getColor() != this.getColor())
+			{
+				System.out.println("Not a friendly piece");
+				return false;
+			}
+			
+			//checkIn between the pieces
+			if(newy > this.getPosY())
+			{
+				for(int i = this.getPosY(); i < newy; i++)
+				{
+					try
+					{
+						ChessPiece blockerPiece = cb.getTile(newx, i).getPiece();
+						//if there is a piece in the way, return false since theres something in the way
+						return false;
+					}
+					
+					catch(NullPointerException ne)
+					{
+						//We still all good
+						System.out.println("No piece blocking castling");
+					}
+				}
+			}
+			
+			else
+			{
+				for(int i = newy; i < this.getPosY(); i++)
+				{
+					try
+					{
+						ChessPiece blockerPiece = cb.getTile(newx, i).getPiece();
+						//if there is a piece in the way, return false since theres something in the way
+						return false;
+					}
+					
+					catch(NullPointerException ne)
+					{
+						//We still all good
+						System.out.println("No piece blocking castling");
+					}
+				}
+			}
+			
+			//if white
+			if(this.getColor() == true)
+			{
+				//if King is not in proper location, dont do it
+				if(this.getPosX() != 7 && this.getPosY() != 4)
+				{
+					return false;
+				}
+				
+				//if it is a rook, in the friendly corner
+				//this is just triple checking
+				if(newx == 7 && newy == 7)
+				{
+					return true;
+				}
+				
+				else if(newx == 7 && newy == 0)
+				{
+					return true;
+				}
+				
+				else
+				{
+					System.out.println("Piece is not in the corner");
+					return false;
+				}
+			}
+			
+			//if black
+			if(this.getColor() == false)
+			{
+				//if King is not in proper location, dont do it
+				if(this.getPosX() != 0 && this.getPosY() != 4)
+				{
+					return false;
+				}
+				
+				//if it is a rook, in the friendly corner
+				//this is just triple checking
+				if(newx == 0 && newy == 7)
+				{
+					return true;
+				}
+				
+				else if(newx == 0 && newy == 0)
+				{
+					return true;
+				}
+				
+				else
+				{
+					return false;
+				}
+			}
+		}
+		
+		catch(NullPointerException n)
+		{
+			//if no piece there, cant castle
+			System.out.println("No one there");
+			return false;
+		}
+		
+		return false;
 	}
 }

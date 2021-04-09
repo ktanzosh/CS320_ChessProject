@@ -2,26 +2,13 @@ package edu.ycp.cs320.ChessProject.Chess;
 
 public class PawnPiece extends ChessPiece
 {
-	//THIS WILL BE UPDATED TO FIX A FEW BUGS ABOUT 2D ARRAYS JUST SO YOU KNOW
-	
-	private boolean haveMoved;
 	
 	public PawnPiece(int x, int y, boolean w)
 	{
 		this.setPosX(x);
 		this.setPosY(y);
 		this.setColor(w);
-		haveMoved = false;
-	}
-	
-	public void setHaveMoved(boolean hm)
-	{
-		haveMoved = hm;
-	}
-	
-	public boolean getHaveMoved()
-	{
-		return this.haveMoved;
+		this.setHaveMoved(false);
 	}
 	
 	public String whatInitial()
@@ -85,7 +72,7 @@ public class PawnPiece extends ChessPiece
 			
 			//makes sure that the movements are one forward in the right direction
 			//if they haven't moved can move two forward
-			if(haveMoved == false)
+			if(this.getHaveMoved() == false)
 			{
 				if(this.getColor() == true)//color is white
 				{
@@ -114,7 +101,7 @@ public class PawnPiece extends ChessPiece
 				}
 			}
 			
-			else if(haveMoved == true)
+			else if(this.getHaveMoved() == true)
 			{
 				if(this.getColor() == true)//color is white
 				{

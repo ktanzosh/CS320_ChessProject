@@ -60,7 +60,7 @@ public class ChessPieceTest {
 		testPlayer2 = new Player(false);
 		game = new Game();
 	}
-	
+
 	@Test
 	public void testRookCheckMove() 
 	{
@@ -284,6 +284,114 @@ public class ChessPieceTest {
 		assertTrue(testPlayer.isCheck(board, KingTest));
 		//knight can take threatening piece
 		assertTrue(testPlayer.isCheckmate(board, KingTest, friendlyPieces) == false);
+	}
+	
+	@Test
+	public void testDraw()
+	{
+		ArrayList<ChessPiece> friendlyPieces;
+		ChessBoard newBoard = new ChessBoard();
+		friendlyPieces = new ArrayList<ChessPiece>();
+		KingPiece King = new KingPiece(1, 1, true);
+		friendlyPieces.add(King);
+		test = new Tile(King);
+		board.setTile(1,  1, test);
+		assertTrue(testPlayer.isDraw(board, King, friendlyPieces) == false);
+		
+		RookPiece Threat1 = new RookPiece(0, 7, false);
+		Tile drawTile = new Tile(Threat1);
+		board.setTile(0, 7, drawTile);
+		RookPiece Threat2 = new RookPiece(2, 7, false);
+		Tile drawTile2 = new Tile(Threat2);
+		board.setTile(2, 7, drawTile2);
+		RookPiece Threat3 = new RookPiece(7, 0, false);
+		Tile drawTile3 = new Tile(Threat3);
+		board.setTile(7, 0, drawTile3);
+		RookPiece Threat4 = new RookPiece(7, 2, false);
+		Tile drawTile4 = new Tile(Threat4);
+		board.setTile(7, 2, drawTile4);
+		
+		System.out.println("");
+		//currently not working
+		assertTrue(testPlayer.isCheck(board,  King) == false);
+		assertTrue(testPlayer.isDraw(board,  KingTest,  friendlyPieces) == true);
+		
+		//adding friendly moves that wouldn't threaten them
+		KnightPiece Friendly1 = new KnightPiece(4, 4, true);
+		friendlyPieces.add(Friendly1);
+		Tile drawTile5 = new Tile(Friendly1);
+		board.setTile(4, 4, drawTile5);
+		assertTrue(testPlayer.isDraw(board,  KingTest,  friendlyPieces) == false);
+	}
+	
+	@Test
+	public void testCastling()
+	{
+		KingPiece kp = new KingPiece(7, 4, true);
+		Tile kingTile = new Tile(kp);
+		board.setTile(4,  7, kingTile);
+		assertTrue(kp.canCastle(7, 7, board) == false);
+		
+		BishopPiece bp = new BishopPiece(7, 7, true);
+		Tile CastleTile = new Tile(bp);
+		board.setTile(7, 7, CastleTile);
+		assertTrue(kp.canCastle(7, 7, board) == false);
+		
+		RookPiece brp = new RookPiece(7, 7, false);
+		CastleTile = new Tile(brp);
+		board.setTile(7, 7, CastleTile);
+		assertTrue(kp.canCastle(7, 7, board) == false);
+		
+		RookPiece wrp = new RookPiece(7, 7, true);
+		CastleTile = new Tile(wrp);
+		board.setTile(7, 7, CastleTile);
+		assertTrue(kp.canCastle(7, 7, board) == true);
+		
+		wrp.setHaveMoved(true);
+		assertTrue(kp.canCastle(7, 7, board) == false);
+		wrp.setHaveMoved(false);
+		
+		RookPiece wrp2 = new RookPiece(7, 6, true);
+		Tile CastleTile2 = new Tile(wrp2);
+		board.setTile(7, 6, CastleTile2);
+		assertTrue(kp.canCastle(7, 6, board) == false);
+		
+		assertTrue(kp.canCastle(7, 7, board) == false);
 		
 	}
+	
+	@Test
+	public void testGetResult()
+	{
+		Game newGame = new Game();
+		newGame.setGame(true);
+		ArrayList<ChessPiece> friendlyPieces;
+		friendlyPieces = new ArrayList<ChessPiece>();
+		friendlyPieces.add(KingTest);
+		test = new Tile(KingTest);
+		ChessBoard testBoard = newGame.getChessBoard();
+		testBoard.setTile(1,1, test);
+		
+		String res = newGame.getResult(testPlayer, newGame.getChessBoard(), KingTest, friendlyPieces);
+		assertTrue(res == "");
+		assertTrue(newGame.getFinish() == false);
+		assertTrue(newGame.getWinner() == null);
+		
+		
+		
+		RookPiece problemRook = new RookPiece(1, 5, false);
+		Tile PutInCheck = new Tile(problemRook);
+		testBoard.setTile(1, 5, PutInCheck);
+		RookPiece problemRook2 = new RookPiece(0, 5, false);
+		Tile PutInCheck2 = new Tile(problemRook2);
+		testBoard.setTile(0, 5, PutInCheck2);
+		QueenPiece problemQueen = new QueenPiece(2, 5, false);
+		Tile PutInCheck3 = new Tile(problemQueen);
+		testBoard.setTile(2,  5, PutInCheck3);
+		res = newGame.getResult(testPlayer, newGame.getChessBoard(), KingTest, friendlyPieces);
+		System.out.println(res);
+		assertTrue(res == "Checkmate");
+		assertTrue(newGame.getFinish() == true);
+	}
+	
 }
