@@ -68,6 +68,8 @@ public class Game
 		BlackPlayer = new Player(false);
 		WhitePieces = new ArrayList<ChessPiece>();
 		BlackPieces = new ArrayList<ChessPiece>();
+		MoveList = new ArrayList<Move>();
+		finished = false;
 		
 		//put all pieces at the right spot
 		BlackRook1 = new RookPiece(0, 0, false);
@@ -244,6 +246,11 @@ public class Game
 	public ChessBoard getChessBoard()
 	{
 		return this.cb;
+	}
+	
+	public void isFinish()
+	{
+		this.finished = true;
 	}
 	
 	public boolean getFinish()
