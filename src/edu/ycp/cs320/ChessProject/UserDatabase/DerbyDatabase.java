@@ -631,40 +631,42 @@ public class DerbyDatabase implements IDatabase {
 			
 				try {
 					stmt1 = conn.prepareStatement(
-						"create table authors (" +
-						"	author_id integer primary key " +
+						"create table users (" +
+						"	user_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +									
-						"	lastname varchar(40)," +
-						"	firstname varchar(40)" +
+						"	username varchar(50)," +
+						"	password varchar(50)," +
+						"	securityQuestion varchar(50)," +
+						"	securityAnswer varchar(50)" +
 						")"
 					);	
 					stmt1.executeUpdate();
 					
-					System.out.println("Authors table created");
+					System.out.println("Users table created");
 					
 					stmt2 = conn.prepareStatement(
-							"create table books (" +
-							"	book_id integer primary key " +
+							"create table moves (" +
+							"	move_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
-//							"	author_id integer constraint author_id references authors, " +  	// this is now in the BookAuthors table
-							"	title varchar(70)," +
-							"	isbn varchar(15)," +
-							"   published integer" +
+							"	game_id integer," +
+							"	piece varchar(10)," +
+							"	pos_x integer," +
+							"	pos_y integer" +
 							")"
 					);
 					stmt2.executeUpdate();
 					
-					System.out.println("Books table created");					
+					System.out.println("Moves table created");					
 					
 					stmt3 = conn.prepareStatement(
-							"create table bookAuthors (" +
-							"	book_id   integer constraint book_id references books, " +
-							"	author_id integer constraint author_id references authors " +
+							"create table UserMoves (" +
+							"	move_id   integer constraint move_id references moves, " +
+							"	user_id integer constraint user_id references users " +
 							")"
 					);
 					stmt3.executeUpdate();
 					
-					System.out.println("BookAuthors table created");					
+					System.out.println("UserMoves table created");					
 										
 					return true;
 				} finally {
