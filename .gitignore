@@ -7,3 +7,4 @@ test-bin/edu/ycp/cs320/ChessProject/model/LoginPageTest.class
 *.json
 .vs/CS320_ChessProject/v16/.suo
 *.sqlite
+*.log
