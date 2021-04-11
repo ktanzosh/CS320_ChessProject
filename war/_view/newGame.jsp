@@ -99,7 +99,41 @@
   </div>
 </div>
 
+<style>
+p{
+  color: white;
+  position: absolute;
+  top: 1000px;
+}
+button {
+  background-color: green;
+  color: white;
+  position: absolute;
+  top: 980px;
+  font-size: 25px;
+}
+
+</style>
+<p id="demo">Let AJAX change this text?</p>
+
+<button type="button" onclick="loadDoc()">Restart Game</button>
+
 <script>
+
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      //restart board
+      alert("Restarting your game!");
+      
+    }
+  };
+  xhttp.open("GET", "http://localhost:8081/ChessProject/newGame", true);
+  xhttp.send();
+}
+
+
 var S = { 
   turnInt:1, selectedPiece:0, moves:0, 
   
@@ -258,6 +292,14 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   }  
   return 0;
 }
+
+	$('#restart-btn').on('click', function() {
+		resetGame();
+	});
+
+	var resetGame = function() {
+    alert("Resetting game");
+  }
 </script>
 </body>
 </html>
