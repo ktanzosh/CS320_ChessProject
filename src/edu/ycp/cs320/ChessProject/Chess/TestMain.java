@@ -15,27 +15,42 @@ public class TestMain
 		testGame.setGame();
 		drawBoard(testGame);
 
-		testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6,  5).getPiece(), 5, 5);
-		drawBoard(testGame);
 		
-		testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(1,  4).getPiece(), 2, 4);
-		drawBoard(testGame);
+		if(testGame.getChessBoard().getTile(6,  5).getPiece().checkMove(5, 5, testGame.getChessBoard()))
+		{
+			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6,  5).getPiece(), 5, 5);
+			drawBoard(testGame);
+		}
 		
-		testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6,  6).getPiece(), 4, 6);
-		drawBoard(testGame);
 		
-		testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(0,  3).getPiece(), 4, 7);
-		drawBoard(testGame);
+		if(testGame.getChessBoard().getTile(1,  4).getPiece().checkMove(2, 4, testGame.getChessBoard()))
+		{
+			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(1,  4).getPiece(), 2, 4);
+			drawBoard(testGame);
+		}
 		
+		if(testGame.getChessBoard().getTile(6,  6).getPiece().checkMove(4, 6, testGame.getChessBoard()))
+		{
+			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6,  6).getPiece(), 4, 6);
+			drawBoard(testGame);
+		}
+		
+		if(testGame.getChessBoard().getTile(0,  3).getPiece().checkMove(4, 7, testGame.getChessBoard()))
+		{
+			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(0,  3).getPiece(), 4, 7);
+			drawBoard(testGame);
+		}
+
 		System.out.println(testGame.getMoveList());
 		
 		
-		KingPiece kp = new KingPiece(7, 4, true);
-		if(WhitePlayer.isCheck(testGame.getChessBoard(), kp))
-		{
-			System.out.println("Check");
-		}
-		//testGame.printMoveList();
+		//KingPiece kp = new KingPiece(7, 4, true);
+		KingPiece kp = testGame.getWhiteKing();
+		String res = testGame.getResult(WhitePlayer, testGame.getChessBoard(), kp, testGame.getWhitePieces());
+		System.out.println(res);
+		
+		drawBoard(testGame);
+		testGame.printMoveList();
 	}
 	
 	public static void drawBoard(Game test)

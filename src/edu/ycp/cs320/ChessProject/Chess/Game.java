@@ -248,6 +248,36 @@ public class Game
 		return this.cb;
 	}
 	
+	public ArrayList<ChessPiece> getWhitePieces()
+	{
+		return this.WhitePieces;
+	}
+	
+	public ArrayList<ChessPiece> getBlackPieces()
+	{
+		return this.BlackPieces;
+	}
+	
+	public KingPiece getWhiteKing() 
+	{
+		return this.WhiteKing;
+	}
+	
+	public KingPiece getBlackKing() 
+	{
+		return this.BlackKing;
+	}
+	
+	public Player getWhitePlayer() 
+	{
+		return this.WhitePlayer;
+	}
+	
+	public Player getBlackPlayer() 
+	{
+		return this.BlackPlayer;
+	}
+	
 	public void isFinish()
 	{
 		this.finished = true;
@@ -271,22 +301,66 @@ public class Game
 		}
 	}
 	
+	public boolean checkMove(int newx, int newy, ChessBoard cb, ChessPiece cp, Player p)
+	{
+		if(cp.checkMove(newx, newy, cb))
+		{
+			int oldx = cp.getPosX();
+			int oldy = cp.getPosY();
+			Game updatedGame = new Game();
+			updatedGame.setChessBoard(this.getChessBoard());
+			updatedGame.doMove(cb, cp, newx, newy);
+			
+			if(p.getColor() == true)
+			{
+				if(p.isCheck(updatedGame.getChessBoard(), updatedGame.getWhiteKing()))
+				{
+					//reset board
+					updatedGame.doMove(cb, cp, oldx, oldy);
+					return false;
+				}
+				
+				//reset board
+				updatedGame.doMove(cb, cp, oldx, oldy);
+				return true;
+			}
+			
+			else
+			{
+				if(p.isCheck(updatedGame.getChessBoard(), updatedGame.getBlackKing()))
+				{
+					//reset board
+					updatedGame.doMove(cb, cp, oldx, oldy);
+					return false;
+				}
+				
+				//reset board
+				updatedGame.doMove(cb, cp, oldx, oldy);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public void doMove(ChessBoard cb, ChessPiece cp, int x, int y)
 	{	
 		int oldx = cp.getPosX();
 		int oldy = cp.getPosY();
+		boolean takesPiece = false;
 		
 		try
 		{
 			ChessPiece potentialPiece = cb.getTile(x,  y).getPiece();
+			takesPiece = true;
 			potentialPiece.isKilled();
 			//put it out of bounds so it can't be touched.
-			potentialPiece.setPosX(8);
-			potentialPiece.setPosY(8);
+			//potentialPiece.setPosX(8);
+			//potentialPiece.setPosY(8);
 		}
 		catch(NullPointerException n)
 		{
-			//No piece so nothing to do
+			takesPiece = false;
 		}
 		
 		Tile newTile = new Tile(cp);
@@ -301,8 +375,18 @@ public class Game
 			cp.setHaveMoved(true);
 		}
 		
-		Move thisMove = new Move(cp, x, y);
-		MoveList.add(thisMove);
+		/*Move thisMove;
+		if(cp.getColor() == true)
+		{
+			thisMove = new Move(cp, x, y, this.getResult(this.getWhitePlayer(), this.getChessBoard(), this.getWhiteKing(), this.getWhitePieces()), takesPiece, false);
+		}
+		
+		else
+		{
+			thisMove = new Move(cp, x, y, this.getResult(this.getBlackPlayer(), this.getChessBoard(), this.getBlackKing(), this.getBlackPieces()), takesPiece, false);
+		}
+		
+		MoveList.add(thisMove);*/
 		
 	}
 	
