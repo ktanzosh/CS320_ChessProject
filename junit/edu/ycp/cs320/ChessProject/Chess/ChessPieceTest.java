@@ -125,6 +125,7 @@ public class ChessPieceTest {
 	{
 		assertTrue(QueenTest.checkMove(7, 7, board)); //diaganol movement
 		assertTrue(QueenTest.checkMove(2, 6, board)); //another diagnol
+		assertTrue(QueenTest.checkMove(0, 0, board)); //another diagnol
 		assertTrue(QueenTest.checkMove(4, 7, board)); //vertical movement
 		assertTrue(QueenTest.checkMove(7, 4, board)); //horizontal diagnol
 		assertTrue(QueenTest.checkMove(4, 4, board) == false); //no movement
@@ -157,26 +158,26 @@ public class ChessPieceTest {
 	@Test
 	public void testPawnCheckMove()
 	{
-		assertTrue(WhitePawn.checkMove(6, 5, board)); // 1 forward no move 
-		assertTrue(WhitePawn.checkMove(6, 4, board)); // 2 forward no move 
+		assertTrue(WhitePawn.checkMove(5, 6, board)); // 1 forward no move 
+		assertTrue(WhitePawn.checkMove(4, 6, board)); // 2 forward no move 
 		assertTrue(WhitePawn.checkMove(5, 5, board) == false); // diagonal movement(no person there)
 		
 		Tile test2 = new Tile(BlockerPiece6);
-		board.setTile(6, 4, test2);
-		assertTrue(WhitePawn.checkMove(6, 4, board) == false); // a person is in the way for vertical movements.
+		board.setTile(4, 6, test2);
+		assertTrue(WhitePawn.checkMove(4, 6, board) == false); // a person is in the way for vertical movements.
 		
 		Tile test = new Tile(BlockerPiece5);
-		board.setTile(6, 5, test);
-		assertTrue(WhitePawn.checkMove(6, 5, board) == false); // a person is in the way for vertical movements.
+		board.setTile(5, 6, test);
+		assertTrue(WhitePawn.checkMove(5, 6, board) == false); // a person is in the way for vertical movements.
 		
 		WhitePawn.setHaveMoved(true);
-		board.setTile(6, 4);
-		board.setTile(6, 5);
-		assertTrue(WhitePawn.checkMove(6, 5, board)); // 1 forward has move 
-		assertTrue(WhitePawn.checkMove(6, 4, board) == false); // 2 forward has move 
+		board.setTile(4, 6);
+		board.setTile(5, 6);
+		assertTrue(WhitePawn.checkMove(5, 6, board)); // 1 forward has move 
+		assertTrue(WhitePawn.checkMove(4, 6, board) == false); // 2 forward has move 
 		
-		assertTrue(BlackPawn.checkMove(1, 2, board)); // 1 forward no move 
-		assertTrue(BlackPawn.checkMove(1, 3, board)); // 2 forward no move 
+		assertTrue(BlackPawn.checkMove(2, 1, board)); // 1 forward no move 
+		assertTrue(BlackPawn.checkMove(3, 1, board)); // 2 forward no move 
 		assertTrue(BlackPawn.checkMove(2, 2, board) == false); // diagonal movement(no person there)
 		
 		Tile test3 = new Tile(BlockerPiece2);
@@ -185,8 +186,8 @@ public class ChessPieceTest {
 		
 		BlackPawn.setHaveMoved(true);
 		
-		assertTrue(BlackPawn.checkMove(1, 2, board)); // 1 forward has move 
-		assertTrue(BlackPawn.checkMove(1, 3, board) == false); // 2 forward has move 
+		assertTrue(BlackPawn.checkMove(2, 1, board)); // 1 forward has move 
+		assertTrue(BlackPawn.checkMove(3, 1, board) == false); // 2 forward has move 
 	}
 	
 	@Test
@@ -394,4 +395,24 @@ public class ChessPieceTest {
 		assertTrue(newGame.getFinish() == true);
 	}
 	
+	@Test
+	public void testGameMove()
+	{
+		TestMain tm = new TestMain();
+		Game newGame = new Game();
+		newGame.setGame();
+		ChessPiece testPawn = newGame.getChessBoard().getTile(6,  5).getPiece();
+		ChessBoard cboard = newGame.getChessBoard();
+		tm.drawBoard(newGame);
+		assertTrue(testPawn.checkMove(5, 5, cboard));
+		//assertTrue(newGame.checkMove(5, 5, cboard, testPawn, newGame.getWhitePlayer()) == true);
+		//newGame.doMove(cboard, testPawn, 5, 5);
+		
+		BishopPiece threatenPiece = new BishopPiece(4, 7, false);
+		Tile PutInCheck = new Tile(threatenPiece);
+		cboard.setTile(4, 7, PutInCheck);
+		tm.drawBoard(newGame);
+		assertTrue(testPawn.checkMove(5, 5, cboard));
+		//assertTrue(newGame.checkMove(5, 5, cboard, testPawn, newGame.getWhitePlayer()) == false);
+	}
 }

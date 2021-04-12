@@ -31,26 +31,26 @@ public class PawnPiece extends ChessPiece
 		}
 		
 		//not absolute value, since 
-		int changeX = Math.abs(newx - this.getPosX());
-		int changeY = newy - this.getPosY();
+		int changeX = newx - this.getPosX();
+		int changeY = Math.abs(newy - this.getPosY());
 		
 		//check to see if other pieces are in the way
 		//vertical movement
-		if(changeX == 0)
+		if(changeY == 0)
 		{
 			try
 			{
 				//can't take pieces when forward
-				if(cb.getTile(newx, newy).getPiece() != null && changeX == 0)
+				if(cb.getTile(newx, newy).getPiece() != null && changeY == 0)
 				{
 					System.out.println("");
 					return false;
 				}
 				
 				//If it moves forward 2 checks the one right in front of it too
-				if(Math.abs(changeY) == 2)
+				if(Math.abs(changeX) == 2)
 				{
-					if(cb.getTile(newx, newy-=1).getPiece() != null && changeX == 0)
+					if(cb.getTile(newx, newy-=1).getPiece() != null && changeY == 0)
 					{
 						System.out.println("");
 						return false;
@@ -76,7 +76,7 @@ public class PawnPiece extends ChessPiece
 			{
 				if(this.getColor() == true)//color is white
 				{
-					if((changeY == -1 || changeY == -2) && changeX == 0)
+					if((changeX == -1 || changeX == -2) && changeY == 0)
 					{
 						return true;
 					}
@@ -89,7 +89,7 @@ public class PawnPiece extends ChessPiece
 				
 				if(this.getColor() == false)//color is black
 				{
-					if((changeY == 1 || changeY == 2) && changeX == 0)
+					if((changeX == 1 || changeX == 2) && changeY == 0)
 					{
 						return true;
 					}
@@ -105,7 +105,7 @@ public class PawnPiece extends ChessPiece
 			{
 				if(this.getColor() == true)//color is white
 				{
-					if(changeY == -1 && changeX == 0)
+					if(changeX == -1 && changeY == 0)
 					{
 						return true;
 					}
@@ -118,7 +118,7 @@ public class PawnPiece extends ChessPiece
 				
 				else if(this.getColor() == false) //color is black
 				{
-					if(changeY == 1 && changeX == 0)
+					if(changeX == 1 && changeY == 0)
 					{
 						return true;
 					}
@@ -132,21 +132,21 @@ public class PawnPiece extends ChessPiece
 		}
 		
 		//taking a piece
-		else if(changeX == 1)
+		else if(changeY == 1)
 		{
-			if(Math.abs(changeY) != 1)
+			if(Math.abs(changeX) != 1)
 			{
 				return false;
 			}
 			
 			//not moving forward
-			if(this.getColor() == true && changeY != -1)
+			if(this.getColor() == true && changeX != -1)
 			{
 				return false;
 			}
 			
 			//not moving forward
-			if(this.getColor() == false && changeY != 1)
+			if(this.getColor() == false && changeX != 1)
 			{
 				return false;
 			}

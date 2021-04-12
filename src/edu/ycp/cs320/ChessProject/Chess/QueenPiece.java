@@ -47,7 +47,7 @@ public class QueenPiece extends ChessPiece
 				//cycles through all the possible spots it could go to 
 				for(int i = oldx+=1; i < newx; i++)
 				{
-					//System.out.println("Rook Piece at " + i + " and " + getPosY());
+					//System.out.println("Queen Piece at " + i + " and " + getPosY());
 					Tile t = cb.getTile(i, newy);
 					
 					try
@@ -71,7 +71,7 @@ public class QueenPiece extends ChessPiece
 				//cycles through all the possible spots it could go to 
 				for(int i = newx+=1; i < oldx; i++)
 				{
-					//System.out.println("Rook Piece at " + i + " and " + getPosY());
+					//System.out.println("Queen Piece at " + i + " and " + getPosY());
 					Tile t = cb.getTile(i, newy);
 					try
 					{
@@ -140,51 +140,54 @@ public class QueenPiece extends ChessPiece
 			}
 		}
 		
-		if(changeX > 0 && changeY > 0)
+		if(changeX > 0 && changeY > 0 && Math.abs(changeX) == Math.abs(changeY))
 		{
 			for(int i = oldx+=1; i < newx; i++)
 			{
 				//System.out.println("Bishop Piece at " + i + " and " + i);
-				Tile t = cb.getTile(i, i);
+				int j = oldy + i - oldx + 1; //had += 1 earlier so need to + 1 since we subtract the extra + 1
+				Tile t = cb.getTile(i, j);
 				try
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + i + " and " + i);
+						System.out.println("Chess Piece at " + i + " and " + j);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + i + " and " + i);
+					System.out.println("No Chess Piece at " + i + " and " + j);
 				}
 			}
 		}
 		
-		else if(changeX < 0 && changeY < 0)
+		else if(changeX < 0 && changeY < 0 && Math.abs(changeX) == Math.abs(changeY))
 		{
 			for(int i = newx+=1; i < oldx; i++)
 			{
 				//System.out.println("Bishop Piece at " + i + " and " + i);
-				Tile t = cb.getTile(i, i);
+				int j = oldy + i - oldx;
+				Tile t = cb.getTile(i, j);
 				try
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + i + " and " + i);
+						System.out.println("Chess Piece at " + i + " and " + j);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + i + " and " + i);
+					System.out.println("No Chess Piece at " + i + " and " + j);
 				}
 			}
+			newx--;
 		}
 		
-		else if(changeX > 0 && changeY < 0)
+		else if(changeX > 0 && changeY < 0 && Math.abs(changeX) == Math.abs(changeY))
 		{
 			int testX = oldx + 1;
 			int testY = oldy - 1;
@@ -212,7 +215,7 @@ public class QueenPiece extends ChessPiece
 			}
 		}
 		
-		else if(changeX < 0 && changeY > 0)
+		else if(changeX < 0 && changeY > 0 && Math.abs(changeX) == Math.abs(changeY))
 		{
 			int testX = oldx - 1;
 			int testY = oldy + 1;
