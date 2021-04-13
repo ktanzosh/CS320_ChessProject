@@ -125,7 +125,9 @@ function loadDoc() {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       //restart board
+      // send message to user
       alert("Restarting your game!");
+      location.reload();
       
     }
   };
