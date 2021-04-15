@@ -44,6 +44,7 @@ public class SignUpServlet extends HttpServlet {
 		boolean userExists = false;
 		boolean passwordMatch = false;
 		boolean passwordLong = false;
+		boolean answerShort = false;
 		
 		// holds the error message text, if there is any
 		String errorMessage = null;
@@ -90,12 +91,16 @@ public class SignUpServlet extends HttpServlet {
 				passwordLong = true;
 			}
 			
+			if(securityA.length() < 32) {
+				answerShort = true;
+			}
+			
 			// otherwise, data is good, do the calculation
 			// must create the controller each time, since it doesn't persist between POSTs
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
 			else {
-				userExists = userModel.checkIfUserExsists(user);
+				userExists = userModel.checkIfUserExists(user);
 				
 			}
 		} catch (NumberFormatException e) {
@@ -108,13 +113,16 @@ public class SignUpServlet extends HttpServlet {
 		
 		// Forward to view to render the result HTML document
 		if (!userExists == true) {
-			if ((passwordMatch == true) && (passwordLong == true)) {
+			if ((passwordMatch == true) && (passwordLong == true) && (answerShort == true)) {
 
 				//TODO: CREATE NEW USER IN DATABASE
 				InitDatabase.init();
 				IDatabase db = DatabaseProvider.getInstance();
-				password = User.encryptThisString(password);
-				db.InsertNewUser(user, password, securityQ, securityA);
+				String enc_password = User.encryptThisString(password);
+				System.out.println(enc_password);
+				String enc_secAnswer = User.encryptThisString(securityA);
+				System.out.println(enc_secAnswer);
+				db.insertNewUser(user, enc_password, securityQ, enc_secAnswer);
 				
 				req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
 			}
@@ -127,11 +135,17 @@ public class SignUpServlet extends HttpServlet {
 			
 			else if (passwordLong != true){
 				if(password.length() > 31) {
-					errorMessageInvalidC = "Password must be less than 32 characters.";
+					errorMessageInvalidC = "Password must be less than 32 characters long.";
 				}
 				else {
-					errorMessageInvalidC = "Password must be at least 10 characters.";
+					errorMessageInvalidC = "Password must be at least 10 characters long.";
 				}
+				req.setAttribute("errorMessage", errorMessageInvalidC);
+				req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
+			}
+			
+			else if (answerShort != true){
+				errorMessageInvalidC = "Security Answer must be less than 32 characters long.";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
 				req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
 			}

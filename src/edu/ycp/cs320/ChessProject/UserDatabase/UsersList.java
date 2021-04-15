@@ -5,6 +5,7 @@ import java.util.List;
 import java.io.IOException;
 
 public class UsersList {
+	/*
 	public static List<User> createUsersList() {
 		List<User> users = new ArrayList<User>(); // Create an ArrayList object
 		createUser1();
@@ -60,7 +61,7 @@ public class UsersList {
 	}
 	
 
-	
+	*/
 	
 	
 }

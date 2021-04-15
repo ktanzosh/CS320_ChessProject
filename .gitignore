@@ -8,3 +8,6 @@ test-bin/edu/ycp/cs320/ChessProject/model/LoginPageTest.class
 .vs/CS320_ChessProject/v16/.suo
 *.sqlite
 *.log
+*.dat
+*.lck
+*.ctrl

@@ -32,21 +32,25 @@ public class UserTest {
 	@Test
 	public void testGetUserInfo() {
 		model = model.getUserInfo("user123");
+		User user = new User();
+		String enc_password = user.encryptThisString("password123");
+		String enc_answer = user.encryptThisString("Mr. Dan");
+		
 		assertTrue(model.getUser().equals("user123"));
-		assertTrue(model.getPassword().equals("password123"));
-		assertTrue(model.getSecurityAnswer().equals("Bread"));
+		assertTrue(model.getPassword().equals(enc_password));
+		assertTrue(model.getSecurityAnswer().equals(enc_answer));
 	}
 	
 	@Test
 	public void testCheckIfUserExists() {
-		assertTrue(model.checkIfUserExsists("user123"));
-		assertFalse(model.checkIfUserExsists("NotAUser"));
+		assertTrue(model.checkIfUserExists("user123"));
+		assertFalse(model.checkIfUserExists("NotAUser"));
 	}
 	
 	@Test
 	public void testCheckUserSecurityAnswer() {
-		assertTrue(model.checkUserSecurityAnswer("user123", "Bread"));
-		assertFalse(model.checkUserSecurityAnswer("user123", "notBread"));
+		assertTrue(model.checkUserSecurityAnswer("user123", "Mr. Dan"));
+		assertFalse(model.checkUserSecurityAnswer("user123", "not Mr. Dan"));
 	}
 	
 	@Test

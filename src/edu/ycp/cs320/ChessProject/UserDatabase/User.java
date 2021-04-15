@@ -10,11 +10,21 @@ import edu.ycp.cs320.ChessProject.Chess.Game;
 
 public class User {
 	private String user, password, sec_question, sec_answer;
+	private int userID;
 	private List<Game> gameList = new ArrayList<Game>();
 	//private User blankUser = new User();
 	//private List<User> usersList;
 	//private ArrayList<User> usersList = new ArrayList<User>();
 	//private usersList.addAll(UsersList.createUsersList());
+	
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	
+	public int getUserID() {
+		return userID;
+	}
+	
 	
 	public void setUser(String user) {
 		this.user = user;
@@ -36,7 +46,7 @@ public class User {
 		this.sec_question = sec_question;
 	}
 	
-	public String getSecurtyQuestion() {
+	public String getSecurityQuestion() {
 		return sec_question;
 	}
 	
@@ -49,20 +59,15 @@ public class User {
 	}
 
 	public User getUserInfo(String User) {
-		User blankUser = new User();
-		List<User> usersList;
-		usersList = new ArrayList<User>();
-		usersList.addAll(UsersList.createUsersList());
-		for (User user : usersList) {
-			if (user.getUser().equals(User)) {
-				return user;
-			}
-		}
-		return blankUser;
+		InitDatabase.init();
+		IDatabase db = DatabaseProvider.getInstance();
+		User user = db.getUserInfo(User);
+		
+		return user;
 		
 	}
 
-	public boolean checkIfUserExsists(String User) {
+	public boolean checkIfUserExists(String User) {
 		InitDatabase.init();
 		IDatabase db = DatabaseProvider.getInstance();
 		int result = db.checkIfUserExists(User);
@@ -77,43 +82,41 @@ public class User {
 	}
 	
 	public boolean checkUserSecurityAnswer(String User, String Answer) {
-		List<User> usersList;
-		usersList = new ArrayList<User>();
-		usersList.addAll(UsersList.createUsersList());
-		for (User user : usersList) {
-			if (user.getUser().equals(User)) {
-				if (user.getSecurityAnswer().equals(Answer)) {
-					return true;
-				}
-			}
+		User user = getUserInfo(User);
+		
+		Answer = encryptThisString(Answer);
+		
+		if(user.getSecurityAnswer().equals(Answer)) {
+			return true;
 		}
-		return false;	
+		else {
+			return false;	
+		}
 	}
 
-	public void setNewPassord(String User, String newpass) {
-		List<User> usersList;
-		usersList = new ArrayList<User>();
-		usersList.addAll(UsersList.createUsersList());
-		for (User user : usersList) {
-			if (user.getUser().equals(User)) {
-				user.setPassword(newpass);			
-			}
-		}
+	public void setNewPassword(String User, String newpass) {
+		InitDatabase.init();
+		IDatabase db = DatabaseProvider.getInstance();
+		String enc_pass = encryptThisString(newpass);
+		db.updatePassword(User, enc_pass);
 		
 	}
 	
 	public boolean checkInfo(String User, String Password) {
-		List<User> usersList;
-		usersList = new ArrayList<User>();
-		usersList.addAll(UsersList.createUsersList());
-		for (User user : usersList) {
-			if (user.getUser().equals(User)) {
-				if(user.getPassword().equals(Password))
-					return true;
+		if(checkIfUserExists(User) == false) {
+			return false;
+		}
+		else {
+			User user = getUserInfo(User);
+			Password = encryptThisString(Password);
+			
+			if(user.getPassword().equals(Password)) {
+				return true;
+			}
+			else {
+				return false;	
 			}
 		}
-		return false;
-		
 	}
 	
 	public List<Game> getGameList() {
