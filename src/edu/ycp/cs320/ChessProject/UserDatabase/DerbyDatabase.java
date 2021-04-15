@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//import edu.ycp.cs320.ChessProject.booksdb.persist.DerbyDatabase.Transaction;
+
 //import edu.ycp.cs320.booksdb.model.Author;
 
 
@@ -530,6 +533,134 @@ public class DerbyDatabase implements IDatabase {
 	
 	*/
 	
+	public User insertNewUser(String username, String password, String question, String answer) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"insert into users (username, password, securityquestion, securityanswer)" +
+						" values(?, ?, ?, ?) "
+				);
+				stmt1.setString(1, username);
+				stmt1.setString(2, password);
+				stmt1.setString(3, question);
+				stmt1.setString(4, answer);
+				
+				
+				// execute the update
+				stmt1.executeUpdate();
+				
+				DBUtil.closeQuietly(stmt1);
+				
+				return null;
+			}
+		});
+	}
+	
+	@Override
+	public Integer checkIfUserExists(String username) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;			
+				ResultSet resultSet1 = null;
+				
+
+				stmt1 = conn.prepareStatement(
+						"select user_id from users " +
+						" where username = ?"
+				);
+				stmt1.setString(1, username);
+				
+				// execute the query, get the result
+				resultSet1 = stmt1.executeQuery();
+
+				
+				// if Author was found then save author_id					
+				if (resultSet1.next()) {
+					return 1;			
+				}
+				
+				else {
+					return 2;
+				}
+			}
+		});
+	}
+	
+	@Override
+	public User getUserInfo(String username) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				User user = new User();
+				try {
+					stmt = conn.prepareStatement(
+							"select users.*" +
+							" from  users" +
+							"  where users.username = ? "
+					);
+					stmt.setString(1, username);
+			
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						loadUser(user, resultSet, 1);
+					}
+					
+					return user;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	
+	@Override
+	public User updatePassword(String username, String Password) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				
+				stmt = conn.prepareStatement(
+						"update users" +
+						" set password = ?" +
+						"  where users.username = ? "
+				);
+				stmt.setString(1, Password);
+				stmt.setString(2, username);
+				
+				
+				// execute the update
+				stmt.executeUpdate();
+				
+				DBUtil.closeQuietly(stmt);
+				
+				return null;
+			}
+		});
+	}
+	
+	// retrieves Author information from query result set
+	private void loadUser(User user, ResultSet resultSet, int index) throws SQLException {
+		user.setUserID(resultSet.getInt(index++));
+		user.setUser(resultSet.getString(index++));
+		user.setPassword(resultSet.getString(index++));
+		user.setSecurityQuestion(resultSet.getString(index++));
+		user.setSecurityAnswer(resultSet.getString(index++));
+		
+	}
+	
+	
 	// wrapper SQL transaction function that calls actual transaction function (which has retries)
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn) {
 		try {
@@ -620,6 +751,8 @@ public class DerbyDatabase implements IDatabase {
 	
 	*/
 	
+	
+	
 	//  creates the Authors and Books tables
 	public void createTables() {
 		executeTransaction(new Transaction<Boolean>() {
@@ -635,9 +768,9 @@ public class DerbyDatabase implements IDatabase {
 						"	user_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +									
 						"	username varchar(50)," +
-						"	password varchar(50)," +
+						"	password varchar(150)," +
 						"	securityQuestion varchar(50)," +
-						"	securityAnswer varchar(50)" +
+						"	securityAnswer varchar(150)" +
 						")"
 					);	
 					stmt1.executeUpdate();
@@ -659,14 +792,14 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("Moves table created");					
 					
 					stmt3 = conn.prepareStatement(
-							"create table UserMoves (" +
-							"	move_id   integer constraint move_id references moves, " +
+							"create table userGames (" +
+							"	game_id   integer constraint game_id references moves, " +
 							"	user_id integer constraint user_id references users " +
 							")"
 					);
 					stmt3.executeUpdate();
 					
-					System.out.println("UserMoves table created");					
+					System.out.println("userGames table created");					
 										
 					return true;
 				} finally {
@@ -751,14 +884,50 @@ public class DerbyDatabase implements IDatabase {
 	
 	*/
 	
+	// loads data retrieved from CSV files into DB tables in batch mode
+	public void loadInitialData() {
+		executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				List<User> userList;
+				
+				try {
+					userList     = InitialData.getUsers();
+				
+				} catch (IOException e) {
+					throw new SQLException("Couldn't read initial data", e);
+				}
+
+				PreparedStatement insertUser     = null;
+
+				try {
+					// must completely populate Authors table before populating BookAuthors table because of primary keys
+					insertUser = conn.prepareStatement("insert into users (username, password, securityquestion, securityanswer) values (?, ?, ?, ?)");
+					for (User user : userList) {
+//						insertUser.setInt(1, user.getUserId());	// auto-generated primary key, don't insert this
+						insertUser.setString(1, user.getUser());
+						insertUser.setString(2, user.getPassword());
+						insertUser.setString(3, user.getSecurityQuestion());
+						insertUser.setString(4, user.getSecurityAnswer());
+						insertUser.addBatch();
+					}
+					insertUser.executeBatch();
+					
+					return true;
+				} finally {
+					DBUtil.closeQuietly(insertUser);				
+				}
+			}
+		});
+	}
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException {
 		System.out.println("Creating tables...");
 		DerbyDatabase db = new DerbyDatabase();
 		db.createTables();
 		
-		//System.out.println("Loading initial data...");
-		//db.loadInitialData();
+		System.out.println("Loading initial data...");
+		db.loadInitialData();
 		
 		//System.out.println("Library DB successfully initialized!");
 	}

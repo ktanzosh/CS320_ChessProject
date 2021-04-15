@@ -7,7 +7,7 @@ import edu.ycp.cs320.ChessProject.UserDatabase.DerbyDatabase;
 
 
 public class InitDatabase {
-	public static void init(Scanner keyboard) {
+	public static void init() {
 			DatabaseProvider.setInstance(new DerbyDatabase());
 	}
 }
