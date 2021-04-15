@@ -7,6 +7,9 @@ DerbyDatabase.java
 IDatabase.java
 InitDatabase.java
 PersistenceException.java
+DBUtil.java
+SQLDemo.java
+StatementReader.java
 
 Thanks for reading this.
 

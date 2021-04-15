@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+//import edu.ycp.cs320.ChessProject.booksdb.persist.DerbyDatabase.Transaction;
+
 //import edu.ycp.cs320.booksdb.model.Author;
 
 
@@ -530,6 +532,64 @@ public class DerbyDatabase implements IDatabase {
 	
 	*/
 	
+	public User InsertNewUser(String username, String password, String question, String answer) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"insert into users (username, password, securityquestion, securityanswer)" +
+						" values(?, ?, ?, ?) "
+				);
+				stmt1.setString(1, username);
+				stmt1.setString(2, password);
+				stmt1.setString(3, question);
+				stmt1.setString(4, answer);
+				
+				
+				// execute the update
+				stmt1.executeUpdate();
+				
+				DBUtil.closeQuietly(stmt1);
+				
+				return null;
+			}
+		});
+	}
+	
+	@Override
+	public Integer checkIfUserExists(String username) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;			
+				ResultSet resultSet1 = null;
+				
+
+				stmt1 = conn.prepareStatement(
+						"select user_id from users " +
+						" where username = ?"
+				);
+				stmt1.setString(1, username);
+				
+				// execute the query, get the result
+				resultSet1 = stmt1.executeQuery();
+
+				
+				// if Author was found then save author_id					
+				if (resultSet1.next()) {
+					return 1;			
+				}
+				
+				else {
+					return 2;
+				}
+			}
+		});
+	}
+	
 	// wrapper SQL transaction function that calls actual transaction function (which has retries)
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn) {
 		try {
@@ -635,7 +695,7 @@ public class DerbyDatabase implements IDatabase {
 						"	user_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +									
 						"	username varchar(50)," +
-						"	password varchar(50)," +
+						"	password varchar(128)," +
 						"	securityQuestion varchar(50)," +
 						"	securityAnswer varchar(50)" +
 						")"
@@ -659,14 +719,14 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("Moves table created");					
 					
 					stmt3 = conn.prepareStatement(
-							"create table UserMoves (" +
-							"	move_id   integer constraint move_id references moves, " +
+							"create table userGames (" +
+							"	game_id   integer constraint game_id references moves, " +
 							"	user_id integer constraint user_id references users " +
 							")"
 					);
 					stmt3.executeUpdate();
 					
-					System.out.println("UserMoves table created");					
+					System.out.println("userGames table created");					
 										
 					return true;
 				} finally {

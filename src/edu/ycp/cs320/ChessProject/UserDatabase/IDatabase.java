@@ -6,6 +6,7 @@ import java.util.List;
 
 
 public interface IDatabase {
-	//public List<Pair<Author, Book>> findAuthorAndBookByTitle(String title);
-		
+
+	public User InsertNewUser(String username, String password, String question, String answer);
+	public Integer checkIfUserExists(String username);
 }
