@@ -165,6 +165,12 @@ var S = {
     }
     else if (this.selectedPiece !== 0) {
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
+      val = {
+    			playerMovedTo: squareID
+    		  };
+    		  postData('newGame', val).then(function(data){
+    		  	console.log(data);
+    		  });
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
