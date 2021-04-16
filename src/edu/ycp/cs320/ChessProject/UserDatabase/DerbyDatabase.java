@@ -712,7 +712,7 @@ public class DerbyDatabase implements IDatabase {
 	private Connection connect() throws SQLException {
 		String os = System.getProperty("os.name");
 		Connection conn;
-		if(os.equals("Windows")) {
+		if(os.contains("Windows")) {
 			conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2021-ChessGame-DB/chess.db;create=true");	
 		}
 		else {
@@ -929,6 +929,6 @@ public class DerbyDatabase implements IDatabase {
 		System.out.println("Loading initial data...");
 		db.loadInitialData();
 		
-		//System.out.println("Library DB successfully initialized!");
+		System.out.println("Library DB successfully initialized!");
 	}
 }
