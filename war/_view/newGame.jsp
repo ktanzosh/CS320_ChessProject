@@ -99,7 +99,54 @@
   </div>
 </div>
 
+<style>
+p{
+  color: white;
+  position: absolute;
+  top: 1000px;
+}
+button {
+  background-color: green;
+  color: white;
+  position: absolute;
+  top: 980px;
+  font-size: 25px;
+}
+
+</style>
+<p id="demo">Let AJAX change this text?</p>
+
+<button type="button" onclick="loadDoc()">Restart Game</button>
+
 <script>
+
+async function postData(address, objectToPost){
+	return await(await fetch(address,{
+		method: 'POST',
+		headers: {
+			'Content-Type' : 'application/json'
+		},
+		body: JSON.stringify(objectToPost)
+	})).json();
+}
+
+// for button fix later 
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      //restart board
+      // send message to user
+      alert("Restarting your game!");
+      location.reload();
+      
+    }
+  };
+  xhttp.open("GET", "http://localhost:8081/ChessProject/newGame", true);
+  xhttp.send();
+}
+
+
 var S = { 
   turnInt:1, selectedPiece:0, moves:0, 
   
@@ -118,6 +165,12 @@ var S = {
     }
     else if (this.selectedPiece !== 0) {
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
+      val = {
+    			playerMovedTo: squareID
+    		  };
+    		  postData('newGame', val).then(function(data){
+    		  	console.log(data);
+    		  });
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
@@ -163,8 +216,24 @@ $(document).ready(function() {  //CLICK EVENT
     else {
       S.Deselect(); //  deselect piece 
     }
+  
+//************RETURNS LOGIC WHETHER PIECE OR SQUARE HAS BEEN CLICKED
+// probably? wont need it but just in case
+    val = {
+    		pieceIsClicked: $(event.target).is(".pc"),
+    		squareIsClicked:$(event.target).is(".sq")
+    };
+    postData('newGame', val).then(function(data){
+    	console.log(data);
+    });
+//*********************************************************************8 
+
+
   });
 });
+
+
+
 
 function GetPieceString (piece) {
   var classList = $(piece).attr('class').split(/\s+/);  // classList = array of pieces [1,2,3,4...] from "class="
@@ -173,11 +242,23 @@ function GetPieceString (piece) {
        return classList[i]; 
      }
   }
+  
+  
 }
 
 function GetPieceMoveArray (enemyString, piece) {
   var squareInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
   var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
+  
+//********LOCATION OF SQUARE && PIECE NAME****************
+  val = {
+	intialPosition: squareInt,
+	pieceName: stringOfPieces
+  };
+  postData('newGame', val).then(function(data){
+  	console.log(data);
+  });
+ 
   
   switch (stringOfPieces) {
       // case for each piece
@@ -192,38 +273,63 @@ function GetPieceMoveArray (enemyString, piece) {
      var mult;
       if (enemyString === "b"){
         mult = 1;
+        //if turn is white
+        val = {
+    			enemyString: enemyString
+    		  };
+    		  postData('newGame', val).then(function(data){
+    		  	console.log(data);
+    		  });
       }
       else{
         mult = -1;
+        // if turn is black
+        val = {
+    			enemyString: enemyString
+    		  };
+    		  postData('newGame', val).then(function(data){
+    		  	console.log(data);
+    		  });
       }
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
       
+      
+    
   }
 }
 
 function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
   var moves = [];
+  var squareStatus;
   for (var i = 0; i < 8; i++) {
     for(var j = 1; j <= maxSteps; j++) {  
-      
-      var squareStatus = GetSquareStatus(enemyString, stringOfPieces, squareInt, j, dirArr[i]);
+      squareStatus = GetSquareStatus(enemyString, stringOfPieces, squareInt, j, dirArr[i]);
       
       // bringing in logic that came from GetSquare Status -> squareStatus
        if (squareStatus < 2) {
         moves.push(squareInt + j * dirArr[i]);  // passes -- gets added into moves array 
-      }
-      
+      } 
       if (squareStatus > 0) { // illegal move being made
         break; 
       }
     }
   }
+ 
+//**********RETURNS POSSIBLE MOVES******bottom left is 1****count on so forth *******
+  val = {
+			ableToMoveToSquare: moves
+		  };
+		  postData('newGame', val).then(function(data){
+		  	console.log(data);
+		  });
+//***********************************************************************************
   return moves;
 }
 
 function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   var fromSquare = startSquare + ((step - 1) * dir); //intial
   var toSquare = startSquare + (step * dir); //move to 
+
   
   
     // 0=move and go
@@ -233,6 +339,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   if (startSquare === toSquare || toSquare < 1 || toSquare > 64) {  //if starting pos is same as chosen OR out of bounds
     return 0; 
   }
+  
   if ($('#' + toSquare).children().length > 0) {
     if (stringOfPieces === "pawn" && (dir % 8 === 0 || step > 1)) {
      return 3; 
@@ -248,8 +355,6 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
     if (dir % 8 !== 0) {
       return 4; 
     }
-    
-    
     if (step > 1) {
       if ((dir > 0 && startSquare > 16) || (dir < 0 && startSquare < 49)) {
         return 4; 
@@ -258,6 +363,16 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   }  
   return 0;
 }
+
+
+// fix for later on 
+	$('#restart-btn').on('click', function() {
+		resetGame();
+	});
+
+	var resetGame = function() {
+    alert("Resetting game");
+  }
 </script>
 </body>
 </html>
