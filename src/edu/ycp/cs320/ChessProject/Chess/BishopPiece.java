@@ -2,11 +2,12 @@ package edu.ycp.cs320.ChessProject.Chess;
 
 public class BishopPiece extends ChessPiece
 {
-	public BishopPiece(int x, int y, boolean w)
+	public BishopPiece(int x, int y, boolean w, int p)
 	{
 		this.setPosX(x);
 		this.setPosY(y);
 		this.setColor(w);
+		this.setPieceNumber(p);
 	}
 	
 	public String whatInitial()
