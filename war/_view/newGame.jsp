@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html ng-app>
+<html>
 
 <head>
 <title>New Game</title>
