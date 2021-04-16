@@ -4,6 +4,7 @@ public abstract class ChessPiece
 {
 	private int posx;
 	private int posy;
+	public int pieceNumber;
 	private boolean white;
 	private boolean killed;
 	private boolean haveMoved;
@@ -26,6 +27,16 @@ public abstract class ChessPiece
 	public int getPosY()
 	{
 		return this.posy;
+	}
+	
+	public void setPieceNumber(int p)
+	{
+		pieceNumber = p;
+	}
+	
+	public int getPieceNumber()
+	{
+		return this.pieceNumber;
 	}
 	
 	public void setColor(boolean w)
