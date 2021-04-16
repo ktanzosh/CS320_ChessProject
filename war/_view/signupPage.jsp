@@ -39,12 +39,12 @@
 					<td><input type="password" name="confirmPassword" size="12" value="${model.getPasswordConfirmation()}" /></td></br>
 				</tr>
 
-				<label for="sec_question">Security Question:</label> </br>
+				<td class="label">Security Question:</td></br>
 				<select name="sec_question" id="sec_question">
 					<!--<option value="base">-Select-</option>-->
-					<option value="question1">Who was your favorite teacher?</option>
-					<option value="question2">What was your first car?</option>
-					<option value="question3">Who was your first pet?</option>
+					<option value="Who was your favorite teacher?">Who was your favorite teacher?</option>
+					<option value="What was your first car?">What was your first car?</option>
+					<option value="Who was your first pet?">Who was your first pet?</option>
 				</select></br>
 		
 				<tr>

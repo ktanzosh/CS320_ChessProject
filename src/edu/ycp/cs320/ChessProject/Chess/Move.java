@@ -3,63 +3,116 @@ package edu.ycp.cs320.ChessProject.Chess;
 public class Move 
 {
 	private ChessPiece movedPiece;
-	private String xpos;
-	private int ypos;
+	private int xpos;
+	private String ypos;
+	private String state;
+	private boolean tookPiece;
+	private boolean wasCastle;
 	
-	public Move(ChessPiece cp, int x, int y)
+	public Move(ChessPiece cp, int x, int y, String st, boolean tp, boolean wc)
 	{
 		this.movedPiece = cp;
-		this.ypos = (8 - y);
+		this.xpos = (8 - x);
 		
-		if(x == 0)
+		if(y == 0)
 		{
-			this.xpos = "a";
+			this.ypos = "a";
 		}
 		
-		else if(x == 1)
+		else if(y == 1)
 		{
-			this.xpos = "b";
+			this.ypos = "b";
 		}
 		
-		else if(x == 2)
+		else if(y == 2)
 		{
-			this.xpos = "c";
+			this.ypos = "c";
 		}
 		
-		else if(x == 3)
+		else if(y == 3)
 		{
-			this.xpos = "d";
+			this.ypos = "d";
 		}
 		
-		else if(x == 4)
+		else if(y == 4)
 		{
-			this.xpos = "e";
+			this.ypos = "e";
 		}
 		
-		else if(x == 5)
+		else if(y == 5)
 		{
-			this.xpos = "f";
+			this.ypos = "f";
 		}
 		
-		else if(x == 6)
+		else if(y == 6)
 		{
-			this.xpos = "g";
+			this.ypos = "g";
 		}
 		
-		else if(x == 7)
+		else if(y == 7)
 		{
-			this.xpos = "h";
+			this.ypos = "h";
 		}
+		
+		if(st.equals("Checkmate"))
+		{
+			this.state = "#";
+		}
+		
+		else if(st.equals("Check")) 
+		{
+			this.state = "+";
+		}
+		
+		else
+		{
+			this.state = "";
+		}
+		
+		tookPiece = tp;
+		wasCastle = wc;
 		
 	}
 	
 	public void printMove()
 	{
-		System.out.println(movedPiece.whatInitial() + "" + xpos + "" + ypos);
+		if(wasCastle == true)
+		{
+			System.out.println("0-0");
+		}
+		
+		if(tookPiece == false)
+		{
+			System.out.println(movedPiece.whatInitial() + "" + state + "" + ypos + "" + xpos);
+		}
+		
+		else if(tookPiece == true)
+		{
+			System.out.println(movedPiece.whatInitial() + "x" + state + "" + ypos + "" + xpos);
+		}
+		
 	}
 	
 	public String getMove()
 	{
-		return movedPiece.whatInitial() + "" + xpos + "" + ypos;
+		if(wasCastle == true)
+		{
+			return "0-0";
+		}
+		
+		if(tookPiece == false)
+		{
+			return movedPiece.whatInitial() + "" + state + "" + ypos + "" + xpos;
+		}
+		
+		else if(tookPiece == true)
+		{
+			return movedPiece.whatInitial() + "x" + state + "" + ypos + "" + xpos;
+		}
+		
+		else
+		{
+			return null;
+		}
 	}
 }

@@ -64,7 +64,7 @@ public class AccountRecoveryServlet extends HttpServlet {
 			// decode POSTed form parameters and dispatch to controller
 			try {
 				user = getStringFromParameter(req, "username");
-				usernameFound = userModel.checkIfUserExsists(user);
+				usernameFound = userModel.checkIfUserExists(user);
 					
 			} catch (NumberFormatException e) {
 				errorMessage = "Invalid Entry";
@@ -82,7 +82,7 @@ public class AccountRecoveryServlet extends HttpServlet {
 				resetSession.setAttribute("userInfo", userModel);
 				String username = userModel.getUser();
 				req.setAttribute("username", username);
-				String securityQuestion = userModel.getSecurtyQuestion();				
+				String securityQuestion = userModel.getSecurityQuestion();				
 				req.setAttribute("securityQuestion", securityQuestion);
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
@@ -127,10 +127,9 @@ public class AccountRecoveryServlet extends HttpServlet {
 			//req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
 			
 			if (passwordsMatch == true) {
-				userModel.getSecurityAnswer();
 				userModel = (User) resetSession.getAttribute("userInfo");
-				String user = userModel.getUser(); 
-				userModel.setNewPassord(user, newpass);
+				String username = userModel.getUser();
+				userModel.setNewPassword(username, newpass);
 				resp.sendRedirect("/ChessProject/index");
 				return;
 				
@@ -138,6 +137,12 @@ public class AccountRecoveryServlet extends HttpServlet {
 			else {
 				errorMessageInvalidC = "Passwords Do Not Match";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
+				String username = userModel.getUser();
+				req.setAttribute("username", username);
+				String securityQuestion = userModel.getSecurityQuestion();			
+				req.setAttribute("securityQuestion", securityQuestion);
+				String securityAnswer = (String) resetSession.getAttribute("securityAnswer");			
+				req.setAttribute("securityAnswer", securityAnswer);
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
 		}
@@ -148,13 +153,12 @@ public class AccountRecoveryServlet extends HttpServlet {
 			// holds the error message text, if there is any
 			String errorMessage = null;
 			String errorMessageInvalidC = null;
-			
+			String securitya = null;
 			// decode POSTed form parameters and dispatch to controller
 			try {
-				String securitya = getStringFromParameter(req, "securityAnswer");
-
+				securitya = getStringFromParameter(req, "securityAnswer");
 				userModel = (User) resetSession.getAttribute("userInfo");
-				String user = userModel.getUser(); 
+				String user = userModel.getUser();
 				securityAnswerCorrect = userModel.checkUserSecurityAnswer(user, securitya);
 
 			} catch (NumberFormatException e) {
@@ -171,11 +175,12 @@ public class AccountRecoveryServlet extends HttpServlet {
 			
 			if (securityAnswerCorrect == true) {
 				resetSession.setAttribute("securityQAnswered", true);
-				String securityAnswer = userModel.getSecurityAnswer();
-				req.setAttribute("securityAnswer", securityAnswer);
+				//String securityAnswer = userModel.getSecurityAnswer();
+				req.setAttribute("securityAnswer", securitya);
+				resetSession.setAttribute("securityAnswer", securitya);
 				String username = userModel.getUser();
 				req.setAttribute("username", username);
-				String securityQuestion = userModel.getSecurtyQuestion();				
+				String securityQuestion = userModel.getSecurityQuestion();				
 				req.setAttribute("securityQuestion", securityQuestion);
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 				
@@ -183,6 +188,10 @@ public class AccountRecoveryServlet extends HttpServlet {
 			else {
 				errorMessageInvalidC = "Incorrect Security Answer";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
+				String username = userModel.getUser();
+				req.setAttribute("username", username);
+				String securityQuestion = userModel.getSecurityQuestion();				
+				req.setAttribute("securityQuestion", securityQuestion);
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
 		}

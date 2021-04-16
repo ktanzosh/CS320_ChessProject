@@ -22,7 +22,7 @@ public class Player
 		int y = kingPiece.getPosY();
 		
 		System.out.println("");
-		System.out.println("TESTING CHECK");
+		System.out.println("TESTING CHECK, King Piece at " + x + ", " + y);
 		
 		//maxes out to 7,7
 		//diaganol movement ++
@@ -39,7 +39,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we gucci
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println(kingPiece.getColor() + " piece in the way");
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move diaganoly, we are in check
@@ -77,7 +77,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are good
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println(newx + ", " + newy  + " i: " + i);
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move diaganolly, we are in check
@@ -115,7 +115,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println(newx + ", " + newy  + " i: " + i);
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move diaganoly, we are in check
@@ -153,7 +153,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println(newx + ", " + newy  + " i: " + i);
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move diaganolly, we are in check
@@ -190,6 +190,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move vertical, we are in check
@@ -225,6 +226,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move vertical, we are in check
@@ -250,6 +252,7 @@ public class Player
 		
 		System.out.println("Reset");
 		i = 1;
+		newx = x;
 		newy = y + i;
 		while(newy < 8)
 		{
@@ -260,6 +263,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move horizontal, we are in check
@@ -295,6 +299,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move horizontal, we are in check
@@ -319,11 +324,12 @@ public class Player
 		}
 		
 		//STARTING KNIGHT CHECKERS
+		System.out.println("Knight checkers from " + x + ", " + y);
 		try
 		{
 			//get piece at 2+1+
-			newx = x+=2;
-			newy = y+=1;
+			newx = x+2;
+			newy = y+1;
 			//only check if in bounds
 			if(newx < 8 && newy < 8)
 			{
@@ -331,6 +337,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -338,6 +345,11 @@ public class Player
 				{
 					return true;
 				}
+			}
+			
+			else
+			{
+				System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
@@ -349,8 +361,8 @@ public class Player
 		try
 		{
 			//get piece at 2+1-
-			newx = x+=2;
-			newy = y-=1;
+			newx = x+2;
+			newy = y-1;
 			
 			if(newx < 8 && newy >= 0)
 			{
@@ -358,6 +370,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -365,6 +378,11 @@ public class Player
 				{
 					return true;
 				}
+			}
+			
+			else
+			{
+				System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
@@ -376,8 +394,8 @@ public class Player
 		try
 		{
 			//get piece at 2-1+
-			newx = x-=2;
-			newy = y+=1;
+			newx = x-2;
+			newy = y+1;
 			
 			if(newx >= 0 && newy < 8)
 			{
@@ -385,6 +403,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -392,6 +411,11 @@ public class Player
 				{
 					return true;
 				}
+			}
+			
+			else
+			{
+				System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
@@ -403,8 +427,8 @@ public class Player
 		try
 		{
 			//get piece at 2-1-
-			newx = x-=2;
-			newy = y-=1;
+			newx = x-2;
+			newy = y-1;
 			
 			if(newx >= 0 && newy >= 0)
 			{
@@ -412,6 +436,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -419,6 +444,11 @@ public class Player
 				{
 					return true;
 				}
+			}
+			
+			else
+			{
+				System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
@@ -430,8 +460,8 @@ public class Player
 		try
 		{
 			//get piece at 1+2+
-			newx = x+=1;
-			newy = y+=2;
+			newx = x+1;
+			newy = y+2;
 			
 			if(newx < 8 && newy < 8)
 			{
@@ -439,6 +469,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -446,6 +477,11 @@ public class Player
 				{
 					return true;
 				}
+			}
+			
+			else
+			{
+				System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
@@ -457,8 +493,8 @@ public class Player
 		try
 		{
 			//get piece at 1+2-
-			newx = x+=1;
-			newy = y-=2;
+			newx = x+1;
+			newy = y-2;
 			
 			if(newx < 8 && newy >= 0)
 			{
@@ -466,6 +502,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -473,6 +510,11 @@ public class Player
 				{
 					return true;
 				}
+			}
+			
+			else
+			{
+				System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
@@ -484,8 +526,8 @@ public class Player
 		try
 		{
 			//get piece at 1-2+
-			newx = x-=1;
-			newy = y+=2;
+			newx = x-1;
+			newy = y+2;
 			
 			if(newx >= 0 && newy < 8)
 			{
@@ -493,6 +535,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -500,6 +543,11 @@ public class Player
 				{
 					return true;
 				}
+			}
+			
+			else
+			{
+				System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
@@ -511,8 +559,8 @@ public class Player
 		try
 		{
 			//get piece at 1-2-
-			newx = x-=1;
-			newy = y-=2;
+			newx = x-1;
+			newy = y-2;
 			
 			if(newx >= 0 && newy >= 0)
 			{
@@ -520,6 +568,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
+					System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -527,6 +576,11 @@ public class Player
 				{
 					return true;
 				}
+			}
+			
+			else
+			{
+				System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
@@ -548,7 +602,7 @@ public class Player
 			//and not on the opposite edge since they start at 1
 			if(kingPiece.getPosY() != 0)
 			{
-				newx = kingPiece.getPosX() + 1;
+				newx = kingPiece.getPosX() - 1;
 				newy = kingPiece.getPosY() + 1;
 				try
 				{
@@ -556,6 +610,7 @@ public class Player
 					if(potentialPiece.getColor() == kingPiece.getColor())
 					{
 						//no problem
+						System.out.println("Friendly Piece at " + newx + ", " + newy);
 					}
 					//if piece is of an opposite color and is a pawn, check
 					else if(potentialPiece.whatPiece().equals("Pawn"))
@@ -576,6 +631,7 @@ public class Player
 					if(potentialPiece.getColor() == kingPiece.getColor())
 					{
 						//no problem
+						System.out.println("Friendly Piece at " + newx + ", " + newy);
 					}
 					//if piece is of an opposite color and is a pawn, check
 					else if(potentialPiece.whatPiece().equals("Pawn"))
@@ -596,9 +652,9 @@ public class Player
 		{
 			System.out.println("Reset");
 			//and not on the opposite edge since they start at 1
-			if(kingPiece.getPosY() != 7)
+			if(kingPiece.getPosY() != 0)
 			{
-				newx = kingPiece.getPosX() - 1;
+				newx = kingPiece.getPosX() + 1;
 				newy = kingPiece.getPosY() + 1;
 				try
 				{
@@ -606,6 +662,7 @@ public class Player
 					if(potentialPiece.getColor() == kingPiece.getColor())
 					{
 						//no problem
+						System.out.println("Friendly Piece at " + newx + ", " + newy);
 					}
 					//if piece is of an opposite color and is a pawn, check
 					else if(potentialPiece.whatPiece().equals("Pawn"))
@@ -626,6 +683,7 @@ public class Player
 					if(potentialPiece.getColor() == kingPiece.getColor())
 					{
 						//no problem
+						System.out.println("Friendly Piece at " + newx + ", " + newy);
 					}
 					//if piece is of an opposite color and is a pawn, check
 					else if(potentialPiece.whatPiece().equals("Pawn"))
@@ -649,11 +707,11 @@ public class Player
 		System.out.println("TESTING CHECKMATE:");
 		
 		//if not in check, can't be in check mate
-		if(this.isCheck(cb,  kingPiece) == false)
-		{
-			System.out.println("Not in check");
-			return false;
-		}
+		//if(this.isCheck(cb,  kingPiece) == false)
+		//{
+			//System.out.println("Not in check");
+			//return false;
+		//}
 		
 		int oldx = kingPiece.getPosX();
 		int oldy = kingPiece.getPosY();
@@ -667,17 +725,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 			
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -689,17 +747,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 			
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -711,17 +769,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 					
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -733,17 +791,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 					
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -755,17 +813,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 					
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -777,17 +835,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 					
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -799,17 +857,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 			
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -821,17 +879,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 					
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -843,17 +901,17 @@ public class Player
 		//if legal move, check to see if it's out of check, if not not important
 		if(kingPiece.checkMove(newx, newy, cb) == true)
 		{
-			testGame.doMove(cb,  kingPiece, newx, newy);
+			testGame.testMove(cb,  kingPiece, newx, newy);
 			if(this.isCheck(testGame.getChessBoard(), kingPiece))
 			{
 				//if still in check, go back to oldx, oldy and continue the program
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 			}
 					
 			else 
 			{
 				//if not in check, return the board just in case, then 
-				testGame.doMove(cb, kingPiece, oldx, oldy);
+				testGame.testMove(cb, kingPiece, oldx, oldy);
 				return false;
 			}
 		}
@@ -871,18 +929,24 @@ public class Player
 						//if there is a legal move that has the king not in check
 						if(piece.checkMove(i, j, cb) == true)
 						{
+							System.out.println(piece.whatPiece() + "can move to " + i + ", " + j);
+							//get old position to get old move
+							oldx = piece.getPosX();
+							oldy = piece.getPosY();
 							//do move, then check to see if it puts them in check
-							testGame.doMove(testGame.getChessBoard(),  piece,  i,  j);
+							testGame.testMove(testGame.getChessBoard(),  piece,  i,  j);
+							
+							//if there is a move where the king is not in check, is not a draw
 							if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
 							{
 								//return move to og spot
-								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+								testGame.testMove(testGame.getChessBoard(), piece, oldx, oldy);
 								return false;
 							}
-							
+									
 							else
 							{
-								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+								testGame.testMove(testGame.getChessBoard(), piece, oldx, oldy);
 							}
 						}
 					}
@@ -896,13 +960,17 @@ public class Player
 	
 	public boolean isDraw(ChessBoard cb, KingPiece kingPiece, ArrayList<ChessPiece> pieces)
 	{
-		//If in check, can't be a draw
-		if(this.isCheck(cb,  kingPiece) == false)
-		{
-			System.out.println("Not in check");
-			return true;
-		}
+		System.out.println("");
+		System.out.println("TESTING DRAW");
 		
+		//If in check, can't be a draw
+		//if(this.isCheck(cb,  kingPiece) == true)
+		//{
+			//System.out.println("In check");
+			//return false;
+		//}
+		
+		//System.out.println("Not in check");
 		Game testGame = new Game();
 		testGame.setChessBoard(cb);
 		//for all friendly pieces
@@ -915,21 +983,51 @@ public class Player
 				{
 					for(int j = 0; j < 8; j++)
 					{
-						//if there is a legal move that has the king not in check
+						//if there is a legal move
 						if(piece.checkMove(i, j, cb) == true)
 						{
-							//do move, then check to see if it puts them in check
-							testGame.doMove(testGame.getChessBoard(),  piece,  i,  j);
-							if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
+							if(piece.whatPiece() == "King")
 							{
-								//return move to og spot
-								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
-								return false;
+								//get old position to get old move
+								int oldx = piece.getPosX();
+								int oldy = piece.getPosY();
+								//do move, then check to see if it puts them in check
+								testGame.testMove(testGame.getChessBoard(),  kingPiece,  i,  j);
+
+								if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
+								{
+									//return move to og spot
+									testGame.testMove(testGame.getChessBoard(), kingPiece, oldx, oldy);
+									System.out.println(piece.whatPiece() + "can move to " + i + ", " + j + " without putting the king in Check");
+									return false;
+								}
+										
+								else
+								{
+									testGame.testMove(testGame.getChessBoard(), kingPiece, oldx, oldy);
+								}
 							}
-									
+							
 							else
 							{
-								testGame.doMove(testGame.getChessBoard(), piece,  piece.getPosX(),  piece.getPosY());
+								//get old position to get old move
+								int oldx = piece.getPosX();
+								int oldy = piece.getPosY();
+								//do move, then check to see if it puts them in check
+								testGame.testMove(testGame.getChessBoard(),  piece,  i,  j);
+
+								if(this.isCheck(testGame.getChessBoard(), kingPiece) == false)
+								{
+									//return move to og spot
+									testGame.testMove(testGame.getChessBoard(), piece, oldx, oldy);
+									System.out.println(piece.whatPiece() + "can move to " + i + ", " + j + "without putting the king in Check");
+									return false;
+								}
+										
+								else
+								{
+									testGame.testMove(testGame.getChessBoard(), piece, oldx, oldy);
+								}
 							}
 						}
 					}

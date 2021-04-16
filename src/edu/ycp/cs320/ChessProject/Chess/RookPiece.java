@@ -2,24 +2,14 @@ package edu.ycp.cs320.ChessProject.Chess;
 
 public class RookPiece extends ChessPiece
 {
-	public boolean haveMoved;
 	
-	public RookPiece(int x, int y, boolean w)
+	public RookPiece(int x, int y, boolean w, int p)
 	{
 		this.setPosX(x);
 		this.setPosY(y);
 		this.setColor(w);
-		haveMoved = false;
-	}
-	
-	public void setHaveMoved(boolean hm)
-	{
-		haveMoved = hm;
-	}
-	
-	public boolean getHaveMoved()
-	{
-		return this.haveMoved;
+		this.setHaveMoved(false);
+		this.setPieceNumber(p);
 	}
 	
 	public String whatInitial()

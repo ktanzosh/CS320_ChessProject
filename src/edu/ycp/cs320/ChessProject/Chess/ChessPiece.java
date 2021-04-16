@@ -4,8 +4,10 @@ public abstract class ChessPiece
 {
 	private int posx;
 	private int posy;
+	public int pieceNumber;
 	private boolean white;
 	private boolean killed;
+	private boolean haveMoved;
 	
 	public void setPosX(int px)
 	{
@@ -25,6 +27,16 @@ public abstract class ChessPiece
 	public int getPosY()
 	{
 		return this.posy;
+	}
+	
+	public void setPieceNumber(int p)
+	{
+		pieceNumber = p;
+	}
+	
+	public int getPieceNumber()
+	{
+		return this.pieceNumber;
 	}
 	
 	public void setColor(boolean w)
@@ -47,7 +59,15 @@ public abstract class ChessPiece
 		return this.killed;
 	}
 	
-	public abstract void setHaveMoved(boolean hm);
+	public void setHaveMoved(boolean hm)
+	{
+		haveMoved = hm;
+	}
+	
+	public boolean getHaveMoved()
+	{
+		return this.haveMoved;
+	}
 	
 	public abstract String whatPiece();
 	

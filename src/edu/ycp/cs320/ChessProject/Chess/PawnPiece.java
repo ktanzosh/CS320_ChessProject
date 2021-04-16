@@ -2,26 +2,14 @@ package edu.ycp.cs320.ChessProject.Chess;
 
 public class PawnPiece extends ChessPiece
 {
-	//THIS WILL BE UPDATED TO FIX A FEW BUGS ABOUT 2D ARRAYS JUST SO YOU KNOW
 	
-	private boolean haveMoved;
-	
-	public PawnPiece(int x, int y, boolean w)
+	public PawnPiece(int x, int y, boolean w, int p)
 	{
 		this.setPosX(x);
 		this.setPosY(y);
 		this.setColor(w);
-		haveMoved = false;
-	}
-	
-	public void setHaveMoved(boolean hm)
-	{
-		haveMoved = hm;
-	}
-	
-	public boolean getHaveMoved()
-	{
-		return this.haveMoved;
+		this.setHaveMoved(false);
+		this.setPieceNumber(p);
 	}
 	
 	public String whatInitial()
@@ -44,26 +32,26 @@ public class PawnPiece extends ChessPiece
 		}
 		
 		//not absolute value, since 
-		int changeX = Math.abs(newx - this.getPosX());
-		int changeY = newy - this.getPosY();
+		int changeX = newx - this.getPosX();
+		int changeY = Math.abs(newy - this.getPosY());
 		
 		//check to see if other pieces are in the way
 		//vertical movement
-		if(changeX == 0)
+		if(changeY == 0)
 		{
 			try
 			{
 				//can't take pieces when forward
-				if(cb.getTile(newx, newy).getPiece() != null && changeX == 0)
+				if(cb.getTile(newx, newy).getPiece() != null && changeY == 0)
 				{
 					System.out.println("");
 					return false;
 				}
 				
 				//If it moves forward 2 checks the one right in front of it too
-				if(Math.abs(changeY) == 2)
+				if(Math.abs(changeX) == 2)
 				{
-					if(cb.getTile(newx, newy-=1).getPiece() != null && changeX == 0)
+					if(cb.getTile(newx, newy-=1).getPiece() != null && changeY == 0)
 					{
 						System.out.println("");
 						return false;
@@ -85,11 +73,11 @@ public class PawnPiece extends ChessPiece
 			
 			//makes sure that the movements are one forward in the right direction
 			//if they haven't moved can move two forward
-			if(haveMoved == false)
+			if(this.getHaveMoved() == false)
 			{
 				if(this.getColor() == true)//color is white
 				{
-					if((changeY == -1 || changeY == -2) && changeX == 0)
+					if((changeX == -1 || changeX == -2) && changeY == 0)
 					{
 						return true;
 					}
@@ -102,7 +90,7 @@ public class PawnPiece extends ChessPiece
 				
 				if(this.getColor() == false)//color is black
 				{
-					if((changeY == 1 || changeY == 2) && changeX == 0)
+					if((changeX == 1 || changeX == 2) && changeY == 0)
 					{
 						return true;
 					}
@@ -114,11 +102,11 @@ public class PawnPiece extends ChessPiece
 				}
 			}
 			
-			else if(haveMoved == true)
+			else if(this.getHaveMoved() == true)
 			{
 				if(this.getColor() == true)//color is white
 				{
-					if(changeY == -1 && changeX == 0)
+					if(changeX == -1 && changeY == 0)
 					{
 						return true;
 					}
@@ -131,7 +119,7 @@ public class PawnPiece extends ChessPiece
 				
 				else if(this.getColor() == false) //color is black
 				{
-					if(changeY == 1 && changeX == 0)
+					if(changeX == 1 && changeY == 0)
 					{
 						return true;
 					}
@@ -145,21 +133,21 @@ public class PawnPiece extends ChessPiece
 		}
 		
 		//taking a piece
-		else if(changeX == 1)
+		else if(changeY == 1)
 		{
-			if(Math.abs(changeY) != 1)
+			if(Math.abs(changeX) != 1)
 			{
 				return false;
 			}
 			
 			//not moving forward
-			if(this.getColor() == true && changeY != -1)
+			if(this.getColor() == true && changeX != -1)
 			{
 				return false;
 			}
 			
 			//not moving forward
-			if(this.getColor() == false && changeY != 1)
+			if(this.getColor() == false && changeX != 1)
 			{
 				return false;
 			}
