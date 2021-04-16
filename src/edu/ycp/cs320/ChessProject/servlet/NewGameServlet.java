@@ -1,5 +1,6 @@
 package edu.ycp.cs320.ChessProject.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -46,8 +47,21 @@ public class NewGameServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
 		
-		System.out.println("New Game Servlet: doPost");
-			
+		//System.out.println("New Game Servlet: doPost");
+		//System.out.println("THE POST HAS BEEN ACTIVATED");
+		
+		
+		BufferedReader reader = req.getReader();
+		
+		String line = null;
+		while((line = reader.readLine()) != null) {
+			System.out.println(line);
+		}
+		
+		resp.getWriter().write("true");
+		
+		
+		
 			if(req.getParameter("index") != null) {
 				resp.sendRedirect("/ChessProject/index");
 				return;		
