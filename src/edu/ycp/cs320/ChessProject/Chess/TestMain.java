@@ -40,11 +40,9 @@ public class TestMain
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(0,  3).getPiece(), 4, 7);
 			drawBoard(testGame);
 		}
-
+		
 		System.out.println(testGame.getMoveList());
 		
-		
-		//KingPiece kp = new KingPiece(7, 4, true);
 		KingPiece kp = testGame.getWhiteKing();
 		String res = testGame.getResult(WhitePlayer, testGame.getChessBoard(), kp, testGame.getWhitePieces());
 		System.out.println(res);

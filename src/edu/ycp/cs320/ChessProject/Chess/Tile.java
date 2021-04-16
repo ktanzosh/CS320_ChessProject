@@ -21,6 +21,10 @@ public class Tile
 	
 	public ChessPiece getPiece()
 	{
+		if(thisSpot.getKilled() == true)
+		{
+			return null;
+		}
 		return this.thisSpot;
 	}
 	
