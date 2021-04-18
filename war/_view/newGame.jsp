@@ -155,7 +155,7 @@ var S = {
     $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
     this.selectedPiece = this.moves = 0;  //set equal to none
     this.turnInt = 1 - this.turnInt; //change turn 
-    $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b    
+    $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
@@ -218,7 +218,7 @@ $(document).ready(function() {  //CLICK EVENT
     }
   
 //************RETURNS LOGIC WHETHER PIECE OR SQUARE HAS BEEN CLICKED
-// probably? wont need it but just in case
+/*
     val = {
     		pieceIsClicked: $(event.target).is(".pc"),
     		squareIsClicked:$(event.target).is(".sq")
@@ -226,8 +226,8 @@ $(document).ready(function() {  //CLICK EVENT
     postData('newGame', val).then(function(data){
     	console.log(data);
     });
-//*********************************************************************8 
 
+*/
 
   });
 });
@@ -316,12 +316,12 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
   }
  
 //**********RETURNS POSSIBLE MOVES******bottom left is 1****count on so forth *******
-  val = {
+/*   val = {
 			ableToMoveToSquare: moves
 		  };
 		  postData('newGame', val).then(function(data){
 		  	console.log(data);
-		  });
+		  }); */
 //***********************************************************************************
   return moves;
 }
