@@ -99,6 +99,8 @@
 <ul id="moveList"></ul>
 <br> </br>
 
+<button type="button" onclick="resetGame()">Restart Game</button>
+
 <script>
 
 var moveList = [];
@@ -145,7 +147,7 @@ var S = {
     else if (this.selectedPiece !== 0) {
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
       
-      moveList.push("<br>" + "To Square: " + squareID);
+      moveList.push("<br>" + "Moved to: " + squareID);
       document.getElementById("moveList").innerHTML = moveList;
       
       val = {
@@ -354,6 +356,13 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 
 	var resetGame = function() {
     alert("Resetting game");
+    location.reload();
+    val = {
+			resetGame: "refreshed"
+		  };
+		  postData('newGame', val).then(function(data){
+		  	console.log(data);
+		  });
   }
 </script>
 </body>
