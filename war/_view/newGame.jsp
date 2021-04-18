@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-
 
 <html>
 
@@ -10,7 +8,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="_view/newGameCSS.css"/>
-
 
 <body>
 
@@ -100,6 +97,23 @@
 </div>
 
 <style>
+ul{
+	width: 20%;
+ 	height: 500px;
+  	overflow: auto;
+  	border: 1px dotted black;
+	color: white;
+	list-style-type: circle;
+	position: absolute;
+	top: 50px;
+	left: 900px;
+	font-size: 50px;
+}
+</style>
+<ul id="moveList"></ul>
+<br> </br>
+
+<style>
 p{
   color: white;
   position: absolute;
@@ -114,11 +128,15 @@ button {
 }
 
 </style>
-<p id="demo">Let AJAX change this text?</p>
+<!-- <p id="demo">Let AJAX change this text?</p>
 
-<button type="button" onclick="loadDoc()">Restart Game</button>
+<button type="button" onclick="loadDoc()">Restart Game</button> -->
 
 <script>
+
+var moveList = [];
+document.getElementById("moveList").innerHTML = "Your moves will go here: " + moveList;
+
 
 async function postData(address, objectToPost){
 	return await(await fetch(address,{
@@ -156,6 +174,16 @@ var S = {
     this.selectedPiece = this.moves = 0;  //set equal to none
     this.turnInt = 1 - this.turnInt; //change turn 
     $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
+   
+    if(this.turnInt == 0){
+    	var turn = "WHITES TURN"
+    }
+    else{
+    	var turn = "BLACKS TURN"
+    }
+    
+    moveList.push("<br>" + turn);
+    document.getElementById("moveList").innerHTML = moveList;
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
@@ -165,6 +193,10 @@ var S = {
     }
     else if (this.selectedPiece !== 0) {
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
+      
+      moveList.push("<br>" + "To Square: " + squareID);
+      document.getElementById("moveList").innerHTML = moveList;
+      
       val = {
     			playerMovedTo: squareID
     		  };
@@ -193,8 +225,6 @@ var S = {
       this.ClickSquare($(piece.parent())); //else just click the square
       }
   },  
-  
-  
   Deselect:function () {
     $(this.selectedPiece).removeClass("pcActive"); //remove pcActive class from selectedPiece
     this.selectedPiece = 0; // back to none when selected
@@ -226,9 +256,7 @@ $(document).ready(function() {  //CLICK EVENT
     postData('newGame', val).then(function(data){
     	console.log(data);
     });
-
 */
-
   });
 });
 
@@ -251,6 +279,11 @@ function GetPieceMoveArray (enemyString, piece) {
   var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
   
 //********LOCATION OF SQUARE && PIECE NAME****************
+
+  moveList.push("<br>" + "Moved from: " + squareInt,"<br>" +  "Piece: " + stringOfPieces);
+  document.getElementById("moveList").innerHTML = moveList;
+  
+  
   val = {
 	intialPosition: squareInt,
 	pieceName: stringOfPieces
@@ -274,6 +307,10 @@ function GetPieceMoveArray (enemyString, piece) {
       if (enemyString === "b"){
         mult = 1;
         //if turn is white
+        
+  		moveList.push("<br>" + "Enemy Piece: " + enemyString);
+		document.getElementById("moveList").innerHTML = moveList;
+        
         val = {
     			enemyString: enemyString
     		  };
@@ -284,6 +321,9 @@ function GetPieceMoveArray (enemyString, piece) {
       else{
         mult = -1;
         // if turn is black
+        moveList.push("<br>" + "Enemy Piece: " + enemyString);
+		document.getElementById("moveList").innerHTML = moveList;
+        
         val = {
     			enemyString: enemyString
     		  };
@@ -329,8 +369,6 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
 function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   var fromSquare = startSquare + ((step - 1) * dir); //intial
   var toSquare = startSquare + (step * dir); //move to 
-
-  
   
     // 0=move and go
     // 1=move and stop 
