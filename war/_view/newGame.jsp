@@ -7,7 +7,7 @@
 </head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="_view/newGameCSS.css"/>
+<link rel="stylesheet" type="text/css" href="_view/newGameDesign.css"/>
 
 <body>
 
@@ -96,41 +96,8 @@
   </div>
 </div>
 
-<style>
-ul{
-	width: 20%;
- 	height: 500px;
-  	overflow: auto;
-  	border: 1px dotted black;
-	color: white;
-	list-style-type: circle;
-	position: absolute;
-	top: 50px;
-	left: 900px;
-	font-size: 50px;
-}
-</style>
 <ul id="moveList"></ul>
 <br> </br>
-
-<style>
-p{
-  color: white;
-  position: absolute;
-  top: 1000px;
-}
-button {
-  background-color: green;
-  color: white;
-  position: absolute;
-  top: 980px;
-  font-size: 25px;
-}
-
-</style>
-<!-- <p id="demo">Let AJAX change this text?</p>
-
-<button type="button" onclick="loadDoc()">Restart Game</button> -->
 
 <script>
 
@@ -148,22 +115,6 @@ async function postData(address, objectToPost){
 	})).json();
 }
 
-// for button fix later 
-function loadDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      //restart board
-      // send message to user
-      alert("Restarting your game!");
-      location.reload();
-      
-    }
-  };
-  xhttp.open("GET", "http://localhost:8081/ChessProject/newGame", true);
-  xhttp.send();
-}
-
 
 var S = { 
   turnInt:1, selectedPiece:0, moves:0, 
@@ -176,10 +127,10 @@ var S = {
     $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
    
     if(this.turnInt == 0){
-    	var turn = "WHITES TURN"
+    	var turn = "WHITES TURN:"
     }
     else{
-    	var turn = "BLACKS TURN"
+    	var turn = "BLACKS TURN:"
     }
     
     moveList.push("<br>" + turn);
@@ -307,10 +258,6 @@ function GetPieceMoveArray (enemyString, piece) {
       if (enemyString === "b"){
         mult = 1;
         //if turn is white
-        
-  		moveList.push("<br>" + "Enemy Piece: " + enemyString);
-		document.getElementById("moveList").innerHTML = moveList;
-        
         val = {
     			enemyString: enemyString
     		  };
@@ -321,9 +268,6 @@ function GetPieceMoveArray (enemyString, piece) {
       else{
         mult = -1;
         // if turn is black
-        moveList.push("<br>" + "Enemy Piece: " + enemyString);
-		document.getElementById("moveList").innerHTML = moveList;
-        
         val = {
     			enemyString: enemyString
     		  };
