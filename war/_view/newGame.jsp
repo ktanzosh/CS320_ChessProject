@@ -6,7 +6,7 @@
 <title>New Game</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="_view/newGameDesign.css"/>
+<link rel="stylesheet" type="text/css" href="_view/newGameDesign2.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
@@ -109,7 +109,7 @@ p{
 }
 </style>
 <p id="chessNotation"></p>
-<button type="button" onclick="resetGame()">Restart Game</button>
+<button type="button" onclick="resetGame()" onmouseout="mOut(this)" onmouseover="mOver(this)">Restart Game</button>
 
 <script>
 
@@ -385,6 +385,14 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 		resetGame();
 	});
 
+	function mOver(obj) {
+		  obj.innerHTML = "Are you sure?"
+	}
+	
+	function mOut(obj) {
+		  obj.innerHTML = "Restart Game"
+		}
+	
 	var resetGame = function() {
     alert("Resetting game");
     location.reload();
