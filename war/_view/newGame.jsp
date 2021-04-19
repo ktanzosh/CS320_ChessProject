@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-
 
 <html>
 
@@ -8,8 +6,8 @@
 <title>New Game</title>
 </head>
 
+<link rel="stylesheet" type="text/css" href="_view/newGameDesign2.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="_view/newGameCSS.css"/>
 
 
 <body>
@@ -99,26 +97,25 @@
   </div>
 </div>
 
+<ul id="moveList"></ul>
+<br> </br>
+
 <style>
 p{
-  color: white;
-  position: absolute;
-  top: 1000px;
-}
-button {
-  background-color: green;
-  color: white;
-  position: absolute;
-  top: 980px;
-  font-size: 25px;
-}
+	top:850px;
+	position: absolute;
+	color: white; 
 
+}
 </style>
-<p id="demo">Let AJAX change this text?</p>
-
-<button type="button" onclick="loadDoc()">Restart Game</button>
+<p id="chessNotation"></p>
+<button type="button" onclick="resetGame()" onmouseout="mOut(this)" onmouseover="mOver(this)">Restart Game</button>
 
 <script>
+
+var moveList = [];
+document.getElementById("moveList").innerHTML = "Your moves will go here: " + moveList;
+
 
 async function postData(address, objectToPost){
 	return await(await fetch(address,{
@@ -130,32 +127,54 @@ async function postData(address, objectToPost){
 	})).json();
 }
 
-// for button fix later 
-function loadDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      //restart board
-      // send message to user
-      alert("Restarting your game!");
-      location.reload();
-      
-    }
-  };
-  xhttp.open("GET", "http://localhost:8081/ChessProject/newGame", true);
-  xhttp.send();
-}
+
+var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
+	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
+	"a3", "b3", "c3", "d3","e3", "f3", "g3", "h3",
+	"a4", "b4", "c4", "d4","e4", "f4", "g4", "h4",
+	"a5", "b5", "c5", "d5","e5", "f5", "g5", "h5",
+	"a6", "b6", "c6", "d6","e6", "f6", "g6", "h6",
+	"a7", "b7", "c7", "d7","e7", "f7", "g7", "h7",
+	"a8", "b8", "c8", "d8","e8", "f8", "g8", "h8"];
+//document.getElementById("chessNotation").innerHTML = chessNotation;
+
+//var num = 13; 	//squareID in reality 
 
 
-var S = { 
+//temp varibles?
+var intialPosition;
+var squareID_;
+var enemyString;
+var pieceName;
+
+
+
+var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
   
   ChangeTurn:function() {
+	  
     $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
     $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
     this.selectedPiece = this.moves = 0;  //set equal to none
     this.turnInt = 1 - this.turnInt; //change turn 
     $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
+   
+    
+    if(this.turnInt == 0){
+    	document.getElementById("moveList").style.color = "white";
+    	var turn = "WHITES TURN:"
+    	enemyString = "b";
+    }
+    else{
+    	document.getElementById("moveList").style.color = "black";
+    	var turn = "BLACKS TURN:"
+    	enemyString = "w";
+    }
+    //update move list
+
+    moveList.push("<br>" + turn);
+    document.getElementById("moveList").innerHTML = moveList;
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
@@ -165,19 +184,39 @@ var S = {
     }
     else if (this.selectedPiece !== 0) {
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
-      val = {
+
+      squareID_ = squareID;
+      
+    //update move list
+      moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
+      document.getElementById("moveList").innerHTML = moveList;
+
+      
+      
+      /* val = {
     			playerMovedTo: squareID
     		  };
     		  postData('newGame', val).then(function(data){
     		  	console.log(data);
-    		  });
+    		  }); */
+    		  
+    		  
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
         square.append(this.selectedPiece);  //append piece to square
         this.ChangeTurn();  //change turn
-
+        val = {
+				initialPosition: initialPosition,
+				pieceName: pieceName,
+				enemyString: enemyString,
+				finalPosition: squareID_
+				
+			  };
+			  postData('newGame', val).then(function(data){
+			  	console.log(data);
+		});
       }
     }
   },
@@ -193,8 +232,6 @@ var S = {
       this.ClickSquare($(piece.parent())); //else just click the square
       }
   },  
-  
-  
   Deselect:function () {
     $(this.selectedPiece).removeClass("pcActive"); //remove pcActive class from selectedPiece
     this.selectedPiece = 0; // back to none when selected
@@ -206,7 +243,8 @@ var S = {
 S.ChangeTurn();
 
 $(document).ready(function() {  //CLICK EVENT
-  $(document).mousedown(function( event ) { //once mousedown event triggered       
+  $(document).mousedown(function( event ) { //once mousedown event triggered  
+
     if ($(event.target).is(".pc")){ //event target for individual pieces
       S.ClickPiece($(event.target)); //Get the element that triggered a specific event
     }
@@ -217,18 +255,19 @@ $(document).ready(function() {  //CLICK EVENT
       S.Deselect(); //  deselect piece 
     }
   
-//************RETURNS LOGIC WHETHER PIECE OR SQUARE HAS BEEN CLICKED
-/*
-    val = {
-    		pieceIsClicked: $(event.target).is(".pc"),
-    		squareIsClicked:$(event.target).is(".sq")
-    };
-    postData('newGame', val).then(function(data){
-    	console.log(data);
-    });
-
-*/
-
+  
+  //trying to get it to send once
+/* 	  val = {
+				initialPosition: initialPosition,
+				pieceName: pieceName,
+				enemyString: enemyString,
+				finalPosition: squareID_
+				
+			  };
+			  postData('newGame', val).then(function(data){
+			  	console.log(data);
+		}); */
+			  
   });
 });
 
@@ -251,13 +290,29 @@ function GetPieceMoveArray (enemyString, piece) {
   var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
   
 //********LOCATION OF SQUARE && PIECE NAME****************
+
+  moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
+  document.getElementById("moveList").innerHTML = moveList;
+  
+  
+  if (squareInt < 10){
+	  forNum = ('0' + squareInt).slice(-2);
+	  initialPosition = forNum;
+  }
+  else{
+	  initialPosition = squareInt;
+  }
+  pieceName = stringOfPieces;
+
+  
+/*   
   val = {
 	intialPosition: squareInt,
 	pieceName: stringOfPieces
   };
   postData('newGame', val).then(function(data){
   	console.log(data);
-  });
+  }); */
  
   
   switch (stringOfPieces) {
@@ -274,22 +329,26 @@ function GetPieceMoveArray (enemyString, piece) {
       if (enemyString === "b"){
         mult = 1;
         //if turn is white
-        val = {
+        
+        enemyString = enemyString;
+        
+    /*     val = {
     			enemyString: enemyString
     		  };
     		  postData('newGame', val).then(function(data){
     		  	console.log(data);
-    		  });
+    		  }); */
       }
       else{
         mult = -1;
         // if turn is black
-        val = {
+        enemyString = enemyString;
+     /*    val = {
     			enemyString: enemyString
     		  };
     		  postData('newGame', val).then(function(data){
     		  	console.log(data);
-    		  });
+    		  }); */
       }
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
       
@@ -329,8 +388,6 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
 function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   var fromSquare = startSquare + ((step - 1) * dir); //intial
   var toSquare = startSquare + (step * dir); //move to 
-
-  
   
     // 0=move and go
     // 1=move and stop 
@@ -370,8 +427,23 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 		resetGame();
 	});
 
+	function mOver(obj) {
+		  obj.innerHTML = "Are you sure?"
+	}
+	
+	function mOut(obj) {
+		  obj.innerHTML = "Restart Game"
+		}
+	
 	var resetGame = function() {
     alert("Resetting game");
+    location.reload();
+    val = {
+			resetGame: "refreshed"
+		  };
+		  postData('newGame', val).then(function(data){
+		  	console.log(data);
+		  });
   }
 </script>
 </body>
