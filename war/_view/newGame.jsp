@@ -99,6 +99,15 @@
 <ul id="moveList"></ul>
 <br> </br>
 
+<style>
+p{
+	top:850px;
+	position: absolute;
+	color: white; 
+
+}
+</style>
+<p id="chessNotation"></p>
 <button type="button" onclick="resetGame()">Restart Game</button>
 
 <script>
@@ -116,6 +125,24 @@ async function postData(address, objectToPost){
 		body: JSON.stringify(objectToPost)
 	})).json();
 }
+
+
+var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
+	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
+	"a3", "b3", "c3", "d3","e3", "f3", "g3", "h3",
+	"a4", "b4", "c4", "d4","e4", "f4", "g4", "h4",
+	"a5", "b5", "c5", "d5","e5", "f5", "g5", "h5",
+	"a6", "b6", "c6", "d6","e6", "f6", "g6", "h6",
+	"a7", "b7", "c7", "d7","e7", "f7", "g7", "h7",
+	"a8", "b8", "c8", "d8","e8", "f8", "g8", "h8"];
+//document.getElementById("chessNotation").innerHTML = chessNotation;
+
+//var num = 13; 	//squareID in reality 
+
+//document.getElementById("chessNotation").innerHTML = chessNotation[num - 1];
+
+
+
 
 
 var S = { 
@@ -147,7 +174,7 @@ var S = {
     else if (this.selectedPiece !== 0) {
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
       
-      moveList.push("<br>" + "Moved to: " + squareID);
+      moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
       document.getElementById("moveList").innerHTML = moveList;
       
       val = {
@@ -233,7 +260,7 @@ function GetPieceMoveArray (enemyString, piece) {
   
 //********LOCATION OF SQUARE && PIECE NAME****************
 
-  moveList.push("<br>" + "Moved from: " + squareInt,"<br>" +  "Piece: " + stringOfPieces);
+  moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
   document.getElementById("moveList").innerHTML = moveList;
   
   
