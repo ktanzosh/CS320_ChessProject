@@ -6,8 +6,9 @@
 <title>New Game</title>
 </head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="_view/newGameDesign.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 <body>
 
@@ -156,6 +157,7 @@ var S = {
     $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
    
     if(this.turnInt == 0){
+    	//maybe change color based on turn
     	document.getElementById("moveList").style.color = "white";
     	var turn = "WHITES TURN:"
     }
