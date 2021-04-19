@@ -1,6 +1,7 @@
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
+	scroll-behavior: auto;
 }
 
 /* Track */
@@ -33,11 +34,13 @@ h1{
 
 html {
   min-height: 100%; 
+	
 }
 
 body { 
   background-image: linear-gradient(to bottom right, blue, white);
 }
+
 ul{
 	width: 20%;
  	height: 500px;
@@ -150,9 +153,4 @@ button:hover {
 }
 .king {
    font-size:  70px;
-}
-}
-};
-}
-}
 }
