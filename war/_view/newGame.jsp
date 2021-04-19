@@ -156,9 +156,11 @@ var S = {
     $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
    
     if(this.turnInt == 0){
+    	document.getElementById("moveList").style.color = "white";
     	var turn = "WHITES TURN:"
     }
     else{
+    	document.getElementById("moveList").style.color = "black";
     	var turn = "BLACKS TURN:"
     }
     
