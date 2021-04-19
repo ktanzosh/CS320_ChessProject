@@ -140,32 +140,39 @@ var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1",
 
 //var num = 13; 	//squareID in reality 
 
-//document.getElementById("chessNotation").innerHTML = chessNotation[num - 1];
+
+//temp varibles?
+var intialPosition;
+var squareID_;
+var enemyString;
+var pieceName;
 
 
 
-
-
-var S = { 
+var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
   
   ChangeTurn:function() {
+	  
     $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
     $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
     this.selectedPiece = this.moves = 0;  //set equal to none
     this.turnInt = 1 - this.turnInt; //change turn 
     $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
    
+    
     if(this.turnInt == 0){
-    	//maybe change color based on turn
     	document.getElementById("moveList").style.color = "white";
     	var turn = "WHITES TURN:"
+    	enemyString = "b";
     }
     else{
     	document.getElementById("moveList").style.color = "black";
     	var turn = "BLACKS TURN:"
+    	enemyString = "w";
     }
-    
+    //update move list
+
     moveList.push("<br>" + turn);
     document.getElementById("moveList").innerHTML = moveList;
   },  
@@ -177,23 +184,39 @@ var S = {
     }
     else if (this.selectedPiece !== 0) {
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
+
+      squareID_ = squareID;
       
+    //update move list
       moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
       document.getElementById("moveList").innerHTML = moveList;
+
       
-      val = {
+      
+      /* val = {
     			playerMovedTo: squareID
     		  };
     		  postData('newGame', val).then(function(data){
     		  	console.log(data);
-    		  });
+    		  }); */
+    		  
+    		  
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
         square.append(this.selectedPiece);  //append piece to square
         this.ChangeTurn();  //change turn
-
+        val = {
+				initialPosition: initialPosition,
+				pieceName: pieceName,
+				enemyString: enemyString,
+				finalPosition: squareID_
+				
+			  };
+			  postData('newGame', val).then(function(data){
+			  	console.log(data);
+		});
       }
     }
   },
@@ -220,7 +243,8 @@ var S = {
 S.ChangeTurn();
 
 $(document).ready(function() {  //CLICK EVENT
-  $(document).mousedown(function( event ) { //once mousedown event triggered       
+  $(document).mousedown(function( event ) { //once mousedown event triggered  
+
     if ($(event.target).is(".pc")){ //event target for individual pieces
       S.ClickPiece($(event.target)); //Get the element that triggered a specific event
     }
@@ -231,16 +255,19 @@ $(document).ready(function() {  //CLICK EVENT
       S.Deselect(); //  deselect piece 
     }
   
-//************RETURNS LOGIC WHETHER PIECE OR SQUARE HAS BEEN CLICKED
-/*
-    val = {
-    		pieceIsClicked: $(event.target).is(".pc"),
-    		squareIsClicked:$(event.target).is(".sq")
-    };
-    postData('newGame', val).then(function(data){
-    	console.log(data);
-    });
-*/
+  
+  //trying to get it to send once
+/* 	  val = {
+				initialPosition: initialPosition,
+				pieceName: pieceName,
+				enemyString: enemyString,
+				finalPosition: squareID_
+				
+			  };
+			  postData('newGame', val).then(function(data){
+			  	console.log(data);
+		}); */
+			  
   });
 });
 
@@ -268,13 +295,24 @@ function GetPieceMoveArray (enemyString, piece) {
   document.getElementById("moveList").innerHTML = moveList;
   
   
+  if (squareInt < 10){
+	  forNum = ('0' + squareInt).slice(-2);
+	  initialPosition = forNum;
+  }
+  else{
+	  initialPosition = squareInt;
+  }
+  pieceName = stringOfPieces;
+
+  
+/*   
   val = {
 	intialPosition: squareInt,
 	pieceName: stringOfPieces
   };
   postData('newGame', val).then(function(data){
   	console.log(data);
-  });
+  }); */
  
   
   switch (stringOfPieces) {
@@ -291,22 +329,26 @@ function GetPieceMoveArray (enemyString, piece) {
       if (enemyString === "b"){
         mult = 1;
         //if turn is white
-        val = {
+        
+        enemyString = enemyString;
+        
+    /*     val = {
     			enemyString: enemyString
     		  };
     		  postData('newGame', val).then(function(data){
     		  	console.log(data);
-    		  });
+    		  }); */
       }
       else{
         mult = -1;
         // if turn is black
-        val = {
+        enemyString = enemyString;
+     /*    val = {
     			enemyString: enemyString
     		  };
     		  postData('newGame', val).then(function(data){
     		  	console.log(data);
-    		  });
+    		  }); */
       }
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
       
