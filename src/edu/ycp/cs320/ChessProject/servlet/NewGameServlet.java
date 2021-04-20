@@ -124,13 +124,12 @@ public class NewGameServlet extends HttpServlet {
 			if(newGame.checkMove(dx, dy, newGame.getChessBoard(), movePiece, newGame.getWhitePlayer()) == true)
 			{
 				resp.getWriter().write("true");
-				System.out.println("true");
+				newGame.doMove(newGame.getChessBoard(), movePiece, dx, dy);
 			}
 			
 			else
 			{
 				resp.getWriter().write("false");
-				System.out.println("false");
 			}
 			
 			resp.getWriter().write(newGame.getResult(newGame.getBlackPlayer(), newGame.getChessBoard(), newGame.getBlackKing(), newGame.getBlackPieces()));
@@ -142,6 +141,7 @@ public class NewGameServlet extends HttpServlet {
 			if(newGame.checkMove(dx, dy, newGame.getChessBoard(), movePiece, newGame.getBlackPlayer()) == true)
 			{
 				resp.getWriter().write("true");
+				newGame.doMove(newGame.getChessBoard(), movePiece, dx, dy);
 			}
 			
 			else

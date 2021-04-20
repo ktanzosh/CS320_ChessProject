@@ -26,10 +26,10 @@ public class KingPiece extends ChessPiece
 	{
 		System.out.println("King Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
 		
-		//if(this.canCastle(newx, newy, cb) == true)
-		//{
-			//Have to implement but basically if they can castle, and do some repeat logic then checkMove returns true
-		//}
+		if(this.canCastle(newx, newy, cb) == true)
+		{
+			return true;
+		}
 		
 		if(newx < 0 || newx > 7 || newy < 0 || newy > 7)
 		{
@@ -75,6 +75,22 @@ public class KingPiece extends ChessPiece
 			return false;
 		}
 		
+		if(newy == 6)
+		{
+			newy++;
+		}
+		
+		else if(newy == 1)
+		{
+			newy--;
+		}
+		
+		else
+		{
+			//not moving to a legal spot
+			return false;
+		}
+		
 		try
 		{
 			ChessPiece castleRook = cb.getTile(newx, newy).getPiece();
@@ -99,7 +115,7 @@ public class KingPiece extends ChessPiece
 			//checkIn between the pieces
 			if(newy > this.getPosY())
 			{
-				for(int i = this.getPosY(); i < newy; i++)
+				for(int i = this.getPosY() + 1; i < newy; i++)
 				{
 					try
 					{
@@ -118,7 +134,7 @@ public class KingPiece extends ChessPiece
 			
 			else
 			{
-				for(int i = newy; i < this.getPosY(); i++)
+				for(int i = newy + 1; i < this.getPosY(); i++)
 				{
 					try
 					{
