@@ -9,6 +9,7 @@ public class Game
 	private Player BlackPlayer;
 	private Player winnerPlayer;
 	private boolean finished;
+	private int gameID;
 	
 	private ArrayList<Move> MoveList;
 	private ArrayList<ChessPiece> WhitePieces;
@@ -259,6 +260,16 @@ public class Game
 		return this.BlackPieces;
 	}
 	
+	public void setGameID(int i)
+	{
+		this.gameID = i;
+	}
+	
+	public int getGameID()
+	{
+		return this.gameID;
+	}
+	
 	public void setWhiteKing(KingPiece kp)
 	{
 		this.WhiteKing = kp;
@@ -332,11 +343,6 @@ public class Game
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb, ChessPiece cp, Player p)
 	{
-		if(p.getColor() != cp.getColor())
-		{
-			return false;
-		}
-		
 		if(cp.checkMove(newx, newy, cb))
 		{
 			int oldx = cp.getPosX();

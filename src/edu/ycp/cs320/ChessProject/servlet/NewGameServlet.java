@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import edu.ycp.cs320.ChessProject.Chess.ChessPiece;
 import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.Chess.Move;
+import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
+import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 public class NewGameServlet extends HttpServlet {
@@ -41,6 +43,7 @@ public class NewGameServlet extends HttpServlet {
 			
 			Game sessionGame = new Game();
 			sessionGame.setGame();
+			sessionGame.setGameID(1);
 			HttpSession gameSession = req.getSession(true);
 			gameSession.setAttribute("sessionGame", sessionGame);
 			
@@ -135,7 +138,13 @@ public class NewGameServlet extends HttpServlet {
 				gameSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove();
 				String moveString = sendMove.getMove();
-				//send to database
+				int id = playGame.getGameID();
+				
+				IDatabase db = DatabaseProvider.getInstance();
+				db.insertNewMove(id, moveString);
+				
+				resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
+				//System.out.println(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
 			}
 			
 			else
@@ -143,8 +152,6 @@ public class NewGameServlet extends HttpServlet {
 				resp.getWriter().write("false");
 			}
 			
-			resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
-			System.out.println(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
 		}
 		
 		else if(friendlyColor == false)
@@ -156,16 +163,30 @@ public class NewGameServlet extends HttpServlet {
 				gameSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove();
 				String moveString = sendMove.getMove();
-				//send to database
+				int id = playGame.getGameID();
+				
+				IDatabase db = DatabaseProvider.getInstance();
+				db.insertNewMove(id, moveString);
+				
+				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
+				//System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
 			}
 			
 			else
 			{
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
 				resp.getWriter().write("false");
 			}
-			
-			resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
-			System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
+		
 		}
 		
 		if(req.getParameter("index") != null) 
