@@ -317,6 +317,11 @@ public class Game
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb, ChessPiece cp, Player p)
 	{
+		if(p.getColor() != cp.getColor())
+		{
+			return false;
+		}
+		
 		if(cp.checkMove(newx, newy, cb))
 		{
 			int oldx = cp.getPosX();
@@ -393,6 +398,7 @@ public class Game
 			ChessPiece potentialPiece = cb.getTile(x,  y).getPiece();
 			takesPiece = true;
 			potentialPiece.isKilled();
+			
 		}
 		catch(NullPointerException n)
 		{
@@ -405,6 +411,45 @@ public class Game
 		cb.setTile(oldx,  oldy);
 		cp.setPosX(x);
 		cp.setPosY(y);
+		
+		//if castling, also move the rook
+		if(cp.whatPiece().equals("King"))
+		{
+			KingPiece kp = (KingPiece) cp;
+			if(kp.canCastle(x, y, cb) == true)
+			{
+				if(y == 6)
+				{
+					y++;
+				}
+				
+				else if(y == 1)
+				{
+					y--;
+				}
+				
+				ChessPiece rook = cb.getTile(x, y).getPiece();
+				Tile rookTile = new Tile(rook);
+				int newy = 0;
+				if(y == 7)
+				{
+					//move two to the left
+					newy = 5;
+				}
+				
+				else if(y == 0)
+				{
+					//move two to the right
+					newy = 2;
+				}
+				
+				cb.setTile(x, newy, rookTile);
+				rook.setPosY(newy);
+			}
+		}
+		//ChessPiece rookPiece = cb.getTile(oldx, oldy).getPiece();
+		//Tile rookTile = new Tile();
+		//cb.setTile(rookx, rooky, rookTile);
 		
 		if(cp.whatPiece() == "Pawn" || cp.whatPiece() == "Rook" || cp.whatPiece() == "King")
 		{
