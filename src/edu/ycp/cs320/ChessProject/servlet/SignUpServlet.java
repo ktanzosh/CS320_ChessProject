@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 import edu.ycp.cs320.ChessProject.UserDatabase.InitDatabase;
@@ -117,14 +118,20 @@ public class SignUpServlet extends HttpServlet {
 
 				//TODO: CREATE NEW USER IN DATABASE
 				InitDatabase.init();
-				IDatabase db = DatabaseProvider.getInstance();
+				
 				String enc_password = User.encryptThisString(password);
-				System.out.println(enc_password);
+				System.out.println("Hashed Password: " + enc_password);
 				String enc_secAnswer = User.encryptThisString(securityA);
-				System.out.println(enc_secAnswer);
+				System.out.println("Hashed Security Answer: " + enc_secAnswer);
+				IDatabase db = DatabaseProvider.getInstance();
 				db.insertNewUser(user, enc_password, securityQ, enc_secAnswer);
 				
-				req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
+				userModel = userModel.getUserInfo(user);
+				HttpSession resetSession = req.getSession(true);
+				resetSession.setAttribute("userInfo", userModel);
+				String username = userModel.getUser();
+				req.setAttribute("username", username);
+				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 			}
 			
 			else if (passwordMatch != true){

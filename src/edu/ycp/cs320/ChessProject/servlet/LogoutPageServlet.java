@@ -50,12 +50,8 @@ public class LogoutPageServlet extends HttpServlet {
 		
 		System.out.println("Logout Servlet: doPost");
 		
-		
-		if(req.getParameter("login") != null) {
-			
-			LoginPageServlet login = new LoginPageServlet();
-			login.doGet(req, resp);
-		}
+		resp.sendRedirect("/ChessProject/loginPage");
+		return;
 
 		}
 
