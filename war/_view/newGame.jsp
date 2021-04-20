@@ -194,20 +194,11 @@ var S = {
     	  squareID_ = squareID;
       }
       
-      //squareID_ = squareID;
       
     //update move list
       moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
       document.getElementById("moveList").innerHTML = moveList;
-
-      /* val = {
-    			playerMovedTo: squareID
-    		  };
-    		  postData('newGame', val).then(function(data){
-    		  	console.log(data);
-    		  }); */
-    		  
-    		  
+	  
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
@@ -261,19 +252,6 @@ $(document).ready(function() {  //CLICK EVENT
     else {
       S.Deselect(); //  deselect piece 
     }
-  
-  
-  //trying to get it to send once
-/* 	  val = {
-				initialPosition: initialPosition,
-				pieceName: pieceName,
-				enemyString: enemyString,
-				finalPosition: squareID_
-				
-			  };
-			  postData('newGame', val).then(function(data){
-			  	console.log(data);
-		}); */
 			  
   });
 });
@@ -309,17 +287,6 @@ function GetPieceMoveArray (enemyString, piece) {
   
   pieceName = stringOfPieces;
 
-  
-/*   
-  val = {
-	intialPosition: squareInt,
-	pieceName: stringOfPieces
-  };
-  postData('newGame', val).then(function(data){
-  	console.log(data);
-  }); */
- 
-  
   switch (stringOfPieces) {
       // case for each piece
       // fix game logic -- some issues going on 
@@ -333,27 +300,11 @@ function GetPieceMoveArray (enemyString, piece) {
      var mult;
       if (enemyString === "b"){
         mult = 1;
-        //if turn is white
-        
-        //enemyString = enemyString;
-        
-    /*     val = {
-    			enemyString: enemyString
-    		  };
-    		  postData('newGame', val).then(function(data){
-    		  	console.log(data);
-    		  }); */
+
       }
       else{
         mult = -1;
-        // if turn is black
-        //enemyString = enemyString;
-     /*    val = {
-    			enemyString: enemyString
-    		  };
-    		  postData('newGame', val).then(function(data){
-    		  	console.log(data);
-    		  }); */
+
       }
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
       
@@ -379,14 +330,6 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
     }
   }
  
-//**********RETURNS POSSIBLE MOVES******bottom left is 1****count on so forth *******
-/*   val = {
-			ableToMoveToSquare: moves
-		  };
-		  postData('newGame', val).then(function(data){
-		  	console.log(data);
-		  }); */
-//***********************************************************************************
   return moves;
 }
 
