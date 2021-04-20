@@ -317,6 +317,11 @@ public class Game
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb, ChessPiece cp, Player p)
 	{
+		if(p.getColor() != cp.getColor())
+		{
+			return false;
+		}
+		
 		if(cp.checkMove(newx, newy, cb))
 		{
 			int oldx = cp.getPosX();

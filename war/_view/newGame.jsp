@@ -144,7 +144,7 @@ var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1",
 //temp varibles?
 var intialPosition;
 var squareID_;
-var enemyString;
+var playerColor;
 var pieceName;
 
 
@@ -164,12 +164,12 @@ var S = {
     if(this.turnInt == 0){
     	document.getElementById("moveList").style.color = "white";
     	var turn = "WHITES TURN:"
-    	enemyString = "b";
+    	playerColor = "b";
     }
     else{
     	document.getElementById("moveList").style.color = "black";
     	var turn = "BLACKS TURN:"
-    	enemyString = "w";
+    	playerColor = "w";
     }
     //update move list
 
@@ -183,16 +183,23 @@ var S = {
       this.ClickPiece(child); // ~child is chess piece~
     }
     else if (this.selectedPiece !== 0) {
+    	//squareID = finalPosition
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
 
-      squareID_ = squareID;
+      if (squareID < 10){
+    	  finalPos = ('0' + squareID).slice(-2);
+    	  squareID_ = finalPos;
+      }
+      else{
+    	  squareID_ = squareID;
+      }
+      
+      //squareID_ = squareID;
       
     //update move list
       moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
       document.getElementById("moveList").innerHTML = moveList;
 
-      
-      
       /* val = {
     			playerMovedTo: squareID
     		  };
@@ -210,7 +217,7 @@ var S = {
         val = {
 				initialPosition: initialPosition,
 				pieceName: pieceName,
-				enemyString: enemyString,
+				playerColor: playerColor,
 				finalPosition: squareID_
 				
 			  };
@@ -272,8 +279,6 @@ $(document).ready(function() {  //CLICK EVENT
 });
 
 
-
-
 function GetPieceString (piece) {
   var classList = $(piece).attr('class').split(/\s+/);  // classList = array of pieces [1,2,3,4...] from "class="
   for (var i = 0; i < classList.length; i++) {  //for the length of classList array, if the length is greater than 2 return
@@ -294,7 +299,6 @@ function GetPieceMoveArray (enemyString, piece) {
   moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
   document.getElementById("moveList").innerHTML = moveList;
   
-  
   if (squareInt < 10){
 	  forNum = ('0' + squareInt).slice(-2);
 	  initialPosition = forNum;
@@ -302,6 +306,7 @@ function GetPieceMoveArray (enemyString, piece) {
   else{
 	  initialPosition = squareInt;
   }
+  
   pieceName = stringOfPieces;
 
   
@@ -330,7 +335,7 @@ function GetPieceMoveArray (enemyString, piece) {
         mult = 1;
         //if turn is white
         
-        enemyString = enemyString;
+        //enemyString = enemyString;
         
     /*     val = {
     			enemyString: enemyString
@@ -342,7 +347,7 @@ function GetPieceMoveArray (enemyString, piece) {
       else{
         mult = -1;
         // if turn is black
-        enemyString = enemyString;
+        //enemyString = enemyString;
      /*    val = {
     			enemyString: enemyString
     		  };
@@ -368,7 +373,7 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
        if (squareStatus < 2) {
         moves.push(squareInt + j * dirArr[i]);  // passes -- gets added into moves array 
       } 
-      if (squareStatus > 0) { // illegal move being made
+      if (squareStatus > 0) { // illegal move being made  
         break; 
       }
     }
@@ -401,19 +406,23 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
     if (stringOfPieces === "pawn" && (dir % 8 === 0 || step > 1)) {
      return 3; 
      }
+    
     if ($('#' + toSquare).children().eq(0).hasClass(enemyString)) {
      return 1; 
      }
     else {
+    	document.getElementById("moveList").innerHTML = "illegal";
      return 3; 
      }
   }
+  
   if (stringOfPieces === "pawn") { // if piece is pawn -> 
     if (dir % 8 !== 0) {
       return 4; 
     }
     if (step > 1) {
       if ((dir > 0 && startSquare > 16) || (dir < 0 && startSquare < 49)) {
+    	  
         return 4; 
       }
     }
