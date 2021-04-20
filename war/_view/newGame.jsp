@@ -183,9 +183,18 @@ var S = {
       this.ClickPiece(child); // ~child is chess piece~
     }
     else if (this.selectedPiece !== 0) {
+    	//squareID = finalPosition
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
 
-      squareID_ = squareID;
+      if (squareID < 10){
+    	  finalPos = ('0' + squareID).slice(-2);
+    	  squareID_ = finalPos;
+      }
+      else{
+    	  squareID_ = squareID;
+      }
+      
+      //squareID_ = squareID;
       
     //update move list
       moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
@@ -290,7 +299,6 @@ function GetPieceMoveArray (enemyString, piece) {
   moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
   document.getElementById("moveList").innerHTML = moveList;
   
-  
   if (squareInt < 10){
 	  forNum = ('0' + squareInt).slice(-2);
 	  initialPosition = forNum;
@@ -298,6 +306,7 @@ function GetPieceMoveArray (enemyString, piece) {
   else{
 	  initialPosition = squareInt;
   }
+  
   pieceName = stringOfPieces;
 
   
