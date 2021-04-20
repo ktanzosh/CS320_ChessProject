@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.ycp.cs320.ChessProject.Chess.Game;
+import edu.ycp.cs320.ChessProject.Chess.Move;
+
 
 //import edu.ycp.cs320.ChessProject.booksdb.persist.DerbyDatabase.Transaction;
 
@@ -532,6 +535,30 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	*/
+	public Game insertNewMove(int id, String move) {
+		return executeTransaction(new Transaction<Game>() {
+			@Override
+			public Game execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"insert into moves (game_id, move)" +
+						" values(?, ?) "
+				);
+				stmt1.setInt(1, id);
+				stmt1.setString(2, move);
+				
+				
+				// execute the update
+				stmt1.executeUpdate();
+				
+				DBUtil.closeQuietly(stmt1);
+				
+				return null;
+			}
+		});
+	}
 	
 	public User insertNewUser(String username, String password, String question, String answer) {
 		return executeTransaction(new Transaction<User>() {
@@ -712,11 +739,12 @@ public class DerbyDatabase implements IDatabase {
 	private Connection connect() throws SQLException {
 		String os = System.getProperty("os.name");
 		Connection conn;
+
 		if(os.contains("Win")) {
 			conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2021-ChessGame-DB/chess.db;create=true");	
 		}
 		else {
-			conn = DriverManager.getConnection("jdbc:derby:Macintosh HD/CS320-2021-ChessGame-DB/chess.db;create=true");
+			conn = DriverManager.getConnection("jdbc:derby:../../../CS320-2021-ChessGame-DB/chess.db;create=true");
 		}
 		// Set autocommit() to false to allow the execution of
 		// multiple queries/statements as part of the same transaction.
@@ -782,9 +810,7 @@ public class DerbyDatabase implements IDatabase {
 							"	move_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
 							"	game_id integer," +
-							"	piece varchar(10)," +
-							"	pos_x integer," +
-							"	pos_y integer" +
+							"	move varchar(10)" +
 							")"
 					);
 					stmt2.executeUpdate();
@@ -794,7 +820,8 @@ public class DerbyDatabase implements IDatabase {
 					stmt3 = conn.prepareStatement(
 							"create table userGames (" +
 							"	game_id   integer constraint game_id references moves, " +
-							"	user_id integer constraint user_id references users " +
+							"	player1_id integer constraint player1_id references users, " +
+							"	player2_id integer constraint player2_id references users " +
 							")"
 					);
 					stmt3.executeUpdate();
@@ -889,33 +916,62 @@ public class DerbyDatabase implements IDatabase {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
-				List<User> userList;
+				List<User> usersList;
+				List<Game> gamesList;
+				List<userGames> userGamesList;
 				
 				try {
-					userList     = InitialData.getUsers();
+					usersList = InitialData.getUsers();
+					//gamesList = InitialData.getMoves();
+					//userGamesList = InitialData.getUserGames();	
 				
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 				}
 
-				PreparedStatement insertUser     = null;
-
+				PreparedStatement insertUsers = null;
+				PreparedStatement insertMoves = null;
+				PreparedStatement insertUserGames = null;
 				try {
 					// must completely populate Authors table before populating BookAuthors table because of primary keys
-					insertUser = conn.prepareStatement("insert into users (username, password, securityquestion, securityanswer) values (?, ?, ?, ?)");
-					for (User user : userList) {
+					insertUsers = conn.prepareStatement("insert into users (username, password, securityquestion, securityanswer) values (?, ?, ?, ?)");
+					for (User user : usersList) {
 //						insertUser.setInt(1, user.getUserId());	// auto-generated primary key, don't insert this
-						insertUser.setString(1, user.getUser());
-						insertUser.setString(2, user.getPassword());
-						insertUser.setString(3, user.getSecurityQuestion());
-						insertUser.setString(4, user.getSecurityAnswer());
-						insertUser.addBatch();
+						insertUsers.setString(1, user.getUser());
+						insertUsers.setString(2, user.getPassword());
+						insertUsers.setString(3, user.getSecurityQuestion());
+						insertUsers.setString(4, user.getSecurityAnswer());
+						insertUsers.addBatch();
 					}
-					insertUser.executeBatch();
+					insertUsers.executeBatch();
+					System.out.println("Users table populated");	 
+					/*
+					insertMoves = conn.prepareStatement("insert into moves (game_id, move) values (?, ?)");
+					for(Game game : gamesList) {
+//						insertMoves.setInt(1, move.getMove_ID);	// auto-generated primary key, don't insert this
+						insertMoves.setString(1, game.getGameID()); //TODO: ADD GAME_ID
+						insertMoves.setString(2, game.getLastMove().getMove());
+					}
+					insertUsers.executeBatch();
+					System.out.println("Users table populated");
 					
+					
+					insertUserGames = conn.prepareStatement("insert into userGames (game_id, player1_id, player2_id) values (?, ?, ?)");
+					for (userGames game : userGamesList) {
+						insertUserGames.setInt(1,  game.getGame_ID());
+						insertUserGames.setInt(2,  game.getPlayer1_ID());
+						insertUserGames.setInt(3,  game.getPlayer2_ID());
+						insertUserGames.addBatch();
+					}
+					insertUserGames.executeBatch();	
+					
+					System.out.println("userGames table populated");		
+					*/
 					return true;
 				} finally {
-					DBUtil.closeQuietly(insertUser);				
+					DBUtil.closeQuietly(insertUsers);	
+					DBUtil.closeQuietly(insertMoves);	
+					DBUtil.closeQuietly(insertUserGames);	
 				}
 			}
 		});
@@ -929,6 +985,6 @@ public class DerbyDatabase implements IDatabase {
 		System.out.println("Loading initial data...");
 		db.loadInitialData();
 		
-		//System.out.println("Library DB successfully initialized!");
+		System.out.println("Library DB successfully initialized!");
 	}
 }

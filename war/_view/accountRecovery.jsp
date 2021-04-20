@@ -50,13 +50,13 @@
 			
 					<tr>
 						<td class="label">New Password:</td><br/>
-						<td><input type="password" name="newPassword" size="12" value="${newPassword}" required= true/></td>
+						<td><input type="label" name="newPassword" size="12" value="${newPassword}" required= true/></td>
 					</tr>
 					<br/>
 
 					<tr>
 						<td class="label">Confirm New Password:</td><br/>
-						<td><input type="password" name="checkPassword" size="12" value="${checkPassword}" required= true/></td>
+						<td><input type="label" name="checkPassword" size="12" value="${checkPassword}" required= true/></td>
 					</tr>
 					<br/>
 					

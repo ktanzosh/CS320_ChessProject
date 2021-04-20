@@ -31,12 +31,12 @@
 
 				<tr>
 					<td class="label">Password:</td></br>
-					<td><input type="password" name="password" size="12" value="${model.password}" /></td></br>
+					<td><input type="label" name="password" size="12" value="${model.password}" /></td></br>
 				</tr>
 
 				<tr>
 					<td class="label">Confirm Password:</td></br>
-					<td><input type="password" name="confirmPassword" size="12" value="${model.getPasswordConfirmation()}" /></td></br>
+					<td><input type="label" name="confirmPassword" size="12" value="${model.getPasswordConfirmation()}" /></td></br>
 				</tr>
 
 				<td class="label">Security Question:</td></br>
