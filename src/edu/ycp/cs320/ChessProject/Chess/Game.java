@@ -289,6 +289,11 @@ public class Game
 		return this.BlackPlayer;
 	}
 	
+	public Move getLastMove()
+	{
+		return this.MoveList.get(MoveList.size() - 1);
+	}
+	
 	public void isFinish()
 	{
 		this.finished = true;

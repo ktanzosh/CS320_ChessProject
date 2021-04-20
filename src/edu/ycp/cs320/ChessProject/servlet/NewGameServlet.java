@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.ChessProject.Chess.ChessPiece;
 import edu.ycp.cs320.ChessProject.Chess.Game;
+import edu.ycp.cs320.ChessProject.Chess.Move;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 public class NewGameServlet extends HttpServlet {
@@ -132,6 +133,8 @@ public class NewGameServlet extends HttpServlet {
 				resp.getWriter().write("true");
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				gameSession.setAttribute("sessionGame", playGame);
+				Move sendMove = playGame.getLastMove();
+				String moveString = sendMove.getMove();
 				//send to database
 			}
 			
@@ -151,6 +154,8 @@ public class NewGameServlet extends HttpServlet {
 				resp.getWriter().write("true");
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				gameSession.setAttribute("sessionGame", playGame);
+				Move sendMove = playGame.getLastMove();
+				String moveString = sendMove.getMove();
 				//send to database
 			}
 			
