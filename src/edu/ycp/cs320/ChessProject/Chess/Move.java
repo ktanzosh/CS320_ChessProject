@@ -76,9 +76,14 @@ public class Move
 	
 	public void printMove()
 	{
-		if(wasCastle == true)
+		if(wasCastle == true && ypos.equals("B"))
 		{
 			System.out.println("0-0");
+		}
+		
+		if(wasCastle == true && ypos.equals("G"))
+		{
+			System.out.println("0-0-0");
 		}
 		
 		if(tookPiece == false)
@@ -95,9 +100,14 @@ public class Move
 	
 	public String getMove()
 	{
-		if(wasCastle == true)
+		if(wasCastle == true && ypos.equals("B"))
 		{
 			return "0-0";
+		}
+		
+		if(wasCastle == true && ypos.equals("G"))
+		{
+			return "0-0-0";
 		}
 		
 		if(tookPiece == false)

@@ -77,8 +77,19 @@ public class KingPiece extends ChessPiece
 		
 		try
 		{
+			//goes to 7,7 or 0,7
+			if(newy == 6)
+			{
+				newy++;
+			}
+			
+			else if(newy == 1)
+			{
+				newy--;
+			}
+			
 			ChessPiece castleRook = cb.getTile(newx, newy).getPiece();
-			if(castleRook.whatPiece() != "Rook")
+			if(castleRook.whatPiece().equals("Rook") == false)
 			{
 				System.out.println("Not a rook");
 				return false;
