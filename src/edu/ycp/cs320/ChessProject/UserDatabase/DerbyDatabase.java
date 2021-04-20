@@ -717,7 +717,7 @@ public class DerbyDatabase implements IDatabase {
 			conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2021-ChessGame-DB/chess.db;create=true");	
 		}
 		else {
-			conn = DriverManager.getConnection("jdbc:derby:Macintosh HD/CS320-2021-ChessGame-DB/chess.db;create=true");
+			conn = DriverManager.getConnection("jdbc:derby:../../../CS320-2021-ChessGame-DB/chess.db;create=true");
 		}
 		// Set autocommit() to false to allow the execution of
 		// multiple queries/statements as part of the same transaction.
