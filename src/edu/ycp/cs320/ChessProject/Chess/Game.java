@@ -259,6 +259,11 @@ public class Game
 		return this.BlackPieces;
 	}
 	
+	public void setWhiteKing(KingPiece kp)
+	{
+		this.WhiteKing = kp;
+	}
+	
 	public KingPiece getWhiteKing() 
 	{
 		return this.WhiteKing;
@@ -269,6 +274,11 @@ public class Game
 		return this.BlackKing;
 	}
 	
+	public void setWhitePlayer(Player wp)
+	{
+		this.WhitePlayer = wp;
+	}
+	
 	public Player getWhitePlayer() 
 	{
 		return this.WhitePlayer;
@@ -277,6 +287,11 @@ public class Game
 	public Player getBlackPlayer() 
 	{
 		return this.BlackPlayer;
+	}
+	
+	public Move getLastMove()
+	{
+		return this.MoveList.get(MoveList.size() - 1);
 	}
 	
 	public void isFinish()
@@ -521,6 +536,102 @@ public class Game
 			finalString += m.getMove() + "\n";
 		}
 		return finalString;
+	}
+	
+	//Still in testing
+	public void PawnPromotion(ArrayList<ChessPiece> pieces, String newPiece)
+	{
+		for(ChessPiece p : pieces) 
+		{
+			if(p.whatPiece().equals("Pawn"))
+			{
+				if(p.getColor() == true)
+				{
+					//if a white piece gets to the other side
+					if(p.getPosX() == 0)
+					{
+						if(newPiece.equals("Rook"))
+						{
+							p.isKilled();
+							RookPiece WhiteRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(WhiteRookPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(WhiteRookPromotion);
+						}
+						
+						if(newPiece.equals("Bishop"))
+						{
+							p.isKilled();
+							BishopPiece WhiteBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(WhiteBishopPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(WhiteBishopPromotion);
+						}
+						
+						if(newPiece.equals("Knight"))
+						{
+							p.isKilled();
+							KnightPiece WhiteKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(WhiteKnightPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(WhiteKnightPromotion);
+						}
+						
+						if(newPiece.equals("Queen"))
+						{
+							p.isKilled();
+							QueenPiece WhiteQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(WhiteQueenPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(WhiteQueenPromotion);
+						}
+					}
+				}
+				
+				else if(p.getColor() == false)
+				{
+					//if a white piece gets to the other side
+					if(p.getPosX() == 7)
+					{
+						if(newPiece.equals("Rook"))
+						{
+							p.isKilled();
+							RookPiece BlackRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(BlackRookPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(BlackRookPromotion);
+						}
+						
+						if(newPiece.equals("Bishop"))
+						{
+							p.isKilled();
+							BishopPiece BlackBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(BlackBishopPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(BlackBishopPromotion);
+						}
+						
+						if(newPiece.equals("Knight"))
+						{
+							p.isKilled();
+							KnightPiece BlackKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(BlackKnightPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(BlackKnightPromotion);
+						}
+						
+						if(newPiece.equals("Queen"))
+						{
+							p.isKilled();
+							QueenPiece BlackQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(BlackQueenPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(BlackQueenPromotion);
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	public void playGame(Player player1, Player player2)
