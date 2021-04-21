@@ -10,6 +10,11 @@ import javax.servlet.http.HttpSession;
 import edu.ycp.cs320.ChessProject.Chess.ChessPiece;
 import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.Chess.Move;
+<<<<<<< HEAD
+=======
+import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
+import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
+>>>>>>> main
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 public class NewGameServlet extends HttpServlet {
@@ -37,6 +42,12 @@ public class NewGameServlet extends HttpServlet {
 				return;
 			}
 			
+			Game sessionGame = new Game();
+			sessionGame.setGame();
+			sessionGame.setGameID(1);
+			HttpSession gameSession = req.getSession(true);
+			gameSession.setAttribute("sessionGame", sessionGame);
+			
 			String username = userModel.getUser();
 			req.setAttribute("username", username);
 			req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
@@ -48,8 +59,11 @@ public class NewGameServlet extends HttpServlet {
 		
 		System.out.println("New Game Servlet: doPost");
 		//System.out.println("THE POST HAS BEEN ACTIVATED");
-		Game newGame = new Game();
-		newGame.setGame();
+		
+		//Game newGame = new Game();
+		//newGame.setGame();
+		HttpSession gameSession = req.getSession(false);
+		Game playGame = (Game) gameSession.getAttribute(("sessionGame"));
 		
 		
 		
@@ -125,13 +139,23 @@ public class NewGameServlet extends HttpServlet {
 		
 		
 		
-		ChessPiece movePiece = newGame.getChessBoard().getTile(ix, iy).getPiece();
+		ChessPiece movePiece = playGame.getChessBoard().getTile(ix, iy).getPiece();
 		if(friendlyColor == true)
 		{
-			if(newGame.checkMove(dx, dy, newGame.getChessBoard(), movePiece, newGame.getWhitePlayer()) == true)
+			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
 			{
 				resp.getWriter().write("true");
-				newGame.doMove(newGame.getChessBoard(), movePiece, dx, dy);
+				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
+				gameSession.setAttribute("sessionGame", playGame);
+				Move sendMove = playGame.getLastMove();
+				String moveString = sendMove.getMove();
+				int id = playGame.getGameID();
+				
+				IDatabase db = DatabaseProvider.getInstance();
+				db.insertNewMove(id, moveString);
+				
+				resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
+				//System.out.println(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
 			}
 			
 			else
@@ -139,8 +163,11 @@ public class NewGameServlet extends HttpServlet {
 				resp.getWriter().write("false");
 			}
 			
+<<<<<<< HEAD
 			resp.getWriter().write(newGame.getResult(newGame.getBlackPlayer(), newGame.getChessBoard(), newGame.getBlackKing(), newGame.getBlackPieces()));
 			//System.out.println(newGame.getResult(newGame.getBlackPlayer(), newGame.getChessBoard(), newGame.getBlackKing(), newGame.getBlackPieces()));
+=======
+>>>>>>> main
 		}
 
 		
@@ -151,19 +178,43 @@ public class NewGameServlet extends HttpServlet {
 		
 		else if(friendlyColor == false)
 		{
-			if(newGame.checkMove(dx, dy, newGame.getChessBoard(), movePiece, newGame.getBlackPlayer()) == true)
+			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
 				resp.getWriter().write("true");
-				newGame.doMove(newGame.getChessBoard(), movePiece, dx, dy);
+				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
+				gameSession.setAttribute("sessionGame", playGame);
+				Move sendMove = playGame.getLastMove();
+				String moveString = sendMove.getMove();
+				int id = playGame.getGameID();
+				
+				IDatabase db = DatabaseProvider.getInstance();
+				db.insertNewMove(id, moveString);
+				
+				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
+				//System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
 			}
 			
 			else
 			{
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
 				resp.getWriter().write("false");
 			}
+<<<<<<< HEAD
 			
 			resp.getWriter().write(newGame.getResult(newGame.getWhitePlayer(), newGame.getChessBoard(), newGame.getWhiteKing(), newGame.getWhitePieces()));
 			//System.out.println(newGame.getResult(newGame.getWhitePlayer(), newGame.getChessBoard(), newGame.getWhiteKing(), newGame.getWhitePieces()));
+=======
+		
+>>>>>>> main
 		}
 		
 		if(req.getParameter("index") != null) 

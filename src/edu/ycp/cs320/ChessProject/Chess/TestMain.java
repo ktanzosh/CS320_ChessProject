@@ -12,6 +12,7 @@ public class TestMain
 		Player BlackPlayer = new Player(false);
 		
 		Game testGame = new Game();
+		
 		testGame.setGame();
 		drawBoard(testGame);
 

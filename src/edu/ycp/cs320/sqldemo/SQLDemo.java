@@ -45,11 +45,11 @@ public class SQLDemo {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			String os = System.getProperty("os.name");
-			if(os.equals("Windows")) {
+			if(os.contains("Win")) {
 				conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2021-ChessGame-DB/chess.db;create=true");	
 			}
 			else {
-				conn = DriverManager.getConnection("jdbc:derby:Macintosh HD/CS320-2021-ChessGame-DB/chess.db;create=true");
+				conn = DriverManager.getConnection("jdbc:derby:../../../CS320-2021-ChessGame-DB/chess.db;create=true");
 			}
 			conn.setAutoCommit(true);
 	
