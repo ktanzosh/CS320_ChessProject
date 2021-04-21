@@ -76,6 +76,7 @@ public class Move
 	
 	public void printMove()
 	{
+		//System.out.println("printMove() function");
 		if(wasCastle == true && ypos.equals("g"))
 		{
 			System.out.println("0-0");
@@ -100,6 +101,7 @@ public class Move
 	
 	public String getMove()
 	{
+		//System.out.println("getMove() function");
 		if(wasCastle == true && ypos.equals("g"))
 		{
 			return "0-0";

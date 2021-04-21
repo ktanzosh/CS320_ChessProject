@@ -2,15 +2,14 @@ package edu.ycp.cs320.ChessProject.servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import edu.ycp.cs320.ChessProject.Chess.ChessPiece;
 import edu.ycp.cs320.ChessProject.Chess.Game;
+import edu.ycp.cs320.ChessProject.Chess.Move;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 public class NewGameServlet extends HttpServlet {
@@ -21,8 +20,6 @@ public class NewGameServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("New Game: doGet");
-		
-		
 		
 		HttpSession userSession = req.getSession(false);
 		
@@ -49,10 +46,13 @@ public class NewGameServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
 		
-		//System.out.println("New Game Servlet: doPost");
+		System.out.println("New Game Servlet: doPost");
 		//System.out.println("THE POST HAS BEEN ACTIVATED");
 		Game newGame = new Game();
 		newGame.setGame();
+		
+		
+		
 		
 		BufferedReader reader = req.getReader();
 		
@@ -101,7 +101,7 @@ public class NewGameServlet extends HttpServlet {
 		}
 		int parsedNew = Integer.parseInt(newOne);
 		
-		System.out.println("A: " + a + "B: " + b + "C: " + c + "D " + d);
+		//System.out.println("A: " + a + "B: " + b + "C: " + c + "D " + d);
 		int ix = ((parsedOrig - 1) / 8);
 		int iy = (parsedOrig % 8) - 1;
 		if(iy == -1)
@@ -115,8 +115,15 @@ public class NewGameServlet extends HttpServlet {
 		{
 			dy = 7;
 		}
-		
+
 		System.out.println("Move from " + ix + ", " + iy + " to " + dx + ", " + dy);
+
+		
+		
+		
+		
+		
+		
 		
 		ChessPiece movePiece = newGame.getChessBoard().getTile(ix, iy).getPiece();
 		if(friendlyColor == true)
@@ -133,8 +140,14 @@ public class NewGameServlet extends HttpServlet {
 			}
 			
 			resp.getWriter().write(newGame.getResult(newGame.getBlackPlayer(), newGame.getChessBoard(), newGame.getBlackKing(), newGame.getBlackPieces()));
-			System.out.println(newGame.getResult(newGame.getBlackPlayer(), newGame.getChessBoard(), newGame.getBlackKing(), newGame.getBlackPieces()));
+			//System.out.println(newGame.getResult(newGame.getBlackPlayer(), newGame.getChessBoard(), newGame.getBlackKing(), newGame.getBlackPieces()));
 		}
+
+		
+		
+		//req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
+		//System.out.println("posted to game history page?");
+
 		
 		else if(friendlyColor == false)
 		{
@@ -150,7 +163,7 @@ public class NewGameServlet extends HttpServlet {
 			}
 			
 			resp.getWriter().write(newGame.getResult(newGame.getWhitePlayer(), newGame.getChessBoard(), newGame.getWhiteKing(), newGame.getWhitePieces()));
-			System.out.println(newGame.getResult(newGame.getWhitePlayer(), newGame.getChessBoard(), newGame.getWhiteKing(), newGame.getWhitePieces()));
+			//System.out.println(newGame.getResult(newGame.getWhitePlayer(), newGame.getChessBoard(), newGame.getWhiteKing(), newGame.getWhitePieces()));
 		}
 		
 		if(req.getParameter("index") != null) 

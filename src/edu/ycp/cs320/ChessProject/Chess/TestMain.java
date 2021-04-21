@@ -41,7 +41,7 @@ public class TestMain
 			drawBoard(testGame);
 		}
 		
-		System.out.println(testGame.getMoveList());
+		//System.out.println(testGame.getMoveList());
 		
 		KingPiece kp = testGame.getWhiteKing();
 		String res = testGame.getResult(WhitePlayer, testGame.getChessBoard(), kp, testGame.getWhitePieces());
