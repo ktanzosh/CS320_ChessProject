@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
 	<head>
@@ -12,15 +14,22 @@
 
 	
 	<body>
-		Game history will be listed here
-		
-		<ul>
-		  <li>${moves}</li>
-		  <li>Player B moved to </li>
-		  <li>Player A moved to </li>
-		  <li>Player B moved to </li>
-		  <li> . . . </li>
-		</ul>
+		<c:choose>
+			<c:when test="${gamesExist == false}">
+				<!--The Third Step </br> -->
+				
+				this user has no games
+
+			</c:when> 
+
+			<c:otherwise>    <!-- else condition -->
+				<!-- The First Step </br> -->
+
+				has games
+				<h1>${moves}</h1>
+
+			</c:otherwise>
+	</c:choose>
 		
 		
 		

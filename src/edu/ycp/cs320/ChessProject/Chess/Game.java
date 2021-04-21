@@ -549,7 +549,7 @@ public class Game
 	
 	public String getMoveList()
 	{
-		System.out.println("BEFLIUSBIUSBKFYSGFYSGFKSHFSEFJK");
+		//System.out.println("BEFLIUSBIUSBKFYSGFYSGFKSHFSEFJK");
 		String finalString = "";
 		
 		for(Move m : this.MoveList)

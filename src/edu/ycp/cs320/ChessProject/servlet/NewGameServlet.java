@@ -1,7 +1,10 @@
 package edu.ycp.cs320.ChessProject.servlet;
 
+import java.awt.List;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +46,12 @@ public class NewGameServlet extends HttpServlet {
 			Game sessionGame = new Game();
 			sessionGame.setGame();
 			sessionGame.setGameID(1);
+			
+			ArrayList<String> moves = new ArrayList<String>();
+			
 			HttpSession gameSession = req.getSession(true);
 			gameSession.setAttribute("sessionGame", sessionGame);
+			gameSession.setAttribute("moves", moves);
 			
 			String username = userModel.getUser();
 			req.setAttribute("username", username);
@@ -56,15 +63,11 @@ public class NewGameServlet extends HttpServlet {
 		throws ServletException, IOException {
 		
 		System.out.println("New Game Servlet: doPost");
-		//System.out.println("THE POST HAS BEEN ACTIVATED");
-		
-		//Game newGame = new Game();
-		//newGame.setGame();
+
 		HttpSession gameSession = req.getSession(false);
 		Game playGame = (Game) gameSession.getAttribute(("sessionGame"));
 		
-		
-		
+		ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
 		
 		BufferedReader reader = req.getReader();
 		
@@ -132,8 +135,10 @@ public class NewGameServlet extends HttpServlet {
 
 		
 		
+		playGame.printMoveList();
 		
-		
+		//String list = playGame.getMoveList();
+		//System.out.println(list);
 		
 		
 		
@@ -145,14 +150,16 @@ public class NewGameServlet extends HttpServlet {
 				resp.getWriter().write("true");
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				gameSession.setAttribute("sessionGame", playGame);
-				Move sendMove = playGame.getLastMove();
-				String moveString = sendMove.getMove();
+				Move sendMove = playGame.getLastMove(); //need
+				String moveString = sendMove.getMove(); //need
 				int id = playGame.getGameID();
 				
 				IDatabase db = DatabaseProvider.getInstance();
+				db.insertNewMove(id, moveString);
+				moves.add(moveString);
+				gameSession.setAttribute("moves", moves);
 				
 				resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
-				//System.out.println(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
 			}
 			
 			else
@@ -182,6 +189,9 @@ public class NewGameServlet extends HttpServlet {
 				int id = playGame.getGameID();
 				
 				IDatabase db = DatabaseProvider.getInstance();
+				db.insertNewMove(id, moveString);
+				moves.add(moveString);
+				gameSession.setAttribute("moves", moves);
 				
 				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
 				//System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));

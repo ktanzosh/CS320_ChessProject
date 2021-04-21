@@ -23,14 +23,21 @@ public class GameHistoryServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("Game History: doGet");
-		
+		boolean gamesExist;
 		HttpSession userSession = req.getSession(false);
+		HttpSession gameSession = req.getSession(false);
+		
 		
 		if(userSession == null) {
 			userSession = req.getSession(true);
 			resp.sendRedirect("/ChessProject/loginPage");
 			return;
 		}
+		if(gameSession == null) {
+			gamesExist = false;
+			req.setAttribute("gamesExist", gamesExist);
+		}
+		
 		
 		else {
 			User userModel = (User) userSession.getAttribute("userInfo");
@@ -40,6 +47,12 @@ public class GameHistoryServlet extends HttpServlet {
 				return;
 			}
 			
+			
+			//arraylist of moves
+			ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
+			
+			req.setAttribute("moves", moves);
+			
 			String username = userModel.getUser();
 			req.setAttribute("username", username);
 			
@@ -47,20 +60,21 @@ public class GameHistoryServlet extends HttpServlet {
 			//connecting game class - kayla
 			// get kevins code in here after he decodes?
 			
-			//User games = new User();
-			//List<Game> userGames = games.getGameList();
-			//games.getMoves();
-			//System.out.println(userGames);
-			//req.setAttribute("userGames", userGames);
-			
 			
 			//MAYBE THIS WORKS
-			Game game = new Game();
 			
-			ArrayList<Integer> moves = game.getMoves();
-			System.out.println(moves);
+			//List<Game>list = userModel.getGameList();
+		
 			
-			req.setAttribute("moves", moves);
+			
+			//System.out.println(list);
+			
+			
+			
+			//ArrayList<Integer> moves = game.getMoves();
+			//System.out.println(moves);
+			
+			//req.setAttribute("moves", moves);
 		
 			req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
 		}
