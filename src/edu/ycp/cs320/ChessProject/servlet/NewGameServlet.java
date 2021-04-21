@@ -10,11 +10,9 @@ import javax.servlet.http.HttpSession;
 import edu.ycp.cs320.ChessProject.Chess.ChessPiece;
 import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.Chess.Move;
-<<<<<<< HEAD
-=======
 import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
 import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
->>>>>>> main
+
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 public class NewGameServlet extends HttpServlet {
@@ -152,7 +150,6 @@ public class NewGameServlet extends HttpServlet {
 				int id = playGame.getGameID();
 				
 				IDatabase db = DatabaseProvider.getInstance();
-				db.insertNewMove(id, moveString);
 				
 				resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
 				//System.out.println(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
@@ -163,11 +160,8 @@ public class NewGameServlet extends HttpServlet {
 				resp.getWriter().write("false");
 			}
 			
-<<<<<<< HEAD
-			resp.getWriter().write(newGame.getResult(newGame.getBlackPlayer(), newGame.getChessBoard(), newGame.getBlackKing(), newGame.getBlackPieces()));
-			//System.out.println(newGame.getResult(newGame.getBlackPlayer(), newGame.getChessBoard(), newGame.getBlackKing(), newGame.getBlackPieces()));
-=======
->>>>>>> main
+
+
 		}
 
 		
@@ -188,7 +182,6 @@ public class NewGameServlet extends HttpServlet {
 				int id = playGame.getGameID();
 				
 				IDatabase db = DatabaseProvider.getInstance();
-				db.insertNewMove(id, moveString);
 				
 				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
 				//System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
@@ -208,13 +201,7 @@ public class NewGameServlet extends HttpServlet {
 				System.out.println("");
 				resp.getWriter().write("false");
 			}
-<<<<<<< HEAD
-			
-			resp.getWriter().write(newGame.getResult(newGame.getWhitePlayer(), newGame.getChessBoard(), newGame.getWhiteKing(), newGame.getWhitePieces()));
-			//System.out.println(newGame.getResult(newGame.getWhitePlayer(), newGame.getChessBoard(), newGame.getWhiteKing(), newGame.getWhitePieces()));
-=======
-		
->>>>>>> main
+
 		}
 		
 		if(req.getParameter("index") != null) 

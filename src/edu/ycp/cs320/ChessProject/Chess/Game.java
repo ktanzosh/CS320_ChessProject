@@ -247,23 +247,6 @@ public class Game
 	}
 	
 	
-	// i added this for the time being to see how connect gameHistory
-	public ArrayList<Integer> getMoves() {
-		//String moves = "this is the moves";
-
-		//moves.add(69);
-		//moves.add(96);
-		//moves.add(985);
-		
-		//System.out.println(moves.get(0));
-		
-		//for (int i = 0; i < moves.size(); i++) {
-		//}
-		
-		return moves;
-	}
-	
-	
 	public void setChessBoard(ChessBoard c)
 	{
 		this.cb = c;
