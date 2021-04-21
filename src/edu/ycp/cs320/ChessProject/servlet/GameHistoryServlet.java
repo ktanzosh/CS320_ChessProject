@@ -24,6 +24,7 @@ public class GameHistoryServlet extends HttpServlet {
 		
 		System.out.println("Game History: doGet");
 		boolean gamesExist;
+		
 		HttpSession userSession = req.getSession(false);
 		HttpSession gameSession = req.getSession(false);
 		
@@ -33,6 +34,7 @@ public class GameHistoryServlet extends HttpServlet {
 			resp.sendRedirect("/ChessProject/loginPage");
 			return;
 		}
+		
 		if(gameSession == null) {
 			gamesExist = false;
 			req.setAttribute("gamesExist", gamesExist);
@@ -46,40 +48,21 @@ public class GameHistoryServlet extends HttpServlet {
 				resp.sendRedirect("/ChessProject/loginPage");
 				return;
 			}
-			
+
 			
 			//arraylist of moves
 			ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
+
+			
 			
 			req.setAttribute("moves", moves);
 			
 			String username = userModel.getUser();
 			req.setAttribute("username", username);
-			
-			
-			//connecting game class - kayla
-			// get kevins code in here after he decodes?
-			
-			
-			//MAYBE THIS WORKS
-			
-			//List<Game>list = userModel.getGameList();
-		
-			
-			
-			//System.out.println(list);
-			
-			
-			
-			//ArrayList<Integer> moves = game.getMoves();
-			//System.out.println(moves);
-			
-			//req.setAttribute("moves", moves);
 		
 			req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
 		}
-
-			
+	
 	}
 	
 	@Override
@@ -92,7 +75,6 @@ public class GameHistoryServlet extends HttpServlet {
 				resp.sendRedirect("/ChessProject/index");
 				return;		
 			}
-			
 
 		}
 	

@@ -7,7 +7,7 @@
 		<title>Game History</title>
 	</head>
 
-	<link rel="stylesheet" type="text/css" href="_view/possibleLook.css"/>
+	<link rel="stylesheet" type="text/css" href="_view/possibleLook1.css"/>
 	
 	<h1>Below are your past games, ${username}</h1>
 	
@@ -15,18 +15,19 @@
 	
 	<body>
 		<c:choose>
-			<c:when test="${gamesExist == false}">
+			<c:when test="${moves == null}">
 				<!--The Third Step </br> -->
 				
-				this user has no games
+				It looks like you don't have any past games!
 
 			</c:when> 
 
 			<c:otherwise>    <!-- else condition -->
 				<!-- The First Step </br> -->
 
-				has games
-				<h1>${moves}</h1>
+				Here are your past moves!
+				<h2>Your Game</h2>
+				<p>${moves}</p>
 
 			</c:otherwise>
 	</c:choose>

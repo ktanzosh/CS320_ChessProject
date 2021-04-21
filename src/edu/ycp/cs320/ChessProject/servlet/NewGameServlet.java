@@ -69,6 +69,11 @@ public class NewGameServlet extends HttpServlet {
 		
 		ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
 		
+		//IF THERE ARE NO MOVES***********************
+		if(moves.isEmpty()) {
+			System.out.println("no Games");
+		}
+		
 		BufferedReader reader = req.getReader();
 		
 		String line = null;
@@ -98,12 +103,20 @@ public class NewGameServlet extends HttpServlet {
 		int b = total.indexOf(":", a+1);
 		
 		int c = total.indexOf(":", b+1);
-		String color = total.substring(c+1, c+2);
-		boolean friendlyColor= false;
+		boolean friendlyColor = false;
+		String color = total.substring(c+2, c+3);
+		System.out.println(color);
+		
 		//only if enemyColor is white do you change the value of enemyColor
+		
 		if(color.equals("w"))
 		{
 			friendlyColor = true;
+			System.out.println("white");
+		}
+		else {
+			friendlyColor = false;
+			System.out.println("black");
 		}
 		
 		int d = total.indexOf(":", c+1);
@@ -133,17 +146,16 @@ public class NewGameServlet extends HttpServlet {
 
 		System.out.println("Move from " + ix + ", " + iy + " to " + dx + ", " + dy);
 
-		
-		
+
 		playGame.printMoveList();
-		
-		//String list = playGame.getMoveList();
-		//System.out.println(list);
-		
-		
+
 		
 		ChessPiece movePiece = playGame.getChessBoard().getTile(ix, iy).getPiece();
+		String playerWhite = "White's move: ";
+		String playerBlack = "Black's move: ";
+		
 		if(friendlyColor == true)
+			
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
 			{
@@ -156,7 +168,7 @@ public class NewGameServlet extends HttpServlet {
 				
 				IDatabase db = DatabaseProvider.getInstance();
 				db.insertNewMove(id, moveString);
-				moves.add(moveString);
+				moves.add(System.lineSeparator() + playerWhite + moveString);
 				gameSession.setAttribute("moves", moves);
 				
 				resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
@@ -166,16 +178,8 @@ public class NewGameServlet extends HttpServlet {
 			{
 				resp.getWriter().write("false");
 			}
-			
-
 
 		}
-
-		
-		
-		//req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
-		//System.out.println("posted to game history page?");
-
 		
 		else if(friendlyColor == false)
 		{
@@ -190,7 +194,7 @@ public class NewGameServlet extends HttpServlet {
 				
 				IDatabase db = DatabaseProvider.getInstance();
 				db.insertNewMove(id, moveString);
-				moves.add(moveString);
+				moves.add(System.lineSeparator() + playerBlack + moveString);
 				gameSession.setAttribute("moves", moves);
 				
 				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
