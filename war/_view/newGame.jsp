@@ -94,6 +94,7 @@ p {
 }
 </style>
 	<p id="chessNotation"></p>
+	<p id="pawnPromo"></p>
 	<button type="button" onclick="resetGame()" onmouseout="mOut(this)"
 		onmouseover="mOver(this)">Restart Game</button>
 
@@ -111,15 +112,14 @@ p {
 			<span class="close">&times;</span>
 			<h2>Pick which piece you want to promote</h2>
 			<form action="/action_page.php">
-  <input type="radio" id="queen" name="piece" value="queen">
-  <label for="queen">Queen</label><br>
-  <input type="radio" id="king" name="piece" value="king">
-  <label for="king">King</label><br>
-  <div>
-    <button id="submit" type="submit">Submit</button>
-  </div>
-</form> 
-<pre id="log">
+				<input type="radio" id="queen" name="piece" value="queen"> <label
+					for="queen">Queen</label><br> <input type="radio" id="king"
+					name="piece" value="king"> <label for="king">King</label><br>
+				<div>
+					<button id="submit" type="submit">Submit</button>
+				</div>
+			</form>
+			<pre id="log">
 </pre>
 		</div>
 
@@ -159,7 +159,7 @@ var pieceName;
 
 // pawn promotion 
 var pawnPromotion = false;
-
+document.getElementById("myBtn").style.visibility = "hidden";
 var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
   
@@ -226,6 +226,7 @@ var S = {
         if(squareID_ > 57 && pieceName == "pawn"){
         	pawnPromotion = true;
         	document.getElementById("moveList").style.color = "white";
+        	document.getElementById("myBtn").style.visibility = "visible";
         	var promotion = "WHITE'S PAWN PROMOTION";
     		moveList.push("<br>" + promotion);
     		document.getElementById("moveList").innerHTML = moveList;	
@@ -234,12 +235,15 @@ var S = {
         	
         	pawnPromotion = false;
         }
+        
+        
         val = {
 				initialPosition: initialPosition,
 				pieceName: pieceName,
 				playerColor: playerColor,
 				finalPosition: squareID_,
-				pawnPromotion: pawnPromotion
+				pawnPromotion: pawnPromotion,
+				promotionChoice: promoChoice
 				
 			  };
 			  postData('newGame', val).then(function(data){
@@ -403,7 +407,6 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   return 0;
 }
 
-
 // fix for later on 
 	$('#restart-btn').on('click', function() {
 		resetGame();
@@ -430,38 +433,43 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 	
 	
 	
-	
-	
 	var form = document.querySelector("form");
 	var log = document.querySelector("#log");
-
+	var promoChoice;
 	form.addEventListener("submit", function(event) {
 	  var data = new FormData(form);
-	  var output = "";
+	  promoChoice = "";
 	  for (const entry of data) {
-	    output = output + entry[0] + "=" + entry[1] + "\r";
+	    promoChoice = entry[1];
+	    document.getElementById("pawnPromo").innerHTML = "successfully chose " + promoChoice;
 	  };
-	  log.innerText = output;
 	  event.preventDefault();
 	}, false);
-	
-	
+
 	
 	var modal = document.getElementById("myModal");
-
-	// Get the button that opens the modal
 	var btn = document.getElementById("myBtn");
-
-	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 
-	// When the user clicks the button, open the modal 
 	btn.onclick = function() {
 	  modal.style.display = "block";
 	}
 
-	// When the user clicks on <span> (x), close the modal
 	span.onclick = function() {
+		
+		 val = {
+					initialPosition: initialPosition,
+					pieceName: pieceName,
+					playerColor: playerColor,
+					finalPosition: squareID_,
+					pawnPromotion: pawnPromotion,
+					promotionChoice: promoChoice
+					
+				  };
+				  postData('newGame', val).then(function(data){
+				  	console.log(data);
+			});
+				  
 	  modal.style.display = "none";
 	}
 
