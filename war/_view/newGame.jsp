@@ -223,7 +223,7 @@ var S = {
         
        
         //do pawn promotion for white pawns
-        if(squareID_ > 57 && pieceName == "pawn"){
+        if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
         	pawnPromotion = true;
         	document.getElementById("moveList").style.color = "white";
         	document.getElementById("myBtn").style.visibility = "visible";
@@ -231,6 +231,16 @@ var S = {
     		moveList.push("<br>" + promotion);
     		document.getElementById("moveList").innerHTML = moveList;	
         }
+        
+        if(squareID_ < 9 && pieceName == "pawn" && playerColor == "b"){
+        	pawnPromotion = true;
+        	document.getElementById("moveList").style.color = "black";
+        	document.getElementById("myBtn").style.visibility = "visible";
+        	var promotion = "BLACK'S PAWN PROMOTION";
+    		moveList.push("<br>" + promotion);
+    		document.getElementById("moveList").innerHTML = moveList;	
+        }
+        
         else{
         	
         	pawnPromotion = false;
@@ -388,7 +398,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
      return 1; 
      }
     else {
-    	document.getElementById("moveList").innerHTML = "illegal";
+    	//document.getElementById("moveList").innerHTML = "illegal";
      return 3; 
      }
   }
@@ -441,7 +451,8 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 	  promoChoice = "";
 	  for (const entry of data) {
 	    promoChoice = entry[1];
-	    document.getElementById("pawnPromo").innerHTML = "successfully chose " + promoChoice;
+	    moveList.push("<br>" + "successfully chose " + promoChoice + "!");
+	    document.getElementById("moveList").innerHTML = moveList;
 	  };
 	  event.preventDefault();
 	}, false);
@@ -471,6 +482,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 			});
 				  
 	  modal.style.display = "none";
+	  document.getElementById("myBtn").style.visibility = "hidden";
 	}
 
 	// When the user clicks anywhere outside of the modal, close it
