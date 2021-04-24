@@ -6,112 +6,126 @@
 <title>New Game</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="_view/newGameDesign2.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="_view/newGameDesign.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
 <body>
 
-  <h1>Welcome to a new game, ${username}</h1>
+	<h1>Welcome to a new game, ${username}</h1>
 
-<div class="wrapper">
-  <div class="row">
-    <span id="57" class="sq l"><span class="pc b rook">&#9820</span></span>
-    <span id="58" class="sq d"><span class="pc b knight">&#9822</span></span>
-    <span id="59" class="sq l"><span class="pc b bishop">&#9821</span></span>
-    <span id="60" class="sq d"><span class="pc b queen">&#9819</span></span>
-    <span id="61" class="sq l"><span class="pc b king">&#9818</span></span>
-    <span id="62" class="sq d"><span class="pc b bishop">&#9821</span></span>
-    <span id="63" class="sq l"><span class="pc b knight">&#9822</span></span>
-    <span id="64" class="sq d"><span class="pc b rook">&#9820</span></span>
-  </div>
-  <div class="row">
-    <span id="49" class="sq d"><span class="pc b pawn">&#9823</span></span>
-    <span id="50" class="sq l"><span class="pc b pawn">&#9823</span></span>
-    <span id="51" class="sq d"><span class="pc b pawn">&#9823</span></span>
-    <span id="52" class="sq l"><span class="pc b pawn">&#9823</span></span>
-    <span id="53" class="sq d"><span class="pc b pawn">&#9823</span></span>
-    <span id="54" class="sq l"><span class="pc b pawn">&#9823</span></span>
-    <span id="55" class="sq d"><span class="pc b pawn">&#9823</span></span>
-    <span id="56" class="sq l"><span class="pc b pawn">&#9823</span></span>
-  </div>
-  <div class="row">
-    <span id="41" class="sq l"></span>
-    <span id="42" class="sq d"></span>
-    <span id="43" class="sq l"></span>
-    <span id="44" class="sq d"></span>
-    <span id="45" class="sq l"></span>
-    <span id="46" class="sq d"></span>
-    <span id="47" class="sq l"></span>
-    <span id="48" class="sq d"></span>
-  </div>
-  <div class="row">
-    <span id="33" class="sq d"></span>
-    <span id="34" class="sq l"></span>
-    <span id="35" class="sq d"></span>
-    <span id="36" class="sq l"></span>
-    <span id="37" class="sq d"></span>
-    <span id="38" class="sq l"></span>
-    <span id="39" class="sq d"></span>
-    <span id="40" class="sq l"></span>
-  </div>
-  <div class="row">
-    <span id="25" class="sq l"></span>
-    <span id="26" class="sq d"></span>
-    <span id="27" class="sq l"></span>
-    <span id="28" class="sq d"></span>
-    <span id="29" class="sq l"></span>
-    <span id="30" class="sq d"></span>
-    <span id="31" class="sq l"></span>
-    <span id="32" class="sq d"></span>
-  </div>
-  <div class="row">
-    <span id="17" class="sq d"></span>
-    <span id="18" class="sq l"></span>
-    <span id="19" class="sq d"></span>
-    <span id="20" class="sq l"></span>
-    <span id="21" class="sq d"></span>
-    <span id="22" class="sq l"></span>
-    <span id="23" class="sq d"></span>
-    <span id="24" class="sq l"></span>
-  </div>
-  <div class="row">
-    <span id="9" class="sq l"><span class="pc w pawn">&#9817</span></span>
-    <span id="10" class="sq d"><span class="pc w pawn">&#9817</span></span>
-    <span id="11" class="sq l"><span class="pc w pawn">&#9817</span></span>
-    <span id="12" class="sq d"><span class="pc w pawn">&#9817</span></span>
-    <span id="13" class="sq l"><span class="pc w pawn">&#9817</span></span>
-    <span id="14" class="sq d"><span class="pc w pawn">&#9817</span></span>
-    <span id="15" class="sq l"><span class="pc w pawn">&#9817</span></span>
-    <span id="16" class="sq d"><span class="pc w pawn">&#9817</span></span>
-  </div>
-  <div class="row">
-    <span id="1" class="sq d"><span class="pc w rook">&#9814</span></span>
-    <span id="2" class="sq l"><span class="pc w knight">&#9816</span></span>
-    <span id="3" class="sq d"><span class="pc w bishop">&#9815</span></span>
-    <span id="4" class="sq l"><span class="pc w queen">&#9813</span></span>
-    <span id="5" class="sq d"><span class="pc w king">&#9812</span></span>
-    <span id="6" class="sq l"><span class="pc w bishop">&#9815</span></span>
-    <span id="7" class="sq d"><span class="pc w knight">&#9816</span></span>
-    <span id="8" class="sq l"><span class="pc w rook">&#9814</span></span>
-  </div>
-</div>
+	<div class="wrapper">
+		<div class="row">
+			<span id="57" class="sq l"><span class="pc b rook">&#9820</span></span>
+			<span id="58" class="sq d"><span class="pc b knight">&#9822</span></span>
+			<span id="59" class="sq l"><span class="pc b bishop">&#9821</span></span>
+			<span id="60" class="sq d"><span class="pc b queen">&#9819</span></span>
+			<span id="61" class="sq l"><span class="pc b king">&#9818</span></span>
+			<span id="62" class="sq d"><span class="pc b bishop">&#9821</span></span>
+			<span id="63" class="sq l"><span class="pc b knight">&#9822</span></span>
+			<span id="64" class="sq d"><span class="pc b rook">&#9820</span></span>
+		</div>
+		<div class="row">
+			<span id="49" class="sq d"><span class="pc b pawn">&#9823</span></span>
+			<span id="50" class="sq l"><span class="pc b pawn">&#9823</span></span>
+			<span id="51" class="sq d"><span class="pc b pawn">&#9823</span></span>
+			<span id="52" class="sq l"><span class="pc b pawn">&#9823</span></span>
+			<span id="53" class="sq d"><span class="pc b pawn">&#9823</span></span>
+			<span id="54" class="sq l"><span class="pc b pawn">&#9823</span></span>
+			<span id="55" class="sq d"><span class="pc b pawn">&#9823</span></span>
+			<span id="56" class="sq l"><span class="pc b pawn">&#9823</span></span>
+		</div>
+		<div class="row">
+			<span id="41" class="sq l"></span> <span id="42" class="sq d"></span>
+			<span id="43" class="sq l"></span> <span id="44" class="sq d"></span>
+			<span id="45" class="sq l"></span> <span id="46" class="sq d"></span>
+			<span id="47" class="sq l"></span> <span id="48" class="sq d"></span>
+		</div>
+		<div class="row">
+			<span id="33" class="sq d"></span> <span id="34" class="sq l"></span>
+			<span id="35" class="sq d"></span> <span id="36" class="sq l"></span>
+			<span id="37" class="sq d"></span> <span id="38" class="sq l"></span>
+			<span id="39" class="sq d"></span> <span id="40" class="sq l"></span>
+		</div>
+		<div class="row">
+			<span id="25" class="sq l"></span> <span id="26" class="sq d"></span>
+			<span id="27" class="sq l"></span> <span id="28" class="sq d"></span>
+			<span id="29" class="sq l"></span> <span id="30" class="sq d"></span>
+			<span id="31" class="sq l"></span> <span id="32" class="sq d"></span>
+		</div>
+		<div class="row">
+			<span id="17" class="sq d"></span> <span id="18" class="sq l"></span>
+			<span id="19" class="sq d"></span> <span id="20" class="sq l"></span>
+			<span id="21" class="sq d"></span> <span id="22" class="sq l"></span>
+			<span id="23" class="sq d"></span> <span id="24" class="sq l"></span>
+		</div>
+		<div class="row">
+			<span id="9" class="sq l"><span class="pc w pawn">&#9817</span></span>
+			<span id="10" class="sq d"><span class="pc w pawn">&#9817</span></span>
+			<span id="11" class="sq l"><span class="pc w pawn">&#9817</span></span>
+			<span id="12" class="sq d"><span class="pc w pawn">&#9817</span></span>
+			<span id="13" class="sq l"><span class="pc w pawn">&#9817</span></span>
+			<span id="14" class="sq d"><span class="pc w pawn">&#9817</span></span>
+			<span id="15" class="sq l"><span class="pc w pawn">&#9817</span></span>
+			<span id="16" class="sq d"><span class="pc w pawn">&#9817</span></span>
+		</div>
+		<div class="row">
+			<span id="1" class="sq d"><span class="pc w rook">&#9814</span></span>
+			<span id="2" class="sq l"><span class="pc w knight">&#9816</span></span>
+			<span id="3" class="sq d"><span class="pc w bishop">&#9815</span></span>
+			<span id="4" class="sq l"><span class="pc w queen">&#9813</span></span>
+			<span id="5" class="sq d"><span class="pc w king">&#9812</span></span>
+			<span id="6" class="sq l"><span class="pc w bishop">&#9815</span></span>
+			<span id="7" class="sq d"><span class="pc w knight">&#9816</span></span>
+			<span id="8" class="sq l"><span class="pc w rook">&#9814</span></span>
+		</div>
+	</div>
 
-<ul id="moveList"></ul>
-<br> </br>
+	<ul id="moveList"></ul>
+	<br>
+	</br>
 
-<style>
-p{
-	top:850px;
+	<style>
+p {
+	top: 850px;
 	position: absolute;
-	color: white; 
-
+	color: white;
 }
 </style>
-<p id="chessNotation"></p>
-<button type="button" onclick="resetGame()" onmouseout="mOut(this)" onmouseover="mOver(this)">Restart Game</button>
+	<p id="chessNotation"></p>
+	<button type="button" onclick="resetGame()" onmouseout="mOut(this)"
+		onmouseover="mOver(this)">Restart Game</button>
 
-<script>
+
+
+
+	<!-- Trigger/Open The Modal -->
+	<button id="myBtn">Pawn Promotion!</button>
+
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2>Pick which piece you want to promote</h2>
+			<form action="/action_page.php">
+  <input type="radio" id="queen" name="piece" value="queen">
+  <label for="queen">Queen</label><br>
+  <input type="radio" id="king" name="piece" value="king">
+  <label for="king">King</label><br>
+  <div>
+    <button id="submit" type="submit">Submit</button>
+  </div>
+</form> 
+<pre id="log">
+</pre>
+		</div>
+
+	</div>
+
+	<script>
 
 var moveList = [];
 document.getElementById("moveList").innerHTML = "Your moves will go here: " + moveList;
@@ -136,10 +150,6 @@ var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1",
 	"a6", "b6", "c6", "d6","e6", "f6", "g6", "h6",
 	"a7", "b7", "c7", "d7","e7", "f7", "g7", "h7",
 	"a8", "b8", "c8", "d8","e8", "f8", "g8", "h8"];
-//document.getElementById("chessNotation").innerHTML = chessNotation;
-
-//var num = 13; 	//squareID in reality 
-
 
 //temp varibles?
 var intialPosition;
@@ -147,7 +157,8 @@ var squareID_;
 var playerColor;
 var pieceName;
 
-
+// pawn promotion 
+var pawnPromotion = false;
 
 var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
@@ -165,6 +176,8 @@ var S = {
     	document.getElementById("moveList").style.color = "white";
     	var turn = "WHITES TURN:"
     	playerColor = "b";
+    	
+
     }
     else{
     	document.getElementById("moveList").style.color = "black";
@@ -184,8 +197,9 @@ var S = {
     }
     else if (this.selectedPiece !== 0) {
     	//squareID = finalPosition
-      var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
-
+      var squareID = parseInt(square.attr("id"));   // get number associated with square
+      
+      
       if (squareID < 10){
     	  finalPos = ('0' + squareID).slice(-2);
     	  squareID_ = finalPos;
@@ -205,11 +219,27 @@ var S = {
         }
         square.append(this.selectedPiece);  //append piece to square
         this.ChangeTurn();  //change turn
+        
+        
+       
+        //do pawn promotion for white pawns
+        if(squareID_ > 57 && pieceName == "pawn"){
+        	pawnPromotion = true;
+        	document.getElementById("moveList").style.color = "white";
+        	var promotion = "WHITE'S PAWN PROMOTION";
+    		moveList.push("<br>" + promotion);
+    		document.getElementById("moveList").innerHTML = moveList;	
+        }
+        else{
+        	
+        	pawnPromotion = false;
+        }
         val = {
 				initialPosition: initialPosition,
 				pieceName: pieceName,
 				playerColor: playerColor,
-				finalPosition: squareID_
+				finalPosition: squareID_,
+				pawnPromotion: pawnPromotion
 				
 			  };
 			  postData('newGame', val).then(function(data){
@@ -285,7 +315,7 @@ function GetPieceMoveArray (enemyString, piece) {
 	  initialPosition = squareInt;
   }
   
-  pieceName = stringOfPieces;
+pieceName = stringOfPieces;
 
   switch (stringOfPieces) {
       // case for each piece
@@ -397,6 +427,50 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 		  	console.log(data);
 		  });
   }
+	
+	
+	
+	
+	
+	var form = document.querySelector("form");
+	var log = document.querySelector("#log");
+
+	form.addEventListener("submit", function(event) {
+	  var data = new FormData(form);
+	  var output = "";
+	  for (const entry of data) {
+	    output = output + entry[0] + "=" + entry[1] + "\r";
+	  };
+	  log.innerText = output;
+	  event.preventDefault();
+	}, false);
+	
+	
+	
+	var modal = document.getElementById("myModal");
+
+	// Get the button that opens the modal
+	var btn = document.getElementById("myBtn");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks the button, open the modal 
+	btn.onclick = function() {
+	  modal.style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
 </script>
 </body>
 </html>
