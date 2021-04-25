@@ -11,6 +11,11 @@ public class Game
 	private boolean finished;
 	private int gameID;
 	
+	
+	//kayla added this
+	private ArrayList<Integer> moves = new ArrayList<Integer>();
+	
+	
 	private ArrayList<Move> MoveList;
 	private ArrayList<ChessPiece> WhitePieces;
 	private ArrayList<ChessPiece> BlackPieces;
@@ -71,6 +76,7 @@ public class Game
 		BlackPieces = new ArrayList<ChessPiece>();
 		MoveList = new ArrayList<Move>();
 		finished = false;
+		
 		
 		//put all pieces at the right spot
 		BlackRook1 = new RookPiece(0, 0, false, 1);
@@ -240,6 +246,7 @@ public class Game
 		
 	}
 	
+	
 	public void setChessBoard(ChessBoard c)
 	{
 		this.cb = c;
@@ -351,6 +358,7 @@ public class Game
 			updatedGame.setGame();
 			updatedGame.setChessBoard(this.getChessBoard());
 			updatedGame.testMove(cb, cp, newx, newy);
+			
 			
 			if(p.getColor() == true)
 			{
@@ -478,17 +486,22 @@ public class Game
 		}
 		
 		Move thisMove;
+		
 		if(cp.getColor() == true)
 		{
 			thisMove = new Move(cp, x, y, this.getResult(this.getWhitePlayer(), this.getChessBoard(), this.getWhiteKing(), this.getWhitePieces()), takesPiece, false);
+			//thisMove.printMove();
 		}
 		
 		else
 		{
 			thisMove = new Move(cp, x, y, this.getResult(this.getBlackPlayer(), this.getChessBoard(), this.getBlackKing(), this.getBlackPieces()), takesPiece, false);
+			
+			//thisMove.printMove();
 		}
 		
 		MoveList.add(thisMove);
+		
 		
 	}
 	
@@ -536,11 +549,14 @@ public class Game
 	
 	public String getMoveList()
 	{
+		//System.out.println("BEFLIUSBIUSBKFYSGFYSGFKSHFSEFJK");
 		String finalString = "";
+		
 		for(Move m : this.MoveList)
 		{
 			finalString += m.getMove() + "\n";
 		}
+		
 		return finalString;
 	}
 	
