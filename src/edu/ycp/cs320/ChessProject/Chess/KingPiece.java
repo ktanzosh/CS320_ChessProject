@@ -24,12 +24,20 @@ public class KingPiece extends ChessPiece
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb)
 	{
-		System.out.println("King Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
+		//System.out.println("King Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
 		
+<<<<<<< Updated upstream
 		//if(this.canCastle(newx, newy, cb) == true)
 		//{
 			//Have to implement but basically if they can castle, and do some repeat logic then checkMove returns true
 		//}
+=======
+		if(this.canCastle(newx, newy, cb) == true)
+		{
+			System.out.println("can castle!");
+			return true;
+		}
+>>>>>>> Stashed changes
 		
 		if(newx < 0 || newx > 7 || newy < 0 || newy > 7)
 		{
@@ -44,16 +52,16 @@ public class KingPiece extends ChessPiece
 		{
 			if(cb.getTile(newx, newy).getPiece().getColor() == this.getColor())
 			{
-				System.out.println("Someone here at " + newx + ", " + newy + " with a matching color");
+				//System.out.println("Someone here at " + newx + ", " + newy + " with a matching color");
 				return false;
 			}
 		}
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at " + newx + ", " + newy);
+			//System.out.println("No one at " + newx + ", " + newy);
 		}
 		
-		System.out.println("");
+		//System.out.println("");
 		//makes sure that the movements are vertical or horizontal, and actually moving not just up and down
 		if((changeX * changeY == 1 || changeX + changeY == 1) && changeX + changeY != 0)
 		{
@@ -68,8 +76,8 @@ public class KingPiece extends ChessPiece
 	
 	public boolean canCastle(int newx, int newy, ChessBoard cb)
 	{
-		System.out.println("");
-		System.out.println("Testing Castling");
+		//System.out.println("");
+		//System.out.println("Testing Castling");
 		if(this.getHaveMoved() == true)
 		{
 			return false;
@@ -91,19 +99,19 @@ public class KingPiece extends ChessPiece
 			ChessPiece castleRook = cb.getTile(newx, newy).getPiece();
 			if(castleRook.whatPiece().equals("Rook") == false)
 			{
-				System.out.println("Not a rook");
+				//System.out.println("Not a rook");
 				return false;
 			}
 			
 			else if(castleRook.getHaveMoved() == true)
 			{
-				System.out.println("Rook has moved");
+				//System.out.println("Rook has moved");
 				return false;
 			}
 			
 			else if(castleRook.getColor() != this.getColor())
 			{
-				System.out.println("Not a friendly piece");
+				//System.out.println("Not a friendly piece");
 				return false;
 			}
 			
@@ -122,7 +130,7 @@ public class KingPiece extends ChessPiece
 					catch(NullPointerException ne)
 					{
 						//We still all good
-						System.out.println("No piece blocking castling");
+						//System.out.println("No piece blocking castling");
 					}
 				}
 			}
@@ -141,7 +149,7 @@ public class KingPiece extends ChessPiece
 					catch(NullPointerException ne)
 					{
 						//We still all good
-						System.out.println("No piece blocking castling");
+						//System.out.println("No piece blocking castling");
 					}
 				}
 			}
@@ -169,7 +177,7 @@ public class KingPiece extends ChessPiece
 				
 				else
 				{
-					System.out.println("Piece is not in the corner");
+					//System.out.println("Piece is not in the corner");
 					return false;
 				}
 			}
@@ -205,7 +213,7 @@ public class KingPiece extends ChessPiece
 		catch(NullPointerException n)
 		{
 			//if no piece there, cant castle
-			System.out.println("No one there");
+			//System.out.println("No one there");
 			return false;
 		}
 		

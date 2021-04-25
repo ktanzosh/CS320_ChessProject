@@ -37,7 +37,7 @@ public class BishopPiece extends ChessPiece
 		int changeX = newx - oldx;
 		int changeY = newy - oldy;
 		
-		System.out.println("Bishop Test from "  + oldx + ", " + oldy + " to " + newx + ", " + newy);
+		//System.out.println("Bishop Test from "  + oldx + ", " + oldy + " to " + newx + ", " + newy);
 		
 		//check to see if other pieces are in the way
 		if(changeX > 0 && changeY > 0 && Math.abs(changeX) == Math.abs(changeY))
@@ -51,7 +51,7 @@ public class BishopPiece extends ChessPiece
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + i + " and " + j);
+						//System.out.println("Chess Piece at " + i + " and " + j);
 						return false;
 					}
 				}
@@ -74,14 +74,14 @@ public class BishopPiece extends ChessPiece
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + i + " and " + j);
+						//System.out.println("Chess Piece at " + i + " and " + j);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + i + " and " + j);
+					//System.out.println("No Chess Piece at " + i + " and " + j);
 				}
 			}
 			
@@ -101,14 +101,14 @@ public class BishopPiece extends ChessPiece
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + testX + " and " + testY);
+						//System.out.println("Chess Piece at " + testX + " and " + testY);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + testX + " and " + testY);
+					//System.out.println("No Chess Piece at " + testX + " and " + testY);
 				}
 				
 				testX++;
@@ -129,14 +129,14 @@ public class BishopPiece extends ChessPiece
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + testX + " and " + testY);
+						//System.out.println("Chess Piece at " + testX + " and " + testY);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + testX + " and " + testY);
+					//System.out.println("No Chess Piece at " + testX + " and " + testY);
 				}
 				
 				testX--;
@@ -154,10 +154,10 @@ public class BishopPiece extends ChessPiece
 		}
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at " + newx + ", " + newy);
+			//System.out.println("No one at " + newx + ", " + newy);
 		}
 		
-		System.out.println("");
+		//System.out.println("");
 		
 		changeX = Math.abs(changeX);
 		changeY = Math.abs(changeY);

@@ -27,7 +27,7 @@ public class QueenPiece extends ChessPiece
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb)
 	{
-		System.out.println("Queen Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
+		//System.out.println("Queen Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
 		
 		if(newx < 0 || newx > 7 || newy < 0 || newy > 7)
 		{
@@ -55,14 +55,14 @@ public class QueenPiece extends ChessPiece
 					{
 						if(t.getPiece() != null)
 						{
-							System.out.println("Chess Piece at " + i + " and " + getPosY());
+							//System.out.println("Chess Piece at " + i + " and " + getPosY());
 							return false;
 						}
 					}
 					
 					catch(NullPointerException e)
 					{
-						System.out.println("No Chess Piece at " + i + " and " + getPosX());
+						//System.out.println("No Chess Piece at " + i + " and " + getPosX());
 					}
 				}
 			}
@@ -78,14 +78,14 @@ public class QueenPiece extends ChessPiece
 					{
 						if(t.getPiece() != null)
 						{
-							System.out.println("Chess Piece at " + i + " and " + getPosY());
+							//System.out.println("Chess Piece at " + i + " and " + getPosY());
 							return false;
 						}
 					}
 					
 					catch(NullPointerException e)
 					{
-						System.out.println("No Chess Piece at " + i + " and " + getPosY());
+						//System.out.println("No Chess Piece at " + i + " and " + getPosY());
 					}
 				}
 			}
@@ -105,14 +105,14 @@ public class QueenPiece extends ChessPiece
 					{
 						if(t.getPiece() != null)
 						{
-							System.out.println("Chess Piece at " + getPosX() + " and " + i);
+							//System.out.println("Chess Piece at " + getPosX() + " and " + i);
 							return false;
 						}
 					}
 					
 					catch(NullPointerException e)
 					{
-						System.out.println("No Chess Piece at " + getPosX() + " and " + i);
+						//System.out.println("No Chess Piece at " + getPosX() + " and " + i);
 					}
 				}
 			}
@@ -128,14 +128,14 @@ public class QueenPiece extends ChessPiece
 					{
 						if(t.getPiece() != null)
 						{
-							System.out.println("Chess Piece at " + getPosX() + " and " + i);
+							//System.out.println("Chess Piece at " + getPosX() + " and " + i);
 							return false;
 						}
 					}
 					
 					catch(NullPointerException e)
 					{
-						System.out.println("No Chess Piece at " + getPosX() + " and " + i);
+						//System.out.println("No Chess Piece at " + getPosX() + " and " + i);
 					}
 				}
 			}
@@ -152,14 +152,14 @@ public class QueenPiece extends ChessPiece
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + i + " and " + j);
+						//System.out.println("Chess Piece at " + i + " and " + j);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + i + " and " + j);
+					//System.out.println("No Chess Piece at " + i + " and " + j);
 				}
 			}
 		}
@@ -175,14 +175,14 @@ public class QueenPiece extends ChessPiece
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + i + " and " + j);
+						//System.out.println("Chess Piece at " + i + " and " + j);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + i + " and " + j);
+					//System.out.println("No Chess Piece at " + i + " and " + j);
 				}
 			}
 			newx--;
@@ -201,14 +201,14 @@ public class QueenPiece extends ChessPiece
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + testX + " and " + testY);
+						//System.out.println("Chess Piece at " + testX + " and " + testY);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + testX + " and " + testY);
+					//System.out.println("No Chess Piece at " + testX + " and " + testY);
 				}
 				
 				testX++;
@@ -229,14 +229,14 @@ public class QueenPiece extends ChessPiece
 				{
 					if(t.getPiece() != null)
 					{
-						System.out.println("Chess Piece at " + testX + " and " + testY);
+						//System.out.println("Chess Piece at " + testX + " and " + testY);
 						return false;
 					}
 				}
 				
 				catch(NullPointerException e)
 				{
-					System.out.println("No Chess Piece at " + testX + " and " + testY);
+					//System.out.println("No Chess Piece at " + testX + " and " + testY);
 				}
 				
 				testX--;
@@ -250,20 +250,20 @@ public class QueenPiece extends ChessPiece
 		{
 			if(cb.getTile(newx, newy).getPiece().getColor() == this.getColor())
 			{
-				System.out.println("");
+				//System.out.println("");
 				return false;
 			}
 		}
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at " + newx + ", " + newy);
+			//System.out.println("No one at " + newx + ", " + newy);
 		}
 		
 		changeX = Math.abs(changeX);
 		changeY = Math.abs(changeY);
 		
 		//makes sure that the movements are vertical or horizontal, and actually moving not just up and down
-		System.out.println("");
+		//System.out.println("");
 		if(((changeX * changeY == 0) || (changeX == changeY)) && changeX + changeY !=0)
 		{
 			return true;

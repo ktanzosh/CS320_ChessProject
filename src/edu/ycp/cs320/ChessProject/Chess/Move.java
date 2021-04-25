@@ -75,18 +75,32 @@ public class Move
 	}
 	
 	public void printMove()
+<<<<<<< HEAD
+	{		
+		if(wasCastle == true && ypos.equals("h"))
+=======
 	{
+<<<<<<< Updated upstream
 		if(wasCastle == true && ypos.equals("B"))
+=======
+		//System.out.println("printMove() function");
+		if(wasCastle == true && ypos.equals("g"))
+>>>>>>> 961e960f90cf798ef34cccb4247e2e707f9f2445
+>>>>>>> Stashed changes
 		{
 			System.out.println("0-0");
 		}
 		
+<<<<<<< Updated upstream
 		if(wasCastle == true && ypos.equals("G"))
+=======
+		else if(wasCastle == true && ypos.equals("a"))
+>>>>>>> Stashed changes
 		{
 			System.out.println("0-0-0");
 		}
 		
-		if(tookPiece == false)
+		else if(tookPiece == false)
 		{
 			System.out.println(movedPiece.whatInitial() + "" + state + "" + ypos + "" + xpos);
 		}
@@ -100,17 +114,30 @@ public class Move
 	
 	public String getMove()
 	{
+<<<<<<< Updated upstream
 		if(wasCastle == true && ypos.equals("B"))
+=======
+<<<<<<< HEAD
+		if(wasCastle == true && ypos.equals("h"))
+=======
+		//System.out.println("getMove() function");
+		if(wasCastle == true && ypos.equals("g"))
+>>>>>>> 961e960f90cf798ef34cccb4247e2e707f9f2445
+>>>>>>> Stashed changes
 		{
 			return "0-0";
 		}
 		
+<<<<<<< Updated upstream
 		if(wasCastle == true && ypos.equals("G"))
+=======
+		else if(wasCastle == true && ypos.equals("a"))
+>>>>>>> Stashed changes
 		{
 			return "0-0-0";
 		}
 		
-		if(tookPiece == false)
+		else if(tookPiece == false)
 		{
 			return movedPiece.whatInitial() + "" + state + "" + ypos + "" + xpos;
 		}

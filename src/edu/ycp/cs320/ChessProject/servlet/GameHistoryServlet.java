@@ -1,6 +1,8 @@
 package edu.ycp.cs320.ChessProject.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import edu.ycp.cs320.ChessProject.Chess.Game;
+import edu.ycp.cs320.ChessProject.Chess.Move;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 
@@ -19,16 +23,23 @@ public class GameHistoryServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("Game History: doGet");
-		
-		
+		boolean gamesExist;
 		
 		HttpSession userSession = req.getSession(false);
+		HttpSession gameSession = req.getSession(false);
+		
 		
 		if(userSession == null) {
 			userSession = req.getSession(true);
 			resp.sendRedirect("/ChessProject/loginPage");
 			return;
 		}
+		
+		if(gameSession == null) {
+			gamesExist = false;
+			req.setAttribute("gamesExist", gamesExist);
+		}
+		
 		
 		else {
 			User userModel = (User) userSession.getAttribute("userInfo");
@@ -37,11 +48,21 @@ public class GameHistoryServlet extends HttpServlet {
 				resp.sendRedirect("/ChessProject/loginPage");
 				return;
 			}
+
+			
+			//arraylist of moves
+			ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
+
+			
+			
+			req.setAttribute("moves", moves);
 			
 			String username = userModel.getUser();
 			req.setAttribute("username", username);
+		
 			req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
 		}
+	
 	}
 	
 	@Override
@@ -56,4 +77,14 @@ public class GameHistoryServlet extends HttpServlet {
 			}
 
 		}
+	
+	
+	private String getStringFromParameter(HttpServletRequest request, String name) {
+		if (request.getParameter(name) == null || request.getParameter(name).equals("")) {
+			return null;
+		} 
+		else {
+			return new String (request.getParameter(name));
+		}
+	}
 }

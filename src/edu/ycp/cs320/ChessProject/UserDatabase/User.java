@@ -5,6 +5,13 @@ import java.util.List;
 
 public class User {
 	private String user, password, sec_question, sec_answer;
+<<<<<<< Updated upstream
+=======
+	private int userID;
+	private List<Game> gameList = new ArrayList<Game>();
+
+	
+>>>>>>> Stashed changes
 	//private User blankUser = new User();
 	//private List<User> usersList;
 	//private ArrayList<User> usersList = new ArrayList<User>();
@@ -43,6 +50,7 @@ public class User {
 	}
 
 	public User getUserInfo(String User) {
+<<<<<<< Updated upstream
 		User blankUser = new User();
 		List<User> usersList;
 		usersList = new ArrayList<User>();
@@ -51,6 +59,22 @@ public class User {
 			if (user.getUser().equals(User)) {
 				return user;
 			}
+=======
+		InitDatabase.init();
+		IDatabase db = DatabaseProvider.getInstance();
+		User user = db.getUserInfo(User);
+		return user;
+		
+	}
+
+	public boolean checkIfUserExists(String User) {
+		InitDatabase.init();
+		IDatabase db = DatabaseProvider.getInstance();
+		int result = db.checkIfUserExists(User);
+		
+		if(result == 1) {
+			return true;
+>>>>>>> Stashed changes
 		}
 		return blankUser;
 		

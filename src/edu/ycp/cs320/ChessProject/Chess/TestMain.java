@@ -12,10 +12,55 @@ public class TestMain
 		Player BlackPlayer = new Player(false);
 		
 		Game testGame = new Game();
+<<<<<<< Updated upstream
 		testGame.setGame();
+=======
+		testGame.setWhitePlayer(WhitePlayer);
+		testGame.setBlackPlayer(BlackPlayer);
+		testGame.setGame(true);
+		
+		ChessBoard cb = testGame.getChessBoard();
+		KingPiece KingP = new KingPiece(7, 4, true, 1);
+		testGame.getWhitePieces().add(KingP);
+		testGame.setWhiteKing(KingP);
+		Tile KingTile = new Tile(KingP);
+		cb.setTile(7,  4, KingTile);
+		
+		KingPiece BlackKing = new KingPiece(0, 4, false, 1);
+		testGame.getBlackPieces().add(BlackKing);
+		testGame.setBlackKing(BlackKing);
+		Tile BlackKingTile = new Tile(BlackKing);
+		cb.setTile(0,  4, BlackKingTile);
+		
+		RookPiece RookP = new RookPiece(7, 7, true, 1);
+		testGame.getWhitePieces().add(RookP);
+		Tile RookTile = new Tile(RookP);
+		cb.setTile(7,  7, RookTile);
+		
+		PawnPiece PromotionPiece = new PawnPiece(0, 2, true, 1);
+		testGame.getWhitePieces().add(PromotionPiece);
+		Tile PromotionTile = new Tile(PromotionPiece);
+		cb.setTile(0,  2, PromotionTile);
+>>>>>>> Stashed changes
+		drawBoard(testGame);
+		
+		if(testGame.getChessBoard().getTile(7,  4).getPiece().checkMove(7, 6, testGame.getChessBoard()))
+		{
+			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(7,  4).getPiece(), 7, 6);
+			//testGame.PawnPromotion(testGame.getWhitePieces(), "queen");
+			drawBoard(testGame);
+			testGame.printMoveList();
+		}
+		
+		else
+		{
+			System.out.println("NO");
+			drawBoard(testGame);
+		}
+		
+		/*testGame.setGame();
 		drawBoard(testGame);
 
-		
 		if(testGame.getChessBoard().getTile(6,  5).getPiece().checkMove(5, 5, testGame.getChessBoard()))
 		{
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6,  5).getPiece(), 5, 5);
@@ -41,7 +86,7 @@ public class TestMain
 			drawBoard(testGame);
 		}
 		
-		System.out.println(testGame.getMoveList());
+		//System.out.println(testGame.getMoveList());
 		
 		KingPiece kp = testGame.getWhiteKing();
 		String res = testGame.getResult(WhitePlayer, testGame.getChessBoard(), kp, testGame.getWhitePieces());
@@ -49,6 +94,8 @@ public class TestMain
 		
 		drawBoard(testGame);
 		testGame.printMoveList();
+		
+		System.out.println(testGame.getInfoFromMove(testGame.getLastMove()));*/
 	}
 	
 	public static void drawBoard(Game test)

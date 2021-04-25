@@ -8,12 +8,19 @@
 <title>New Game</title>
 </head>
 
+<<<<<<< Updated upstream
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="_view/newGameCSS.css"/>
+=======
+<link rel="stylesheet" type="text/css" href="_view/newGameDesign.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+>>>>>>> Stashed changes
 
 
 <body>
 
+<<<<<<< Updated upstream
   <h1>Welcome to a new game, ${username}</h1>
 
 <div class="wrapper">
@@ -101,6 +108,156 @@
 
 <script>
 var S = { 
+=======
+	<h1>Welcome to a new game, ${username}</h1>
+
+	<div class="wrapper">
+		<div class="row">
+			<span id="57" class="sq l"><span class="pc b rook">&#9820</span></span>
+			<span id="58" class="sq d"><span class="pc b knight">&#9822</span></span>
+			<span id="59" class="sq l"><span class="pc b bishop">&#9821</span></span>
+			<span id="60" class="sq d"><span class="pc b queen">&#9819</span></span>
+			<span id="61" class="sq l"><span class="pc b king">&#9818</span></span>
+			<span id="62" class="sq d"><span class="pc b bishop">&#9821</span></span>
+			<span id="63" class="sq l"><span class="pc b knight">&#9822</span></span>
+			<span id="64" class="sq d"><span class="pc b rook">&#9820</span></span>
+		</div>
+		<div class="row">
+			<span id="49" class="sq d"><span class="pc b pawn">&#9823</span></span>
+			<span id="50" class="sq l"><span class="pc b pawn">&#9823</span></span>
+			<span id="51" class="sq d"><span class="pc b pawn">&#9823</span></span>
+			<span id="52" class="sq l"><span class="pc b pawn">&#9823</span></span>
+			<span id="53" class="sq d"><span class="pc b pawn">&#9823</span></span>
+			<span id="54" class="sq l"><span class="pc b pawn">&#9823</span></span>
+			<span id="55" class="sq d"><span class="pc b pawn">&#9823</span></span>
+			<span id="56" class="sq l"><span class="pc b pawn">&#9823</span></span>
+		</div>
+		<div class="row">
+			<span id="41" class="sq l"></span> <span id="42" class="sq d"></span>
+			<span id="43" class="sq l"></span> <span id="44" class="sq d"></span>
+			<span id="45" class="sq l"></span> <span id="46" class="sq d"></span>
+			<span id="47" class="sq l"></span> <span id="48" class="sq d"></span>
+		</div>
+		<div class="row">
+			<span id="33" class="sq d"></span> <span id="34" class="sq l"></span>
+			<span id="35" class="sq d"></span> <span id="36" class="sq l"></span>
+			<span id="37" class="sq d"></span> <span id="38" class="sq l"></span>
+			<span id="39" class="sq d"></span> <span id="40" class="sq l"></span>
+		</div>
+		<div class="row">
+			<span id="25" class="sq l"></span> <span id="26" class="sq d"></span>
+			<span id="27" class="sq l"></span> <span id="28" class="sq d"></span>
+			<span id="29" class="sq l"></span> <span id="30" class="sq d"></span>
+			<span id="31" class="sq l"></span> <span id="32" class="sq d"></span>
+		</div>
+		<div class="row">
+			<span id="17" class="sq d"></span> <span id="18" class="sq l"></span>
+			<span id="19" class="sq d"></span> <span id="20" class="sq l"></span>
+			<span id="21" class="sq d"></span> <span id="22" class="sq l"></span>
+			<span id="23" class="sq d"></span> <span id="24" class="sq l"></span>
+		</div>
+		<div class="row">
+			<span id="9" class="sq l"><span class="pc w pawn">&#9817</span></span>
+			<span id="10" class="sq d"><span class="pc w pawn">&#9817</span></span>
+			<span id="11" class="sq l"><span class="pc w pawn">&#9817</span></span>
+			<span id="12" class="sq d"><span class="pc w pawn">&#9817</span></span>
+			<span id="13" class="sq l"><span class="pc w pawn">&#9817</span></span>
+			<span id="14" class="sq d"><span class="pc w pawn">&#9817</span></span>
+			<span id="15" class="sq l"><span class="pc w pawn">&#9817</span></span>
+			<span id="16" class="sq d"><span class="pc w pawn">&#9817</span></span>
+		</div>
+		<div class="row">
+			<span id="1" class="sq d"><span class="pc w rook">&#9814</span></span>
+			<span id="2" class="sq l"><span class="pc w knight">&#9816</span></span>
+			<span id="3" class="sq d"><span class="pc w bishop">&#9815</span></span>
+			<span id="4" class="sq l"><span class="pc w queen">&#9813</span></span>
+			<span id="5" class="sq d"><span class="pc w king">&#9812</span></span>
+			<span id="6" class="sq l"><span class="pc w bishop">&#9815</span></span>
+			<span id="7" class="sq d"><span class="pc w knight">&#9816</span></span>
+			<span id="8" class="sq l"><span class="pc w rook">&#9814</span></span>
+		</div>
+	</div>
+
+	<ul id="moveList"></ul>
+	<br>
+	</br>
+
+	<style>
+p {
+	top: 850px;
+	position: absolute;
+	color: white;
+}
+</style>
+	<p id="chessNotation"></p>
+	<p id="pawnPromo"></p>
+	<button type="button" onclick="resetGame()" onmouseout="mOut(this)"
+		onmouseover="mOver(this)">Restart Game</button>
+
+
+
+
+	<!-- Trigger/Open The Modal -->
+	<button id="myBtn">Pawn Promotion!</button>
+
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2>Pick which piece you want to promote</h2>
+			<form action="/action_page.php">
+				<input type="radio" id="queen" name="piece" value="queen"> <label
+					for="queen">Queen</label><br> <input type="radio" id="king"
+					name="piece" value="king"> <label for="king">King</label><br>
+				<div>
+					<button id="submit" type="submit">Submit</button>
+				</div>
+			</form>
+			<pre id="log">
+</pre>
+		</div>
+
+	</div>
+
+	<script>
+
+var moveList = [];
+document.getElementById("moveList").innerHTML = "Your moves will go here: " + moveList;
+
+
+async function postData(address, objectToPost){
+	return await(await fetch(address,{
+		method: 'POST',
+		headers: {
+			'Content-Type' : 'application/json'
+		},
+		body: JSON.stringify(objectToPost)
+	})).json();
+}
+
+
+var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
+	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
+	"a3", "b3", "c3", "d3","e3", "f3", "g3", "h3",
+	"a4", "b4", "c4", "d4","e4", "f4", "g4", "h4",
+	"a5", "b5", "c5", "d5","e5", "f5", "g5", "h5",
+	"a6", "b6", "c6", "d6","e6", "f6", "g6", "h6",
+	"a7", "b7", "c7", "d7","e7", "f7", "g7", "h7",
+	"a8", "b8", "c8", "d8","e8", "f8", "g8", "h8"];
+
+//temp varibles?
+var intialPosition;
+var squareID_;
+var playerColor;
+var pieceName;
+
+// pawn promotion 
+var pawnPromotion = false;
+document.getElementById("myBtn").style.visibility = "hidden";
+var S = { 	
+>>>>>>> Stashed changes
   turnInt:1, selectedPiece:0, moves:0, 
   
   ChangeTurn:function() {
@@ -108,7 +265,29 @@ var S = {
     $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
     this.selectedPiece = this.moves = 0;  //set equal to none
     this.turnInt = 1 - this.turnInt; //change turn 
+<<<<<<< Updated upstream
     $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b    
+=======
+    $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
+   
+    
+    if(this.turnInt == 0){
+    	document.getElementById("moveList").style.color = "white";
+    	var turn = "WHITES TURN:"
+    	playerColor = "b";
+    	
+
+    }
+    else{
+    	document.getElementById("moveList").style.color = "black";
+    	var turn = "BLACKS TURN:"
+    	playerColor = "w";
+    }
+    //update move list
+
+    moveList.push("<br>" + turn);
+    document.getElementById("moveList").innerHTML = moveList;
+>>>>>>> Stashed changes
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
@@ -117,14 +296,77 @@ var S = {
       this.ClickPiece(child); // ~child is chess piece~
     }
     else if (this.selectedPiece !== 0) {
+<<<<<<< Updated upstream
       var squareID = parseInt(square.attr("id"));   // get number associated with sqaure
+=======
+    	//squareID = finalPosition
+      var squareID = parseInt(square.attr("id"));   // get number associated with square
+      
+      
+      if (squareID < 10){
+    	  finalPos = ('0' + squareID).slice(-2);
+    	  squareID_ = finalPos;
+      }
+      else{
+    	  squareID_ = squareID;
+      }
+      
+      
+    //update move list
+      moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
+      document.getElementById("moveList").innerHTML = moveList;
+	  
+>>>>>>> Stashed changes
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
         square.append(this.selectedPiece);  //append piece to square
         this.ChangeTurn();  //change turn
+<<<<<<< Updated upstream
 
+=======
+        
+        
+       
+        //do pawn promotion for white pawns
+        if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
+        	pawnPromotion = true;
+        	document.getElementById("moveList").style.color = "white";
+        	document.getElementById("myBtn").style.visibility = "visible";
+        	var promotion = "WHITE'S PAWN PROMOTION";
+    		moveList.push("<br>" + promotion);
+    		document.getElementById("moveList").innerHTML = moveList;	
+        }
+        
+        if(squareID_ < 9 && pieceName == "pawn" && playerColor == "b"){
+        	pawnPromotion = true;
+        	document.getElementById("moveList").style.color = "black";
+        	document.getElementById("myBtn").style.visibility = "visible";
+        	var promotion = "BLACK'S PAWN PROMOTION";
+    		moveList.push("<br>" + promotion);
+    		document.getElementById("moveList").innerHTML = moveList;	
+        }
+        
+        else{
+        	
+        	pawnPromotion = false;
+        }
+        
+        
+        val = {
+				initialPosition: initialPosition,
+				pieceName: pieceName,
+				playerColor: playerColor,
+				finalPosition: squareID_,
+				pawnPromotion: pawnPromotion,
+				promotionChoice: promoChoice
+				
+			  };
+			  postData('newGame', val).then(function(data){
+			  	console.log(data);
+		});
+>>>>>>> Stashed changes
       }
     }
   },
@@ -163,6 +405,10 @@ $(document).ready(function() {  //CLICK EVENT
     else {
       S.Deselect(); //  deselect piece 
     }
+<<<<<<< Updated upstream
+=======
+			  
+>>>>>>> Stashed changes
   });
 });
 
@@ -179,6 +425,24 @@ function GetPieceMoveArray (enemyString, piece) {
   var squareInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
   var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
   
+<<<<<<< Updated upstream
+=======
+//********LOCATION OF SQUARE && PIECE NAME****************
+
+  moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
+  document.getElementById("moveList").innerHTML = moveList;
+  
+  if (squareInt < 10){
+	  forNum = ('0' + squareInt).slice(-2);
+	  initialPosition = forNum;
+  }
+  else{
+	  initialPosition = squareInt;
+  }
+  
+pieceName = stringOfPieces;
+
+>>>>>>> Stashed changes
   switch (stringOfPieces) {
       // case for each piece
       // fix game logic -- some issues going on 
@@ -192,9 +456,17 @@ function GetPieceMoveArray (enemyString, piece) {
      var mult;
       if (enemyString === "b"){
         mult = 1;
+<<<<<<< Updated upstream
       }
       else{
         mult = -1;
+=======
+
+      }
+      else{
+        mult = -1;
+
+>>>>>>> Stashed changes
       }
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
       
@@ -218,6 +490,10 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
       }
     }
   }
+<<<<<<< Updated upstream
+=======
+ 
+>>>>>>> Stashed changes
   return moves;
 }
 
@@ -241,6 +517,10 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
      return 1; 
      }
     else {
+<<<<<<< Updated upstream
+=======
+    	//document.getElementById("moveList").innerHTML = "illegal";
+>>>>>>> Stashed changes
      return 3; 
      }
   }
@@ -258,6 +538,84 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   }  
   return 0;
 }
+<<<<<<< Updated upstream
+=======
+
+// fix for later on 
+	$('#restart-btn').on('click', function() {
+		resetGame();
+	});
+
+	function mOver(obj) {
+		  obj.innerHTML = "Are you sure?"
+	}
+	
+	function mOut(obj) {
+		  obj.innerHTML = "Restart Game"
+		}
+	
+	var resetGame = function() {
+    alert("Resetting game");
+    location.reload();
+    val = {
+			resetGame: "refreshed"
+		  };
+		  postData('newGame', val).then(function(data){
+		  	console.log(data);
+		  });
+  }
+	
+	
+	
+	var form = document.querySelector("form");
+	var log = document.querySelector("#log");
+	var promoChoice;
+	form.addEventListener("submit", function(event) {
+	  var data = new FormData(form);
+	  promoChoice = "";
+	  for (const entry of data) {
+	    promoChoice = entry[1];
+	    moveList.push("<br>" + "successfully chose " + promoChoice + "!");
+	    document.getElementById("moveList").innerHTML = moveList;
+	  };
+	  event.preventDefault();
+	}, false);
+
+	
+	var modal = document.getElementById("myModal");
+	var btn = document.getElementById("myBtn");
+	var span = document.getElementsByClassName("close")[0];
+
+	btn.onclick = function() {
+	  modal.style.display = "block";
+	}
+
+	span.onclick = function() {
+		
+		 val = {
+					initialPosition: initialPosition,
+					pieceName: pieceName,
+					playerColor: playerColor,
+					finalPosition: squareID_,
+					pawnPromotion: pawnPromotion,
+					promotionChoice: promoChoice
+					
+				  };
+				  postData('newGame', val).then(function(data){
+				  	console.log(data);
+			});
+				  
+	  modal.style.display = "none";
+	  document.getElementById("myBtn").style.visibility = "hidden";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
+>>>>>>> Stashed changes
 </script>
 </body>
 </html>

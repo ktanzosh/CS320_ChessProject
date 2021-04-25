@@ -10,6 +10,11 @@ public class Game
 	private Player winnerPlayer;
 	private boolean finished;
 	
+	
+	//kayla added this
+	private ArrayList<Integer> moves = new ArrayList<Integer>();
+	
+	
 	private ArrayList<Move> MoveList;
 	private ArrayList<ChessPiece> WhitePieces;
 	private ArrayList<ChessPiece> BlackPieces;
@@ -59,6 +64,8 @@ public class Game
 	public void setGame(boolean f)
 	{
 		cb = new ChessBoard();
+		WhitePieces = new ArrayList<ChessPiece>();
+		BlackPieces = new ArrayList<ChessPiece>();
 	}
 	
 	public void setGame()
@@ -70,6 +77,7 @@ public class Game
 		BlackPieces = new ArrayList<ChessPiece>();
 		MoveList = new ArrayList<Move>();
 		finished = false;
+		
 		
 		//put all pieces at the right spot
 		BlackRook1 = new RookPiece(0, 0, false, 1);
@@ -239,6 +247,7 @@ public class Game
 		
 	}
 	
+	
 	public void setChessBoard(ChessBoard c)
 	{
 		this.cb = c;
@@ -259,6 +268,29 @@ public class Game
 		return this.BlackPieces;
 	}
 	
+<<<<<<< Updated upstream
+=======
+	public void setGameID(int i)
+	{
+		this.gameID = i;
+	}
+	
+	public int getGameID()
+	{
+		return this.gameID;
+	}
+	
+	public void setWhiteKing(KingPiece kp)
+	{
+		this.WhiteKing = kp;
+	}
+	
+	public void setBlackKing(KingPiece kp)
+	{
+		this.BlackKing = kp;
+	}
+	
+>>>>>>> Stashed changes
 	public KingPiece getWhiteKing() 
 	{
 		return this.WhiteKing;
@@ -273,12 +305,107 @@ public class Game
 	{
 		return this.WhitePlayer;
 	}
+
+	public void setBlackPlayer(Player wp)
+	{
+		this.BlackPlayer = wp;
+	}
 	
 	public Player getBlackPlayer() 
 	{
 		return this.BlackPlayer;
 	}
 	
+<<<<<<< Updated upstream
+=======
+	public Move getLastMove()
+	{
+		return this.MoveList.get(MoveList.size() - 1);
+	}
+	
+	//in works
+	public ChessPiece getInfoFromMove(Move m)
+	{
+		String moveString = m.getMove();
+		String pieceYMove = moveString.substring(1, 2);
+		String pieceXMove = moveString.substring(2, 3);
+		//if it took a piece instead
+		if(pieceYMove.contains("x"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+			pieceXMove = moveString.substring(3, 4);
+			
+			if(pieceYMove.contains("X") || pieceYMove.contains("#"))
+			{
+				pieceYMove = moveString.substring(3, 4);
+				pieceXMove = moveString.substring(4, 5);
+			}
+		}
+		
+		//id didnt take piece but was put in check or checkmate do this
+		if(pieceYMove.contains("X") || pieceYMove.contains("#"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+			pieceXMove = moveString.substring(3, 4);
+		}
+		
+		if(pieceYMove.contains("-") || pieceYMove.contains("0"))
+		{
+			//if castling move
+			return null;
+		}
+		
+		System.out.println(pieceXMove + " " + pieceYMove);
+		
+		//reconvert to numbers
+		int x = Integer.parseInt(pieceXMove);
+		x = 8 - x;
+		int y = 0;
+		
+		if(pieceYMove.equals("a"))
+		{
+			y = 0;
+		}
+		
+		if(pieceYMove.equals("b"))
+		{
+			y = 1;
+		}
+		
+		if(pieceYMove.equals("c"))
+		{
+			y = 2;
+		}
+		
+		if(pieceYMove.equals("d"))
+		{
+			y = 3;
+		}
+		
+		if(pieceYMove.equals("e"))
+		{
+			y = 4;
+		}
+		
+		if(pieceYMove.equals("f"))
+		{
+			y = 5;
+		}
+		
+		if(pieceYMove.equals("g"))
+		{
+			y = 6;
+		}
+		
+		if(pieceYMove.equals("h"))
+		{
+			y = 7;
+		}
+		System.out.println("Last piece moved to "  + x + ", " + y);
+		return this.getChessBoard().getTile(x, y).getPiece();
+	}
+	
+>>>>>>> Stashed changes
 	public void isFinish()
 	{
 		this.finished = true;
@@ -326,6 +453,7 @@ public class Game
 			updatedGame.setChessBoard(this.getChessBoard());
 			updatedGame.testMove(cb, cp, newx, newy);
 			
+			
 			if(p.getColor() == true)
 			{
 				if(p.isCheck(updatedGame.getChessBoard(), updatedGame.getWhiteKing()))
@@ -354,6 +482,11 @@ public class Game
 				return true;
 			}
 		}
+		
+		//else if() //EnPassant Capturing check to see if last move is double move
+		//{
+			
+		//}
 		
 		return false;
 	}
@@ -396,7 +529,7 @@ public class Game
 		}
 		catch(NullPointerException n)
 		{
-			takesPiece = false;
+			
 		}
 		
 		Tile newTile = new Tile(cp);
@@ -406,23 +539,82 @@ public class Game
 		cp.setPosX(x);
 		cp.setPosY(y);
 		
+<<<<<<< Updated upstream
+=======
+		boolean castled = false;
+		
+		//if castling, also move the rook
+		if(cp.whatPiece().equals("King"))
+		{
+			KingPiece kp = (KingPiece) cp;
+			if(kp.canCastle(x, y, cb) == true)
+			{
+				castled = true;
+				if(y == 6)
+				{
+					y++;
+				}
+				
+				else if(y == 1)
+				{
+					y--;
+				}
+				
+				ChessPiece rook = cb.getTile(x, y).getPiece();
+				Tile rookTile = new Tile(rook);
+				int newy = 0;
+				if(y == 7)
+				{
+					//move two to the left
+					newy = 5;
+				}
+				
+				else if(y == 0)
+				{
+					//move two to the right
+					newy = 2;
+				}
+				
+				cb.setTile(x, newy, rookTile);
+				rook.setPosY(newy);
+				cb.setTile(kp.getPosX(),  y);
+			}
+		}
+		//ChessPiece rookPiece = cb.getTile(oldx, oldy).getPiece();
+		//Tile rookTile = new Tile();
+		//cb.setTile(rookx, rooky, rookTile);
+		
+>>>>>>> Stashed changes
 		if(cp.whatPiece() == "Pawn" || cp.whatPiece() == "Rook" || cp.whatPiece() == "King")
 		{
 			cp.setHaveMoved(true);
 		}
 		
 		Move thisMove;
+		
 		if(cp.getColor() == true)
 		{
+<<<<<<< HEAD
+			thisMove = new Move(cp, x, y, this.getResult(this.getBlackPlayer(), this.getChessBoard(), this.getBlackKing(), this.getBlackPieces()), takesPiece, castled);
+=======
 			thisMove = new Move(cp, x, y, this.getResult(this.getWhitePlayer(), this.getChessBoard(), this.getWhiteKing(), this.getWhitePieces()), takesPiece, false);
+			//thisMove.printMove();
+>>>>>>> 961e960f90cf798ef34cccb4247e2e707f9f2445
 		}
 		
 		else
 		{
+<<<<<<< HEAD
+			thisMove = new Move(cp, x, y, this.getResult(this.getWhitePlayer(), this.getChessBoard(), this.getWhiteKing(), this.getWhitePieces()), takesPiece, castled);
+=======
 			thisMove = new Move(cp, x, y, this.getResult(this.getBlackPlayer(), this.getChessBoard(), this.getBlackKing(), this.getBlackPieces()), takesPiece, false);
+			
+			//thisMove.printMove();
+>>>>>>> 961e960f90cf798ef34cccb4247e2e707f9f2445
 		}
 		
 		MoveList.add(thisMove);
+		
 		
 	}
 	
@@ -470,14 +662,116 @@ public class Game
 	
 	public String getMoveList()
 	{
+		//System.out.println("BEFLIUSBIUSBKFYSGFYSGFKSHFSEFJK");
 		String finalString = "";
+		
 		for(Move m : this.MoveList)
 		{
 			finalString += m.getMove() + "\n";
 		}
+		
 		return finalString;
 	}
 	
+<<<<<<< Updated upstream
+=======
+	//Still in testing
+	public void PawnPromotion(ArrayList<ChessPiece> pieces, String newPiece)
+	{
+		for(ChessPiece p : pieces) 
+		{
+			if(p.whatPiece().equals("Pawn"))
+			{
+				if(p.getColor() == true)
+				{
+					//if a white piece gets to the other side
+					if(p.getPosX() == 0)
+					{
+						if(newPiece.equals("rook"))
+						{
+							p.isKilled();
+							RookPiece WhiteRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(WhiteRookPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(WhiteRookPromotion);
+						}
+						
+						if(newPiece.equals("bishop"))
+						{
+							p.isKilled();
+							BishopPiece WhiteBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(WhiteBishopPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(WhiteBishopPromotion);
+						}
+						
+						if(newPiece.equals("knight"))
+						{
+							p.isKilled();
+							KnightPiece WhiteKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(WhiteKnightPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(WhiteKnightPromotion);
+						}
+						
+						if(newPiece.equals("queen"))
+						{
+							p.isKilled();
+							QueenPiece WhiteQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(WhiteQueenPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(WhiteQueenPromotion);
+						}
+					}
+				}
+				
+				else if(p.getColor() == false)
+				{
+					//if a white piece gets to the other side
+					if(p.getPosX() == 7)
+					{
+						if(newPiece.equals("rook"))
+						{
+							p.isKilled();
+							RookPiece BlackRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(BlackRookPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(BlackRookPromotion);
+						}
+						
+						if(newPiece.equals("bishop"))
+						{
+							p.isKilled();
+							BishopPiece BlackBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(BlackBishopPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(BlackBishopPromotion);
+						}
+						
+						if(newPiece.equals("knight"))
+						{
+							p.isKilled();
+							KnightPiece BlackKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(BlackKnightPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(BlackKnightPromotion);
+						}
+						
+						if(newPiece.equals("queen"))
+						{
+							p.isKilled();
+							QueenPiece BlackQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+							Tile updatedTile = new Tile(BlackQueenPromotion);
+							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+							pieces.add(BlackQueenPromotion);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+>>>>>>> Stashed changes
 	public void playGame(Player player1, Player player2)
 	{
 		this.setGame();
