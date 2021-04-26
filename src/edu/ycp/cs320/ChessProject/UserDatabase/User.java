@@ -3,13 +3,14 @@ package edu.ycp.cs320.ChessProject.UserDatabase;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.ChessProject.Chess.Game;
 
 public class User {
-	private String user, password, sec_question, sec_answer;
+	private String user, password, sec_question, sec_answer, SALT;
 	private int userID;
 	private List<Game> gameList = new ArrayList<Game>();
 	//private User blankUser = new User();
@@ -57,6 +58,14 @@ public class User {
 	public String getSecurityAnswer() {
 		return sec_answer;
 	}
+	
+	public void setSALT(String SALT) {
+		this.SALT = SALT;
+	}
+	
+	public String getSALT() {
+		return SALT;
+	}
 
 	public User getUserInfo(String User) {
 		InitDatabase.init();
@@ -81,10 +90,10 @@ public class User {
 		}
 	}
 	
-	public boolean checkUserSecurityAnswer(String User, String Answer) {
+	public boolean checkUserSecurityAnswer(String User, String Answer, String SALT) {
 		User user = getUserInfo(User);
 		
-		Answer = encryptThisString(Answer);
+		Answer = decryptThisString(Answer, SALT);
 		
 		if(user.getSecurityAnswer().equals(Answer)) {
 			return true;
@@ -94,10 +103,10 @@ public class User {
 		}
 	}
 
-	public void setNewPassword(String User, String newpass) {
+	public void setNewPassword(String User, String newpass, String SALT) {
 		InitDatabase.init();
 		IDatabase db = DatabaseProvider.getInstance();
-		String enc_pass = encryptThisString(newpass);
+		String enc_pass = decryptThisString(newpass, SALT);
 		db.updatePassword(User, enc_pass);
 		
 	}
@@ -108,7 +117,8 @@ public class User {
 		}
 		else {
 			User user = getUserInfo(User);
-			Password = encryptThisString(Password);
+			String SALT = user.getSALT();
+			Password = decryptThisString(Password, SALT);
 			
 			if(user.getPassword().equals(Password)) {
 				return true;
@@ -140,7 +150,7 @@ public class User {
 	}
 	
 	//This encryption method was found at: https://www.geeksforgeeks.org/sha-512-hash-in-java/
-	public static String encryptThisString(String input) {
+	public static String[] encryptThisString(String input) {
 	     try {
 	         // getInstance() method is called with algorithm SHA-512
 	         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -155,12 +165,55 @@ public class User {
 
 	         // Convert message digest into hex value
 	         String hashtext = no.toString(16);
-
+	         
+	         SecureRandom rand = new SecureRandom();
+	         int salt = rand.nextInt(9999);
+	         String SALT = Integer.toString(salt);
+	         hashtext = SALT + hashtext;
+	         
 	         // Add preceding 0s to make it 32 bit
 	         while (hashtext.length() < 32) {
 	             hashtext = "0" + hashtext;
 	         }
+	         String[] result = new String[2];
+	         result[0] = hashtext;
+	         result[1] = SALT;
+	         
+	         // return the HashText
+	         return result;
+	     }
+	     // For specifying wrong message digest algorithms
+	     catch (NoSuchAlgorithmException e) {
+	         throw new RuntimeException(e);
+	     }
+	}
+	     
+     public static String decryptThisString(String input, String SALT) {
+	     try {
+	         // getInstance() method is called with algorithm SHA-512
+	         MessageDigest md = MessageDigest.getInstance("SHA-512");
 
+	         // digest() method is called
+	         // to calculate message digest of the input string
+	         // returned as array of byte
+	         byte[] messageDigest = md.digest(input.getBytes());
+
+	         // Convert byte array into signum representation
+	         BigInteger no = new BigInteger(1, messageDigest);
+
+	         // Convert message digest into hex value
+	         String hashtext = no.toString(16);
+	         
+	         //SecureRandom rand = new SecureRandom();
+	         //int salt = rand.nextInt(9999);
+	         //String SALT = Integer.toString(salt);
+	         hashtext = SALT + hashtext;
+	         
+	         // Add preceding 0s to make it 32 bit
+	         while (hashtext.length() < 32) {
+	             hashtext = "0" + hashtext;
+	         }
+	         
 	         // return the HashText
 	         return hashtext;
 	     }

@@ -1,6 +1,8 @@
 package edu.ycp.cs320.sqldemo;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,15 +46,32 @@ public class SQLDemo {
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		Connection conn = null;
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			String os = System.getProperty("os.name");
-			if(os.contains("Win")) {
-				conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2021-ChessGame-DB/chess.db;create=true");	
-			}
-			else {
-				conn = DriverManager.getConnection("jdbc:derby:../../../CS320-2021-ChessGame-DB/chess.db;create=true");
-			}
-			conn.setAutoCommit(true);
+			String db_name = null;
+		      String db_username = null;
+		      String db_password = null;
+		      String db_hostname = null;
+		      String port = null;
+		      
+	    	  try {
+			      File myObj = new File("DB_cred.txt");
+			      Scanner myReader = new Scanner(myObj);
+			      db_name = myReader.nextLine();
+			      db_username = myReader.nextLine();
+			      db_password = myReader.nextLine();
+			      port = myReader.nextLine();
+			      db_hostname = myReader.nextLine();
+			      
+			      myReader.close();
+			    } catch (FileNotFoundException e) {
+			      System.out.println("An error occurred.");
+			      e.printStackTrace();
+			    }
+			  	  
+		      //Class.forName("com.mysql.cj.jdbc.Driver");
+		      String jdbcUrl = "jdbc:mysql://" + db_hostname + ":" + port + "/" + db_name + "?user=" + db_username + "&password=" + db_password;
+		      System.out.println("Getting remote connection with connection string from environment variables.");
+		      conn = DriverManager.getConnection(jdbcUrl);
+		      conn.setAutoCommit(true);
 	
 			queryLoop(conn);
 		} catch (SQLException e) {
