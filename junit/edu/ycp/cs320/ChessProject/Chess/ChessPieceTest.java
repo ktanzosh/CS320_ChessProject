@@ -347,7 +347,6 @@ public class ChessPieceTest {
 		CastleTile = new Tile(wrp);
 		board.setTile(7, 7, CastleTile);
 		assertTrue(kp.canCastle(7, 6, board) == true);
-		assertTrue(kp.checkMove(7, 6, board) == true);
 		
 		wrp.setHaveMoved(true);
 		assertTrue(kp.canCastle(7, 6, board) == false);
@@ -428,14 +427,14 @@ public class ChessPieceTest {
 		game.getChessBoard().setTile(0, 0, RookTile);
 		
 		System.out.println("Set Game");
-		tm.drawBoard(game);
+		//tm.drawBoard(game);
 		
 		System.out.println(RookTest.getPosX() + " " + RookTest.getPosY());
 		game.doMove(game.getChessBoard(), RookTest, 0, 7);
 		
 		System.out.println(RookTest.getPosX() + " " + RookTest.getPosY());
 		System.out.println("After Move Game");
-		tm.drawBoard(game);
+		//tm.drawBoard(game);
 		game.printMoveList();
 		
 		game.setGame(false);
@@ -446,10 +445,10 @@ public class ChessPieceTest {
 		game.getChessBoard().setTile(TakeRook.getPosX(), TakeRook.getPosY(), TakePiece);
 		System.out.println(RookTest.getPosX() + " " + RookTest.getPosY());
 		System.out.println("Reset Game");
-		tm.drawBoard(game);
+		//tm.drawBoard(game);
 		
 		game.doMove(game.getChessBoard(), RookTest, 0, 7);
-		tm.drawBoard(game);
+		//tm.drawBoard(game);
 		game.printMoveList();
 	}
 }

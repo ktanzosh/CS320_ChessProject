@@ -28,6 +28,7 @@ public class KingPiece extends ChessPiece
 		
 		if(this.canCastle(newx, newy, cb) == true)
 		{
+			System.out.println("can castle!");
 			return true;
 		}
 		
@@ -75,26 +76,26 @@ public class KingPiece extends ChessPiece
 			return false;
 		}
 		
-		if(newy == 6)
+		if(newx > 7 || newx < 0 || newy > 7 || newy < 0)
 		{
-			newy++;
-		}
-		
-		else if(newy == 1)
-		{
-			newy--;
-		}
-		
-		else
-		{
-			//not moving to a legal spot
 			return false;
 		}
 		
 		try
 		{
+			//goes to 7,7 or 0,7
+			if(newy == 6)
+			{
+				newy++;
+			}
+			
+			else if(newy == 1)
+			{
+				newy--;
+			}
+			
 			ChessPiece castleRook = cb.getTile(newx, newy).getPiece();
-			if(castleRook.whatPiece() != "Rook")
+			if(castleRook.whatPiece().equals("Rook") == false)
 			{
 				//System.out.println("Not a rook");
 				return false;

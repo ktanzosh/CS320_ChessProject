@@ -75,19 +75,19 @@ public class Move
 	}
 	
 	public void printMove()
-	{
-		//System.out.println("printMove() function");
-		if(wasCastle == true && ypos.equals("g"))
+
+	{		
+		if(wasCastle == true && ypos.equals("h"))
 		{
 			System.out.println("0-0");
 		}
-		
-		if(wasCastle == true && ypos.equals("b"))
+
+		else if(wasCastle == true && ypos.equals("a"))
 		{
 			System.out.println("0-0-0");
 		}
 		
-		if(tookPiece == false)
+		else if(tookPiece == false)
 		{
 			System.out.println(movedPiece.whatInitial() + "" + state + "" + ypos + "" + xpos);
 		}
@@ -102,17 +102,17 @@ public class Move
 	public String getMove()
 	{
 		//System.out.println("getMove() function");
-		if(wasCastle == true && ypos.equals("g"))
+		if(wasCastle == true && ypos.equals("h"))
 		{
 			return "0-0";
 		}
 		
-		if(wasCastle == true && ypos.equals("b"))
+		else if(wasCastle == true && ypos.equals("a"))
 		{
 			return "0-0-0";
 		}
 		
-		if(tookPiece == false)
+		else if(tookPiece == false)
 		{
 			return movedPiece.whatInitial() + "" + state + "" + ypos + "" + xpos;
 		}

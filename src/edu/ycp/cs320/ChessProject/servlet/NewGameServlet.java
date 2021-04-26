@@ -121,7 +121,6 @@ public class NewGameServlet extends HttpServlet {
 		
 		int d = total.indexOf(":", c+1);
 		
-		
 		String newOne = total.substring(d+1, d+3);
 		if(newOne.contains("\""))
 		{
@@ -129,7 +128,12 @@ public class NewGameServlet extends HttpServlet {
 		}
 		int parsedNew = Integer.parseInt(newOne);
 		
-		//System.out.println("A: " + a + "B: " + b + "C: " + c + "D " + d);
+		int e = total.indexOf(":", d+1);
+		String promotion = total.substring(e+1, e+6);
+		boolean prom = Boolean.parseBoolean(promotion);
+		
+		System.out.println("A: " + a + "B: " + b + "C: " + c + "D: " + d + "E: " + e + " " + promotion);
+		
 		int ix = ((parsedOrig - 1) / 8);
 		int iy = (parsedOrig % 8) - 1;
 		if(iy == -1)
@@ -146,10 +150,8 @@ public class NewGameServlet extends HttpServlet {
 
 		System.out.println("Move from " + ix + ", " + iy + " to " + dx + ", " + dy);
 
+		//playGame.printMoveList();
 
-		playGame.printMoveList();
-
-		
 		ChessPiece movePiece = playGame.getChessBoard().getTile(ix, iy).getPiece();
 		String playerWhite = "White's move: ";
 		String playerBlack = "Black's move: ";
@@ -203,19 +205,18 @@ public class NewGameServlet extends HttpServlet {
 			
 			else
 			{
-				System.out.println("");
-				System.out.println("");
-				System.out.println("");
-				System.out.println("");
-				System.out.println("");
-				System.out.println("");
-				System.out.println("");
-				System.out.println("");
-				System.out.println("");
-				System.out.println("");
 				resp.getWriter().write("false");
 			}
 
+		}
+		
+		if(prom == true) 
+		{
+			
+			int f = total.indexOf(":", e+1);
+			String piece = total.substring(f+2, f+6);
+			System.out.println("Promotion time " + piece);
+			//playGame.PawnPromotion(playGame.getWhitePieces(), piece);
 		}
 		
 		if(req.getParameter("index") != null) 

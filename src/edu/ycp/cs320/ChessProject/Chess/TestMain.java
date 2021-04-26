@@ -13,7 +13,50 @@ public class TestMain
 		
 		Game testGame = new Game();
 		
-		testGame.setGame();
+		testGame.setWhitePlayer(WhitePlayer);
+		testGame.setBlackPlayer(BlackPlayer);
+		testGame.setGame(true);
+		
+		ChessBoard cb = testGame.getChessBoard();
+		KingPiece KingP = new KingPiece(7, 4, true, 1);
+		testGame.getWhitePieces().add(KingP);
+		testGame.setWhiteKing(KingP);
+		Tile KingTile = new Tile(KingP);
+		cb.setTile(7,  4, KingTile);
+		
+		KingPiece BlackKing = new KingPiece(0, 4, false, 1);
+		testGame.getBlackPieces().add(BlackKing);
+		testGame.setBlackKing(BlackKing);
+		Tile BlackKingTile = new Tile(BlackKing);
+		cb.setTile(0,  4, BlackKingTile);
+		
+		RookPiece RookP = new RookPiece(7, 0, true, 1);
+		testGame.getWhitePieces().add(RookP);
+		Tile RookTile = new Tile(RookP);
+		cb.setTile(7,  0, RookTile);
+		
+		PawnPiece PromotionPiece = new PawnPiece(0, 2, true, 1);
+		testGame.getWhitePieces().add(PromotionPiece);
+		Tile PromotionTile = new Tile(PromotionPiece);
+		cb.setTile(0,  2, PromotionTile);
+		drawBoard(testGame);
+		
+		//if(testGame.checkMove(7, 6, testGame.getChessBoard(), testGame.getChessBoard().getTile(7,  4).getPiece(), testGame.getWhitePlayer()))
+		if(testGame.checkMove(7, 1, testGame.getChessBoard(), testGame.getChessBoard().getTile(7,  4).getPiece(), testGame.getWhitePlayer()))
+		{
+			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(7,  4).getPiece(), 7, 1);
+			//testGame.PawnPromotion(testGame.getWhitePieces(), "queen");
+			drawBoard(testGame);
+			testGame.printMoveList();
+		}
+		
+		else
+		{
+			System.out.println("NO");
+			drawBoard(testGame);
+		}
+		
+		/*testGame.setGame();
 		drawBoard(testGame);
 
 		
@@ -49,7 +92,7 @@ public class TestMain
 		System.out.println(res);
 		
 		drawBoard(testGame);
-		testGame.printMoveList();
+		testGame.printMoveList();*/
 	}
 	
 	public static void drawBoard(Game test)
