@@ -134,14 +134,14 @@ public class NewGameServlet extends HttpServlet {
 		
 		System.out.println("A: " + a + "B: " + b + "C: " + c + "D: " + d + "E: " + e + " " + promotion);
 		
-		int ix = ((parsedOrig - 1) / 8);
+		int ix = 7 - ((parsedOrig - 1) / 8);
 		int iy = (parsedOrig % 8) - 1;
 		if(iy == -1)
 		{
 			iy = 7;
 		}
 		
-		int dx = ((parsedNew - 1) / 8);
+		int dx = 7 - ((parsedNew - 1) / 8);
 		int dy = (parsedNew % 8) - 1;
 		if(dy == -1)
 		{
@@ -149,8 +149,6 @@ public class NewGameServlet extends HttpServlet {
 		}
 
 		System.out.println("Move from " + ix + ", " + iy + " to " + dx + ", " + dy);
-
-		//playGame.printMoveList();
 
 		ChessPiece movePiece = playGame.getChessBoard().getTile(ix, iy).getPiece();
 		String playerWhite = "White's move: ";
@@ -218,6 +216,8 @@ public class NewGameServlet extends HttpServlet {
 			System.out.println("Promotion time " + piece);
 			//playGame.PawnPromotion(playGame.getWhitePieces(), piece);
 		}
+		
+		playGame.printMoveList();
 		
 		if(req.getParameter("index") != null) 
 		{
