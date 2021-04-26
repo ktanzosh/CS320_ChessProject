@@ -129,7 +129,8 @@ public class AccountRecoveryServlet extends HttpServlet {
 			if (passwordsMatch == true) {
 				userModel = (User) resetSession.getAttribute("userInfo");
 				String username = userModel.getUser();
-				userModel.setNewPassword(username, newpass);
+				String salt = userModel.getSALT();
+				userModel.setNewPassword(username, newpass, salt);
 				resp.sendRedirect("/ChessProject/index");
 				return;
 				
@@ -159,7 +160,8 @@ public class AccountRecoveryServlet extends HttpServlet {
 				securitya = getStringFromParameter(req, "securityAnswer");
 				userModel = (User) resetSession.getAttribute("userInfo");
 				String user = userModel.getUser();
-				securityAnswerCorrect = userModel.checkUserSecurityAnswer(user, securitya);
+				String SALT = userModel.getSALT();
+				securityAnswerCorrect = userModel.checkUserSecurityAnswer(user, securitya, SALT);
 
 			} catch (NumberFormatException e) {
 				errorMessage = "Invalid Input";

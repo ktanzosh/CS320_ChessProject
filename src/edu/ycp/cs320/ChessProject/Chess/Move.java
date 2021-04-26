@@ -8,6 +8,7 @@ public class Move
 	private String state;
 	private boolean tookPiece;
 	private boolean wasCastle;
+	//private int moveID;
 	
 	public Move(ChessPiece cp, int x, int y, String st, boolean tp, boolean wc)
 	{

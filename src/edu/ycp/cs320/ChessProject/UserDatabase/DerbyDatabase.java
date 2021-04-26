@@ -1,5 +1,7 @@
 package edu.ycp.cs320.ChessProject.UserDatabase;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.Chess.Move;
@@ -21,9 +24,10 @@ import edu.ycp.cs320.ChessProject.Chess.Move;
 public class DerbyDatabase implements IDatabase {
 	static {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			//Class.forName("org.mysql.Driver");
 		} catch (Exception e) {
-			throw new IllegalStateException("Could not load Derby driver");
+			throw new IllegalStateException("Could not load MySQL driver");
 		}
 	}
 	
@@ -560,7 +564,58 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public User insertNewUser(String username, String password, String question, String answer) {
+	@Override
+	public List<Pair<User, Game>> findAllGamesForUser(String user) {
+		return executeTransaction(new Transaction<List<Pair<User, Game>>>() {
+			@Override
+			public List<Pair<User, Game>> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				try {
+					stmt = conn.prepareStatement(
+							"select moves.move " +
+							" from users, moves, userGames" +
+							" where ((? = userGames.player1_id)" +
+							" or (? = userGames.player2_id))" +
+							" and moves.game_id = userGames.game_id"
+					);
+					stmt.setString(1, user);
+					stmt.setString(2, user);
+					
+					List<Pair<User, Game>> result = new ArrayList<Pair<User, Game>>();
+					
+					resultSet = stmt.executeQuery();
+					
+					// for testing that a result was returned
+					Boolean found = false;
+					
+					while (resultSet.next()) {
+						found = true;
+						
+						User user = new User();
+						loadUser(user, resultSet, 1);
+						Game move = new Game();
+						loadMove(move, resultSet, 6);
+						
+						result.add(new Pair<User, Game>(user, move));
+					}
+					
+					// check if any books were found
+					if (!found) {
+						System.out.println("No games were found in the database");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}	
+	
+	public User insertNewUser(String username, String password, String question, String answer, String SALT) {
 		return executeTransaction(new Transaction<User>() {
 			@Override
 			public User execute(Connection conn) throws SQLException {
@@ -568,13 +623,14 @@ public class DerbyDatabase implements IDatabase {
 				
 				// prepare SQL insert statement to add Author to Authors table
 				stmt1 = conn.prepareStatement(
-						"insert into users (username, password, securityquestion, securityanswer)" +
-						" values(?, ?, ?, ?) "
+						"insert into users (username, password, securityquestion, securityanswer, SALT)" +
+						" values(?, ?, ?, ?, ?) "
 				);
 				stmt1.setString(1, username);
 				stmt1.setString(2, password);
 				stmt1.setString(3, question);
 				stmt1.setString(4, answer);
+				stmt1.setString(4, SALT);
 				
 				
 				// execute the update
@@ -661,9 +717,39 @@ public class DerbyDatabase implements IDatabase {
 				stmt = conn.prepareStatement(
 						"update users" +
 						" set password = ?" +
+						" and set SALT = ?" +
 						"  where users.username = ? "
 				);
 				stmt.setString(1, Password);
+				stmt.setString(2, username);
+				
+				
+				// execute the update
+				stmt.executeUpdate();
+				
+				DBUtil.closeQuietly(stmt);
+				
+				return null;
+			}
+		});
+	}
+	
+	@Override
+	public User changeRank(String username, int rank) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;			
+				//ResultSet resultSet1 = null;
+				
+
+				stmt = conn.prepareStatement(
+						"update users" +
+						" set rankScore = ?" +
+						" and set SALT = ?" +
+						"  where users.username = ? "
+				);
+				stmt.setInt(1, rank);
 				stmt.setString(2, username);
 				
 				
@@ -684,6 +770,15 @@ public class DerbyDatabase implements IDatabase {
 		user.setPassword(resultSet.getString(index++));
 		user.setSecurityQuestion(resultSet.getString(index++));
 		user.setSecurityAnswer(resultSet.getString(index++));
+		
+	}
+	
+	private void loadMove(Game move, ResultSet resultSet, int index) throws SQLException {
+		//move.getLastMove().getMove().(resultSet.getInt(index++));
+		//move.setUser(resultSet.getString(index++));
+		//move.setPassword(resultSet.getString(index++));
+		//move.setSecurityQuestion(resultSet.getString(index++));
+		//move.setSecurityAnswer(resultSet.getString(index++));
 		
 	}
 	
@@ -737,9 +832,47 @@ public class DerbyDatabase implements IDatabase {
 	// TODO: Change it here and in SQLDemo.java under CS320_LibraryExample_Lab06->edu.ycp.cs320.sqldemo
 	// TODO: DO NOT PUT THE DB IN THE SAME FOLDER AS YOUR PROJECT - that will cause conflicts later w/Git
 	private Connection connect() throws SQLException {
-		String os = System.getProperty("os.name");
-		Connection conn;
 
+		
+	  String db_name = null;
+      String db_username = null;
+      String db_password = null;
+      String db_hostname = null;
+      String port = null;
+      
+      try {
+    	  try {
+		      File myObj = new File("DB_cred.txt");
+		      Scanner myReader = new Scanner(myObj);
+		      db_name = myReader.nextLine();
+		      db_username = myReader.nextLine();
+		      db_password = myReader.nextLine();
+		      port = myReader.nextLine();
+		      db_hostname = myReader.nextLine();
+		      
+		      myReader.close();
+		    } catch (FileNotFoundException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+		  	  
+	      //Class.forName("com.mysql.cj.jdbc.Driver");
+	      String jdbcUrl = "jdbc:mysql://" + db_hostname + ":" + port + "/" + db_name + "?user=" + db_username + "&password=" + db_password;
+	      System.out.println("Getting remote connection with connection string from environment variables.");
+	      Connection conn = DriverManager.getConnection(jdbcUrl);
+	      System.out.println("Remote connection successful.");
+	      return conn;
+      }
+	    //catch (ClassNotFoundException e) { 
+	    //	System.out.println(e.toString());
+    	//}
+	    catch (SQLException e) { 
+	    	System.out.println(e.toString());
+	    }
+	    
+	    return null;
+	  }
+/*
 		if(os.contains("Win")) {
 			conn = DriverManager.getConnection("jdbc:derby:C:/CS320-2021-ChessGame-DB/chess.db;create=true");	
 		}
@@ -749,10 +882,10 @@ public class DerbyDatabase implements IDatabase {
 		// Set autocommit() to false to allow the execution of
 		// multiple queries/statements as part of the same transaction.
 		conn.setAutoCommit(false);
-		
+	
 		return conn;
 	}
-	
+*/
 	/*
 	
 	// retrieves Author information from query result set
@@ -791,47 +924,81 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt3 = null;				
 			
 				try {
+					
 					stmt1 = conn.prepareStatement(
+					/*
 						"create table users (" +
-						"	user_id integer primary key " +
+						"	user_id int primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +									
 						"	username varchar(50)," +
 						"	password varchar(150)," +
 						"	securityQuestion varchar(50)," +
 						"	securityAnswer varchar(150)" +
 						")"
+						*/
+						"CREATE TABLE `users` (" +
+						"  `user-id` int NOT NULL AUTO_INCREMENT," +
+						"  `username` varchar(50) DEFAULT NULL," +
+						"  `password` varchar(150) DEFAULT NULL," +
+						"  `securityQuestion` varchar(50) DEFAULT NULL," +
+						"  `securityAnswer` varchar(150) DEFAULT NULL," +
+						"  `salt` varchar(5) DEFAULT NULL," +
+						"  `rankScore` int DEFAULT NULL," +
+						"  PRIMARY KEY (`user-id`))"	
+						
 					);	
+					
 					stmt1.executeUpdate();
 					
 					System.out.println("Users table created");
 					
 					stmt2 = conn.prepareStatement(
+					/*
 							"create table moves (" +
 							"	move_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
-							"	game_id integer," +
+							"	game_id int," +
 							"	move varchar(10)" +
 							")"
+							
+							*/
+							
+							"CREATE TABLE `moves` (" +
+	  						"  `move_id` int NOT NULL AUTO_INCREMENT," +
+	  						"	`game_id` int DEFAULT NULL," +
+	  						"		`move` varchar(15) DEFAULT NULL," +
+	  						"			PRIMARY KEY (`move_id`))"
 					);
 					stmt2.executeUpdate();
 					
 					System.out.println("Moves table created");					
 					
 					stmt3 = conn.prepareStatement(
+							/*
 							"create table userGames (" +
 							"	game_id   integer constraint game_id references moves, " +
 							"	player1_id integer constraint player1_id references users, " +
 							"	player2_id integer constraint player2_id references users " +
 							")"
+							*/
+							
+							"CREATE TABLE `userGames` (" +
+							"  `game_id` int NOT NULL AUTO_INCREMENT," +
+							"  `player1_id` int DEFAULT NULL," +
+							"  `player2_id` int DEFAULT NULL," +
+							"  `end` varchar(25) DEFAULT NULL," +
+							"  `winner` int DEFAULT NULL," +
+							"  PRIMARY KEY (`game_id`))"
 					);
 					stmt3.executeUpdate();
 					
 					System.out.println("userGames table created");					
-										
+									
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
 				}
 			}
 		});
@@ -982,8 +1149,8 @@ public class DerbyDatabase implements IDatabase {
 		DerbyDatabase db = new DerbyDatabase();
 		db.createTables();
 		
-		System.out.println("Loading initial data...");
-		db.loadInitialData();
+		//System.out.println("Loading initial data...");
+		//db.loadInitialData();
 		
 		System.out.println("Library DB successfully initialized!");
 	}

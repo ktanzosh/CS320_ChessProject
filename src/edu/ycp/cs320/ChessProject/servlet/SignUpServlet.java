@@ -88,11 +88,11 @@ public class SignUpServlet extends HttpServlet {
 				passwordMatch = true;
 			}
 			
-			if((password.length() > 9) && (password.length() < 32)) {
+			if((password.length() > 9) && (password.length() < 25)) {
 				passwordLong = true;
 			}
 			
-			if(securityA.length() < 32) {
+			if(securityA.length() < 25) {
 				answerShort = true;
 			}
 			
@@ -119,12 +119,16 @@ public class SignUpServlet extends HttpServlet {
 				//TODO: CREATE NEW USER IN DATABASE
 				InitDatabase.init();
 				
-				String enc_password = User.encryptThisString(password);
+				String[] pass_info = new String[2];
+				pass_info = User.encryptThisString(password);
+				String enc_password = pass_info[0];
+				String salt = pass_info[1];
 				System.out.println("Hashed Password: " + enc_password);
-				String enc_secAnswer = User.encryptThisString(securityA);
+				
+				String enc_secAnswer = User.decryptThisString(securityA, salt);
 				System.out.println("Hashed Security Answer: " + enc_secAnswer);
 				IDatabase db = DatabaseProvider.getInstance();
-				db.insertNewUser(user, enc_password, securityQ, enc_secAnswer);
+				db.insertNewUser(user, enc_password, securityQ, enc_secAnswer, salt);
 				
 				userModel = userModel.getUserInfo(user);
 				HttpSession resetSession = req.getSession(true);
@@ -142,7 +146,7 @@ public class SignUpServlet extends HttpServlet {
 			
 			else if (passwordLong != true){
 				if(password.length() > 31) {
-					errorMessageInvalidC = "Password must be less than 32 characters long.";
+					errorMessageInvalidC = "Password must be less than 25 characters long.";
 				}
 				else {
 					errorMessageInvalidC = "Password must be at least 10 characters long.";
@@ -152,7 +156,7 @@ public class SignUpServlet extends HttpServlet {
 			}
 			
 			else if (answerShort != true){
-				errorMessageInvalidC = "Security Answer must be less than 32 characters long.";
+				errorMessageInvalidC = "Security Answer must be less than 25 characters long.";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
 				req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
 			}

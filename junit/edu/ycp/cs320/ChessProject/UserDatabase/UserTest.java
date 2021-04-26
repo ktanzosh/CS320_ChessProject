@@ -32,9 +32,12 @@ public class UserTest {
 	@Test
 	public void testGetUserInfo() {
 		model = model.getUserInfo("user123");
+		String salt = model.getSALT();
 		User user = new User();
-		String enc_password = user.encryptThisString("password123");
-		String enc_answer = user.encryptThisString("Mr. Dan");
+		@SuppressWarnings("static-access")
+		String enc_password = user.decryptThisString("password123", salt);
+		@SuppressWarnings("static-access")
+		String enc_answer = user.decryptThisString("Mr. Dan", salt);
 		
 		assertTrue(model.getUser().equals("user123"));
 		assertTrue(model.getPassword().equals(enc_password));
@@ -49,8 +52,10 @@ public class UserTest {
 	
 	@Test
 	public void testCheckUserSecurityAnswer() {
-		assertTrue(model.checkUserSecurityAnswer("user123", "Mr. Dan"));
-		assertFalse(model.checkUserSecurityAnswer("user123", "not Mr. Dan"));
+		model = model.getUserInfo("user123");
+		String salt = model.getSALT();
+		assertTrue(model.checkUserSecurityAnswer("user123", "Mr. Dan", salt));
+		assertFalse(model.checkUserSecurityAnswer("user123", "not Mr. Dan", salt));
 	}
 	
 	@Test
