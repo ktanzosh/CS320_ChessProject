@@ -46,7 +46,7 @@ public class RookPiece extends ChessPiece
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb)
 	{
-		System.out.println("Rook Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
+		//System.out.println("Rook Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
 		
 		if(newx < 0 || newx > 7 || newy < 0 || newy > 7)
 		{
@@ -75,14 +75,14 @@ public class RookPiece extends ChessPiece
 					{
 						if(t.getPiece() != null)
 						{
-							System.out.println("Chess Piece at " + i + " and " + getPosY());
+							//System.out.println("Chess Piece at " + i + " and " + getPosY());
 							return false;
 						}
 					}
 					
 					catch(NullPointerException e)
 					{
-						System.out.println("No Chess Piece at " + i + " and " + getPosX());
+						//System.out.println("No Chess Piece at " + i + " and " + getPosX());
 					}
 				}
 			}
@@ -98,14 +98,14 @@ public class RookPiece extends ChessPiece
 					{
 						if(t.getPiece() != null)
 						{
-							System.out.println("Chess Piece at " + i + " and " + getPosY());
+							//System.out.println("Chess Piece at " + i + " and " + getPosY());
 							return false;
 						}
 					}
 					
 					catch(NullPointerException e)
 					{
-						System.out.println("No Chess Piece at " + i + " and " + getPosY());
+						//System.out.println("No Chess Piece at " + i + " and " + getPosY());
 					}
 				}
 			}
@@ -125,14 +125,14 @@ public class RookPiece extends ChessPiece
 					{
 						if(t.getPiece() != null)
 						{
-							System.out.println("Chess Piece at " + getPosX() + " and " + i);
+							//System.out.println("Chess Piece at " + getPosX() + " and " + i);
 							return false;
 						}
 					}
 					
 					catch(NullPointerException e)
 					{
-						System.out.println("No Chess Piece at " + getPosX() + " and " + i);
+						//System.out.println("No Chess Piece at " + getPosX() + " and " + i);
 					}
 				}
 			}
@@ -148,20 +148,20 @@ public class RookPiece extends ChessPiece
 					{
 						if(t.getPiece() != null)
 						{
-							System.out.println("Chess Piece at " + getPosX() + " and " + i);
+							//System.out.println("Chess Piece at " + getPosX() + " and " + i);
 							return false;
 						}
 					}
 					
 					catch(NullPointerException e)
 					{
-						System.out.println("No Chess Piece at " + getPosX() + " and " + i);
+						//System.out.println("No Chess Piece at " + getPosX() + " and " + i);
 					}
 				}
 			}
 		}
 		
-		System.out.println("");
+		//System.out.println("");
 		
 		//check to see if they take a piece
 		try
@@ -173,7 +173,7 @@ public class RookPiece extends ChessPiece
 		}
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at " + newx + ", " + newy);
+			//System.out.println("No one at " + newx + ", " + newy);
 		}
 		
 		//makes sure that the movements are vertical or horizontal, and actually moving not just up and down

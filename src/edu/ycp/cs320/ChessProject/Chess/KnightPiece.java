@@ -27,7 +27,7 @@ public class KnightPiece extends ChessPiece
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb)
 	{
-		System.out.println("Knight Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
+		//System.out.println("Knight Test from "  + this.getPosX() + ", " + this.getPosY() + " to " + newx + ", " + newy);
 		
 		if(newx < 0 || newx > 7 || newy < 0 || newy > 7)
 		{
@@ -47,10 +47,10 @@ public class KnightPiece extends ChessPiece
 		}
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at " + newx + ", " + newy);
+			//System.out.println("No one at " + newx + ", " + newy);
 		}
 		
-		System.out.println("");
+		//System.out.println("");
 		//makes sure they move in a 2 and 1 pattern
 		if(changeX * changeY == 2)
 		{

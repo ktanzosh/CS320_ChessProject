@@ -21,8 +21,8 @@ public class Player
 		int x = kingPiece.getPosX();
 		int y = kingPiece.getPosY();
 		
-		System.out.println("");
-		System.out.println("TESTING CHECK, King Piece at " + x + ", " + y);
+		//System.out.println("");
+		//System.out.println("TESTING CHECK, King Piece at " + x + ", " + y);
 		
 		//maxes out to 7,7
 		//diaganol movement ++
@@ -39,7 +39,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we gucci
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move diaganoly, we are in check
@@ -57,14 +57,14 @@ public class Player
 			catch(NullPointerException n)
 			{
 				//If no one here, no problem, just continue on to the next tile, until out of bounds
-				System.out.println("No one at Chess Piece " + newx + ", " + newy);
+				//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 				i++;
 				newx = x + i;
 				newy = y + i;
 			}
 		}
 		
-		System.out.println("Reset");
+		//System.out.println("Reset");
 		i = 1;
 		newx = x - i;
 		newy = y - i;
@@ -77,7 +77,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are good
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move diaganolly, we are in check
@@ -95,14 +95,14 @@ public class Player
 			catch(NullPointerException n)
 			{
 				//If no one here, no problem, just continue on to the next tile, until out of bounds
-				System.out.println("No one at Chess Piece " + newx + ", " + newy);
+				//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 				i++;
 				newx = x - i;
 				newy = y - i;
 			}
 		}
 		
-		System.out.println("Reset");
+		//System.out.println("Reset");
 		i = 1;
 		newx = x + i;
 		newy = y - i;
@@ -115,7 +115,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move diaganoly, we are in check
@@ -133,14 +133,14 @@ public class Player
 			catch(NullPointerException n)
 			{
 				//If no one here, no problem, just continue on to the next tile, until out of bounds
-				System.out.println("No one at Chess Piece " + newx + ", " + newy);
+				//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 				i++;
 				newx = x + i;
 				newy = y - i;
 			}
 		}
 		
-		System.out.println("Reset");
+		//System.out.println("Reset");
 		i = 1;
 		newx = x - i;
 		newy = y + i;
@@ -153,7 +153,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move diaganolly, we are in check
@@ -171,14 +171,14 @@ public class Player
 			catch(NullPointerException n)
 			{
 				//If no one here, no problem, just continue on to the next tile, until out of bounds
-				System.out.println("No one at Chess Piece " + newx + ", " + newy);
+				//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 				i++;
 				newx = x - i;
 				newy = y + i;
 			}
 		}
 		
-		System.out.println("Reset");
+		//System.out.println("Reset");
 		i = 1;
 		newx = x + i;
 		while(newx < 8)
@@ -190,7 +190,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move vertical, we are in check
@@ -208,13 +208,13 @@ public class Player
 			catch(NullPointerException n)
 			{
 				//If no one here, no problem, just continue on to the next tile, until out of bounds
-				System.out.println("No one at Chess Piece " + newx + ", " + y);
+				//System.out.println("No one at Chess Piece " + newx + ", " + y);
 				i++;
 				newx = x + i;
 			}
 		}
 		
-		System.out.println("Reset");
+		//System.out.println("Reset");
 		i = 1;
 		newx = x - i;
 		while(newx >= 0)
@@ -226,7 +226,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move vertical, we are in check
@@ -244,13 +244,13 @@ public class Player
 			catch(NullPointerException n)
 			{
 				//If no one here, no problem, just continue on to the next tile, until out of bounds
-				System.out.println("No one at Chess Piece " + newx + ", " + y);
+				//System.out.println("No one at Chess Piece " + newx + ", " + y);
 				i++;
 				newx = x - i;
 			}
 		}
 		
-		System.out.println("Reset");
+		//System.out.println("Reset");
 		i = 1;
 		newx = x;
 		newy = y + i;
@@ -263,7 +263,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move horizontal, we are in check
@@ -281,13 +281,13 @@ public class Player
 			catch(NullPointerException n)
 			{
 				//If no one here, no problem, just continue on to the next tile, until out of bounds
-				System.out.println("No one at Chess Piece " + x + ", " + newy);
+				//System.out.println("No one at Chess Piece " + x + ", " + newy);
 				i++;
 				newy = y + i;
 			}
 		}
 		
-		System.out.println("Reset");
+		//System.out.println("Reset");
 		i = 1;
 		newy = y - 1;
 		while(newy >= 0)
@@ -299,7 +299,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					break;
 				}
 				//if not friendly, and is a piece that can move horizontal, we are in check
@@ -317,14 +317,14 @@ public class Player
 			catch(NullPointerException n)
 			{
 				//If no one here, no problem, just continue on to the next tile, until out of bounds
-				System.out.println("No one at Chess Piece " + x + ", " + newy);
+				//System.out.println("No one at Chess Piece " + x + ", " + newy);
 				i++;
 				newy = y - i;
 			}
 		}
 		
 		//STARTING KNIGHT CHECKERS
-		System.out.println("Knight checkers from " + x + ", " + y);
+		//System.out.println("Knight checkers from " + x + ", " + y);
 		try
 		{
 			//get piece at 2+1+
@@ -337,7 +337,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+				//	System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -349,13 +349,13 @@ public class Player
 			
 			else
 			{
-				System.out.println("Out of bounds at " + newx + ", " + newy);
+				//System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at Chess Piece " + newx + ", " + newy);
+			//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 		}
 		
 		try
@@ -370,7 +370,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -382,13 +382,13 @@ public class Player
 			
 			else
 			{
-				System.out.println("Out of bounds at " + newx + ", " + newy);
+				//System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at Chess Piece " + newx + ", " + newy);
+			//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 		}
 		
 		try
@@ -403,7 +403,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -415,13 +415,13 @@ public class Player
 			
 			else
 			{
-				System.out.println("Out of bounds at " + newx + ", " + newy);
+				//System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at Chess Piece " + newx + ", " + newy);
+			//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 		}
 		
 		try
@@ -436,7 +436,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -448,13 +448,13 @@ public class Player
 			
 			else
 			{
-				System.out.println("Out of bounds at " + newx + ", " + newy);
+				//System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at Chess Piece " + newx + ", " + newy);
+			//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 		}
 		
 		try
@@ -469,7 +469,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -481,13 +481,13 @@ public class Player
 			
 			else
 			{
-				System.out.println("Out of bounds at " + newx + ", " + newy);
+				//System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at Chess Piece " + newx + ", " + newy);
+			//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 		}
 		
 		try
@@ -502,7 +502,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -514,13 +514,13 @@ public class Player
 			
 			else
 			{
-				System.out.println("Out of bounds at " + newx + ", " + newy);
+				//System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at Chess Piece " + newx + ", " + newy);
+			//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 		}
 		
 		try
@@ -535,7 +535,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -547,13 +547,13 @@ public class Player
 			
 			else
 			{
-				System.out.println("Out of bounds at " + newx + ", " + newy);
+				//System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at Chess Piece " + newx + ", " + newy);
+			//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 		}
 		
 		try
@@ -568,7 +568,7 @@ public class Player
 				//if piece is friendly, dont worry about direction, we are fine
 				if(potentialPiece.getColor() == kingPiece.getColor())
 				{
-					System.out.println("Friendly Piece at " + newx + ", " + newy);
+					//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					//Nothing happens so its all good
 				}
 				//if not friendly, and is a piece that move in a way of a knight, we are in check
@@ -580,13 +580,13 @@ public class Player
 			
 			else
 			{
-				System.out.println("Out of bounds at " + newx + ", " + newy);
+				//System.out.println("Out of bounds at " + newx + ", " + newy);
 			}
 		}
 			
 		catch(NullPointerException n)
 		{
-			System.out.println("No one at Chess Piece " + newx + ", " + newy);
+			//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 		}
 		
 		//still need to implement pawn checking because that's a pain in the ass
@@ -598,7 +598,7 @@ public class Player
 		
 		if(kingPiece.getColor() == true)
 		{
-			System.out.println("Reset");
+			//System.out.println("Reset");
 			//and not on the opposite edge since they start at 1
 			if(kingPiece.getPosY() != 0)
 			{
@@ -610,7 +610,7 @@ public class Player
 					if(potentialPiece.getColor() == kingPiece.getColor())
 					{
 						//no problem
-						System.out.println("Friendly Piece at " + newx + ", " + newy);
+						//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					}
 					//if piece is of an opposite color and is a pawn, check
 					else if(potentialPiece.whatPiece().equals("Pawn"))
@@ -621,7 +621,7 @@ public class Player
 				
 				catch(NullPointerException n)
 				{
-					System.out.println("No one at Chess Piece " + newx + ", " + newy);
+					//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 				}
 				
 				newy = kingPiece.getPosY() - 1;
@@ -631,7 +631,7 @@ public class Player
 					if(potentialPiece.getColor() == kingPiece.getColor())
 					{
 						//no problem
-						System.out.println("Friendly Piece at " + newx + ", " + newy);
+						//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					}
 					//if piece is of an opposite color and is a pawn, check
 					else if(potentialPiece.whatPiece().equals("Pawn"))
@@ -642,7 +642,7 @@ public class Player
 				
 				catch(NullPointerException n)
 				{
-					System.out.println("No one at Chess Piece " + newx + ", " + newy);
+					//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 				}
 			}
 		}
@@ -650,7 +650,7 @@ public class Player
 		
 		if(kingPiece.getColor() == false)
 		{
-			System.out.println("Reset");
+			//System.out.println("Reset");
 			//and not on the opposite edge since they start at 1
 			if(kingPiece.getPosY() != 0)
 			{
@@ -662,7 +662,7 @@ public class Player
 					if(potentialPiece.getColor() == kingPiece.getColor())
 					{
 						//no problem
-						System.out.println("Friendly Piece at " + newx + ", " + newy);
+						//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					}
 					//if piece is of an opposite color and is a pawn, check
 					else if(potentialPiece.whatPiece().equals("Pawn"))
@@ -673,7 +673,7 @@ public class Player
 				
 				catch(NullPointerException n)
 				{
-					System.out.println("No one at Chess Piece " + newx + ", " + newy);
+					//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 				}
 				
 				newy = kingPiece.getPosY() - 1;
@@ -683,7 +683,7 @@ public class Player
 					if(potentialPiece.getColor() == kingPiece.getColor())
 					{
 						//no problem
-						System.out.println("Friendly Piece at " + newx + ", " + newy);
+						//System.out.println("Friendly Piece at " + newx + ", " + newy);
 					}
 					//if piece is of an opposite color and is a pawn, check
 					else if(potentialPiece.whatPiece().equals("Pawn"))
@@ -694,7 +694,7 @@ public class Player
 				
 				catch(NullPointerException n)
 				{
-					System.out.println("No one at Chess Piece " + newx + ", " + newy);
+					//System.out.println("No one at Chess Piece " + newx + ", " + newy);
 				}
 			}
 		}
@@ -704,7 +704,7 @@ public class Player
 	
 	public boolean isCheckmate(ChessBoard cb, KingPiece kingPiece, ArrayList<ChessPiece> pieces)
 	{
-		System.out.println("TESTING CHECKMATE:");
+		//System.out.println("TESTING CHECKMATE:");
 		
 		//if not in check, can't be in check mate
 		//if(this.isCheck(cb,  kingPiece) == false)
@@ -929,7 +929,7 @@ public class Player
 						//if there is a legal move that has the king not in check
 						if(piece.checkMove(i, j, cb) == true)
 						{
-							System.out.println(piece.whatPiece() + "can move to " + i + ", " + j);
+							//System.out.println(piece.whatPiece() + "can move to " + i + ", " + j);
 							//get old position to get old move
 							oldx = piece.getPosX();
 							oldy = piece.getPosY();
@@ -960,8 +960,8 @@ public class Player
 	
 	public boolean isDraw(ChessBoard cb, KingPiece kingPiece, ArrayList<ChessPiece> pieces)
 	{
-		System.out.println("");
-		System.out.println("TESTING DRAW");
+		//System.out.println("");
+		//System.out.println("TESTING DRAW");
 		
 		//If in check, can't be a draw
 		//if(this.isCheck(cb,  kingPiece) == true)
@@ -998,7 +998,7 @@ public class Player
 								{
 									//return move to og spot
 									testGame.testMove(testGame.getChessBoard(), kingPiece, oldx, oldy);
-									System.out.println(piece.whatPiece() + "can move to " + i + ", " + j + " without putting the king in Check");
+									//System.out.println(piece.whatPiece() + "can move to " + i + ", " + j + " without putting the king in Check");
 									return false;
 								}
 										
@@ -1020,7 +1020,7 @@ public class Player
 								{
 									//return move to og spot
 									testGame.testMove(testGame.getChessBoard(), piece, oldx, oldy);
-									System.out.println(piece.whatPiece() + "can move to " + i + ", " + j + "without putting the king in Check");
+									//System.out.println(piece.whatPiece() + "can move to " + i + ", " + j + "without putting the king in Check");
 									return false;
 								}
 										
