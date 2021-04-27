@@ -100,10 +100,8 @@ public class SignUpServlet extends HttpServlet {
 			// must create the controller each time, since it doesn't persist between POSTs
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
-			else {
-				userExists = userModel.checkIfUserExists(user);
+			userExists = userModel.checkIfUserExists(user);
 				
-			}
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid entry";
 		}
@@ -123,10 +121,10 @@ public class SignUpServlet extends HttpServlet {
 				pass_info = User.encryptThisString(password);
 				String enc_password = pass_info[0];
 				String salt = pass_info[1];
-				System.out.println("Hashed Password: " + enc_password);
+				//System.out.println("Hashed Password: " + enc_password);
 				
 				String enc_secAnswer = User.decryptThisString(securityA, salt);
-				System.out.println("Hashed Security Answer: " + enc_secAnswer);
+				//System.out.println("Hashed Security Answer: " + enc_secAnswer);
 				IDatabase db = DatabaseProvider.getInstance();
 				db.insertNewUser(user, enc_password, securityQ, enc_secAnswer, salt);
 				
