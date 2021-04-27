@@ -520,16 +520,21 @@ public class Game
 		int oldx = cp.getPosX();
 		int oldy = cp.getPosY();
 		boolean takesPiece = false;
+		boolean castled = false;
 		
 		try
 		{
-			ChessPiece potentialPiece = cb.getTile(x,  y).getPiece();
+			//where the piece is going
+			ChessPiece potentialPiece = cb.getTile(x, y).getPiece();
+			
 			takesPiece = true;
 			potentialPiece.isKilled();
+			//not actually killing and taking a piece.
 		}
+		
 		catch(NullPointerException n)
 		{
-			
+			System.out.println("Not taking a piece");
 		}
 		
 		Tile newTile = new Tile(cp);
@@ -539,7 +544,7 @@ public class Game
 		cp.setPosX(x);
 		cp.setPosY(y);
 		
-		boolean castled = false;
+		
 		
 		//if castling, also move the rook
 		if(cp.whatPiece().equals("King"))
@@ -662,95 +667,94 @@ public class Game
 	
 
 	//Still in testing
-	public void PawnPromotion(ArrayList<ChessPiece> pieces, String newPiece)
+	public void PawnPromotion(int x, int y, ArrayList<ChessPiece> pieces, String newPiece)
 	{
-		for(ChessPiece p : pieces) 
+		ChessPiece p = this.getChessBoard().getTile(x, y).getPiece();
+		
+		if(p.whatPiece().equals("Pawn"))
 		{
-			if(p.whatPiece().equals("Pawn"))
+			if(p.getColor() == true)
 			{
-				if(p.getColor() == true)
+				//if a white piece gets to the other side
+				if(p.getPosX() == 0)
 				{
-					//if a white piece gets to the other side
-					if(p.getPosX() == 0)
+					if(newPiece.equals("rook"))
 					{
-						if(newPiece.equals("rook"))
-						{
-							p.isKilled();
-							RookPiece WhiteRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
-							Tile updatedTile = new Tile(WhiteRookPromotion);
-							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
-							pieces.add(WhiteRookPromotion);
-						}
+						p.isKilled();
+						RookPiece WhiteRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						Tile updatedTile = new Tile(WhiteRookPromotion);
+						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+						pieces.add(WhiteRookPromotion);
+					}
 						
-						if(newPiece.equals("bishop"))
-						{
-							p.isKilled();
-							BishopPiece WhiteBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
-							Tile updatedTile = new Tile(WhiteBishopPromotion);
-							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
-							pieces.add(WhiteBishopPromotion);
-						}
-						
-						if(newPiece.equals("knight"))
-						{
-							p.isKilled();
-							KnightPiece WhiteKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
-							Tile updatedTile = new Tile(WhiteKnightPromotion);
-							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
-							pieces.add(WhiteKnightPromotion);
-						}
-						
-						if(newPiece.equals("queen"))
-						{
-							p.isKilled();
-							QueenPiece WhiteQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
-							Tile updatedTile = new Tile(WhiteQueenPromotion);
-							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
-							pieces.add(WhiteQueenPromotion);
-						}
+					if(newPiece.equals("bish"))
+					{
+						p.isKilled();
+						BishopPiece WhiteBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						Tile updatedTile = new Tile(WhiteBishopPromotion);
+						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+						pieces.add(WhiteBishopPromotion);
+					}
+					
+					if(newPiece.equals("knig"))
+					{
+						p.isKilled();
+						KnightPiece WhiteKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						Tile updatedTile = new Tile(WhiteKnightPromotion);
+						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+						pieces.add(WhiteKnightPromotion);
+					}
+					
+					if(newPiece.equals("quee"))
+					{
+						p.isKilled();
+						QueenPiece WhiteQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						Tile updatedTile = new Tile(WhiteQueenPromotion);
+						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+						pieces.add(WhiteQueenPromotion);
 					}
 				}
+			}
 				
-				else if(p.getColor() == false)
+			else if(p.getColor() == false)
+			{					
+				//if a white piece gets to the other side
+				if(p.getPosX() == 7)
 				{
-					//if a white piece gets to the other side
-					if(p.getPosX() == 7)
+					if(newPiece.equals("rook"))
 					{
-						if(newPiece.equals("rook"))
-						{
-							p.isKilled();
-							RookPiece BlackRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
-							Tile updatedTile = new Tile(BlackRookPromotion);
-							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
-							pieces.add(BlackRookPromotion);
-						}
+						p.isKilled();
+						RookPiece BlackRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						Tile updatedTile = new Tile(BlackRookPromotion);
+						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+						pieces.add(BlackRookPromotion);
+					}
 						
-						if(newPiece.equals("bishop"))
-						{
-							p.isKilled();
-							BishopPiece BlackBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
-							Tile updatedTile = new Tile(BlackBishopPromotion);
-							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
-							pieces.add(BlackBishopPromotion);
-						}
+					if(newPiece.equals("bish"))
+					{
+						p.isKilled();
+						BishopPiece BlackBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						Tile updatedTile = new Tile(BlackBishopPromotion);
+						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+						pieces.add(BlackBishopPromotion);
+					}
 						
-						if(newPiece.equals("knight"))
-						{
-							p.isKilled();
-							KnightPiece BlackKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
-							Tile updatedTile = new Tile(BlackKnightPromotion);
-							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
-							pieces.add(BlackKnightPromotion);
-						}
-						
-						if(newPiece.equals("queen"))
-						{
-							p.isKilled();
-							QueenPiece BlackQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
-							Tile updatedTile = new Tile(BlackQueenPromotion);
-							this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
-							pieces.add(BlackQueenPromotion);
-						}
+					if(newPiece.equals("knig"))
+					{
+						p.isKilled();
+						KnightPiece BlackKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						Tile updatedTile = new Tile(BlackKnightPromotion);
+						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+						pieces.add(BlackKnightPromotion);
+					}
+					
+					if(newPiece.equals("quee"))
+					{
+						p.isKilled();
+						QueenPiece BlackQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						Tile updatedTile = new Tile(BlackQueenPromotion);
+						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
+						pieces.add(BlackQueenPromotion);
 					}
 				}
 			}

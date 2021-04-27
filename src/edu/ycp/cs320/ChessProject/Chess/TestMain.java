@@ -30,6 +30,7 @@ public class TestMain
 		Tile BlackKingTile = new Tile(BlackKing);
 		cb.setTile(0,  4, BlackKingTile);
 		
+		
 		RookPiece RookP = new RookPiece(7, 0, true, 1);
 		testGame.getWhitePieces().add(RookP);
 		Tile RookTile = new Tile(RookP);
@@ -45,7 +46,7 @@ public class TestMain
 		if(testGame.checkMove(7, 1, testGame.getChessBoard(), testGame.getChessBoard().getTile(7,  4).getPiece(), testGame.getWhitePlayer()))
 		{
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(7,  4).getPiece(), 7, 1);
-			//testGame.PawnPromotion(testGame.getWhitePieces(), "queen");
+			testGame.PawnPromotion(0, 2, testGame.getWhitePieces(), "quee");
 			drawBoard(testGame);
 			testGame.printMoveList();
 		}
@@ -55,6 +56,42 @@ public class TestMain
 			System.out.println("NO");
 			drawBoard(testGame);
 		}
+		
+		//can get the piece here, but not in the method
+		try
+		{
+			System.out.println("The piece at  7, 2 is " + testGame.getChessBoard().getTile(7,  2).getPiece());
+		}
+		
+		catch(NullPointerException ne)
+		{
+			System.out.println("You utter dumbass");
+		}
+		
+		PawnPiece TakerPawn = new PawnPiece(6, 3, false, 2);
+		testGame.getBlackPieces().add(TakerPawn);
+		Tile BlackPawnTile = new Tile(TakerPawn);
+		cb.setTile(6,  3, BlackPawnTile);
+		drawBoard(testGame);
+		
+		if(testGame.checkMove(7, 2, testGame.getChessBoard(), testGame.getChessBoard().getTile(6, 3).getPiece(), testGame.getWhitePlayer()))
+		{
+			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6, 3).getPiece(), 7, 2);
+			testGame.PawnPromotion(7, 2, testGame.getBlackPieces(), "bish");
+			drawBoard(testGame);
+			testGame.printMoveList();
+		}
+		
+		else
+		{
+			System.out.println("NO");
+			drawBoard(testGame);
+		}
+		
+		/*if(RookP.getKilled() == true)
+		{
+			System.out.println("Actually killed");
+		}*/
 		
 		/*testGame.setGame();
 		drawBoard(testGame);
