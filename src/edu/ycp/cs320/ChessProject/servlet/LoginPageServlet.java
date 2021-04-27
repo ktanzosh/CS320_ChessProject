@@ -74,6 +74,7 @@ public class LoginPageServlet extends HttpServlet {
 			// thus, always call a controller method to operate on the data
 			else {
 				userFound = userModel.checkInfo(user, password);
+				//userFound = true;
 			}
 			
 		} catch (NumberFormatException e) {

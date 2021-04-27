@@ -156,6 +156,12 @@ public class User {
 	         // getInstance() method is called with algorithm SHA-512
 	         MessageDigest md = MessageDigest.getInstance("SHA-512");
 
+	         SecureRandom rand = new SecureRandom();
+	         int salt = rand.nextInt(9999);
+	         String SALT = Integer.toString(salt);
+	         input = SALT + input;
+	         
+	         
 	         // digest() method is called
 	         // to calculate message digest of the input string
 	         // returned as array of byte
@@ -167,11 +173,6 @@ public class User {
 	         // Convert message digest into hex value
 	         String hashtext = no.toString(16);
 	         
-	         SecureRandom rand = new SecureRandom();
-	         int salt = rand.nextInt(9999);
-	         String SALT = Integer.toString(salt);
-	         hashtext = SALT + hashtext;
-	         
 	         // Add preceding 0s to make it 32 bit
 	         while (hashtext.length() < 32) {
 	             hashtext = "0" + hashtext;
@@ -180,6 +181,7 @@ public class User {
 	         result[0] = hashtext;
 	         result[1] = SALT;
 	         
+	         //System.out.println("enc:" + hashtext);
 	         // return the HashText
 	         return result;
 	     }
@@ -194,6 +196,8 @@ public class User {
 	         // getInstance() method is called with algorithm SHA-512
 	         MessageDigest md = MessageDigest.getInstance("SHA-512");
 
+	         input = SALT + input;
+	         
 	         // digest() method is called
 	         // to calculate message digest of the input string
 	         // returned as array of byte
@@ -205,16 +209,12 @@ public class User {
 	         // Convert message digest into hex value
 	         String hashtext = no.toString(16);
 	         
-	         //SecureRandom rand = new SecureRandom();
-	         //int salt = rand.nextInt(9999);
-	         //String SALT = Integer.toString(salt);
-	         hashtext = SALT + hashtext;
-	         
 	         // Add preceding 0s to make it 32 bit
 	         while (hashtext.length() < 32) {
 	             hashtext = "0" + hashtext;
 	         }
 	         
+	         //System.out.println("dec:" + hashtext);
 	         // return the HashText
 	         return hashtext;
 	     }

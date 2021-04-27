@@ -539,6 +539,98 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	*/
+	
+	
+	
+	public Integer insertSecondPlayer(int player2, int game_id) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"update userGames" +
+						" set userGames.player2_id = ?" +
+						" where userGames.game_id = ?"
+				);
+				stmt1.setInt(1, player2);
+				stmt1.setInt(1, game_id);
+				
+				// execute the update
+				stmt1.executeUpdate();
+				
+				DBUtil.closeQuietly(stmt1);
+				
+				return null;
+			}
+		});
+	}
+	
+	public Integer insertNewGame(int player1) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"insert into userGames (player1_id)" +
+						" values(?)"
+				);
+				stmt1.setInt(1, player1);	
+				
+				// execute the update
+				stmt1.executeUpdate();
+				
+				stmt2 = conn.prepareStatement(
+						"select last_insert_id()"
+				);
+				
+				ResultSet result = stmt2.executeQuery();
+				int game_id = result.getInt(1);
+				
+				DBUtil.closeQuietly(stmt1);
+				DBUtil.closeQuietly(stmt2);
+				
+				return game_id;
+			}
+		});
+	}
+	
+	public List<String> getMoveList(int game_id) {
+		return executeTransaction(new Transaction<List<String>>() {
+			@Override
+			public List<String> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				ResultSet result = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"select moves.move" +
+						" from moves" +
+						" where moves.game_id = ?" +
+						" order by moves.move_id"
+				);
+				stmt1.setInt(1, game_id);
+				
+				
+				result = stmt1.executeQuery();
+				
+				List<String> moveList = new ArrayList<String>();
+					
+				while (result.next()) {
+					moveList.add(result.getString(1));
+				}
+
+				DBUtil.closeQuietly(stmt1);
+				
+				return moveList;
+			}
+		});
+	}
+	
 	public Game insertNewMove(int id, String move) {
 		return executeTransaction(new Transaction<Game>() {
 			@Override
@@ -630,7 +722,7 @@ public class DerbyDatabase implements IDatabase {
 				stmt1.setString(2, password);
 				stmt1.setString(3, question);
 				stmt1.setString(4, answer);
-				stmt1.setString(4, SALT);
+				stmt1.setString(5, SALT);
 				
 				
 				// execute the update
@@ -653,8 +745,8 @@ public class DerbyDatabase implements IDatabase {
 				
 
 				stmt1 = conn.prepareStatement(
-						"select user_id from users " +
-						" where username = ?"
+						"select users.user_id from users " +
+						" where users.username = ?"
 				);
 				stmt1.setString(1, username);
 				
@@ -662,7 +754,7 @@ public class DerbyDatabase implements IDatabase {
 				resultSet1 = stmt1.executeQuery();
 
 				
-				// if Author was found then save author_id					
+				// if User was found then say so					
 				if (resultSet1.next()) {
 					return 1;			
 				}
@@ -716,8 +808,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				stmt = conn.prepareStatement(
 						"update users" +
-						" set password = ?" +
-						" and set SALT = ?" +
+						" set users.password = ?" +
 						"  where users.username = ? "
 				);
 				stmt.setString(1, Password);
@@ -747,7 +838,7 @@ public class DerbyDatabase implements IDatabase {
 						"update users" +
 						" set rankScore = ?" +
 						" and set SALT = ?" +
-						"  where users.username = ? "
+						" where users.username = ?"
 				);
 				stmt.setInt(1, rank);
 				stmt.setString(2, username);
@@ -770,6 +861,7 @@ public class DerbyDatabase implements IDatabase {
 		user.setPassword(resultSet.getString(index++));
 		user.setSecurityQuestion(resultSet.getString(index++));
 		user.setSecurityAnswer(resultSet.getString(index++));
+		user.setSALT(resultSet.getString(index++));
 		
 	}
 	
@@ -804,7 +896,7 @@ public class DerbyDatabase implements IDatabase {
 			while (!success && numAttempts < MAX_ATTEMPTS) {
 				try {
 					result = txn.execute(conn);
-					conn.commit();
+
 					success = true;
 				} catch (SQLException e) {
 					if (e.getSQLState() != null && e.getSQLState().equals("41000")) {
@@ -858,9 +950,9 @@ public class DerbyDatabase implements IDatabase {
 		  	  
 	      //Class.forName("com.mysql.cj.jdbc.Driver");
 	      String jdbcUrl = "jdbc:mysql://" + db_hostname + ":" + port + "/" + db_name + "?user=" + db_username + "&password=" + db_password;
-	      System.out.println("Getting remote connection with connection string from environment variables.");
+	      //System.out.println("Getting remote connection with connection string from environment variables.");
 	      Connection conn = DriverManager.getConnection(jdbcUrl);
-	      System.out.println("Remote connection successful.");
+	      //System.out.println("Remote connection successful.");
 	      return conn;
       }
 	    //catch (ClassNotFoundException e) { 
