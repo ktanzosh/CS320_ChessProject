@@ -73,8 +73,7 @@ public class LoginPageServlet extends HttpServlet {
 			// the view does not alter data, only controller methods should be used for that
 			// thus, always call a controller method to operate on the data
 			else {
-				//userFound = userModel.checkInfo(user, password);
-				userFound = true;
+				userFound = userModel.checkInfo(user, password);
 			}
 			
 		} catch (NumberFormatException e) {
