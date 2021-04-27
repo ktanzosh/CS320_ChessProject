@@ -444,6 +444,8 @@ public class Game
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb, ChessPiece cp, Player p)
 	{
+		//first check en passant since not a normal move
+		
 		if(cp.checkMove(newx, newy, cb))
 		{
 			int oldx = cp.getPosX();
@@ -452,7 +454,6 @@ public class Game
 			updatedGame.setGame();
 			updatedGame.setChessBoard(this.getChessBoard());
 			updatedGame.testMove(cb, cp, newx, newy);
-			
 			
 			if(p.getColor() == true)
 			{
@@ -521,6 +522,13 @@ public class Game
 		int oldy = cp.getPosY();
 		boolean takesPiece = false;
 		boolean castled = false;
+		boolean firstMove = false;
+		
+		//if the piece hasn't moved this is the first move
+		if(cp.getHaveMoved() == false)
+		{
+			firstMove = true;
+		}
 		
 		try
 		{
@@ -597,12 +605,12 @@ public class Game
 		if(cp.getColor() == true)
 		{
 
-			thisMove = new Move(cp, x, y, this.getResult(this.getBlackPlayer(), this.getChessBoard(), this.getBlackKing(), this.getBlackPieces()), takesPiece, castled);
+			thisMove = new Move(cp, x, y, this.getResult(this.getBlackPlayer(), this.getChessBoard(), this.getBlackKing(), this.getBlackPieces()), takesPiece, castled, firstMove);
 		}
 		
 		else
 		{
-			thisMove = new Move(cp, x, y, this.getResult(this.getWhitePlayer(), this.getChessBoard(), this.getWhiteKing(), this.getWhitePieces()), takesPiece, castled);
+			thisMove = new Move(cp, x, y, this.getResult(this.getWhitePlayer(), this.getChessBoard(), this.getWhiteKing(), this.getWhitePieces()), takesPiece, castled, firstMove);
 		}
 		
 		MoveList.add(thisMove);
@@ -681,7 +689,7 @@ public class Game
 					if(newPiece.equals("rook"))
 					{
 						p.isKilled();
-						RookPiece WhiteRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						RookPiece WhiteRookPromotion = new RookPiece(x, y, p.getColor(), p.getPieceNumber());
 						Tile updatedTile = new Tile(WhiteRookPromotion);
 						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
 						pieces.add(WhiteRookPromotion);
@@ -690,7 +698,7 @@ public class Game
 					if(newPiece.equals("bish"))
 					{
 						p.isKilled();
-						BishopPiece WhiteBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						BishopPiece WhiteBishopPromotion = new BishopPiece(x, y, p.getColor(), p.getPieceNumber());
 						Tile updatedTile = new Tile(WhiteBishopPromotion);
 						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
 						pieces.add(WhiteBishopPromotion);
@@ -699,7 +707,7 @@ public class Game
 					if(newPiece.equals("knig"))
 					{
 						p.isKilled();
-						KnightPiece WhiteKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						KnightPiece WhiteKnightPromotion = new KnightPiece(x, y, p.getColor(), p.getPieceNumber());
 						Tile updatedTile = new Tile(WhiteKnightPromotion);
 						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
 						pieces.add(WhiteKnightPromotion);
@@ -708,7 +716,7 @@ public class Game
 					if(newPiece.equals("quee"))
 					{
 						p.isKilled();
-						QueenPiece WhiteQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						QueenPiece WhiteQueenPromotion = new QueenPiece(x, y, p.getColor(), p.getPieceNumber());
 						Tile updatedTile = new Tile(WhiteQueenPromotion);
 						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
 						pieces.add(WhiteQueenPromotion);
@@ -724,7 +732,7 @@ public class Game
 					if(newPiece.equals("rook"))
 					{
 						p.isKilled();
-						RookPiece BlackRookPromotion = new RookPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						RookPiece BlackRookPromotion = new RookPiece(x, y, p.getColor(), p.getPieceNumber());
 						Tile updatedTile = new Tile(BlackRookPromotion);
 						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
 						pieces.add(BlackRookPromotion);
@@ -733,7 +741,7 @@ public class Game
 					if(newPiece.equals("bish"))
 					{
 						p.isKilled();
-						BishopPiece BlackBishopPromotion = new BishopPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						BishopPiece BlackBishopPromotion = new BishopPiece(x, y, p.getColor(), p.getPieceNumber());
 						Tile updatedTile = new Tile(BlackBishopPromotion);
 						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
 						pieces.add(BlackBishopPromotion);
@@ -742,7 +750,7 @@ public class Game
 					if(newPiece.equals("knig"))
 					{
 						p.isKilled();
-						KnightPiece BlackKnightPromotion = new KnightPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						KnightPiece BlackKnightPromotion = new KnightPiece(x, y, p.getColor(), p.getPieceNumber());
 						Tile updatedTile = new Tile(BlackKnightPromotion);
 						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
 						pieces.add(BlackKnightPromotion);
@@ -751,7 +759,7 @@ public class Game
 					if(newPiece.equals("quee"))
 					{
 						p.isKilled();
-						QueenPiece BlackQueenPromotion = new QueenPiece(p.getPosX(), p.getPosY(), p.getColor(), p.getPieceNumber());
+						QueenPiece BlackQueenPromotion = new QueenPiece(x, y, p.getColor(), p.getPieceNumber());
 						Tile updatedTile = new Tile(BlackQueenPromotion);
 						this.getChessBoard().setTile(p.getPosX(), p.getPosY(), updatedTile);
 						pieces.add(BlackQueenPromotion);
@@ -759,6 +767,53 @@ public class Game
 				}
 			}
 		}
+	}
+	
+	public boolean canEnPassant(int x, int y, ChessPiece movingPiece)
+	{
+		Move lastMove = this.getLastMove();
+		ChessPiece lastMovedPiece = this.getInfoFromMove(lastMove);
+		
+		//if last moved piece is not true, dont worry about it
+		if(lastMovedPiece.whatPiece().equals("Pawn") != true)
+		{
+			//System.out.println("Last moved piece was not a pawn");
+			return false;
+		}
+		
+		//if this is not the first move, can't en passant
+		if(lastMove.getFirstMove() == false)
+		{
+			//System.out.println("Last moved piece has already moved");
+			return false;
+		}
+		
+		//if they are not in the correct spot(did not move forward two spaces) cannot en passant
+		if(lastMovedPiece.getColor() == true && lastMovedPiece.getPosX() != 4)
+		{
+			return false;
+		}
+		
+		if(lastMovedPiece.getColor() == false && lastMovedPiece.getPosX() != 3)
+		{
+			return false;
+		}
+		
+		//need to be on the same Y point(directly behind or in front)
+		if(y - lastMovedPiece.getPosY() == 0)
+		{
+			if(movingPiece.getColor() == true && lastMovedPiece.getPosX() - x == 1)
+			{
+				return true;
+			}
+			
+			if(movingPiece.getColor() == false && x - lastMovedPiece.getPosX() == 1)
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	public void playGame(Player player1, Player player2)

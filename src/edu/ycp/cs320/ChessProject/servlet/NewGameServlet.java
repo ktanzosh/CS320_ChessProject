@@ -28,6 +28,7 @@ public class NewGameServlet extends HttpServlet {
 		System.out.println("New Game: doGet");
 		
 		HttpSession userSession = req.getSession(false);
+		IDatabase db = DatabaseProvider.getInstance();
 		
 		if(userSession == null) {
 			userSession = req.getSession(true);
@@ -45,6 +46,7 @@ public class NewGameServlet extends HttpServlet {
 			
 			Game sessionGame = new Game();
 			sessionGame.setGame();
+			//db.insertNewGame(userModel.getUserID());
 			//int key = fetched auto increment variable;
 			//or int key = random variable and hash it.
 			//sessionGame.setGameID(key);

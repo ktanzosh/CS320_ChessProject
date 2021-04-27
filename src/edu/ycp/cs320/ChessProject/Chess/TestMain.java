@@ -65,7 +65,7 @@ public class TestMain
 		
 		catch(NullPointerException ne)
 		{
-			System.out.println("You utter dumbass");
+			
 		}
 		
 		PawnPiece TakerPawn = new PawnPiece(6, 3, false, 2);
