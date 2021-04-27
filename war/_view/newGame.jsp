@@ -110,25 +110,38 @@ p {
 		<!-- Modal content -->
 		<div class="modal-content">
 			<span class="close">&times;</span>
-			<h2>Pick which piece you want to promote</h2>
+			<h2>Pick which piece you want to promote!</h2>
 			<form action="/action_page.php">
-				<input type="radio" id="queen" name="piece" value="queen"> <label
-					for="queen">Queen</label><br> <input type="radio" id="king"
-					name="piece" value="king"> <label for="king">King</label><br>
+				<input type="radio" id="queen" name="piece" value="queen"> 
+				<label for="queen">Queen</label><br> 
+				
+				<input type="radio" id="bishop" name="piece" value="bishop"> 
+				<label for="bishop">Bishop</label><br>
+				
+				<input type="radio" id="rook" name="piece" value="rook"> 
+				<label for="king">Rook</label><br>
+				
+				<input type="radio" id="knight" name="piece" value="knight"> 
+				<label for="king">Knight</label><br>
 				<div>
 					<button id="submit" type="submit">Submit</button>
 				</div>
 			</form>
 			<pre id="log">
-</pre>
+			</pre>
 		</div>
 
 	</div>
 
 	<script>
 
+var piece = document.getElementById("57").innerText;
+console.log("HELLO");
+
+
+
 var moveList = [];
-document.getElementById("moveList").innerHTML = "Your moves will go here: " + moveList;
+document.getElementById("moveList").innerHTML = "Your moves will go here: ";
 
 
 async function postData(address, objectToPost){
@@ -156,10 +169,12 @@ var intialPosition;
 var squareID_;
 var playerColor;
 var pieceName;
+var currentPiece;
 
 // pawn promotion 
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
+
 var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
   
@@ -192,6 +207,7 @@ var S = {
   //******************************************************************************************
   ClickSquare:function (square) {
     var child = square.children().eq(0);
+
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
       this.ClickPiece(child); // ~child is chess piece~
     }
@@ -225,6 +241,9 @@ var S = {
         //do pawn promotion for white pawns
         if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
         	pawnPromotion = true;
+        	
+
+            
         	document.getElementById("moveList").style.color = "white";
         	document.getElementById("myBtn").style.visibility = "visible";
         	var promotion = "WHITE'S PAWN PROMOTION";
@@ -232,7 +251,7 @@ var S = {
     		document.getElementById("moveList").innerHTML = moveList;	
         }
         
-        if(squareID_ < 9 && pieceName == "pawn" && playerColor == "b"){
+        else if(squareID_ < 9 && pieceName == "pawn" && playerColor == "b"){
         	pawnPromotion = true;
         	document.getElementById("moveList").style.color = "black";
         	document.getElementById("myBtn").style.visibility = "visible";
@@ -246,6 +265,7 @@ var S = {
         	pawnPromotion = false;
         }
         
+       
         
         val = {
 				initialPosition: initialPosition,
@@ -268,14 +288,20 @@ var S = {
       $(this.selectedPiece).removeClass("pcActive");  //remove pcActive class from selected piece
       this.selectedPiece = piece; //set selected piece to piece passed in
       $(this.selectedPiece).addClass("pcActive"); //add class pcActive to selected piece
+      
+     // document.getElementById("chessNotation").innerHTML =   $(this.selectedPiece).addClass("pcActive");
+      
       this.moves = GetPieceMoveArray(["b","w"][this.turnInt], $(piece)); //go to GetPieceMoveArray and get the next move
     }
     else if (this.selectedPiece !== 0) {
       this.ClickSquare($(piece.parent())); //else just click the square
       }
+    
   },  
   Deselect:function () {
     $(this.selectedPiece).removeClass("pcActive"); //remove pcActive class from selectedPiece
+    
+    
     this.selectedPiece = 0; // back to none when selected
   }
   
@@ -289,6 +315,8 @@ $(document).ready(function() {  //CLICK EVENT
 
     if ($(event.target).is(".pc")){ //event target for individual pieces
       S.ClickPiece($(event.target)); //Get the element that triggered a specific event
+      
+      
     }
     else if ($(event.target).is(".sq")){ //event target for squares (if selected)
       S.ClickSquare($(event.target)); //Get the element that triggered a specific event
@@ -302,7 +330,14 @@ $(document).ready(function() {  //CLICK EVENT
 
 
 function GetPieceString (piece) {
+	
   var classList = $(piece).attr('class').split(/\s+/);  // classList = array of pieces [1,2,3,4...] from "class="
+
+  
+ // document.getElementById("chessNotation").innerHTML = $(piece).attr('class');
+  
+  
+  
   for (var i = 0; i < classList.length; i++) {  //for the length of classList array, if the length is greater than 2 return
      if (classList[i].length > 2) {
        return classList[i]; 
@@ -313,9 +348,11 @@ function GetPieceString (piece) {
 }
 
 function GetPieceMoveArray (enemyString, piece) {
-  var squareInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
-  var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
-  
+	var squareInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
+	var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
+	currentPiece = stringOfPieces;	// current piece selected to be replaced in pawn promotion
+	
+	//document.getElementById("chessNotation").innerHTML = currentPiece;
 //********LOCATION OF SQUARE && PIECE NAME****************
 
   moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
@@ -453,6 +490,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 	    promoChoice = entry[1];
 	    moveList.push("<br>" + "successfully chose " + promoChoice + "!");
 	    document.getElementById("moveList").innerHTML = moveList;
+	   
 	  };
 	  event.preventDefault();
 	}, false);
@@ -483,6 +521,31 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 				  
 	  modal.style.display = "none";
 	  document.getElementById("myBtn").style.visibility = "hidden";
+	  
+	  // PAWN PROMOTION FOR WHITE
+	  if (pieceName === "pawn" && playerColor == "w"){
+		  
+		  if(promoChoice == "queen"){
+			  promo = "&#9813";
+		  }
+		  else if(promoChoice == "knight"){
+			  promo = "&#9816";
+		  }
+		  else if(promoChoice == "bishop"){
+			  promo = "&#9815";
+		  }
+		  else if(promoChoice == "rook"){
+			  promo = "&#9814";
+		  }
+		  
+		 var change =  document.getElementsByClassName("pc w pawn");
+		  	change[0].innerHTML = promo;
+	  }
+  	currentPiece = promoChoice;
+    //document.getElementById("chessNotation").innerHTML = currentPiece;
+  	//document.getElementsByClassName("pc w pawn");
+  	//changePawnTo[0].innerHTML = "&#9822";
+
 	}
 
 	// When the user clicks anywhere outside of the modal, close it
