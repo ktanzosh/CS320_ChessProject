@@ -45,6 +45,9 @@ public class NewGameServlet extends HttpServlet {
 			
 			Game sessionGame = new Game();
 			sessionGame.setGame();
+			//int key = fetched auto increment variable;
+			//or int key = random variable and hash it.
+			//sessionGame.setGameID(key);
 			sessionGame.setGameID(1);
 			
 			ArrayList<String> moves = new ArrayList<String>();
@@ -171,6 +174,15 @@ public class NewGameServlet extends HttpServlet {
 				moves.add(System.lineSeparator() + playerWhite + moveString);
 				gameSession.setAttribute("moves", moves);
 				
+				if(prom == true) 
+				{
+					
+					int f = total.indexOf(":", e+1);
+					String piece = total.substring(f+2, f+6);
+					System.out.println("Promotion time " + piece);
+					//playGame.PawnPromotion(playGame.getWhitePieces(), piece);
+				}
+				
 				resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
 			}
 			
@@ -197,6 +209,15 @@ public class NewGameServlet extends HttpServlet {
 				moves.add(System.lineSeparator() + playerBlack + moveString);
 				gameSession.setAttribute("moves", moves);
 				
+				if(prom == true) 
+				{
+					
+					int f = total.indexOf(":", e+1);
+					String piece = total.substring(f+2, f+6);
+					System.out.println("Promotion time " + piece);
+					//playGame.PawnPromotion(playGame.getBlackPieces(), piece);
+				}
+				
 				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
 				//System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
 			}
@@ -206,15 +227,6 @@ public class NewGameServlet extends HttpServlet {
 				resp.getWriter().write("false");
 			}
 
-		}
-		
-		if(prom == true) 
-		{
-			
-			int f = total.indexOf(":", e+1);
-			String piece = total.substring(f+2, f+6);
-			System.out.println("Promotion time " + piece);
-			//playGame.PawnPromotion(playGame.getWhitePieces(), piece);
 		}
 		
 		playGame.printMoveList();
