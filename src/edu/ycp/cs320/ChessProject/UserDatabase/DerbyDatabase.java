@@ -542,27 +542,70 @@ public class DerbyDatabase implements IDatabase {
 	
 	
 	
-	public Integer insertSecondPlayer(int player2, int game_id) {
-		return executeTransaction(new Transaction<Integer>() {
+	public Boolean insertSecondPlayer(int player2, int game_id) {
+		return executeTransaction(new Transaction<Boolean>() {
 			@Override
-			public Integer execute(Connection conn) throws SQLException {
+			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				ResultSet result1 = null;
+				ResultSet result2 = null;
 				
 				// prepare SQL insert statement to add Author to Authors table
 				stmt1 = conn.prepareStatement(
-						"update userGames" +
-						" set userGames.player2_id = ?" +
+						"select userGames.player2_id" +
+						" from userGames" +
 						" where userGames.game_id = ?"
 				);
-				stmt1.setInt(1, player2);
+				
 				stmt1.setInt(1, game_id);
 				
 				// execute the update
-				stmt1.executeUpdate();
+				result1 = stmt1.executeQuery();
+				
+				if(result1.next()){
+					return false;
+				}
+				
+				else {
+					// prepare SQL insert statement to add Author to Authors table
+					stmt2 = conn.prepareStatement(
+							"select userGames.player1_id" +
+							" from userGames" +
+							" where userGames.game_id = ?"
+					);
+					
+					stmt2.setInt(1, game_id);
+					
+					// execute the update
+					result2 = stmt2.executeQuery();
+					
+					if(result2.next()){
+						// prepare SQL insert statement to add Author to Authors table
+						stmt3 = conn.prepareStatement(
+								"update userGames" +
+								" set userGames.player2_id = ?" +
+								" where userGames.game_id = ?"
+						);
+						stmt3.setInt(1, player2);
+						stmt3.setInt(1, game_id);
+						
+						// execute the update
+						stmt3.executeUpdate();
+					}
+					
+					else {
+						return false; 
+					}
+					
+				}
 				
 				DBUtil.closeQuietly(stmt1);
+				DBUtil.closeQuietly(stmt2);
+				DBUtil.closeQuietly(stmt3);
 				
-				return null;
+				return true;
 			}
 		});
 	}
@@ -593,7 +636,7 @@ public class DerbyDatabase implements IDatabase {
 				result = stmt2.executeQuery();
 				
 				if(result.next()){
-					game_id = result.getInt(1);;
+					game_id = result.getInt(1);
 				}
 				
 				
@@ -703,6 +746,9 @@ public class DerbyDatabase implements IDatabase {
 							
 							gameInfo.clear();
 							gameMoves.clear();
+							
+							//gameInfo = loadGameInfo(resultSet, 1);
+							gameMoves.add(resultSet.getString(6));
 						}
 						//User user = new User();
 						//loadUser(user, resultSet, 1);

@@ -25,6 +25,8 @@
 
 			<input type="Submit" name="newGame" value="Start a New Game Here!"> </br></br>
 
+			<input type="Submit" name="joinGame" value="Join an existing Game Here!"> </br></br>
+
 			<input type="Submit" name="gameHistory" value="See Game History Here!"> </br></br>
 
 			<input type="Submit" name="logout" value="Log Out"> </br>
