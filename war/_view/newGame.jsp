@@ -164,16 +164,21 @@ var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1",
 	"a7", "b7", "c7", "d7","e7", "f7", "g7", "h7",
 	"a8", "b8", "c8", "d8","e8", "f8", "g8", "h8"];
 
+
 //temp varibles?
 var intialPosition;
 var squareID_;
 var playerColor;
 var pieceName;
 var currentPiece;
-
+var promo = null;
+var promoChoice;
 // pawn promotion 
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
+
+
+
 
 var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
@@ -233,17 +238,26 @@ var S = {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
-        square.append(this.selectedPiece);  //append piece to square
-        this.ChangeTurn();  //change turn
+
+        // PAWN PROMOTION!
+        if (this.selectedPiece.hasClass("pawn") && (squareID > 56)) {
+              var name = "rook";
+              var st = "&#9814";
+              
+          	//document.getElementById("chessNotation").innerHTML = promoChoice + "plz";
+          	
+           // this.selectedPiece.removeClass("pawn").empty().append(&#9814).addClass("rook");
+              
+            }
         
-        
-       
+        	square.append(this.selectedPiece);  //append piece to square
+        	this.ChangeTurn();  //change turn
+
+        	
         //do pawn promotion for white pawns
         if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
-        	pawnPromotion = true;
         	
-
-            
+        	pawnPromotion = true;
         	document.getElementById("moveList").style.color = "white";
         	document.getElementById("myBtn").style.visibility = "visible";
         	var promotion = "WHITE'S PAWN PROMOTION";
@@ -368,6 +382,9 @@ function GetPieceMoveArray (enemyString, piece) {
   
 pieceName = stringOfPieces;
 
+
+
+
   switch (stringOfPieces) {
       // case for each piece
       // fix game logic -- some issues going on 
@@ -388,9 +405,7 @@ pieceName = stringOfPieces;
 
       }
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
-      
-      
-    
+
   }
 }
 
@@ -422,6 +437,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
     // 1=move and stop 
     //2=illegal 
     //4=pawnFail
+    //0=move and go  1=move and Stop 2=illegal 3=blocked 4=pawn move fail 
   if (startSquare === toSquare || toSquare < 1 || toSquare > 64) {  //if starting pos is same as chosen OR out of bounds
     return 0; 
   }
@@ -433,6 +449,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
     
     if ($('#' + toSquare).children().eq(0).hasClass(enemyString)) {
      return 1; 
+     document.getElementById("moveList").innerHTML = "legal";
      }
     else {
     	//document.getElementById("moveList").innerHTML = "illegal";
@@ -482,7 +499,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 	
 	var form = document.querySelector("form");
 	var log = document.querySelector("#log");
-	var promoChoice;
+	promoChoice;
 	form.addEventListener("submit", function(event) {
 	  var data = new FormData(form);
 	  promoChoice = "";
@@ -504,7 +521,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 	  modal.style.display = "block";
 	}
 
-	span.onclick = function() {
+ 	span.onclick = function() {
 		
 		 val = {
 					initialPosition: initialPosition,
@@ -523,6 +540,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 	  document.getElementById("myBtn").style.visibility = "hidden";
 	  
 	  // PAWN PROMOTION FOR WHITE
+		// USING SELECTED PIECE AND ASSIGNING?
 	  if (pieceName === "pawn" && playerColor == "w"){
 		  
 		  if(promoChoice == "queen"){
@@ -538,15 +556,18 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 			  promo = "&#9814";
 		  }
 		  
-		 var change =  document.getElementsByClassName("pc w pawn");
+		var change =  document.getElementsByClassName("pawn");
 		  	change[0].innerHTML = promo;
+		  	
 	  }
   	currentPiece = promoChoice;
-    //document.getElementById("chessNotation").innerHTML = currentPiece;
-  	//document.getElementsByClassName("pc w pawn");
-  	//changePawnTo[0].innerHTML = "&#9822";
+  	
+  	this.selectedPiece.removeClass("pawn").empty().addClass("rook");
+    document.getElementById("chessNotation").innerHTML = promoChoice;
+   promoChoice = promoChoice;
+   // this.selectedPiece.removeClass("pawn").empty().addClass("rook");
 
-	}
+	} 
 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {

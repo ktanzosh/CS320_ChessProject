@@ -206,6 +206,7 @@ public class NewGameServlet extends HttpServlet {
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
 				resp.getWriter().write("true");
+				System.out.println("true____");
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				gameSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove();
@@ -227,7 +228,7 @@ public class NewGameServlet extends HttpServlet {
 				}
 				
 				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
-				//System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
+				System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
 			}
 			
 			else
