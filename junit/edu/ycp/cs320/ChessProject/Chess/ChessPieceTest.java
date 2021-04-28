@@ -469,21 +469,32 @@ public class ChessPieceTest {
 		Tile MoverTile = new Tile(BlackPromotion);
 		game.getChessBoard().setTile(7, 3, MoverTile);
 		
+		PawnPiece FakePromotion = new PawnPiece(6, 3, false, 3);
+		game.getBlackPieces().add(FakePromotion);
+		Tile FakeTile = new Tile(FakePromotion);
+		game.getChessBoard().setTile(6, 3, FakeTile);
+		
 		assertTrue(game.getChessBoard().getTile(0, 2).getPiece().whatInitial().equals("P"));
-		game.PawnPromotion(0, 2, game.getWhitePieces(), "Quee");
+		game.PawnPromotion(0, 2, game.getWhitePieces(), "quee");
 		System.out.println(game.getChessBoard().getTile(0, 2).getPiece().whatInitial());
-		//assertTrue(game.getChessBoard().getTile(0, 2).getPiece().whatInitial().equals("Q"));
+		assertTrue(game.getChessBoard().getTile(0, 2).getPiece().whatInitial().equals("Q"));
 		
 		assertTrue(game.getChessBoard().getTile(7, 3).getPiece().whatInitial().equals("P"));
-		game.PawnPromotion(7, 3, game.getBlackPieces(), "Knig");
+		game.PawnPromotion(7, 3, game.getBlackPieces(), "knig");
 		System.out.println(game.getChessBoard().getTile(7, 3).getPiece().whatInitial());
-		//assertTrue(game.getChessBoard().getTile(7, 3).getPiece().whatInitial().equals("K"));
+		assertTrue(game.getChessBoard().getTile(7, 3).getPiece().whatInitial().equals("N"));
+		
+		assertTrue(game.getChessBoard().getTile(6, 3).getPiece().whatInitial().equals("P"));
+		game.PawnPromotion(6, 3, game.getBlackPieces(), "knig");
+		System.out.println(game.getChessBoard().getTile(6, 3).getPiece().whatInitial());
+		assertTrue(game.getChessBoard().getTile(6, 3).getPiece().whatInitial().equals("P"));
 	}
 	
-	/*@Test
+	@Test
 	public void testEnPassant()
 	{
 		game.setGame(false);
+		TestMain tm = new TestMain();
 		
 		KingPiece KingP = new KingPiece(7, 4, true, 1);
 		game.getWhitePieces().add(KingP);
@@ -508,5 +519,20 @@ public class ChessPieceTest {
 		game.doMove(game.getChessBoard(), LastMovePawn, 3, 2);
 		
 		assertTrue(game.canEnPassant(2, 2, MoverPawn));
-	}*/
+		assertTrue(game.canEnPassant(2, 2,  KingP) == false);
+		assertTrue(game.canEnPassant(3, 2, MoverPawn) == false);
+		assertTrue(game.canEnPassant(4, 2, MoverPawn) == false);
+		assertTrue(game.canEnPassant(2, 3, MoverPawn) == false);
+		
+		assertTrue(game.checkMove(2, 2, game.getChessBoard(), MoverPawn, game.getWhitePlayer()));
+		//tm.drawBoard(game);
+		//game.doMove(game.getChessBoard(), MoverPawn, 2, 2);
+		//tm.drawBoard(game);
+		assertTrue(game.checkMove(2, 3, game.getChessBoard(), MoverPawn, game.getWhitePlayer()));
+		
+		game.doMove(game.getChessBoard(), KingP, 7, 3);
+		assertTrue(game.canEnPassant(2, 2, MoverPawn) == false);
+		assertTrue(game.checkMove(2, 2, game.getChessBoard(), MoverPawn, game.getWhitePlayer()) == false);
+		assertTrue(game.checkMove(2, 3, game.getChessBoard(), MoverPawn, game.getWhitePlayer()));
+	}
 }
