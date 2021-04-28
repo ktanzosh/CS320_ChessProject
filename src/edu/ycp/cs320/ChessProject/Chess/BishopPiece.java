@@ -7,6 +7,7 @@ public class BishopPiece extends ChessPiece
 		this.setPosX(x);
 		this.setPosY(y);
 		this.setColor(w);
+		this.setHaveMoved(false);
 		this.setPieceNumber(p);
 	}
 	

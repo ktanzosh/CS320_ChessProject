@@ -8,9 +8,10 @@ public class Move
 	private String state;
 	private boolean tookPiece;
 	private boolean wasCastle;
+	private boolean firstMove;
 	//private int moveID;
 	
-	public Move(ChessPiece cp, int x, int y, String st, boolean tp, boolean wc)
+	public Move(ChessPiece cp, int x, int y, String st, boolean tp, boolean wc, boolean fm)
 	{
 		this.movedPiece = cp;
 		this.xpos = (8 - x);
@@ -72,7 +73,12 @@ public class Move
 		
 		tookPiece = tp;
 		wasCastle = wc;
-		
+		firstMove = fm;
+	}
+	
+	public boolean getFirstMove()
+	{
+		return this.firstMove;
 	}
 	
 	public void printMove()

@@ -59,9 +59,11 @@ public class ChessPieceTest {
 		testPlayer = new Player(true);
 		testPlayer2 = new Player(false);
 		game = new Game();
+		game.setWhitePlayer(testPlayer);
+		game.setBlackPlayer(testPlayer2);
 	}
 
-	@Test
+	/*@Test
 	public void testRookCheckMove() 
 	{
 		assertTrue(RookTest.checkMove(7, 0, board));
@@ -450,5 +452,61 @@ public class ChessPieceTest {
 		game.doMove(game.getChessBoard(), RookTest, 0, 7);
 		//tm.drawBoard(game);
 		game.printMoveList();
+	}*/
+	
+	@Test
+	public void testPawnPromotion()
+	{
+		game.setGame(false);
+		
+		PawnPiece WhitePromotion = new PawnPiece(0, 2, true, 3);
+		game.getWhitePieces().add(WhitePromotion);
+		Tile MoveTile = new Tile(WhitePromotion);
+		game.getChessBoard().setTile(0, 2, MoveTile);
+		
+		PawnPiece BlackPromotion = new PawnPiece(7, 3, false, 3);
+		game.getBlackPieces().add(BlackPromotion);
+		Tile MoverTile = new Tile(BlackPromotion);
+		game.getChessBoard().setTile(7, 3, MoverTile);
+		
+		assertTrue(game.getChessBoard().getTile(0, 2).getPiece().whatInitial().equals("P"));
+		game.PawnPromotion(0, 2, game.getWhitePieces(), "Quee");
+		System.out.println(game.getChessBoard().getTile(0, 2).getPiece().whatInitial());
+		//assertTrue(game.getChessBoard().getTile(0, 2).getPiece().whatInitial().equals("Q"));
+		
+		assertTrue(game.getChessBoard().getTile(7, 3).getPiece().whatInitial().equals("P"));
+		game.PawnPromotion(7, 3, game.getBlackPieces(), "Knig");
+		System.out.println(game.getChessBoard().getTile(7, 3).getPiece().whatInitial());
+		//assertTrue(game.getChessBoard().getTile(7, 3).getPiece().whatInitial().equals("K"));
 	}
+	
+	/*@Test
+	public void testEnPassant()
+	{
+		game.setGame(false);
+		
+		KingPiece KingP = new KingPiece(7, 4, true, 1);
+		game.getWhitePieces().add(KingP);
+		game.setWhiteKing(KingP);
+		Tile KingTile = new Tile(KingP);
+		game.getChessBoard().setTile(7,  4, KingTile);
+		
+		KingPiece OtherKingP = new KingPiece(0, 4, false, 1);
+		game.getBlackPieces().add(OtherKingP);
+		game.setBlackKing(OtherKingP);
+		Tile OtherKingTile = new Tile(OtherKingP);
+		game.getChessBoard().setTile(0,  4, OtherKingTile);
+		
+		PawnPiece LastMovePawn = new PawnPiece(1, 2, false, 3);
+		Tile MoveTile = new Tile(LastMovePawn);
+		game.getChessBoard().setTile(1, 2, MoveTile);
+		
+		PawnPiece MoverPawn = new PawnPiece(3, 3, true, 3);
+		Tile MoverTile = new Tile(MoverPawn);
+		game.getChessBoard().setTile(3, 3, MoverTile);
+		
+		game.doMove(game.getChessBoard(), LastMovePawn, 3, 2);
+		
+		assertTrue(game.canEnPassant(2, 2, MoverPawn));
+	}*/
 }
