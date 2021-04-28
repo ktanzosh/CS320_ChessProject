@@ -13,7 +13,6 @@ public class User {
 	private String user, password, sec_question, sec_answer, SALT;
 	private int userID;
 	private List<Game> gameList = new ArrayList<Game>();
-
 	
 	//private User blankUser = new User();
 	//private List<User> usersList;

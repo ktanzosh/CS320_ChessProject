@@ -54,6 +54,11 @@ public class IndexServlet extends HttpServlet {
 				return;		
 			}
 			
+			else if(req.getParameter("joinGame") != null) {
+				resp.sendRedirect("/ChessProject/joinGame");
+				return;		
+			}
+			
 			else if(req.getParameter("gameHistory") != null) {
 				resp.sendRedirect("/ChessProject/gameHistory");
 				return;		
