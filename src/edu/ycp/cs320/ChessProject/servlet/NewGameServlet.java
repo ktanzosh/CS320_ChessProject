@@ -20,7 +20,9 @@ import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 public class NewGameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_RED = "\u001B[31m";
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -48,8 +50,13 @@ public class NewGameServlet extends HttpServlet {
 			sessionGame.setGame();
 			
 			int key = db.insertNewGame(userModel.getUserID());
-			sessionGame.setGameID(key);
-			//sessionGame.setGameID(1);
+			
+			if(key == -1) {
+				System.out.println(ANSI_RED + "An error has occured in creating the game." + ANSI_RESET);
+			}
+			else {
+				sessionGame.setGameID(key);
+			}
 			
 			ArrayList<String> moves = new ArrayList<String>();
 			

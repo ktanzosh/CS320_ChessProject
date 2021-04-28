@@ -1,5 +1,6 @@
 package edu.ycp.cs320.ChessProject.UserDatabase;
 
+
 public class Pair<LeftType, RightType> {
 	private LeftType left;
 	private RightType right;
@@ -8,7 +9,7 @@ public class Pair<LeftType, RightType> {
 		this.left = left;
 		this.right = right;
 	}
-	
+
 	public void setLeft(LeftType left) {
 		this.left = left;
 	}

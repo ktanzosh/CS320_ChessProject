@@ -321,6 +321,11 @@ public class Game
 	
 	public Move getLastMove()
 	{
+		if(MoveList.size() == 0)
+		{
+			return null;
+		}
+		
 		return this.MoveList.get(MoveList.size() - 1);
 	}
 	
@@ -443,10 +448,8 @@ public class Game
 	}
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb, ChessPiece cp, Player p)
-	{
-		//first check en passant since not a normal move
-		
-		if(cp.checkMove(newx, newy, cb))
+	{		
+		if(cp.checkMove(newx, newy, cb) || this.canEnPassant(newx, newy, cp))
 		{
 			int oldx = cp.getPosX();
 			int oldy = cp.getPosY();
@@ -484,11 +487,6 @@ public class Game
 			}
 		}
 		
-		//else if() //EnPassant Capturing check to see if last move is double move
-		//{
-			
-		//}
-		
 		return false;
 	}
 	
@@ -496,6 +494,14 @@ public class Game
 	{	
 		int oldx = cp.getPosX();
 		int oldy = cp.getPosY();
+		
+		if(this.canEnPassant(x, y, cp))
+		{
+			ChessPiece takePiece = this.getInfoFromMove(this.getLastMove());
+			cb.setTile(takePiece.getPosX(), takePiece.getPosY());
+			takePiece.isKilled();
+			//all messing with piece that is killed
+		}
 		
 		try
 		{
@@ -524,6 +530,15 @@ public class Game
 		boolean castled = false;
 		boolean firstMove = false;
 		
+		if(this.canEnPassant(x, y, cp))
+		{
+			ChessPiece takePiece = this.getInfoFromMove(this.getLastMove());
+			cb.setTile(takePiece.getPosX(), takePiece.getPosY());
+			takePiece.isKilled();
+			takesPiece = true;
+			//all messing with piece that is killed
+		}
+		
 		//if the piece hasn't moved this is the first move
 		if(cp.getHaveMoved() == false)
 		{
@@ -551,8 +566,6 @@ public class Game
 		cb.setTile(oldx,  oldy);
 		cp.setPosX(x);
 		cp.setPosY(y);
-		
-		
 		
 		//if castling, also move the rook
 		if(cp.whatPiece().equals("King"))
@@ -614,7 +627,6 @@ public class Game
 		}
 		
 		MoveList.add(thisMove);
-		
 		
 	}
 	
@@ -771,49 +783,59 @@ public class Game
 	
 	public boolean canEnPassant(int x, int y, ChessPiece movingPiece)
 	{
-		Move lastMove = this.getLastMove();
-		ChessPiece lastMovedPiece = this.getInfoFromMove(lastMove);
+		Move lastMove;
 		
-		//if last moved piece is not true, dont worry about it
-		if(lastMovedPiece.whatPiece().equals("Pawn") != true)
+		try
 		{
-			//System.out.println("Last moved piece was not a pawn");
-			return false;
-		}
-		
-		//if this is not the first move, can't en passant
-		if(lastMove.getFirstMove() == false)
-		{
-			//System.out.println("Last moved piece has already moved");
-			return false;
-		}
-		
-		//if they are not in the correct spot(did not move forward two spaces) cannot en passant
-		if(lastMovedPiece.getColor() == true && lastMovedPiece.getPosX() != 4)
-		{
-			return false;
-		}
-		
-		if(lastMovedPiece.getColor() == false && lastMovedPiece.getPosX() != 3)
-		{
-			return false;
-		}
-		
-		//need to be on the same Y point(directly behind or in front)
-		if(y - lastMovedPiece.getPosY() == 0)
-		{
-			if(movingPiece.getColor() == true && lastMovedPiece.getPosX() - x == 1)
+			lastMove = this.getLastMove();
+			ChessPiece lastMovedPiece = this.getInfoFromMove(lastMove);
+			
+			//if last moved piece is not true, dont worry about it
+			if(lastMovedPiece.whatPiece().equals("Pawn") != true || movingPiece.whatPiece().equals("Pawn") != true)
 			{
-				return true;
+				//System.out.println("Last moved piece was not a pawn");
+				return false;
 			}
 			
-			if(movingPiece.getColor() == false && x - lastMovedPiece.getPosX() == 1)
+			//if this is not the first move, can't en passant
+			if(lastMove.getFirstMove() == false)
 			{
-				return true;
+				//System.out.println("Last moved piece has already moved");
+				return false;
 			}
+			
+			//if they are not in the correct spot(did not move forward two spaces) cannot en passant
+			if(lastMovedPiece.getColor() == true && lastMovedPiece.getPosX() != 4)
+			{
+				return false;
+			}
+			
+			if(lastMovedPiece.getColor() == false && lastMovedPiece.getPosX() != 3)
+			{
+				return false;
+			}
+			
+			//need to be on the same Y point(directly behind or in front)
+			if(y - lastMovedPiece.getPosY() == 0)
+			{
+				if(movingPiece.getColor() == true && lastMovedPiece.getPosX() - x == 1)
+				{
+					return true;
+				}
+				
+				if(movingPiece.getColor() == false && x - lastMovedPiece.getPosX() == 1)
+				{
+					return true;
+				}
+			}
+			
+			return false;
 		}
 		
-		return false;
+		catch(NullPointerException ne)
+		{
+			return false;
+		}
 	}
 
 	public void playGame(Player player1, Player player2)

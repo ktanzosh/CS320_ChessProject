@@ -573,6 +573,8 @@ public class DerbyDatabase implements IDatabase {
 			public Integer execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
+				ResultSet result = null;
+				int game_id = -1;
 				
 				// prepare SQL insert statement to add Author to Authors table
 				stmt1 = conn.prepareStatement(
@@ -585,11 +587,15 @@ public class DerbyDatabase implements IDatabase {
 				stmt1.executeUpdate();
 				
 				stmt2 = conn.prepareStatement(
-						"select last_insert_id()"
+						"select last_insert_id() from userGames"
 				);
 				
-				ResultSet result = stmt2.executeQuery();
-				int game_id = result.getInt(1);
+				result = stmt2.executeQuery();
+				
+				if(result.next()){
+					game_id = result.getInt(1);;
+				}
+				
 				
 				DBUtil.closeQuietly(stmt1);
 				DBUtil.closeQuietly(stmt2);
@@ -657,40 +663,53 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public List<Pair<User, Game>> findAllGamesForUser(String user) {
-		return executeTransaction(new Transaction<List<Pair<User, Game>>>() {
+	public List<Pair<List<String>, List<String>>> findAllGamesForUser(String user) {
+		return executeTransaction(new Transaction<List<Pair<List<String>, List<String>>>>() {
 			@Override
-			public List<Pair<User, Game>> execute(Connection conn) throws SQLException {
+			public List<Pair<List<String>, List<String>>> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				
 				try {
 					stmt = conn.prepareStatement(
-							"select moves.move " +
+							"select userGames.*, moves.move" +
 							" from users, moves, userGames" +
 							" where ((? = userGames.player1_id)" +
 							" or (? = userGames.player2_id))" +
-							" and moves.game_id = userGames.game_id"
+							" and moves.game_id = userGames.game_id" +
+							" order by userGames.game_id"
 					);
 					stmt.setString(1, user);
 					stmt.setString(2, user);
-					
-					List<Pair<User, Game>> result = new ArrayList<Pair<User, Game>>();
+
+					List<Pair<List<String>, List<String>>> result = new ArrayList<Pair<List<String>, List<String>>>();
+					List<String> gameInfo = new ArrayList<String>();
+					List<String> gameMoves = new ArrayList<String>();
 					
 					resultSet = stmt.executeQuery();
-					
+
 					// for testing that a result was returned
 					Boolean found = false;
+					int current_game_id = -1;
 					
 					while (resultSet.next()) {
 						found = true;
 						
-						User user = new User();
-						loadUser(user, resultSet, 1);
-						Game move = new Game();
-						loadMove(move, resultSet, 6);
+						if(resultSet.getInt(1) == current_game_id) {
+							gameMoves.add(resultSet.getString(6));
+						}
+						else if (resultSet.getInt(1) != -1){
+							result.add(new Pair<List<String>, List<String>>(gameInfo, gameMoves));
+							
+							gameInfo.clear();
+							gameMoves.clear();
+						}
+						//User user = new User();
+						//loadUser(user, resultSet, 1);
+						//Game move = new Game();
+						//loadMove(move, resultSet, 6);
 						
-						result.add(new Pair<User, Game>(user, move));
+						
 					}
 					
 					// check if any books were found
@@ -753,7 +772,6 @@ public class DerbyDatabase implements IDatabase {
 				// execute the query, get the result
 				resultSet1 = stmt1.executeQuery();
 
-				
 				// if User was found then say so					
 				if (resultSet1.next()) {
 					return 1;			
