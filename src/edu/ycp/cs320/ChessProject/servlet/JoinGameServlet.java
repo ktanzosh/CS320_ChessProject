@@ -86,8 +86,9 @@ public class JoinGameServlet extends HttpServlet {
 			int player2ID = user.getUserID();
 			
 			int gameID = Integer.parseInt(stringGameID);
-			IDatabase db = DatabaseProvider.getInstance();
+			//System.out.println(gameID);
 			
+			IDatabase db = DatabaseProvider.getInstance();
 			boolean success = db.insertSecondPlayer(player2ID, gameID);
 			
 			if(success == true) {

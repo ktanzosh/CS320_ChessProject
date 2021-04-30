@@ -565,39 +565,47 @@ public class DerbyDatabase implements IDatabase {
 				result1 = stmt1.executeQuery();
 				
 				if(result1.next()){
-					return false;
+					int currentID = result1.getInt(1);
+					//System.out.println(currentID);
+					if(currentID != 0) {
+						System.out.println("There is already a player 2");
+						return false;
+					}
 				}
 				
-				else {
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt2 = conn.prepareStatement(
+						"select userGames.player1_id" +
+						" from userGames" +
+						" where userGames.game_id = ?"
+				);
+				
+				stmt2.setInt(1, game_id);
+				
+				// execute the update
+				result2 = stmt2.executeQuery();
+				
+				if(result2.next()){
+					int currentID = result2.getInt(1);
+					//System.out.println(currentID);
+					if(currentID == 0) {
+						System.out.println("No player 1");
+						return false;
+					}
 					// prepare SQL insert statement to add Author to Authors table
-					stmt2 = conn.prepareStatement(
-							"select userGames.player1_id" +
-							" from userGames" +
+					stmt3 = conn.prepareStatement(
+							"update userGames" +
+							" set userGames.player2_id = ?" +
 							" where userGames.game_id = ?"
 					);
-					
-					stmt2.setInt(1, game_id);
+					stmt3.setInt(1, player2);
+					//System.out.println("Player 2 ID" + player2);
+					stmt3.setInt(2, game_id);
+					//System.out.println("Game ID: " + game_id);
 					
 					// execute the update
-					result2 = stmt2.executeQuery();
-					
-					if(result2.next()){
-						// prepare SQL insert statement to add Author to Authors table
-						stmt3 = conn.prepareStatement(
-								"update userGames" +
-								" set userGames.player2_id = ?" +
-								" where userGames.game_id = ?"
-						);
-						stmt3.setInt(1, player2);
-						stmt3.setInt(1, game_id);
-						
-						// execute the update
-						stmt3.executeUpdate();
-					}
-					
-					else {
-						return false; 
-					}
+					stmt3.executeUpdate();
 					
 				}
 				
@@ -605,7 +613,9 @@ public class DerbyDatabase implements IDatabase {
 				DBUtil.closeQuietly(stmt2);
 				DBUtil.closeQuietly(stmt3);
 				
+				//System.out.println("Made it to the end");
 				return true;
+				
 			}
 		});
 	}
