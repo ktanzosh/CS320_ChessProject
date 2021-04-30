@@ -221,6 +221,7 @@ public class NewGameServlet extends HttpServlet {
 			{
 				resp.getWriter().write("true");
 				userSession.setAttribute("validity", "True");
+				//String validity = "true";
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				userSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove();

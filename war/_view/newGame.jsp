@@ -15,20 +15,7 @@
 
 	<h1>Welcome to a new game, ${username}</h1>
 	
-	<br> </br>
-	
-	
-	<style>
-	h2{
-		
-		position: absolute;
-		top: 200px;
-		right: 200px;
-		color: white;
-	
-	}
-	</style>
-	<h2> text from servlet, ${validity}</h2>
+
 	
 	
 	
@@ -153,8 +140,6 @@ p {
 
 	<script>
 
-var piece = document.getElementById("57").innerText;
-console.log("HELLO");
 
 
 
@@ -267,21 +252,24 @@ var S = {
           child.remove();
         }
 
-   /*      // PAWN PROMOTION!
-        if (this.selectedPiece.hasClass("pawn") && (squareID > 56)) {
-              var name = "rook";
-              var st = "&#9814";
-              
-          	//document.getElementById("chessNotation").innerHTML = promoChoice + "plz";
-          	
-           // this.selectedPiece.removeClass("pawn").empty().append(&#9814).addClass("rook");
-              
-            } */
-        
-        	square.append(this.selectedPiece);  //append piece to square
-        	 $(this.selectedPiece).addClass("moved");
-        	this.ChangeTurn();  //change turn
+         // PAWN PROMOTION!
+        if (this.selectedPiece.hasClass("pawn") && 
+            (squareID > 56 || squareID < 9)) {
+        	
+       // document.getElementById("chessNotation").innerHTML = "pawnPromotion occured";
+         this.selectedPiece.removeClass("pawn");
+          this.selectedPiece.addClass("rook");
+			this.selectedPiece.empty().html("&#9814");
+          //this.selectedPiece.empty().append($(".pc w rook"));
+         
 
+        }
+
+       // this.selectedPiece.empty().append("<span>&#9814</span>");
+
+        	square.append(this.selectedPiece);  //append piece to square
+        	this.ChangeTurn();  //change turn
+        	//$(this.selectedPiece).addClass("moved");
         	
         //do pawn promotion for white pawns
         if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
@@ -320,8 +308,10 @@ var S = {
 				
 			  };
 			  postData('newGame', val).then(function(data){
-				  //var user = ${username};
-				document.getElementById("chessNotation").innerHTML = "hello";
+		
+				//document.getElementById("chessNotation").innerHTML = ${validity};
+				
+				//document.getElementById("chessNotation").innerHTML = "ehllO";
 			  	console.log(data);
 		});
       }
@@ -329,18 +319,10 @@ var S = {
   },
   
   ClickPiece:function (piece) {
-    if (piece.hasClass(["w","b"][this.turnInt])) {  //if piece has a .w or .b 
+    if (piece.hasClass(["w","b",][this.turnInt])) {  //if piece has a .w or .b 
       $(this.selectedPiece).removeClass("pcActive");  //remove pcActive class from selected piece
       this.selectedPiece = piece; //set selected piece to piece passed in
       $(this.selectedPiece).addClass("pcActive"); //add class pcActive to selected piece
-     
-     // var name;
-      //for (name = 0; i < 10; i++){
-     	// $(this.selectedPiece).addClass("pawn 1");
-    	 // document.getElementById("chessNotation").innerHTML = "what";
-    //  }
-     // var i;
-
      
      // document.getElementById("chessNotation").innerHTML =   $(this.selectedPiece).addClass("pcActive");
       
