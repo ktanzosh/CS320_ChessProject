@@ -20,17 +20,15 @@ import edu.ycp.cs320.ChessProject.UserDatabase.User;
 
 public class NewGameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_RED = "\u001B[31m";
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("New Game: doGet");
+		System.err.println("New Game: doGet");
 		
 		HttpSession userSession = req.getSession(false);
-		IDatabase db = DatabaseProvider.getInstance();
+		
 		
 		if(userSession == null) {
 			userSession = req.getSession(true);
@@ -39,6 +37,7 @@ public class NewGameServlet extends HttpServlet {
 		}
 		
 		else {
+			IDatabase db = DatabaseProvider.getInstance();
 			User userModel = (User) userSession.getAttribute("userInfo");
 			
 			if(userModel == null) {
@@ -52,7 +51,7 @@ public class NewGameServlet extends HttpServlet {
 			int key = db.insertNewGame(userModel.getUserID());
 			
 			if(key == -1) {
-				System.out.println(ANSI_RED + "An error has occured in creating the game." + ANSI_RESET);
+				System.err.println("An error has occured in creating the game.");
 			}
 			else {
 				sessionGame.setGameID(key);
@@ -60,9 +59,22 @@ public class NewGameServlet extends HttpServlet {
 			
 			ArrayList<String> moves = new ArrayList<String>();
 			
-			HttpSession gameSession = req.getSession(true);
-			gameSession.setAttribute("sessionGame", sessionGame);
-			gameSession.setAttribute("moves", moves);
+			//HttpSession gameSession = req.getSession(true);
+			Game tryGameSession = (Game) userSession.getAttribute("sessionGame");
+			
+			if(tryGameSession == null) {
+				userSession.setAttribute("sessionGame", sessionGame);
+				userSession.setAttribute("moves", moves);
+				System.err.println("New Game stuff");
+			}
+			
+			else {
+				String valid = (String) userSession.getAttribute("validity");
+				req.setAttribute("valid", valid);
+				System.err.println("Found the validity");
+				
+			}
+			
 			
 			String username = userModel.getUser();
 			req.setAttribute("username", username);
@@ -73,12 +85,12 @@ public class NewGameServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
 		
-		System.out.println("New Game Servlet: doPost");
+		System.err.println("New Game Servlet: doPost");
 
-		HttpSession gameSession = req.getSession(false);
-		Game playGame = (Game) gameSession.getAttribute(("sessionGame"));
+		HttpSession userSession = req.getSession(false);
+		Game playGame = (Game) userSession.getAttribute(("sessionGame"));
 		
-		ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
+		ArrayList<String> moves = (ArrayList<String>) userSession.getAttribute("moves");
 		
 		//IF THERE ARE NO MOVES***********************
 		if(moves.isEmpty()) {
@@ -171,8 +183,9 @@ public class NewGameServlet extends HttpServlet {
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
 			{
 				resp.getWriter().write("true");
+				userSession.setAttribute("validity", "True");
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
-				gameSession.setAttribute("sessionGame", playGame);
+				userSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove(); //need
 				String moveString = sendMove.getMove(); //need
 				int id = playGame.getGameID();
@@ -180,7 +193,7 @@ public class NewGameServlet extends HttpServlet {
 				IDatabase db = DatabaseProvider.getInstance();
 				db.insertNewMove(id, moveString);
 				moves.add(System.lineSeparator() + playerWhite + moveString);
-				gameSession.setAttribute("moves", moves);
+				userSession.setAttribute("moves", moves);
 				
 				if(prom == true) 
 				{
@@ -197,6 +210,7 @@ public class NewGameServlet extends HttpServlet {
 			else
 			{
 				resp.getWriter().write("false");
+				userSession.setAttribute("validity", "False");
 			}
 
 		}
@@ -206,8 +220,9 @@ public class NewGameServlet extends HttpServlet {
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
 				resp.getWriter().write("true");
+				userSession.setAttribute("validity", "True");
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
-				gameSession.setAttribute("sessionGame", playGame);
+				userSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove();
 				String moveString = sendMove.getMove();
 				int id = playGame.getGameID();
@@ -215,7 +230,7 @@ public class NewGameServlet extends HttpServlet {
 				IDatabase db = DatabaseProvider.getInstance();
 				db.insertNewMove(id, moveString);
 				moves.add(System.lineSeparator() + playerBlack + moveString);
-				gameSession.setAttribute("moves", moves);
+				userSession.setAttribute("moves", moves);
 				
 				if(prom == true) 
 				{
@@ -233,6 +248,7 @@ public class NewGameServlet extends HttpServlet {
 			else
 			{
 				resp.getWriter().write("false");
+				userSession.setAttribute("validity", "False");
 			}
 
 		}
@@ -244,6 +260,8 @@ public class NewGameServlet extends HttpServlet {
 			resp.sendRedirect("/ChessProject/index");
 			return;		
 		}
+		
+		req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
 
 		}
 }
