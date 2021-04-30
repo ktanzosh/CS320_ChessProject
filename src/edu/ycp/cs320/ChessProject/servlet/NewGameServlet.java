@@ -164,13 +164,14 @@ public class NewGameServlet extends HttpServlet {
 		ChessPiece movePiece = playGame.getChessBoard().getTile(ix, iy).getPiece();
 		String playerWhite = "White's move: ";
 		String playerBlack = "Black's move: ";
+		String ResponseString = "";
 		
 		if(friendlyColor == true)
 			
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
 			{
-				resp.getWriter().write("true");
+				ResponseString += "true/";
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				gameSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove(); //need
@@ -188,15 +189,15 @@ public class NewGameServlet extends HttpServlet {
 					int f = total.indexOf(":", e+1);
 					String piece = total.substring(f+2, f+6);
 					System.out.println("Promotion time " + piece);
-					//playGame.PawnPromotion(playGame.getWhitePieces(), piece);
+					playGame.PawnPromotion(dx, dy, playGame.getWhitePieces(), piece);
 				}
 				
-				resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
+				ResponseString += playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces());
 			}
 			
 			else
 			{
-				resp.getWriter().write("false");
+				ResponseString += "false/";
 			}
 
 		}
@@ -205,7 +206,7 @@ public class NewGameServlet extends HttpServlet {
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
-				resp.getWriter().write("true");
+				ResponseString += "true/";
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				gameSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove();
@@ -223,20 +224,21 @@ public class NewGameServlet extends HttpServlet {
 					int f = total.indexOf(":", e+1);
 					String piece = total.substring(f+2, f+6);
 					System.out.println("Promotion time " + piece);
-					//playGame.PawnPromotion(playGame.getBlackPieces(), piece);
+					playGame.PawnPromotion(dx, dy, playGame.getBlackPieces(), piece);
 				}
 				
-				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
+				ResponseString += playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces());
 				//System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
 			}
 			
 			else
 			{
-				resp.getWriter().write("false");
+				ResponseString += "false/";
 			}
 
 		}
 		
+		resp.getWriter().write(ResponseString);
 		playGame.printMoveList();
 		
 		if(req.getParameter("index") != null) 
