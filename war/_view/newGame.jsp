@@ -86,11 +86,9 @@
 			<span id="8" class="sq l"><span class="pc w rook">&#9814</span></span>
 		</div>
 	</div>
-
 	<ul id="moveList"></ul>
 	<br>
 	</br>
-
 	<style>
 p {
 	top: 850px;
@@ -139,14 +137,8 @@ p {
 	</div>
 
 	<script>
-
-
-
-
 var moveList = [];
 document.getElementById("moveList").innerHTML = "Your moves will go here: ";
-
-
 async function postData(address, objectToPost){
 	return await(await fetch(address,{
 		method: 'POST',
@@ -156,8 +148,6 @@ async function postData(address, objectToPost){
 		body: JSON.stringify(objectToPost)
 	})).json();
 }
-
-
 var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
 	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
 	"a3", "b3", "c3", "d3","e3", "f3", "g3", "h3",
@@ -166,8 +156,6 @@ var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1",
 	"a6", "b6", "c6", "d6","e6", "f6", "g6", "h6",
 	"a7", "b7", "c7", "d7","e7", "f7", "g7", "h7",
 	"a8", "b8", "c8", "d8","e8", "f8", "g8", "h8"];
-
-
 //temp varibles?
 var intialPosition;
 var squareID_;
@@ -179,10 +167,7 @@ var promoChoice;
 // pawn promotion 
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
-
-
 //document.getElementById("chessNotation").innerHTML = "hello wtf";
-
 var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
   
@@ -200,7 +185,6 @@ var S = {
     	var turn = "WHITES TURN:"
     	playerColor = "b";
     	
-
     }
     else{
     	document.getElementById("moveList").style.color = "black";
@@ -208,7 +192,6 @@ var S = {
     	playerColor = "w";
     }
     //update move list
-
     moveList.push("<br>" + turn);
     document.getElementById("moveList").innerHTML = moveList;
   },  
@@ -251,22 +234,30 @@ var S = {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
-
+        
+        
+        
          // PAWN PROMOTION!
+
         if (this.selectedPiece.hasClass("pawn") && 
-            (squareID > 56 || squareID < 9)) {
+            (squareID > 56)) {
         	
-       // document.getElementById("chessNotation").innerHTML = "pawnPromotion occured";
+        	
          this.selectedPiece.removeClass("pawn");
-          this.selectedPiece.addClass("rook");
-			this.selectedPiece.empty().html("&#9814");
-          //this.selectedPiece.empty().append($(".pc w rook"));
-         
-
+          this.selectedPiece.addClass("queen");
+			this.selectedPiece.empty().html("&#9813");
         }
-
+			
+			
+			else if (this.selectedPiece.hasClass("pawn") && 
+		            (squareID < 9)) {
+		        	
+		         this.selectedPiece.removeClass("pawn");
+		          this.selectedPiece.addClass("queen");
+					this.selectedPiece.empty().html("&#9819");
+         
+        }
        // this.selectedPiece.empty().append("<span>&#9814</span>");
-
         	square.append(this.selectedPiece);  //append piece to square
         	this.ChangeTurn();  //change turn
         	//$(this.selectedPiece).addClass("moved");
@@ -346,12 +337,9 @@ var S = {
   
   
 }; //END OF BIG FUNC
-
 S.ChangeTurn();
-
 $(document).ready(function() {  //CLICK EVENT
   $(document).mousedown(function( event ) { //once mousedown event triggered  
-
     if ($(event.target).is(".pc")){ //event target for individual pieces
       S.ClickPiece($(event.target)); //Get the element that triggered a specific event
       //document.getElementById("chessNotation").innerHTML = S.ClickPiece($(event.target));
@@ -366,12 +354,9 @@ $(document).ready(function() {  //CLICK EVENT
 			  
   });
 });
-
-
 function GetPieceString (piece) {
 	
   var classList = $(piece).attr('class').split(/\s+/);  // classList = array of pieces [1,2,3,4...] from "class="
-
   //document.getElementById("chessNotation").innerHTML = classList;
   
  // document.getElementById("chessNotation").innerHTML = $(piece).attr('class');
@@ -386,7 +371,6 @@ function GetPieceString (piece) {
   
   
 }
-
 function GetPieceMoveArray (enemyString, piece) {
 	var squareInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
 	var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
@@ -413,10 +397,6 @@ function GetPieceMoveArray (enemyString, piece) {
   }
   
 pieceName = stringOfPieces;
-
-
-
-
   switch (stringOfPieces) {
       // case for each piece
       // fix game logic -- some issues going on 
@@ -430,17 +410,13 @@ pieceName = stringOfPieces;
      var mult;
       if (enemyString === "b"){
         mult = 1;
-
       }
       else{
         mult = -1;
-
       }
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
-
   }
 }
-
 function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
   var moves = [];
   var squareStatus;
@@ -460,7 +436,6 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
  
   return moves;
 }
-
 function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   var fromSquare = startSquare + ((step - 1) * dir); //intial
   var toSquare = startSquare + (step * dir); //move to 
@@ -503,12 +478,10 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   }  
   return 0;
 }
-
 // fix for later on 
 	$('#restart-btn').on('click', function() {
 		resetGame();
 	});
-
 	function mOver(obj) {
 		  obj.innerHTML = "Are you sure?"
 	}
@@ -544,16 +517,13 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 	  };
 	  event.preventDefault();
 	}, false);
-
 	
 	var modal = document.getElementById("myModal");
 	var btn = document.getElementById("myBtn");
 	var span = document.getElementsByClassName("close")[0];
-
 	btn.onclick = function() {
 	  modal.style.display = "block";
 	}
-
  	span.onclick = function() {
 		
 		 val = {
@@ -589,19 +559,16 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 			  promo = "&#9814";
 		  }
 		  
-		var change =  document.getElementsByClassName("pawn");
-		  	change[0].innerHTML = promo;
+		
 		  	
 	  }
   	currentPiece = promoChoice;
   	
-  	this.selectedPiece.removeClass("pawn").empty().addClass("rook");
+  	//this.selectedPiece.removeClass("pawn").empty().addClass("rook");
     //document.getElementById("chessNotation").innerHTML = promoChoice;
    //promoChoice = promoChoice;
    // this.selectedPiece.removeClass("pawn").empty().addClass("rook");
-
 	} 
-
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 	  if (event.target == modal) {
