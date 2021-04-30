@@ -67,11 +67,17 @@ public class NewGameServlet extends HttpServlet {
 			String username = userModel.getUser();
 			req.setAttribute("username", username);
 			req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
+			
+			
+			
 		}
 	}
+	
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
+
 		
 		System.out.println("New Game Servlet: doPost");
 
@@ -116,18 +122,18 @@ public class NewGameServlet extends HttpServlet {
 		int c = total.indexOf(":", b+1);
 		boolean friendlyColor = false;
 		String color = total.substring(c+2, c+3);
-		System.out.println(color);
+		//System.out.println(color);
 		
 		//only if enemyColor is white do you change the value of enemyColor
 		
 		if(color.equals("w"))
 		{
 			friendlyColor = true;
-			System.out.println("white");
+			//System.out.println("white");
 		}
 		else {
 			friendlyColor = false;
-			System.out.println("black");
+			//System.out.println("black");
 		}
 		
 		int d = total.indexOf(":", c+1);
@@ -171,6 +177,11 @@ public class NewGameServlet extends HttpServlet {
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
 			{
 				resp.getWriter().write("true");
+				
+				System.out.println("valid move for white");
+				
+				
+				
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				gameSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove(); //need
@@ -192,6 +203,7 @@ public class NewGameServlet extends HttpServlet {
 				}
 				
 				resp.getWriter().write(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()));
+				System.out.println(playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces()) + "white state");
 			}
 			
 			else
@@ -206,7 +218,7 @@ public class NewGameServlet extends HttpServlet {
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
 				resp.getWriter().write("true");
-				System.out.println("true____");
+				System.out.println("valid move for black");
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				gameSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove();
@@ -228,7 +240,7 @@ public class NewGameServlet extends HttpServlet {
 				}
 				
 				resp.getWriter().write(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
-				System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()));
+				System.out.println(playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces()) + "black state");
 			}
 			
 			else

@@ -14,6 +14,24 @@
 <body>
 
 	<h1>Welcome to a new game, ${username}</h1>
+	
+	<br> </br>
+	
+	
+	<style>
+	h2{
+		
+		position: absolute;
+		top: 200px;
+		right: 200px;
+		color: white;
+	
+	}
+	</style>
+	<h2> text from servlet, ${validity}</h2>
+	
+	
+	
 
 	<div class="wrapper">
 		<div class="row">
@@ -178,7 +196,7 @@ var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
 
 
-
+//document.getElementById("chessNotation").innerHTML = "hello wtf";
 
 var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
@@ -212,7 +230,8 @@ var S = {
   //******************************************************************************************
   ClickSquare:function (square) {
     var child = square.children().eq(0);
-
+   // document.getElementById("chessNotation").innerHTML = child;
+    
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
       this.ClickPiece(child); // ~child is chess piece~
     }
@@ -230,16 +249,25 @@ var S = {
       }
       
       
+     // document.getElementById("chessNotation").innerHTML = squareID_;
+      
     //update move list
       moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
       document.getElementById("moveList").innerHTML = moveList;
-	  
+      //document.getElementById("chessNotation").innerHTML = "ehllo";
+      
+      // IF THE PIECE HAS MOVED  - for kevin?
+      if (initialPosition != squareID_){
+    	  var x = document.getElementsByClassName("pawn")[0].id;
+    		//document.getElementById("chessNotation").innerHTML = x;
+    	}
+      
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
 
-        // PAWN PROMOTION!
+   /*      // PAWN PROMOTION!
         if (this.selectedPiece.hasClass("pawn") && (squareID > 56)) {
               var name = "rook";
               var st = "&#9814";
@@ -248,9 +276,10 @@ var S = {
           	
            // this.selectedPiece.removeClass("pawn").empty().append(&#9814).addClass("rook");
               
-            }
+            } */
         
         	square.append(this.selectedPiece);  //append piece to square
+        	 $(this.selectedPiece).addClass("moved");
         	this.ChangeTurn();  //change turn
 
         	
@@ -280,7 +309,7 @@ var S = {
         }
         
        
-        
+      //  document.getElementById("chessNotation").innerHTML = "helo1";
         val = {
 				initialPosition: initialPosition,
 				pieceName: pieceName,
@@ -291,6 +320,8 @@ var S = {
 				
 			  };
 			  postData('newGame', val).then(function(data){
+				  //var user = ${username};
+				document.getElementById("chessNotation").innerHTML = "hello";
 			  	console.log(data);
 		});
       }
@@ -302,11 +333,23 @@ var S = {
       $(this.selectedPiece).removeClass("pcActive");  //remove pcActive class from selected piece
       this.selectedPiece = piece; //set selected piece to piece passed in
       $(this.selectedPiece).addClass("pcActive"); //add class pcActive to selected piece
-      
+     
+     // var name;
+      //for (name = 0; i < 10; i++){
+     	// $(this.selectedPiece).addClass("pawn 1");
+    	 // document.getElementById("chessNotation").innerHTML = "what";
+    //  }
+     // var i;
+
+     
      // document.getElementById("chessNotation").innerHTML =   $(this.selectedPiece).addClass("pcActive");
       
       this.moves = GetPieceMoveArray(["b","w"][this.turnInt], $(piece)); //go to GetPieceMoveArray and get the next move
+      
+    
     }
+    
+    
     else if (this.selectedPiece !== 0) {
       this.ClickSquare($(piece.parent())); //else just click the square
       }
@@ -329,7 +372,7 @@ $(document).ready(function() {  //CLICK EVENT
 
     if ($(event.target).is(".pc")){ //event target for individual pieces
       S.ClickPiece($(event.target)); //Get the element that triggered a specific event
-      
+      //document.getElementById("chessNotation").innerHTML = S.ClickPiece($(event.target));
       
     }
     else if ($(event.target).is(".sq")){ //event target for squares (if selected)
@@ -347,6 +390,7 @@ function GetPieceString (piece) {
 	
   var classList = $(piece).attr('class').split(/\s+/);  // classList = array of pieces [1,2,3,4...] from "class="
 
+  //document.getElementById("chessNotation").innerHTML = classList;
   
  // document.getElementById("chessNotation").innerHTML = $(piece).attr('class');
   
@@ -366,9 +410,14 @@ function GetPieceMoveArray (enemyString, piece) {
 	var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
 	currentPiece = stringOfPieces;	// current piece selected to be replaced in pawn promotion
 	
+	//initial position
+	//document.getElementById("chessNotation").innerHTML = squareInt;
+	
+	
+	
 	//document.getElementById("chessNotation").innerHTML = currentPiece;
 //********LOCATION OF SQUARE && PIECE NAME****************
-
+	//document.getElementById("chessNotation").innerHTML = stringOfPieces + "has been moved";
   moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
   document.getElementById("moveList").innerHTML = moveList;
   
@@ -378,6 +427,7 @@ function GetPieceMoveArray (enemyString, piece) {
   }
   else{
 	  initialPosition = squareInt;
+	  
   }
   
 pieceName = stringOfPieces;
@@ -432,6 +482,7 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
 function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   var fromSquare = startSquare + ((step - 1) * dir); //intial
   var toSquare = startSquare + (step * dir); //move to 
+  
   
     // 0=move and go
     // 1=move and stop 
@@ -563,8 +614,8 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   	currentPiece = promoChoice;
   	
   	this.selectedPiece.removeClass("pawn").empty().addClass("rook");
-    document.getElementById("chessNotation").innerHTML = promoChoice;
-   promoChoice = promoChoice;
+    //document.getElementById("chessNotation").innerHTML = promoChoice;
+   //promoChoice = promoChoice;
    // this.selectedPiece.removeClass("pawn").empty().addClass("rook");
 
 	} 
