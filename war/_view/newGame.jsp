@@ -14,6 +14,19 @@
 <body>
 
 	<h1>Welcome to a new game, ${username}</h1>
+	<br> </br>
+	
+	<style>
+		h2{
+			position:absolute;
+			top:200px;
+			right: 200px;
+			color:white;
+		
+		}
+	
+	</style>
+	<h2> Heres your game id, ${game_id}</h2>
 
 	<div class="wrapper">
 		<div class="row">
