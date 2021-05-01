@@ -94,7 +94,17 @@ public class JoinGameServlet extends HttpServlet {
 			boolean success = db.insertSecondPlayer(player2ID, gameID);
 			
 			if(success == true) {
-				//Join the game
+				Game sessionGame = new Game();
+				sessionGame.setGame();
+				ArrayList<String> moves = new ArrayList<String>();
+
+				userSession.setAttribute("sessionGame", sessionGame);
+				userSession.setAttribute("moves", moves);
+				sessionGame.setGameID(gameID);
+				System.err.println("Joining the Game");
+				
+				resp.sendRedirect("/ChessProject/newGame");
+				return;		
 			}
 			else {
 				errorMessageInvalidC = "Invalid Game ID.";
@@ -108,15 +118,7 @@ public class JoinGameServlet extends HttpServlet {
 			req.setAttribute("errorMessage", errorMessage);
 			String username = user.getUser();
 			req.setAttribute("username", username);
-			
-			Game sessionGame = new Game();
-			sessionGame.setGame();
-			ArrayList<String> moves = new ArrayList<String>();
-			userSession.setAttribute("sessionGame", sessionGame);
-			userSession.setAttribute("moves", moves);
-			System.err.println("Added the second player");
-			
-			req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/joinGame.jsp").forward(req, resp);
 		}
 	}
 

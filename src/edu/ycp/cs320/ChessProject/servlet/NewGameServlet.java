@@ -64,7 +64,13 @@ public class NewGameServlet extends HttpServlet {
 
 				userSession.setAttribute("sessionGame", sessionGame);
 				userSession.setAttribute("moves", moves);
+				userSession.setAttribute("color", "white");
 				System.err.println("New Game stuff");
+			}
+			else {
+				Game playGame = (Game) userSession.getAttribute(("sessionGame"));
+				key =playGame.getGameID();
+				userSession.setAttribute("color", "black");
 			}
 			/*
 			else {
@@ -89,6 +95,7 @@ public class NewGameServlet extends HttpServlet {
 
 		HttpSession userSession = req.getSession(false);
 		Game playGame = (Game) userSession.getAttribute(("sessionGame"));
+		String playerColor = (String) userSession.getAttribute("color");
 		
 		ArrayList<String> moves = (ArrayList<String>) userSession.getAttribute("moves");
 		
@@ -178,7 +185,7 @@ public class NewGameServlet extends HttpServlet {
 		String playerBlack = "Black's move: ";
 		String ResponseString = "";
 		
-		if(friendlyColor == true)
+		if((friendlyColor == true) && (playerColor.equals("white")))
 			
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
@@ -214,7 +221,7 @@ public class NewGameServlet extends HttpServlet {
 
 		}
 		
-		else if(friendlyColor == false)
+		else if((friendlyColor == false) && (playerColor.equals("black")))
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
