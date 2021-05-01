@@ -1,6 +1,7 @@
 package edu.ycp.cs320.ChessProject.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
 import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
@@ -106,7 +108,15 @@ public class JoinGameServlet extends HttpServlet {
 			req.setAttribute("errorMessage", errorMessage);
 			String username = user.getUser();
 			req.setAttribute("username", username);
-			req.getRequestDispatcher("/_view/joinGame.jsp").forward(req, resp);
+			
+			Game sessionGame = new Game();
+			sessionGame.setGame();
+			ArrayList<String> moves = new ArrayList<String>();
+			userSession.setAttribute("sessionGame", sessionGame);
+			userSession.setAttribute("moves", moves);
+			System.err.println("Added the second player");
+			
+			req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
 		}
 	}
 

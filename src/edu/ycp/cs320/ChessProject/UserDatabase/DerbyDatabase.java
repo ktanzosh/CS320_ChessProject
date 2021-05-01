@@ -540,7 +540,55 @@ public class DerbyDatabase implements IDatabase {
 	
 	*/
 	
-	
+	public User getSecondPlayerInfo(int game_id) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				ResultSet result1 = null;
+				ResultSet result2 = null;
+				
+				int player2_id = 0;
+				User user = new User();
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"select userGames.player2_id" +
+						" from userGames" +
+						" where userGames.game_id = ?"
+				);
+				stmt1.setInt(1, game_id);
+				
+				
+				result1 = stmt1.executeQuery();
+				
+					
+				while (result1.next()) {
+					player2_id = result1.getInt(1);
+				}
+
+				stmt2 = conn.prepareStatement(
+						"select users.*" +
+						" from  users" +
+						"  where users.user_id = ? "
+				);
+				stmt2.setInt(1, player2_id);
+		
+				result2 = stmt2.executeQuery();
+				
+				while (result2.next()) {
+					loadUser(user, result2, 1);
+				}
+				
+					
+				DBUtil.closeQuietly(stmt1);
+				DBUtil.closeQuietly(stmt2);
+				
+				return user;
+			}
+		});
+	}
 	
 	public Boolean insertSecondPlayer(int player2, int game_id) {
 		return executeTransaction(new Transaction<Boolean>() {
@@ -855,6 +903,37 @@ public class DerbyDatabase implements IDatabase {
 							"  where users.username = ? "
 					);
 					stmt.setString(1, username);
+			
+					resultSet = stmt.executeQuery();
+					
+					while (resultSet.next()) {
+						loadUser(user, resultSet, 1);
+					}
+					
+					return user;
+					
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	public User getUserInfoByID(int user_id) {
+		return executeTransaction(new Transaction<User>() {
+			@Override
+			public User execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				User user = new User();
+				try {
+					stmt = conn.prepareStatement(
+							"select users.*" +
+							" from  users" +
+							"  where users.user_id = ? "
+					);
+					stmt.setInt(1, user_id);
 			
 					resultSet = stmt.executeQuery();
 					

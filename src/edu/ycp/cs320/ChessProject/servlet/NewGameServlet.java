@@ -45,38 +45,38 @@ public class NewGameServlet extends HttpServlet {
 				return;
 			}
 			
-			Game sessionGame = new Game();
-			sessionGame.setGame();
-			
-			int key = db.insertNewGame(userModel.getUserID());
-			
-			if(key == -1) {
-				System.err.println("An error has occured in creating the game.");
-			}
-			else {
-				sessionGame.setGameID(key);
-			}
-			
-			ArrayList<String> moves = new ArrayList<String>();
 			
 			//HttpSession gameSession = req.getSession(true);
 			Game tryGameSession = (Game) userSession.getAttribute("sessionGame");
-			
+			int key = -1;
 			if(tryGameSession == null) {
+				Game sessionGame = new Game();
+				sessionGame.setGame();
+				ArrayList<String> moves = new ArrayList<String>();
+				
+				key = db.insertNewGame(userModel.getUserID());
+				if(key == -1) {
+					System.err.println("An error has occured in creating the game.");
+				}
+				else {
+					sessionGame.setGameID(key);
+				}
+
 				userSession.setAttribute("sessionGame", sessionGame);
 				userSession.setAttribute("moves", moves);
 				System.err.println("New Game stuff");
 			}
-			
+			/*
 			else {
 				String valid = (String) userSession.getAttribute("validity");
 				req.setAttribute("valid", valid);
 				System.err.println("Found the validity");
 				
 			}
-			
+			*/
 			
 			String username = userModel.getUser();
+			req.setAttribute("game_id", key);
 			req.setAttribute("username", username);
 			req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
 		}
