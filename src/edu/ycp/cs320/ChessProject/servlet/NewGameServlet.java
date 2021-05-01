@@ -259,8 +259,8 @@ public class NewGameServlet extends HttpServlet {
 			resp.sendRedirect("/ChessProject/index");
 			return;		
 		}
-
-
-		}
+		
+		//req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
+	}
 }
 
