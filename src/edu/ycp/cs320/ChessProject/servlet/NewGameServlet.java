@@ -45,24 +45,24 @@ public class NewGameServlet extends HttpServlet {
 				return;
 			}
 			
-			Game sessionGame = new Game();
-			sessionGame.setGame();
 			
-			int key = db.insertNewGame(userModel.getUserID());
-			
-			if(key == -1) {
-				System.err.println("An error has occured in creating the game.");
-			}
-			else {
-				sessionGame.setGameID(key);
-			}
-			
-			ArrayList<String> moves = new ArrayList<String>();
 			
 			//HttpSession gameSession = req.getSession(true);
 			Game tryGameSession = (Game) userSession.getAttribute("sessionGame");
 			
 			if(tryGameSession == null) {
+				Game sessionGame = new Game();
+				sessionGame.setGame();
+				ArrayList<String> moves = new ArrayList<String>();
+				
+				int key = db.insertNewGame(userModel.getUserID());
+				if(key == -1) {
+					System.err.println("An error has occured in creating the game.");
+				}
+				else {
+					sessionGame.setGameID(key);
+				}
+
 				userSession.setAttribute("sessionGame", sessionGame);
 				userSession.setAttribute("moves", moves);
 				System.err.println("New Game stuff");
