@@ -146,8 +146,10 @@ async function postData(address, objectToPost){
 			'Content-Type' : 'application/json'
 		},
 		body: JSON.stringify(objectToPost)
-	})).json();
+	})).text();
 }
+
+
 var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
 	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
 	"a3", "b3", "c3", "d3","e3", "f3", "g3", "h3",
@@ -298,10 +300,12 @@ var S = {
 				promotionChoice: promoChoice
 				
 			  };
+        
 			  postData('newGame', val).then(function(data){
 		
 				//document.getElementById("chessNotation").innerHTML = ${validity};
-				
+				// do something with data string variable 
+				// finagle substring splitting string
 				//document.getElementById("chessNotation").innerHTML = "ehllO";
 			  	console.log(data);
 		});
