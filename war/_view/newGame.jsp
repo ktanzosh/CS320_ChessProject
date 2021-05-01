@@ -138,7 +138,7 @@ async function postData(address, objectToPost){
 			'Content-Type' : 'application/json'
 		},
 		body: JSON.stringify(objectToPost)
-	})).json();
+	})).text();
 }
 
 
@@ -208,7 +208,6 @@ var S = {
     	  squareID_ = squareID;
       }
       
-      
     //update move list
       moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
       document.getElementById("moveList").innerHTML = moveList;
@@ -218,6 +217,35 @@ var S = {
           child.remove();
         }
         square.append(this.selectedPiece);  //append piece to square
+        
+        //EXTRA CASTLING MOVES
+        if(pieceName === "king" && (squareID - initialPosition == 2))
+        {
+        	var piecePos = squareID + 1;
+        	var movePos = piecePos - 2;
+        	//RookPiece is square piecePos
+        	var RookSquare = square;
+        	console.log(square.attr("id"));
+        	console.log(RookSquare.attr("id"));
+        	RookSquare.setAttribute("id", movePos);
+        	console.log(RookSquare);
+        	document.getElementById("chessNotation").innerHTML = RookSquare.getAttr();
+        	////RookSquare.append(rookPiece);
+        }
+        
+        else if(pieceName === "king" && (initialPosition - squareID  == 3))
+        {
+        	var piecePos = squareID - 1;
+        	var movePos = piecePos + 2;
+        	//RookPiece is square piecePos
+        	var RookSquare = square;
+        	console.log(RookSquare);
+        	RookSquare.setAttribute("id", movePos);
+        	console.log(RookSquare);
+        	document.getElementById("chessNotation").innerHTML = RookSquare;
+        	//RookSquare.append(rookPiece);
+        }
+        
         this.ChangeTurn();  //change turn
         
         
@@ -335,25 +363,32 @@ pieceName = stringOfPieces;
       // case for each piece
       // fix game logic -- some issues going on 
       // re-look at numbers given in array - issues with moves
-    case 'king': return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-8,-7,-1,1,7,8,9],1);   
+    case 'king':    	
+    	//maybe split it in two, check to see if there is a rook at +4 or -4
+    	if((initialPosition === "05" && enemyString === "b" /* && thisHasNotMoved*/) || (initialPosition === 61 && enemyString === "w"))
+    	{
+    		return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-8,-7,-3,-1,1,2,7,8,9],1);
+    	}
+    	
+    	return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-8,-7,-1,1,7,8,9],1);
+    	 
     case 'queen': return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-8,-7,-1,1,7,8,9],7);
     case 'rook': return GetMoves(enemyString,stringOfPieces,squareInt,[-8,-1,1,8],7);
     case 'bishop': return GetMoves(enemyString,stringOfPieces,squareInt,[-9,-7,7,9],7);
     case 'knight': return GetMoves(enemyString,stringOfPieces,squareInt,[-17,-15,-10,-6,6,10,15,17],1);
     case 'pawn': 
      var mult;
-      if (enemyString === "b"){
+      if (enemyString === "b")
+      {
         mult = 1;
-
       }
-      else{
+      
+      else
+      {
         mult = -1;
-
       }
+      
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
-      
-      
-    
   }
 }
 

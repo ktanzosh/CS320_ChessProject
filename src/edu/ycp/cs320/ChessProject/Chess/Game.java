@@ -529,6 +529,7 @@ public class Game
 		boolean takesPiece = false;
 		boolean castled = false;
 		boolean firstMove = false;
+		ChessPiece potentialPiece;
 		
 		if(this.canEnPassant(x, y, cp))
 		{
@@ -547,11 +548,11 @@ public class Game
 		
 		try
 		{
-			//where the piece is going
-			ChessPiece potentialPiece = cb.getTile(x, y).getPiece();
-			
+			potentialPiece = cb.getTile(x, y).getPiece();
 			takesPiece = true;
+
 			potentialPiece.isKilled();
+
 			//not actually killing and taking a piece.
 		}
 		
@@ -604,9 +605,6 @@ public class Game
 				cb.setTile(kp.getPosX(),  y);
 			}
 		}
-		//ChessPiece rookPiece = cb.getTile(oldx, oldy).getPiece();
-		//Tile rookTile = new Tile();
-		//cb.setTile(rookx, rooky, rookTile);
 		
 		if(cp.whatPiece() == "Pawn" || cp.whatPiece() == "Rook" || cp.whatPiece() == "King")
 		{
