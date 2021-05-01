@@ -139,7 +139,7 @@ public class NewGameServlet extends HttpServlet {
 		
 		//only if enemyColor is white do you change the value of enemyColor
 		
-		if(color.equals("w"))
+		if(color.equals("b"))
 		{
 			friendlyColor = true;
 			System.out.println("white");
