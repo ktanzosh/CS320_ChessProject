@@ -183,7 +183,7 @@ public class NewGameServlet extends HttpServlet {
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
 			{
 				resp.getWriter().write("true");
-				userSession.setAttribute("validity", "True");
+				//userSession.setAttribute("validity", "True");
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				userSession.setAttribute("sessionGame", playGame);
 				Move sendMove = playGame.getLastMove(); //need
@@ -210,7 +210,7 @@ public class NewGameServlet extends HttpServlet {
 			else
 			{
 				resp.getWriter().write("false");
-				userSession.setAttribute("validity", "False");
+				//userSession.setAttribute("validity", "False");
 			}
 
 		}
@@ -220,7 +220,7 @@ public class NewGameServlet extends HttpServlet {
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
 				resp.getWriter().write("true");
-				userSession.setAttribute("validity", "True");
+				//userSession.setAttribute("validity", "True");
 				//String validity = "true";
 				playGame.doMove(playGame.getChessBoard(), movePiece, dx, dy);
 				userSession.setAttribute("sessionGame", playGame);
@@ -249,7 +249,7 @@ public class NewGameServlet extends HttpServlet {
 			else
 			{
 				resp.getWriter().write("false");
-				userSession.setAttribute("validity", "False");
+				//userSession.setAttribute("validity", "False");
 			}
 
 		}
@@ -262,7 +262,7 @@ public class NewGameServlet extends HttpServlet {
 			return;		
 		}
 		
-		req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
+		//req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
 
 		}
 }
