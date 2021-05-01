@@ -260,8 +260,7 @@ public class NewGameServlet extends HttpServlet {
 			return;		
 		}
 		
-		req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
-
-		}
+		//req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
+	}
 }
 
