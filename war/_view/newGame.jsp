@@ -583,16 +583,9 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 		  else if(promoChoice == "rook"){
 			  promo = "&#9814";
 		  }
-		  
-		
-		  	
 	  }
   	currentPiece = promoChoice;
-  	
-  	//this.selectedPiece.removeClass("pawn").empty().addClass("rook");
-    //document.getElementById("chessNotation").innerHTML = promoChoice;
-   //promoChoice = promoChoice;
-   // this.selectedPiece.removeClass("pawn").empty().addClass("rook");
+
 	} 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
