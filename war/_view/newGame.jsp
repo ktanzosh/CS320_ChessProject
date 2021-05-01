@@ -14,11 +14,6 @@
 <body>
 
 	<h1>Welcome to a new game, ${username}</h1>
-	
-
-	
-	
-	
 
 	<div class="wrapper">
 		<div class="row">
@@ -166,6 +161,9 @@ var pieceName;
 var currentPiece;
 var promo = null;
 var promoChoice;
+var logicB; 
+var logic;
+
 // pawn promotion 
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
@@ -199,6 +197,8 @@ var S = {
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
+	  document.getElementById("chessNotation").innerHTML = "";
+	  //document.getElementsByClassname(".sq").style.color = "black";
     var child = square.children().eq(0);
    // document.getElementById("chessNotation").innerHTML = child;
     
@@ -218,18 +218,16 @@ var S = {
     	  squareID_ = squareID;
       }
       
-      
+      //final position?
      // document.getElementById("chessNotation").innerHTML = squareID_;
       
     //update move list
       moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
       document.getElementById("moveList").innerHTML = moveList;
-      //document.getElementById("chessNotation").innerHTML = "ehllo";
       
       // IF THE PIECE HAS MOVED  - for kevin?
       if (initialPosition != squareID_){
     	  var x = document.getElementsByClassName("pawn")[0].id;
-    		//document.getElementById("chessNotation").innerHTML = x;
     	}
       
       if ($.inArray(squareID, this.moves) > -1) {
@@ -240,7 +238,7 @@ var S = {
         
         
          // PAWN PROMOTION!
-
+		// white
         if (this.selectedPiece.hasClass("pawn") && 
             (squareID > 56)) {
         	
@@ -250,7 +248,7 @@ var S = {
 			this.selectedPiece.empty().html("&#9813");
         }
 			
-			
+			// black
 			else if (this.selectedPiece.hasClass("pawn") && 
 		            (squareID < 9)) {
 		        	
@@ -259,10 +257,9 @@ var S = {
 					this.selectedPiece.empty().html("&#9819");
          
         }
-       // this.selectedPiece.empty().append("<span>&#9814</span>");
-        	square.append(this.selectedPiece);  //append piece to square
-        	this.ChangeTurn();  //change turn
-        	//$(this.selectedPiece).addClass("moved");
+ 
+        
+        
         	
         //do pawn promotion for white pawns
         if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
@@ -274,7 +271,7 @@ var S = {
     		moveList.push("<br>" + promotion);
     		document.getElementById("moveList").innerHTML = moveList;	
         }
-        
+        // pawn promotion for black pieces 
         else if(squareID_ < 9 && pieceName == "pawn" && playerColor == "b"){
         	pawnPromotion = true;
         	document.getElementById("moveList").style.color = "black";
@@ -290,7 +287,7 @@ var S = {
         }
         
        
-      //  document.getElementById("chessNotation").innerHTML = "helo1";
+        
         val = {
 				initialPosition: initialPosition,
 				pieceName: pieceName,
@@ -302,13 +299,24 @@ var S = {
 			  };
         
 			  postData('newGame', val).then(function(data){
-		
-				//document.getElementById("chessNotation").innerHTML = ${validity};
-				// do something with data string variable 
-				// finagle substring splitting string
-				//document.getElementById("chessNotation").innerHTML = "ehllO";
+				  
+				logicB = data;
+				if (data == "false/"){
+					logicB = null;
+				}
 			  	console.log(data);
+			  	document.getElementById("chessNotation").innerHTML = data;
+			  	
 		});
+			  
+			  // hopefully get rid of double click
+			if(logicB  != null){
+				//document.getElementById("chessNotation").innerHTML = "looks valid";
+				square.append(this.selectedPiece);  //append piece to square
+		       	this.ChangeTurn();  //change turn
+			} 
+			
+      
       }
     }
   },
