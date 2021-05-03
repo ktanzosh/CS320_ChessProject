@@ -319,6 +319,16 @@ public class Game
 		return this.BlackPlayer;
 	}
 	
+	public void setWinnerPlayer(Player winnerP)
+	{
+		this.winnerPlayer = winnerP;
+	}
+	
+	public Player getWinnerPlayer()
+	{
+		return this.getWinnerPlayer();
+	}
+	
 	public ArrayList<Move> getMoves()
 	{
 		return this.MoveList;
@@ -508,9 +518,146 @@ public class Game
 		this.doMove(this.getChessBoard(), movePiece, x, y);
 	}
 	
+	public int getLastMoveOrigXPos(ArrayList<ChessPiece> pieces, int pieceID)
+	{
+		ChessPiece movePiece = null;
+		
+		for(ChessPiece p : pieces)
+		{
+			if(p.getPieceNumber() == pieceID)
+			{
+				movePiece = p;
+			}
+		}
+		
+		return movePiece.getPosX();
+	}
+	
+	public int getLastMoveOrigYPos(ArrayList<ChessPiece> pieces, int pieceID)
+	{
+		ChessPiece movePiece = null;
+		
+		for(ChessPiece p : pieces)
+		{
+			if(p.getPieceNumber() == pieceID)
+			{
+				movePiece = p;
+			}
+		}
+		
+		return movePiece.getPosY();
+	}
+	
+	public int getLastMoveFinalXPos(String moveString)
+	{
+		String pieceYMove = moveString.substring(1, 2);
+
+		if(pieceYMove.contains("x"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+			
+			if(pieceYMove.contains("+") || pieceYMove.contains("#"))
+			{
+				pieceYMove = moveString.substring(3, 4);
+			}
+		}
+		
+		//id didnt take piece but was put in check or checkmate do this
+		if(pieceYMove.contains("+") || pieceYMove.contains("#"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+		}
+
+		int y = 0;
+		
+		if(pieceYMove.equals("a"))
+		{
+			y = 0;
+		}
+		
+		if(pieceYMove.equals("b"))
+		{
+			y = 1;
+		}
+		
+		if(pieceYMove.equals("c"))
+		{
+			y = 2;
+		}
+		
+		if(pieceYMove.equals("d"))
+		{
+			y = 3;
+		}
+		
+		if(pieceYMove.equals("e"))
+		{
+			y = 4;
+		}
+		
+		if(pieceYMove.equals("f"))
+		{
+			y = 5;
+		}
+		
+		if(pieceYMove.equals("g"))
+		{
+			y = 6;
+		}
+		
+		if(pieceYMove.equals("h"))
+		{
+			y = 7;
+		}
+		
+		return y;
+	}
+	
+	public int getLastMoveFinalYPos(String moveString)
+	{
+		String pieceYMove = moveString.substring(1, 2);
+		String pieceXMove = moveString.substring(2, 3);
+		//if it took a piece instead
+		if(pieceYMove.contains("x"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+			pieceXMove = moveString.substring(3, 4);
+			
+			if(pieceYMove.contains("+") || pieceYMove.contains("#"))
+			{
+				pieceXMove = moveString.substring(4, 5);
+			}
+		}
+		
+		//id didnt take piece but was put in check or checkmate do this
+		if(pieceYMove.contains("+") || pieceYMove.contains("#"))
+		{
+			pieceXMove = moveString.substring(3, 4);
+		}
+
+		int x = Integer.parseInt(pieceXMove);
+		x = 8 - x;
+		
+		return x;
+
+	}
+	
+	public int getSquareNumber(int x, int y)
+	{
+		x = ((7 - x) * 8) + 1;
+		return x + y;
+	}
+	
+	public void isFinish(boolean color)
+	{
+		this.finished = true;
+		this.setWinnerPlayer(new Player(color));
+	}
+	
 	public void isFinish()
 	{
 		this.finished = true;
+		this.setWinnerPlayer(null);
 	}
 	
 	public boolean getFinish()
@@ -746,7 +893,18 @@ public class Game
 			if(player.isCheckmate(cb, kingPiece, pieces) == true)
 			{
 				result = "Checkmate";
-				this.isFinish();
+				
+				//if white is in check
+				if(kingPiece.getColor() == true)
+				{
+					//black wins
+					this.isFinish(false);
+				}
+				
+				else
+				{
+					this.isFinish(true);
+				}
 			}
 			else
 			{
