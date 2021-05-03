@@ -706,6 +706,33 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	public Integer insertGameEnd(int game_id, String finish, int winner) {
+		return executeTransaction(new Transaction<Integer>() {
+			@Override
+			public Integer execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"update userGames" +
+						" set end = ?, winner = ?" +
+						" where game_id = ?"
+				);
+				stmt1.setString(1, finish);
+				stmt1.setInt(2, winner);
+				stmt1.setInt(3, game_id);
+				
+				// execute the update
+				stmt1.executeUpdate();
+
+				DBUtil.closeQuietly(stmt1);
+
+				
+				return game_id;
+			}
+		});
+	}
+	
 	public ArrayList<String> getMoveList(int game_id) {
 		return executeTransaction(new Transaction<ArrayList<String>>() {
 			@Override
@@ -872,13 +899,12 @@ public class DerbyDatabase implements IDatabase {
 							gameMoves.clear();
 							
 							//gameInfo = loadGameInfo(resultSet, 1);
-							gameMoves.add(resultSet.getString(6));
+							gameMoves.add(resultSet.getString(1));
+							gameMoves.add(resultSet.getString(2));
+							gameMoves.add(resultSet.getString(3));
+							gameMoves.add(resultSet.getString(4));
+							gameMoves.add(resultSet.getString(5));
 						}
-						//User user = new User();
-						//loadUser(user, resultSet, 1);
-						//Game move = new Game();
-						//loadMove(move, resultSet, 6);
-						
 						
 					}
 					

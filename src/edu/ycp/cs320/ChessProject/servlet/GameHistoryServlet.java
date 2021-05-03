@@ -12,7 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.Chess.Move;
+import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
+import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
+import edu.ycp.cs320.ChessProject.UserDatabase.Pair;
 
 
 public class GameHistoryServlet extends HttpServlet {
@@ -52,13 +55,17 @@ public class GameHistoryServlet extends HttpServlet {
 			
 			//arraylist of moves
 			ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
-
+			String username = userModel.getUser();
+			req.setAttribute("username", username);
+			
+			IDatabase db = DatabaseProvider.getInstance();
+			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = db.findAllGamesForUser(username);
+			req.setAttribute("gameList", gameList);
 			
 			
 			req.setAttribute("moves", moves);
 			
-			String username = userModel.getUser();
-			req.setAttribute("username", username);
+			
 		
 			req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
 		}

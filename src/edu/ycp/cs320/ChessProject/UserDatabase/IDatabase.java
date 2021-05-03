@@ -25,5 +25,6 @@ public interface IDatabase {
 	public ArrayList<String> getMoveList(int game_id);
 	public ArrayList<Integer> getMoveListbyPieceID(int game_id);
 	public ArrayList<String> getMoveListIncludingPieceID(int game_id);
+	public Integer insertGameEnd(int game_id, String finish, int winner);
 }
 
