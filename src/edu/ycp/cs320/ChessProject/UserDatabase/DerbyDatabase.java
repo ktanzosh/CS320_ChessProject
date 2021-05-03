@@ -706,10 +706,10 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public List<String> getMoveList(int game_id) {
-		return executeTransaction(new Transaction<List<String>>() {
+	public ArrayList<String> getMoveList(int game_id) {
+		return executeTransaction(new Transaction<ArrayList<String>>() {
 			@Override
-			public List<String> execute(Connection conn) throws SQLException {
+			public ArrayList<String> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				ResultSet result = null;
 				
@@ -725,7 +725,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				result = stmt1.executeQuery();
 				
-				List<String> moveList = new ArrayList<String>();
+				ArrayList<String> moveList = new ArrayList<String>();
 					
 				while (result.next()) {
 					moveList.add(result.getString(1));
@@ -738,10 +738,10 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public List<Integer> getMoveListbyPieceID(int game_id) {
-		return executeTransaction(new Transaction<List<Integer>>() {
+	public ArrayList<Integer> getMoveListbyPieceID(int game_id) {
+		return executeTransaction(new Transaction<ArrayList<Integer>>() {
 			@Override
-			public List<Integer> execute(Connection conn) throws SQLException {
+			public ArrayList<Integer> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				ResultSet result = null;
 				
@@ -757,7 +757,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				result = stmt1.executeQuery();
 				
-				List<Integer> moveList = new ArrayList<Integer>();
+				ArrayList<Integer> moveList = new ArrayList<Integer>();
 					
 				while (result.next()) {
 					moveList.add(result.getInt(1));
@@ -769,10 +769,10 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	public List<String> getMoveListIncludingPieceID(int game_id) {
-		return executeTransaction(new Transaction<List<String>>() {
+	public ArrayList<String> getMoveListIncludingPieceID(int game_id) {
+		return executeTransaction(new Transaction<ArrayList<String>>() {
 			@Override
-			public List<String> execute(Connection conn) throws SQLException {
+			public ArrayList<String> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
 				ResultSet result = null;
 				
@@ -789,7 +789,7 @@ public class DerbyDatabase implements IDatabase {
 				result = stmt1.executeQuery();
 				
 				
-				List<String> moveList = new ArrayList<String>();
+				ArrayList<String> moveList = new ArrayList<String>();
 					
 				while (result.next()) {
 					moveList.add(result.getString(1));
@@ -830,10 +830,10 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public List<Pair<List<String>, List<String>>> findAllGamesForUser(String user) {
-		return executeTransaction(new Transaction<List<Pair<List<String>, List<String>>>>() {
+	public ArrayList<Pair<ArrayList<String>, ArrayList<String>>> findAllGamesForUser(String user) {
+		return executeTransaction(new Transaction<ArrayList<Pair<ArrayList<String>, ArrayList<String>>>>() {
 			@Override
-			public List<Pair<List<String>, List<String>>> execute(Connection conn) throws SQLException {
+			public ArrayList<Pair<ArrayList<String>, ArrayList<String>>> execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
 				
@@ -849,9 +849,9 @@ public class DerbyDatabase implements IDatabase {
 					stmt.setString(1, user);
 					stmt.setString(2, user);
 
-					List<Pair<List<String>, List<String>>> result = new ArrayList<Pair<List<String>, List<String>>>();
-					List<String> gameInfo = new ArrayList<String>();
-					List<String> gameMoves = new ArrayList<String>();
+					ArrayList<Pair<ArrayList<String>, ArrayList<String>>> result = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
+					ArrayList<String> gameInfo = new ArrayList<String>();
+					ArrayList<String> gameMoves = new ArrayList<String>();
 					
 					resultSet = stmt.executeQuery();
 
@@ -866,7 +866,7 @@ public class DerbyDatabase implements IDatabase {
 							gameMoves.add(resultSet.getString(6));
 						}
 						else if (resultSet.getInt(1) != -1){
-							result.add(new Pair<List<String>, List<String>>(gameInfo, gameMoves));
+							result.add(new Pair<ArrayList<String>, ArrayList<String>>(gameInfo, gameMoves));
 							
 							gameInfo.clear();
 							gameMoves.clear();
