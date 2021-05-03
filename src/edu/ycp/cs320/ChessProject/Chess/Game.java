@@ -319,6 +319,11 @@ public class Game
 		return this.BlackPlayer;
 	}
 	
+	public ArrayList<Move> getMoves()
+	{
+		return this.MoveList;
+	}
+	
 	public Move getLastMove()
 	{
 		if(MoveList.size() == 0)
@@ -341,7 +346,7 @@ public class Game
 			pieceYMove = moveString.substring(2, 3);
 			pieceXMove = moveString.substring(3, 4);
 			
-			if(pieceYMove.contains("X") || pieceYMove.contains("#"))
+			if(pieceYMove.contains("+") || pieceYMove.contains("#"))
 			{
 				pieceYMove = moveString.substring(3, 4);
 				pieceXMove = moveString.substring(4, 5);
@@ -349,7 +354,7 @@ public class Game
 		}
 		
 		//id didnt take piece but was put in check or checkmate do this
-		if(pieceYMove.contains("X") || pieceYMove.contains("#"))
+		if(pieceYMove.contains("+") || pieceYMove.contains("#"))
 		{
 			pieceYMove = moveString.substring(2, 3);
 			pieceXMove = moveString.substring(3, 4);
@@ -411,6 +416,98 @@ public class Game
 		return this.getChessBoard().getTile(x, y).getPiece();
 	}
 	
+	public void doLastMove(String moveString, ArrayList<ChessPiece> pieces, int pieceID)
+	{
+		String pieceYMove = moveString.substring(1, 2);
+		String pieceXMove = moveString.substring(2, 3);
+		//if it took a piece instead
+		if(pieceYMove.contains("x"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+			pieceXMove = moveString.substring(3, 4);
+			
+			if(pieceYMove.contains("+") || pieceYMove.contains("#"))
+			{
+				pieceYMove = moveString.substring(3, 4);
+				pieceXMove = moveString.substring(4, 5);
+			}
+		}
+		
+		//id didnt take piece but was put in check or checkmate do this
+		if(pieceYMove.contains("+") || pieceYMove.contains("#"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+			pieceXMove = moveString.substring(3, 4);
+		}
+		
+		if(pieceYMove.contains("-") || pieceYMove.contains("0"))
+		{
+			//if castling move
+			//figure out castling move
+		}
+		
+		//System.out.println(pieceXMove + " " + pieceYMove);
+		
+		//reconvert to numbers
+		int x = Integer.parseInt(pieceXMove);
+		x = 8 - x;
+		int y = 0;
+		
+		if(pieceYMove.equals("a"))
+		{
+			y = 0;
+		}
+		
+		if(pieceYMove.equals("b"))
+		{
+			y = 1;
+		}
+		
+		if(pieceYMove.equals("c"))
+		{
+			y = 2;
+		}
+		
+		if(pieceYMove.equals("d"))
+		{
+			y = 3;
+		}
+		
+		if(pieceYMove.equals("e"))
+		{
+			y = 4;
+		}
+		
+		if(pieceYMove.equals("f"))
+		{
+			y = 5;
+		}
+		
+		if(pieceYMove.equals("g"))
+		{
+			y = 6;
+		}
+		
+		if(pieceYMove.equals("h"))
+		{
+			y = 7;
+		}
+		
+		//System.out.println("Last piece moved to "  + x + ", " + y);
+		
+		ChessPiece movePiece = null;
+		
+		for(ChessPiece p : pieces)
+		{
+			if(p.getPieceNumber() == pieceID)
+			{
+				movePiece = p;
+			}
+		}
+		
+		this.doMove(this.getChessBoard(), movePiece, x, y);
+	}
+	
 	public void isFinish()
 	{
 		this.finished = true;
@@ -449,6 +546,11 @@ public class Game
 	
 	public boolean checkMove(int newx, int newy, ChessBoard cb, ChessPiece cp, Player p)
 	{		
+		if(this.getFinish() == true)
+		{
+			return false;
+		}
+		
 		if(cp.checkMove(newx, newy, cb) || this.canEnPassant(newx, newy, cp))
 		{
 			int oldx = cp.getPosX();
@@ -458,7 +560,7 @@ public class Game
 			updatedGame.setChessBoard(this.getChessBoard());
 			updatedGame.testMove(cb, cp, newx, newy);
 			
-			if(p.getColor() == true)
+			if(cp.getColor() == true)
 			{
 				if(p.isCheck(updatedGame.getChessBoard(), updatedGame.getWhiteKing()))
 				{
@@ -467,9 +569,12 @@ public class Game
 					return false;
 				}
 				
-				//reset board
-				updatedGame.testMove(cb, cp, oldx, oldy);
-				return true;
+				else
+				{
+					//reset board
+					updatedGame.testMove(cb, cp, oldx, oldy);
+					return true;
+				}
 			}
 			
 			else
@@ -481,9 +586,12 @@ public class Game
 					return false;
 				}
 				
-				//reset board
-				updatedGame.testMove(cb, cp, oldx, oldy);
-				return true;
+				else
+				{
+					//reset board
+					updatedGame.testMove(cb, cp, oldx, oldy);
+					return true;
+				}
 			}
 		}
 		
@@ -638,7 +746,7 @@ public class Game
 			if(player.isCheckmate(cb, kingPiece, pieces) == true)
 			{
 				result = "Checkmate";
-				finished = true;
+				this.isFinish();
 			}
 			else
 			{
@@ -651,7 +759,7 @@ public class Game
 		{
 			System.out.println("Not in any type of check");
 			result = "Draw";
-			finished = true;
+			this.isFinish();
 		}
 		
 		else
@@ -661,7 +769,7 @@ public class Game
 		
 		return result;
 	}
-	
+
 	public void printMoveList()
 	{
 		for(Move m : this.MoveList)
