@@ -4,7 +4,6 @@ import java.awt.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -103,28 +102,22 @@ public class NewGameServlet extends HttpServlet {
 		
 		ArrayList<String> moves = (ArrayList<String>) userSession.getAttribute("moves");
 		
-		boolean noNewMove = true;
-		
-		while(noNewMove == true) {
-			int id = playGame.getGameID();
-			IDatabase db = DatabaseProvider.getInstance();
-			ArrayList<String> testMoves = db.getMoveList(id);
-			
-			if(testMoves.size() > moves.size()) {
-				noNewMove = false;
-				ArrayList<Integer> pieceID = db.getMoveListbyPieceID(id);
-				int lastPiece = pieceID.get(pieceID.size()-1);
-				System.out.println(lastPiece);
-				
-			}
-			
-			try {
-				Thread.sleep(1000);
-			} 
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		/*
+		 * boolean noNewMove = true;
+		 * 
+		 * while(noNewMove == true) { int id = playGame.getGameID(); IDatabase db =
+		 * DatabaseProvider.getInstance(); ArrayList<String> testMoves =
+		 * db.getMoveList(id);
+		 * 
+		 * if(testMoves.size() > moves.size()) { noNewMove = false; ArrayList<Integer>
+		 * pieceID = db.getMoveListbyPieceID(id); int lastPiece =
+		 * pieceID.get(pieceID.size()-1); System.out.println(lastPiece);
+		 * 
+		 * }
+		 * 
+		 * try { Thread.sleep(1000); } catch (InterruptedException e) {
+		 * e.printStackTrace(); } }
+		 */
 		
 		
 		//IF THERE ARE NO MOVES***********************
@@ -213,7 +206,7 @@ public class NewGameServlet extends HttpServlet {
 		String playerBlack = "Black's move: ";
 		String ResponseString = "";
 		
-		if((friendlyColor == true) && (playerColor.equals("white")))
+		if((friendlyColor == true))
 			
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
@@ -249,7 +242,7 @@ public class NewGameServlet extends HttpServlet {
 
 		}
 		
-		else if((friendlyColor == false) && (playerColor.equals("black")))
+		else if((friendlyColor == false))
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
