@@ -96,11 +96,12 @@ public class JoinGameServlet extends HttpServlet {
 			if(success == true) {
 				Game sessionGame = new Game();
 				sessionGame.setGame();
+				sessionGame.setGameID(gameID);
 				ArrayList<String> moves = new ArrayList<String>();
 
 				userSession.setAttribute("sessionGame", sessionGame);
 				userSession.setAttribute("moves", moves);
-				sessionGame.setGameID(gameID);
+				
 				System.err.println("Joining the Game");
 				
 				resp.sendRedirect("/ChessProject/newGame");
