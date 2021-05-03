@@ -27,6 +27,19 @@
 	
 	</style>
 	<h2> Heres your game id, ${game_id}</h2>
+	<br> </br>
+	
+	<style>
+		h3{
+			position:absolute;
+			top:300px;
+			right: 200px;
+			color:white;
+		
+		}
+	
+	</style>
+	<h3> ${color}, made the game</h3>
 
 	<div class="wrapper">
 		<div class="row">
@@ -154,7 +167,8 @@ var yes = "&#9814";
 //document.getElementById("18").classList.add("w");
 //document.getElementById("18").classList.add("pawn");
 
-//document.getElementById("18").innerHTML = yes;
+var servletColor = "${color}";
+document.getElementById("chessNotation").innerHTML = servletColor;
 	
 	
 	
@@ -190,14 +204,25 @@ var promoChoice;
 var logicB; 
 var logic;
 //var goodMove;
+
+
 // pawn promotion 
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
-//document.getElementById("chessNotation").innerHTML = "hello wtf";
+
+
+
 var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
   
   ChangeTurn:function() {
+	  
+	if(servletColor == "white")  {
+		turnInt = 1;
+	}
+	else{
+		turnInt = 0;
+	}
 	  
     $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
     $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
@@ -399,10 +424,10 @@ var S = {
 			  
 		});
 			  
-		if(goodMove == 1){
+	
 				square.append(this.selectedPiece);  //append piece to square
 		       	this.ChangeTurn();  //change turn		
-		}
+	
       
       }
     }
