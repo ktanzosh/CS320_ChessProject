@@ -324,7 +324,7 @@ var S = {
 			  
 			  // hopefully get rid of double click
 			if(logicB  != null){
-				//document.getElementById("chessNotation").innerHTML = "looks valid";
+				document.getElementById("chessNotation").innerHTML = "looks valid";
 				square.append(this.selectedPiece);  //append piece to square
 		       	this.ChangeTurn();  //change turn
 			} 

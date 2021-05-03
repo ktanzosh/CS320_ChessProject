@@ -63,7 +63,7 @@ public class ChessPieceTest {
 		game.setBlackPlayer(testPlayer2);
 	}
 
-	/*@Test
+	@Test
 	public void testRookCheckMove() 
 	{
 		assertTrue(RookTest.checkMove(7, 0, board));
@@ -452,7 +452,7 @@ public class ChessPieceTest {
 		game.doMove(game.getChessBoard(), RookTest, 0, 7);
 		//tm.drawBoard(game);
 		game.printMoveList();
-	}*/
+	}
 	
 	@Test
 	public void testPawnPromotion()
