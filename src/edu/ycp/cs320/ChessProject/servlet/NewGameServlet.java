@@ -48,6 +48,7 @@ public class NewGameServlet extends HttpServlet {
 			//HttpSession gameSession = req.getSession(true);
 			Game tryGameSession = (Game) userSession.getAttribute("sessionGame");
 			int key = -1;
+			String color = null;
 			if(tryGameSession == null) {
 				Game sessionGame = new Game();
 				sessionGame.setGame();
@@ -63,13 +64,15 @@ public class NewGameServlet extends HttpServlet {
 
 				userSession.setAttribute("sessionGame", sessionGame);
 				userSession.setAttribute("moves", moves);
-				userSession.setAttribute("color", "white");
+				color = "white";
+				userSession.setAttribute("color", color);
 				System.err.println("New Game stuff");
 			}
 			else {
 				Game playGame = (Game) userSession.getAttribute(("sessionGame"));
-				key =playGame.getGameID();
-				userSession.setAttribute("color", "black");
+				key = playGame.getGameID();
+				color = "black";
+				userSession.setAttribute("color", color);
 			}
 			/*
 			else {
@@ -83,6 +86,7 @@ public class NewGameServlet extends HttpServlet {
 			String username = userModel.getUser();
 			req.setAttribute("game_id", key);
 			req.setAttribute("username", username);
+			req.setAttribute("color", color);
 			req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
 		}
 	}
@@ -97,6 +101,30 @@ public class NewGameServlet extends HttpServlet {
 		String playerColor = (String) userSession.getAttribute("color");
 		
 		ArrayList<String> moves = (ArrayList<String>) userSession.getAttribute("moves");
+		
+		boolean noNewMove = true;
+		
+		while(noNewMove == true) {
+			int id = playGame.getGameID();
+			IDatabase db = DatabaseProvider.getInstance();
+			ArrayList<String> testMoves = db.getMoveList(id);
+			
+			if(testMoves.size() > moves.size()) {
+				noNewMove = false;
+				ArrayList<Integer> pieceID = db.getMoveListbyPieceID(id);
+				int lastPiece = pieceID.get(pieceID.size()-1);
+				System.out.println(lastPiece);
+				
+			}
+			
+			try {
+				Thread.sleep(1000);
+			} 
+			catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		
 		//IF THERE ARE NO MOVES***********************
 		if(moves.isEmpty()) {
