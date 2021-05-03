@@ -189,7 +189,7 @@ var promo = null;
 var promoChoice;
 var logicB; 
 var logic;
-
+//var goodMove;
 // pawn promotion 
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
@@ -337,6 +337,8 @@ var S = {
 				
 			  };
         
+        
+        
 			  postData('newGame', val).then(function(data){
 				
 			  	console.log(data);
@@ -344,7 +346,7 @@ var S = {
 			  	logicB = data;
 			  //	logic = logicB.substring(0, logicB.length - 1);
 			  var logic = logicB.split("/");
-			  //document.getElementById("chessNotation").innerHTML = logic;
+			  document.getElementById("chessNotation").innerHTML = logicB;
 		
 			  
 			  
@@ -354,12 +356,15 @@ var S = {
 				  var check = "White in checkmate";
 				  moveList.push("<br>" + check);
 		    		document.getElementById("moveList").innerHTML = moveList;
+		    		goodMove = 0;
+		    		
 			  }
 			  else if(logic[1] == "Check" && playerColor == "b"){
 				  
 				  var check = "White in check";
 				  moveList.push("<br>" + check);
 		    		document.getElementById("moveList").innerHTML = moveList;
+		    		goodMove = 1;
 			  }
 			  
 			  
@@ -368,22 +373,36 @@ var S = {
 				  
 				  var check = "Black in checkmate";
 				  moveList.push("<br>" + check);
-		    		document.getElementById("moveList").innerHTML = moveList;
+		    	document.getElementById("moveList").innerHTML = moveList;
+		    	goodMove = 0;
 			  }
 			  else if(logic[1] == "Check" && playerColor == "w"){
 				  
 				  var check = "Black in check";
 				  moveList.push("<br>" + check);
 		    		document.getElementById("moveList").innerHTML = moveList;
+		    		goodMove = 1;
 			  }
-
+			  else if(logic[1] == "Draw"){
+				  
+				  var check = "Draw";
+				  moveList.push("<br>" + check);
+		    		document.getElementById("moveList").innerHTML = moveList;
+		    		goodMove = 0;
+			  }
+				
+			  else if (logic[0] == "true"){
+				  // 1 is true
+				  goodMove = 1;
+			  }
 			  
 			  
 		});
 			  
-
+		if(goodMove == 1){
 				square.append(this.selectedPiece);  //append piece to square
-		       	this.ChangeTurn();  //change turn			
+		       	this.ChangeTurn();  //change turn		
+		}
       
       }
     }

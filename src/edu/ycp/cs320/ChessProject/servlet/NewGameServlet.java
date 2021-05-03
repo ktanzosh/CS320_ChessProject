@@ -102,28 +102,22 @@ public class NewGameServlet extends HttpServlet {
 		
 		ArrayList<String> moves = (ArrayList<String>) userSession.getAttribute("moves");
 		
-		boolean noNewMove = true;
-		
-		while(noNewMove == true) {
-			int id = playGame.getGameID();
-			IDatabase db = DatabaseProvider.getInstance();
-			ArrayList<String> testMoves = db.getMoveList(id);
-			
-			if(testMoves.size() > moves.size()) {
-				noNewMove = false;
-				ArrayList<Integer> pieceID = db.getMoveListbyPieceID(id);
-				int lastPiece = pieceID.get(pieceID.size()-1);
-				System.out.println(lastPiece);
-				
-			}
-			
-			try {
-				Thread.sleep(1000);
-			} 
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		/*
+		 * boolean noNewMove = true;
+		 * 
+		 * while(noNewMove == true) { int id = playGame.getGameID(); IDatabase db =
+		 * DatabaseProvider.getInstance(); ArrayList<String> testMoves =
+		 * db.getMoveList(id);
+		 * 
+		 * if(testMoves.size() > moves.size()) { noNewMove = false; ArrayList<Integer>
+		 * pieceID = db.getMoveListbyPieceID(id); int lastPiece =
+		 * pieceID.get(pieceID.size()-1); System.out.println(lastPiece);
+		 * 
+		 * }
+		 * 
+		 * try { Thread.sleep(1000); } catch (InterruptedException e) {
+		 * e.printStackTrace(); } }
+		 */
 		
 		
 		//IF THERE ARE NO MOVES***********************
