@@ -738,7 +738,72 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
-	public Game insertNewMove(int id, String move) {
+	public List<Integer> getMoveListbyPieceID(int game_id) {
+		return executeTransaction(new Transaction<List<Integer>>() {
+			@Override
+			public List<Integer> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				ResultSet result = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"select moves.piece_id" +
+						" from moves" +
+						" where moves.game_id = ?" +
+						" order by moves.move_id"
+				);
+				stmt1.setInt(1, game_id);
+				
+				
+				result = stmt1.executeQuery();
+				
+				List<Integer> moveList = new ArrayList<Integer>();
+					
+				while (result.next()) {
+					moveList.add(result.getInt(1));
+				}
+
+				DBUtil.closeQuietly(stmt1);
+				
+				return moveList;
+			}
+		});
+	}
+	public List<String> getMoveListIncludingPieceID(int game_id) {
+		return executeTransaction(new Transaction<List<String>>() {
+			@Override
+			public List<String> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				ResultSet result = null;
+				
+				// prepare SQL insert statement to add Author to Authors table
+				stmt1 = conn.prepareStatement(
+						"select moves.move, moves.piece_id" +
+						" from moves" +
+						" where moves.game_id = ?" +
+						" order by moves.move_id"
+				);
+				stmt1.setInt(1, game_id);
+				
+				
+				result = stmt1.executeQuery();
+				
+				
+				List<String> moveList = new ArrayList<String>();
+					
+				while (result.next()) {
+					moveList.add(result.getString(1));
+					moveList.add(result.getString(2));
+				}
+
+				DBUtil.closeQuietly(stmt1);
+				
+				return moveList;
+			}
+		});
+	}
+	
+	public Game insertNewMove(int id, String move, int piece_id) {
 		return executeTransaction(new Transaction<Game>() {
 			@Override
 			public Game execute(Connection conn) throws SQLException {
@@ -746,11 +811,12 @@ public class DerbyDatabase implements IDatabase {
 				
 				// prepare SQL insert statement to add Author to Authors table
 				stmt1 = conn.prepareStatement(
-						"insert into moves (game_id, move)" +
-						" values(?, ?) "
+						"insert into moves (game_id, move, piece_id)" +
+						" values(?, ?, ?) "
 				);
 				stmt1.setInt(1, id);
 				stmt1.setString(2, move);
+				stmt1.setInt(3, piece_id);
 				
 				
 				// execute the update
@@ -1212,6 +1278,7 @@ public class DerbyDatabase implements IDatabase {
 	  						"  `move_id` int NOT NULL AUTO_INCREMENT," +
 	  						"	`game_id` int DEFAULT NULL," +
 	  						"		`move` varchar(15) DEFAULT NULL," +
+	  						"		`piece_id` int DEFAULT NULL," +
 	  						"			PRIMARY KEY (`move_id`))"
 					);
 					stmt2.executeUpdate();
@@ -1249,81 +1316,9 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	// loads data retrieved from CSV files into DB tables in batch mode
+	//NO LONGER USED DUE TO AWS RDS
 	/*
-	
-	// loads data retrieved from CSV files into DB tables in batch mode
-	public void loadInitialData() {
-		executeTransaction(new Transaction<Boolean>() {
-			@Override
-			public Boolean execute(Connection conn) throws SQLException {
-				List<Author> authorList;
-				List<Book> bookList;
-				List<BookAuthor> bookAuthorList;
-				
-				try {
-					authorList     = InitialData.getAuthors();
-					bookList       = InitialData.getBooks();
-					bookAuthorList = InitialData.getBookAuthors();					
-				} catch (IOException e) {
-					throw new SQLException("Couldn't read initial data", e);
-				}
-
-				PreparedStatement insertAuthor     = null;
-				PreparedStatement insertBook       = null;
-				PreparedStatement insertBookAuthor = null;
-
-				try {
-					// must completely populate Authors table before populating BookAuthors table because of primary keys
-					insertAuthor = conn.prepareStatement("insert into authors (lastname, firstname) values (?, ?)");
-					for (Author author : authorList) {
-//						insertAuthor.setInt(1, author.getAuthorId());	// auto-generated primary key, don't insert this
-						insertAuthor.setString(1, author.getLastname());
-						insertAuthor.setString(2, author.getFirstname());
-						insertAuthor.addBatch();
-					}
-					insertAuthor.executeBatch();
-					
-					System.out.println("Authors table populated");
-					
-					// must completely populate Books table before populating BookAuthors table because of primary keys
-					insertBook = conn.prepareStatement("insert into books (title, isbn, published) values (?, ?, ?)");
-					for (Book book : bookList) {
-//						insertBook.setInt(1, book.getBookId());		// auto-generated primary key, don't insert this
-//						insertBook.setInt(1, book.getAuthorId());	// this is now in the BookAuthors table
-						insertBook.setString(1, book.getTitle());
-						insertBook.setString(2, book.getIsbn());
-						insertBook.setInt(3, book.getPublished());
-						insertBook.addBatch();
-					}
-					insertBook.executeBatch();
-					
-					System.out.println("Books table populated");					
-					
-					// must wait until all Books and all Authors are inserted into tables before creating BookAuthor table
-					// since this table consists entirely of foreign keys, with constraints applied
-					insertBookAuthor = conn.prepareStatement("insert into bookAuthors (book_id, author_id) values (?, ?)");
-					for (BookAuthor bookAuthor : bookAuthorList) {
-						insertBookAuthor.setInt(1, bookAuthor.getBookId());
-						insertBookAuthor.setInt(2, bookAuthor.getAuthorId());
-						insertBookAuthor.addBatch();
-					}
-					insertBookAuthor.executeBatch();	
-					
-					System.out.println("BookAuthors table populated");					
-					
-					return true;
-				} finally {
-					DBUtil.closeQuietly(insertBook);
-					DBUtil.closeQuietly(insertAuthor);
-					DBUtil.closeQuietly(insertBookAuthor);					
-				}
-			}
-		});
-	}
-	
-	*/
-	
-	// loads data retrieved from CSV files into DB tables in batch mode
 	public void loadInitialData() {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
@@ -1357,7 +1352,7 @@ public class DerbyDatabase implements IDatabase {
 					}
 					insertUsers.executeBatch();
 					System.out.println("Users table populated");	 
-					/*
+					
 					insertMoves = conn.prepareStatement("insert into moves (game_id, move) values (?, ?)");
 					for(Game game : gamesList) {
 //						insertMoves.setInt(1, move.getMove_ID);	// auto-generated primary key, don't insert this
@@ -1378,7 +1373,7 @@ public class DerbyDatabase implements IDatabase {
 					insertUserGames.executeBatch();	
 					
 					System.out.println("userGames table populated");		
-					*/
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(insertUsers);	
@@ -1388,11 +1383,12 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+	*/
 	// The main method creates the database tables and loads the initial data.
 	public static void main(String[] args) throws IOException {
 		System.out.println("Creating tables...");
 		DerbyDatabase db = new DerbyDatabase();
-		db.createTables();
+		//db.createTables();
 		
 		//System.out.println("Loading initial data...");
 		//db.loadInitialData();

@@ -381,9 +381,7 @@ var S = {
 			  
 		});
 			  
-			  
-			  //document.getElementById("chessNotation").innerHTML = this.selectedPiece;
-			  
+
 				square.append(this.selectedPiece);  //append piece to square
 		       	this.ChangeTurn();  //change turn			
       

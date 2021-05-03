@@ -12,8 +12,18 @@ public class TestMain
 		Player BlackPlayer = new Player(false);
 		
 		Game testGame = new Game();
+		testGame.setGame();
+		drawBoard(testGame);
 		
-		testGame.setWhitePlayer(WhitePlayer);
+		testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6, 7).getPiece(), 4, 7);
+		drawBoard(testGame);
+		
+		Move lastMove = new Move(testGame.getChessBoard().getTile(1, 0).getPiece(), 3, 0, "", false, false, false);
+		testGame.getMoves().add(lastMove);
+		testGame.doLastMove(testGame.getLastMove().getMove(), testGame.getBlackPieces(), 9);
+		drawBoard(testGame);
+		
+		/*testGame.setWhitePlayer(WhitePlayer);
 		testGame.setBlackPlayer(BlackPlayer);
 		testGame.setGame(true);
 		
@@ -97,26 +107,30 @@ public class TestMain
 		drawBoard(testGame);
 
 		
-		if(testGame.getChessBoard().getTile(6,  5).getPiece().checkMove(5, 5, testGame.getChessBoard()))
+		//if(testGame.getChessBoard().getTile(6,  5).getPiece().checkMove(5, 5, testGame.getChessBoard()))
+		if(testGame.checkMove(5, 5, testGame.getChessBoard(), testGame.getChessBoard().getTile(6, 5).getPiece(), WhitePlayer))
 		{
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6,  5).getPiece(), 5, 5);
 			drawBoard(testGame);
 		}
 		
 		
-		if(testGame.getChessBoard().getTile(1,  4).getPiece().checkMove(2, 4, testGame.getChessBoard()))
+		//if(testGame.getChessBoard().getTile(1,  4).getPiece().checkMove(2, 4, testGame.getChessBoard()))
+		if(testGame.checkMove(2, 4, testGame.getChessBoard(), testGame.getChessBoard().getTile(1, 4).getPiece(), BlackPlayer))
 		{
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(1,  4).getPiece(), 2, 4);
 			drawBoard(testGame);
 		}
 		
-		if(testGame.getChessBoard().getTile(6,  6).getPiece().checkMove(4, 6, testGame.getChessBoard()))
+		//if(testGame.getChessBoard().getTile(6,  6).getPiece().checkMove(4, 6, testGame.getChessBoard()))
+		if(testGame.checkMove(4, 6, testGame.getChessBoard(), testGame.getChessBoard().getTile(6, 6).getPiece(), WhitePlayer))
 		{
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6,  6).getPiece(), 4, 6);
 			drawBoard(testGame);
 		}
 		
-		if(testGame.getChessBoard().getTile(0,  3).getPiece().checkMove(4, 7, testGame.getChessBoard()))
+		//if(testGame.getChessBoard().getTile(0,  3).getPiece().checkMove(4, 7, testGame.getChessBoard()))
+		if(testGame.checkMove(4, 7, testGame.getChessBoard(), testGame.getChessBoard().getTile(0, 3).getPiece(), BlackPlayer))
 		{
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(0,  3).getPiece(), 4, 7);
 			drawBoard(testGame);
@@ -129,7 +143,13 @@ public class TestMain
 		System.out.println(res);
 		
 		drawBoard(testGame);
-		testGame.printMoveList();*/
+		testGame.printMoveList();
+		
+		if(testGame.checkMove(0, 3, testGame.getChessBoard(), testGame.getChessBoard().getTile(0, 4).getPiece(), BlackPlayer))
+		{
+			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(0,  4).getPiece(), 0, 3);
+			drawBoard(testGame);
+		}*/
 	}
 	
 	public static void drawBoard(Game test)
