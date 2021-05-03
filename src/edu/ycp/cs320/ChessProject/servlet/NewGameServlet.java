@@ -196,15 +196,15 @@ public class NewGameServlet extends HttpServlet {
 				Move sendMove = playGame.getLastMove(); //need
 				String moveString = sendMove.getMove(); //need
 				int id = playGame.getGameID();
+				int pieceID = playGame.getInfoFromMove(sendMove).getPieceNumber();
 				
 				IDatabase db = DatabaseProvider.getInstance();
-				db.insertNewMove(id, moveString);
+				db.insertNewMove(id, moveString, pieceID);
 				moves.add(System.lineSeparator() + playerWhite + moveString);
 				userSession.setAttribute("moves", moves);
 				
 				if(prom == true) 
 				{
-					
 					int f = total.indexOf(":", e+1);
 					String piece = total.substring(f+2, f+6);
 					System.out.println("Promotion time " + piece);
@@ -232,15 +232,14 @@ public class NewGameServlet extends HttpServlet {
 				Move sendMove = playGame.getLastMove();
 				String moveString = sendMove.getMove();
 				int id = playGame.getGameID();
-				
+				int pieceID = playGame.getInfoFromMove(sendMove).getPieceNumber();
 				IDatabase db = DatabaseProvider.getInstance();
-				db.insertNewMove(id, moveString);
+				db.insertNewMove(id, moveString, pieceID);
 				moves.add(System.lineSeparator() + playerBlack + moveString);
 				userSession.setAttribute("moves", moves);
 				
 				if(prom == true) 
 				{
-					
 					int f = total.indexOf(":", e+1);
 					String piece = total.substring(f+2, f+6);
 					System.out.println("Promotion time " + piece);
