@@ -1,5 +1,6 @@
 package edu.ycp.cs320.ChessProject.UserDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.ChessProject.Chess.Game;
@@ -17,12 +18,12 @@ public interface IDatabase {
 	public User getUserInfoByID(int user_id);
 	public User updatePassword(String username, String Password);
 	public Game insertNewMove(int id, String move, int piece_id);
-	List<Pair<List<String>, List<String>>> findAllGamesForUser(String user);
+	ArrayList<Pair<ArrayList<String>, ArrayList<String>>> findAllGamesForUser(String user);
 	public Integer insertNewGame(int player1);
 	public Boolean insertSecondPlayer(int player2, int game_id);
 	public User getSecondPlayerInfo(int game_id);
-	public List<String> getMoveList(int game_id);
-	public List<Integer> getMoveListbyPieceID(int game_id);
-	public List<String> getMoveListIncludingPieceID(int game_id);
+	public ArrayList<String> getMoveList(int game_id);
+	public ArrayList<Integer> getMoveListbyPieceID(int game_id);
+	public ArrayList<String> getMoveListIncludingPieceID(int game_id);
 }
 
