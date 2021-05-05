@@ -52,31 +52,37 @@ public class PingServlet extends HttpServlet
 				ArrayList<Integer> pieceID = db.getMoveListbyPieceID(id);
 				int lastPiece = pieceID.get(pieceID.size()-1);
 				ArrayList<String> moveList = db.getMoveList(id);
-				String lastMoveInfo = moveList.get(moveList.size() - 1);
-				System.out.println(lastPiece);
+				String lastMoveInfo = moveList.get(testMoves.size() - 1);
+				System.out.println("PieceID: " + lastPiece + " ,moves: " + moves);
 					
 				int ogSquare = 0;
 				int finalSquare = 0;
 					
-				if(playerColor.equals("white"))
+				if(playerColor.equals("w"))
 				{
-					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
-					userSession.setAttribute("sessionGame", playGame);
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getWhitePieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getWhitePieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
+					userSession.setAttribute("sessionGame", playGame);
+					moves = (ArrayList<String>) userSession.getAttribute("moves");
+					userSession.setAttribute("moves", moves);
 				}
 					
 				else
 				{
-					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
-					userSession.setAttribute("sessionGame", playGame);
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
+					userSession.setAttribute("sessionGame", playGame);
+					moves = (ArrayList<String>) userSession.getAttribute("moves");
+					userSession.setAttribute("moves", moves);
 				}
 				
+				System.out.println(lastMoveInfo);
 				System.out.println(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece) + "/" + playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 				System.out.println(playGame.getLastMoveFinalXPos(lastMoveInfo) + "/" + playGame.getLastMoveFinalYPos(lastMoveInfo));	
 				System.out.println(String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare));
+				System.out.println(moves);
 				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare);
 				//1 to 17 -? 1/17
 			}
