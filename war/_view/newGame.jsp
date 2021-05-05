@@ -157,9 +157,13 @@ p {
 		</div>
 
 	</div>
-
+<button onclick="myFunction()">Try to Ping</button>
 	<script>
 	
+ 	
+
+
+
 	
 var yes = "&#9814";
 
@@ -168,7 +172,7 @@ var yes = "&#9814";
 //document.getElementById("18").classList.add("pawn");
 
 var servletColor = "${color}";
-document.getElementById("chessNotation").innerHTML = servletColor;
+//document.getElementById("chessNotation").innerHTML = servletColor;
 	
 	
 	
@@ -183,6 +187,29 @@ async function postData(address, objectToPost){
 		body: JSON.stringify(objectToPost)
 	})).text();
 }
+
+
+
+var i = 0;
+function myFunction() {
+	
+	setInterval(function(){
+		
+		  postData('ping').then(function(data){
+			  	console.log(data);
+			  	
+			  	document.getElementById("chessNotation").innerHTML = data + " " + i;
+				i++;
+		  });
+		
+		
+		
+		//document.getElementById("chessNotation").innerHTML = "interval" + i;
+		//i++;
+		}, 2000);
+		  
+}
+
 
 
 var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
@@ -363,7 +390,7 @@ var S = {
 			  };
         
         
-        
+        	
 			  postData('newGame', val).then(function(data){
 				
 			  	console.log(data);
