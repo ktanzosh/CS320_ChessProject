@@ -162,14 +162,36 @@ p {
 	
 
 	
-var yes = "&#9814";
+//var yes = "&#9814";
 
-var spanClass = "<span>" + yes + "</span>";
+var bKing = "&#9818";
+var bQueen = "&#9819";
+var bRook = "&#9820";
+var bBishop = "&#9821"; 
+var bKnight = "&#9822";
+var bPawn =  "&#9823";
+
+var pieceChoice;
+var finalsq = '18'; // good for id 
+var initialsq = '';
+var chess = 'chessNotation';
+document.getElementById(chess).innerHTML = finalsq;
+var className = "'pc b rook'";
 
 
-// move to final position
-document.getElementById("18").innerHTML = "<span class='pc w rook'> &#9814 </span>";
+if (pieceChoice == "pawn"){
+	pieceChoice = bPawn;
+	className = "'pc b pawn'";
+}
 
+
+
+//document.getElementById(chess).innerHTML = className;
+
+// move to final position -- this works
+//document.getElementById(finalsq).innerHTML = "<span class='pc w rook'>"+bRook+"</span>";
+//broooooo im a genius
+document.getElementById(finalsq).innerHTML = "<span class="+className+">"+bRook+"</span>";
 
 // GOOD FOR GETTING RID OF INTIIAL POSITION
 //$("#8").empty();
