@@ -74,6 +74,7 @@ public class NewGameServlet extends HttpServlet {
 				key = playGame.getGameID();
 				color = "black";
 				userSession.setAttribute("color", color);
+				//print here to say ______ joined
 			}
 			/*
 			else {
@@ -105,7 +106,7 @@ public class NewGameServlet extends HttpServlet {
 		
 		boolean noNewMove = true;
 		
-		while(noNewMove == true) {
+		/*while(noNewMove == true) {
 			int id = playGame.getGameID();
 			IDatabase db = DatabaseProvider.getInstance();
 			ArrayList<String> testMoves = db.getMoveList(id);
@@ -114,8 +115,28 @@ public class NewGameServlet extends HttpServlet {
 				noNewMove = false;
 				ArrayList<Integer> pieceID = db.getMoveListbyPieceID(id);
 				int lastPiece = pieceID.get(pieceID.size()-1);
+				ArrayList<String> moveList = db.getMoveList(id);
+				String lastMoveInfo = moveList.get(moveList.size() - 1);
 				System.out.println(lastPiece);
 				
+				int ogSquare = 0;
+				int finalSquare = 0;
+				
+				if(playerColor.equals("white"))
+				{
+					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
+					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getWhitePieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getWhitePieces(), lastPiece));
+					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+				}
+				
+				else
+				{
+					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
+					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
+					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+				}
+				
+				resp = String.parseString(ogSquare) + finalSquare;
 			}
 			
 			try {
@@ -124,7 +145,7 @@ public class NewGameServlet extends HttpServlet {
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
 		
 		//IF THERE ARE NO MOVES***********************
