@@ -158,11 +158,9 @@ p {
 
 	</div>
 <button onclick="myFunction()">Try to Ping</button>
-	<script>
+<!----------------------------- START OF JAVASCRIPT ----------------------------->
+<script>
 	
-
-	
-//var yes = "&#9814";
 
 var bKing = "&#9818";
 var bQueen = "&#9819";
@@ -172,14 +170,34 @@ var bKnight = "&#9822";
 var bPawn =  "&#9823";
 
 var pieceChoice;
-var finalsq = '18'; // good for id 
-var initialsq = '';
-var chess = 'chessNotation';
-document.getElementById(chess).innerHTML = finalsq;
+var finalsq = '45'; // good for id then append new piece
+var initialsq = '8';
+
+//var chess = 'chessNotation';
+//document.getElementById(chess).innerHTML = finalsq;
 var className = "'pc b rook'";
 
-
-if (pieceChoice == "pawn"){
+if (pieceChoice == "king"){
+	pieceChoice = bKing;
+	className = "'pc b king'";
+}
+else if (pieceChoice == "queen"){
+	pieceChoice = bQueen;
+	className = "'pc b queen'";
+}
+else if (pieceChoice == "rook"){
+	pieceChoice = bRook;
+	className = "'pc b rook'";
+}
+else if (pieceChoice == "bishop"){
+	pieceChoice = bBishop;
+	className = "'pc b bishop'";
+}
+else if (pieceChoice == "knight"){
+	pieceChoice = bKnight;
+	className = "'pc b knight'";
+}
+else if (pieceChoice == "pawn"){
 	pieceChoice = bPawn;
 	className = "'pc b pawn'";
 }
@@ -193,8 +211,11 @@ if (pieceChoice == "pawn"){
 //broooooo im a genius
 document.getElementById(finalsq).innerHTML = "<span class="+className+">"+bRook+"</span>";
 
+
+
 // GOOD FOR GETTING RID OF INTIIAL POSITION
-//$("#8").empty();
+//$("#8").empty(); // jQuery route
+//document.getElementById(initialsq).innerHTML = "";
 
 
 
