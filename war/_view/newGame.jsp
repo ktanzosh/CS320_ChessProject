@@ -160,16 +160,23 @@ p {
 <button onclick="myFunction()">Try to Ping</button>
 	<script>
 	
- 	
-
-
 
 	
 var yes = "&#9814";
 
-//document.getElementById("18").classList.add("pc");
-//document.getElementById("18").classList.add("w");
-//document.getElementById("18").classList.add("pawn");
+var spanClass = "<span>" + yes + "</span>";
+
+
+// move to final position
+document.getElementById("18").innerHTML = "<span class='pc w rook'> &#9814 </span>";
+
+
+// GOOD FOR GETTING RID OF INTIIAL POSITION
+//$("#8").empty();
+
+
+
+
 
 var servletColor = "${color}";
 //document.getElementById("chessNotation").innerHTML = servletColor;
@@ -189,7 +196,7 @@ async function postData(address, objectToPost){
 }
 
 
-
+var newMoves;
 var i = 0;
 function myFunction() {
 	
@@ -198,7 +205,17 @@ function myFunction() {
 		  postData('ping').then(function(data){
 			  	console.log(data);
 			  	
-			  	document.getElementById("chessNotation").innerHTML = data + " " + i;
+			  	//document.getElementById("chessNotation").innerHTML = data + " " + i;
+			 
+			  	if(data == "No moves to be updated"){
+			  		newMoves = 0;
+			  		//document.getElementById("chessNotation").innerHTML = "NO NEW MOVES " + "time: " +i;
+			  	}
+			  	else{
+			  		//document.getElementById("chessNotation").innerHTML = data + " " +i;
+			  	}
+			  	
+			  	
 				i++;
 		  });
 		
@@ -278,7 +295,7 @@ var S = {
 	  
     var child = square.children().eq(0);
     
-   
+    
     
     
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
@@ -286,9 +303,15 @@ var S = {
     }
     
     
+
+    
     else if (this.selectedPiece !== 0) {
     	//squareID = finalPosition
       var squareID = parseInt(square.attr("id"));   // get number associated with square
+      
+      
+      
+      
       
       
       if (squareID < 10){
@@ -398,7 +421,7 @@ var S = {
 			  	logicB = data;
 			  //	logic = logicB.substring(0, logicB.length - 1);
 			  var logic = logicB.split("/");
-			  document.getElementById("chessNotation").innerHTML = logicB;
+			 // document.getElementById("chessNotation").innerHTML = logicB;
 		
 			  
 			  
@@ -451,8 +474,10 @@ var S = {
 			  
 		});
 			  
-	
+			 	
+		
 				square.append(this.selectedPiece);  //append piece to square
+				
 		       	this.ChangeTurn();  //change turn		
 	
       
@@ -469,8 +494,7 @@ var S = {
      // document.getElementById("chessNotation").innerHTML =   $(this.selectedPiece).addClass("pcActive");
       
       this.moves = GetPieceMoveArray(["b","w"][this.turnInt], $(piece)); //go to GetPieceMoveArray and get the next move
-      
-    
+
     }
     
     
@@ -485,6 +509,8 @@ var S = {
     
     this.selectedPiece = 0; // back to none when selected
   }
+  
+  
   
   
 }; //END OF BIG FUNC
