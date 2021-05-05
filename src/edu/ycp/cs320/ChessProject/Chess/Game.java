@@ -423,7 +423,87 @@ public class Game
 			y = 7;
 		}
 		System.out.println("Last piece moved to "  + x + ", " + y);
-		return this.getChessBoard().getTile(x, y).getPiece();
+		return this.getChessBoard().getTile(x, y).getPiece();//.whatPiece().toLowercase();
+	}
+	
+	public String getLastMovePieceString(String moveString)
+	{
+		String pieceYMove = moveString.substring(1, 2);
+		String pieceXMove = moveString.substring(2, 3);
+		//if it took a piece instead
+		if(pieceYMove.contains("x"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+			pieceXMove = moveString.substring(3, 4);
+			
+			if(pieceYMove.contains("+") || pieceYMove.contains("#"))
+			{
+				pieceYMove = moveString.substring(3, 4);
+				pieceXMove = moveString.substring(4, 5);
+			}
+		}
+		
+		//id didnt take piece but was put in check or checkmate do this
+		if(pieceYMove.contains("+") || pieceYMove.contains("#"))
+		{
+			pieceYMove = moveString.substring(2, 3);
+			pieceXMove = moveString.substring(3, 4);
+		}
+		
+		if(pieceYMove.contains("-") || pieceYMove.contains("0"))
+		{
+			//if castling move
+			return null;
+		}
+		
+		System.out.println(pieceXMove + " " + pieceYMove);
+		
+		//reconvert to numbers
+		int x = Integer.parseInt(pieceXMove);
+		x = 8 - x;
+		int y = 0;
+		
+		if(pieceYMove.equals("a"))
+		{
+			y = 0;
+		}
+		
+		if(pieceYMove.equals("b"))
+		{
+			y = 1;
+		}
+		
+		if(pieceYMove.equals("c"))
+		{
+			y = 2;
+		}
+		
+		if(pieceYMove.equals("d"))
+		{
+			y = 3;
+		}
+		
+		if(pieceYMove.equals("e"))
+		{
+			y = 4;
+		}
+		
+		if(pieceYMove.equals("f"))
+		{
+			y = 5;
+		}
+		
+		if(pieceYMove.equals("g"))
+		{
+			y = 6;
+		}
+		
+		if(pieceYMove.equals("h"))
+		{
+			y = 7;
+		}
+		System.out.println("Last piece moved to "  + x + ", " + y);
+		return this.getChessBoard().getTile(x, y).getPiece().whatPiece().toLowerCase();
 	}
 	
 	public void doLastMove(String moveString, ArrayList<ChessPiece> pieces, int pieceID)
@@ -816,12 +896,14 @@ public class Game
 			System.out.println("Not taking a piece");
 		}
 		
-		Tile newTile = new Tile(cp);
-		cb.setTile(x,  y, newTile);
 		//sets old tile to null, so no tile is there
 		cb.setTile(oldx,  oldy);
 		cp.setPosX(x);
 		cp.setPosY(y);
+		
+		//then do new move
+		Tile newTile = new Tile(cp);
+		cb.setTile(x,  y, newTile);
 		
 		//if castling, also move the rook
 		if(cp.whatPiece().equals("King"))

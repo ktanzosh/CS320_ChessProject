@@ -25,7 +25,10 @@ public class TestMain
 		System.out.println(testGame.getLastMoveOrigXPos(testGame.getBlackPieces(), lastPiece) + "/" + testGame.getLastMoveOrigYPos(testGame.getBlackPieces(), lastPiece));
 		System.out.println(testGame.getLastMoveFinalXPos(lastMoveInfo) + "/" + testGame.getLastMoveFinalYPos(lastMoveInfo));
 		
-		System.out.println(ogSquare + "/" + finalSquare);
+		testGame.doLastMove(lastMoveInfo, testGame.getBlackPieces(), lastPiece);
+		String pieceMove = testGame.getLastMovePieceString(lastMoveInfo);
+		
+		System.out.println(ogSquare + "/" + finalSquare + "/" + pieceMove);
 		/*Player WhitePlayer = new Player(true);;
 		Player BlackPlayer = new Player(false);
 		

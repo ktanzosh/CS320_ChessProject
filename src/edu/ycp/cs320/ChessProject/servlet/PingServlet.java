@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import edu.ycp.cs320.ChessProject.Chess.ChessPiece;
 import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.Chess.Move;
+import edu.ycp.cs320.ChessProject.Chess.TestMain;
 import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
 import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
 
@@ -27,6 +28,7 @@ public class PingServlet extends HttpServlet
 		HttpSession userSession = req.getSession(false);
 		Game playGame = (Game) userSession.getAttribute(("sessionGame"));
 		String playerColor = (String) userSession.getAttribute("color");
+		TestMain tm = new TestMain();
 		
 		IDatabase db = DatabaseProvider.getInstance();
 		int id = playGame.getGameID();
@@ -60,24 +62,38 @@ public class PingServlet extends HttpServlet
 					
 				int ogSquare = 0;
 				int finalSquare = 0;
-					
-				if(playerColor.equals("white"))
+				String pieceName = "";
+
+				//if you are black you are pulling a white move
+				if(playerColor.equals("black"))
 				{
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getWhitePieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getWhitePieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+					//pieceName = playGame.getInfoFromMove(null)
+					//System.out.println("Premove");
+					//tm.drawBoard(playGame);
 					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
+					//System.out.println("Postmove");
+					//tm.drawBoard(playGame);
+					pieceName = playGame.getLastMovePieceString(lastMoveInfo);
 					userSession.setAttribute("sessionGame", playGame);
-					moves = (ArrayList<String>) userSession.getAttribute("moves");
+					moves.add(System.lineSeparator() + " White's Move: " + lastMoveInfo);
 					userSession.setAttribute("moves", moves);
 				}
 					
-				else if(playerColor.equals("black"))
+				//if you are white you are pulling a black move
+				else if(playerColor.equals("white"))
 				{
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+					//System.out.println("Premove");
+					//tm.drawBoard(playGame);
 					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
+					//System.out.println("Postmove");
+					//tm.drawBoard(playGame);
+					pieceName = playGame.getLastMovePieceString(lastMoveInfo);
 					userSession.setAttribute("sessionGame", playGame);
-					moves = (ArrayList<String>) userSession.getAttribute("moves");
+					moves.add(System.lineSeparator() + " White's Move: " + lastMoveInfo);
 					userSession.setAttribute("moves", moves);
 				}
 				
@@ -86,7 +102,7 @@ public class PingServlet extends HttpServlet
 				System.out.println(playGame.getLastMoveFinalXPos(lastMoveInfo) + "/" + playGame.getLastMoveFinalYPos(lastMoveInfo));	
 				System.out.println(String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare));
 				System.out.println(moves);
-				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare);
+				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare) + "/" + pieceName;
 				//1 to 17 -? 1/17
 			}
 			
