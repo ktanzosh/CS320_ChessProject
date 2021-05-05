@@ -4,7 +4,6 @@ import java.awt.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -234,7 +233,7 @@ public class NewGameServlet extends HttpServlet {
 		String playerBlack = "Black's move: ";
 		String ResponseString = "";
 		
-		if((friendlyColor == true) && (playerColor.equals("white")))
+		if((friendlyColor == true))
 			
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
@@ -270,7 +269,7 @@ public class NewGameServlet extends HttpServlet {
 
 		}
 		
-		else if((friendlyColor == false) && (playerColor.equals("black")))
+		else if((friendlyColor == false))
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{

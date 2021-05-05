@@ -27,6 +27,19 @@
 	
 	</style>
 	<h2> Heres your game id, ${game_id}</h2>
+	<br> </br>
+	
+	<style>
+		h3{
+			position:absolute;
+			top:300px;
+			right: 200px;
+			color:white;
+		
+		}
+	
+	</style>
+	<h3> ${color}, made the game</h3>
 
 	<div class="wrapper">
 		<div class="row">
@@ -62,13 +75,14 @@
 			<span id="39" class="sq d"></span> <span id="40" class="sq l"></span>
 		</div>
 		<div class="row">
-			<span id="25" class="sq l"></span> <span id="26" class="sq d"></span>
+			<span id="25" class="sq l"></span>	 <span id="26" class="sq d"></span>
 			<span id="27" class="sq l"></span> <span id="28" class="sq d"></span>
 			<span id="29" class="sq l"></span> <span id="30" class="sq d"></span>
 			<span id="31" class="sq l"></span> <span id="32" class="sq d"></span>
 		</div>
 		<div class="row">
-			<span id="17" class="sq d"></span> <span id="18" class="sq l"></span>
+			<span id="17" class="sq d"></span> 
+			<span id="18" class="sq l"></span>
 			<span id="19" class="sq d"></span> <span id="20" class="sq l"></span>
 			<span id="21" class="sq d"></span> <span id="22" class="sq l"></span>
 			<span id="23" class="sq d"></span> <span id="24" class="sq l"></span>
@@ -145,6 +159,19 @@ p {
 	</div>
 
 	<script>
+	
+	
+var yes = "&#9814";
+
+//document.getElementById("18").classList.add("pc");
+//document.getElementById("18").classList.add("w");
+//document.getElementById("18").classList.add("pawn");
+
+var servletColor = "${color}";
+document.getElementById("chessNotation").innerHTML = servletColor;
+	
+	
+	
 var moveList = [];
 document.getElementById("moveList").innerHTML = "Your moves will go here: ";
 async function postData(address, objectToPost){
@@ -176,15 +203,26 @@ var promo = null;
 var promoChoice;
 var logicB; 
 var logic;
+//var goodMove;
+
 
 // pawn promotion 
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
-//document.getElementById("chessNotation").innerHTML = "hello wtf";
+
+
+
 var S = { 	
   turnInt:1, selectedPiece:0, moves:0, 
   
   ChangeTurn:function() {
+	  
+	if(servletColor == "white")  {
+		turnInt = 1;
+	}
+	else{
+		turnInt = 0;
+	}
 	  
     $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
     $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
@@ -210,14 +248,17 @@ var S = {
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
-	  document.getElementById("chessNotation").innerHTML = "";
-	  //document.getElementsByClassname(".sq").style.color = "black";
+	  
     var child = square.children().eq(0);
-   // document.getElementById("chessNotation").innerHTML = child;
+    
+   
+    
     
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
       this.ClickPiece(child); // ~child is chess piece~
     }
+    
+    
     else if (this.selectedPiece !== 0) {
     	//squareID = finalPosition
       var squareID = parseInt(square.attr("id"));   // get number associated with square
@@ -243,22 +284,29 @@ var S = {
     	  var x = document.getElementsByClassName("pawn")[0].id;
     	}
       
+      
+      
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
         
+       
+         
+        
+        
         
         
          // PAWN PROMOTION!
 		// white
-        if (this.selectedPiece.hasClass("pawn") && 
-            (squareID > 56)) {
-        	
-        	
+        if (this.selectedPiece.hasClass("pawn") && (squareID > 56)) {
+
          this.selectedPiece.removeClass("pawn");
           this.selectedPiece.addClass("queen");
 			this.selectedPiece.empty().html("&#9813");
+			var promotion = " whites pawn promoted to queen";
+			moveList.push("<br>" + promotion);
+    		document.getElementById("moveList").innerHTML = moveList;
         }
 			
 			// black
@@ -268,6 +316,9 @@ var S = {
 		         this.selectedPiece.removeClass("pawn");
 		          this.selectedPiece.addClass("queen");
 					this.selectedPiece.empty().html("&#9819");
+					var promotion = " blacks pawn promoted to queen";
+					moveList.push("<br>" + promotion);
+		    		document.getElementById("moveList").innerHTML = moveList;
          
         }
  
@@ -311,24 +362,72 @@ var S = {
 				
 			  };
         
+        
+        
 			  postData('newGame', val).then(function(data){
-				  
-				logicB = data;
-				if (data == "false/"){
-					logicB = null;
-				}
+				
 			  	console.log(data);
-			  	document.getElementById("chessNotation").innerHTML = data;
-			  	
+			
+			  	logicB = data;
+			  //	logic = logicB.substring(0, logicB.length - 1);
+			  var logic = logicB.split("/");
+			  document.getElementById("chessNotation").innerHTML = logicB;
+		
+			  
+			  
+			  // white checkmate
+			  if(logic[1] == "Checkmate" && playerColor == "b"){
+				  
+				  var check = "White in checkmate";
+				  moveList.push("<br>" + check);
+		    		document.getElementById("moveList").innerHTML = moveList;
+		    		goodMove = 0;
+		    		
+			  }
+			  else if(logic[1] == "Check" && playerColor == "b"){
+				  
+				  var check = "White in check";
+				  moveList.push("<br>" + check);
+		    		document.getElementById("moveList").innerHTML = moveList;
+		    		goodMove = 1;
+			  }
+			  
+			  
+			  
+			  else if(logic[1] == "Checkmate" && playerColor == "w"){
+				  
+				  var check = "Black in checkmate";
+				  moveList.push("<br>" + check);
+		    	document.getElementById("moveList").innerHTML = moveList;
+		    	goodMove = 0;
+			  }
+			  else if(logic[1] == "Check" && playerColor == "w"){
+				  
+				  var check = "Black in check";
+				  moveList.push("<br>" + check);
+		    		document.getElementById("moveList").innerHTML = moveList;
+		    		goodMove = 1;
+			  }
+			  else if(logic[1] == "Draw"){
+				  
+				  var check = "Draw";
+				  moveList.push("<br>" + check);
+		    		document.getElementById("moveList").innerHTML = moveList;
+		    		goodMove = 0;
+			  }
+				
+			  else if (logic[0] == "true"){
+				  // 1 is true
+				  goodMove = 1;
+			  }
+			  
+			  
 		});
 			  
-			  // hopefully get rid of double click
-			if(logicB  != null){
-				document.getElementById("chessNotation").innerHTML = "looks valid";
+	
 				square.append(this.selectedPiece);  //append piece to square
-		       	this.ChangeTurn();  //change turn
-			} 
-			
+		       	this.ChangeTurn();  //change turn		
+	
       
       }
     }
@@ -583,16 +682,9 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
 		  else if(promoChoice == "rook"){
 			  promo = "&#9814";
 		  }
-		  
-		
-		  	
 	  }
   	currentPiece = promoChoice;
-  	
-  	//this.selectedPiece.removeClass("pawn").empty().addClass("rook");
-    //document.getElementById("chessNotation").innerHTML = promoChoice;
-   //promoChoice = promoChoice;
-   // this.selectedPiece.removeClass("pawn").empty().addClass("rook");
+
 	} 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
