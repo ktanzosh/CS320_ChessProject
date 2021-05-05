@@ -46,6 +46,11 @@
     <servlet-name>JoinGameServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.ChessProject.servlet.JoinGameServlet</servlet-class>
   </servlet>
+  
+  <servlet>
+    <servlet-name>PingServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.ChessProject.servlet.PingServlet</servlet-class>
+  </servlet>
          
 
   
@@ -91,6 +96,11 @@
  <servlet-mapping>
     <servlet-name>JoinGameServlet</servlet-name>
     <url-pattern>/joinGame</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>PingServlet</servlet-name>
+    <url-pattern>/ping</url-pattern>
   </servlet-mapping>
  
  

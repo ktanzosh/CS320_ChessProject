@@ -4,7 +4,6 @@ import java.awt.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +73,7 @@ public class NewGameServlet extends HttpServlet {
 				key = playGame.getGameID();
 				color = "black";
 				userSession.setAttribute("color", color);
+				//print here to say ______ joined
 			}
 			/*
 			else {
@@ -105,7 +105,7 @@ public class NewGameServlet extends HttpServlet {
 		
 		boolean noNewMove = true;
 		
-		while(noNewMove == true) {
+		/*while(noNewMove == true) {
 			int id = playGame.getGameID();
 			IDatabase db = DatabaseProvider.getInstance();
 			ArrayList<String> testMoves = db.getMoveList(id);
@@ -114,8 +114,28 @@ public class NewGameServlet extends HttpServlet {
 				noNewMove = false;
 				ArrayList<Integer> pieceID = db.getMoveListbyPieceID(id);
 				int lastPiece = pieceID.get(pieceID.size()-1);
+				ArrayList<String> moveList = db.getMoveList(id);
+				String lastMoveInfo = moveList.get(moveList.size() - 1);
 				System.out.println(lastPiece);
 				
+				int ogSquare = 0;
+				int finalSquare = 0;
+				
+				if(playerColor.equals("white"))
+				{
+					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
+					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getWhitePieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getWhitePieces(), lastPiece));
+					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+				}
+				
+				else
+				{
+					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
+					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
+					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+				}
+				
+				resp = String.parseString(ogSquare) + finalSquare;
 			}
 			
 			try {
@@ -124,7 +144,7 @@ public class NewGameServlet extends HttpServlet {
 			catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
 		
 		//IF THERE ARE NO MOVES***********************
@@ -213,7 +233,7 @@ public class NewGameServlet extends HttpServlet {
 		String playerBlack = "Black's move: ";
 		String ResponseString = "";
 		
-		if((friendlyColor == true) && (playerColor.equals("white")))
+		if((friendlyColor == true))
 			
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
@@ -249,7 +269,7 @@ public class NewGameServlet extends HttpServlet {
 
 		}
 		
-		else if((friendlyColor == false) && (playerColor.equals("black")))
+		else if((friendlyColor == false))
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
