@@ -61,6 +61,7 @@ public class PingServlet extends HttpServlet
 				if(playerColor.equals("white"))
 				{
 					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
+					userSession.setAttribute("sessionGame", playGame);
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getWhitePieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getWhitePieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
 				}
@@ -68,6 +69,7 @@ public class PingServlet extends HttpServlet
 				else
 				{
 					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
+					userSession.setAttribute("sessionGame", playGame);
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
 				}

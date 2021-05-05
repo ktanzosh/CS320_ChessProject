@@ -548,7 +548,7 @@ public class Game
 		return movePiece.getPosY();
 	}
 	
-	public int getLastMoveFinalXPos(String moveString)
+	public int getLastMoveFinalYPos(String moveString)
 	{
 		String pieceYMove = moveString.substring(1, 2);
 
@@ -613,7 +613,7 @@ public class Game
 		return y;
 	}
 	
-	public int getLastMoveFinalYPos(String moveString)
+	public int getLastMoveFinalXPos(String moveString)
 	{
 		String pieceYMove = moveString.substring(1, 2);
 		String pieceXMove = moveString.substring(2, 3);
