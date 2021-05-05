@@ -18,7 +18,7 @@ public interface IDatabase {
 	public User getUserInfoByID(int user_id);
 	public User updatePassword(String username, String Password);
 	public Game insertNewMove(int id, String move, int piece_id);
-	ArrayList<Pair<ArrayList<String>, ArrayList<String>>> findAllGamesForUser(String user);
+	ArrayList<Pair<ArrayList<String>, ArrayList<String>>> findAllGamesForUser(int id);
 	public Integer insertNewGame(int player1);
 	public Boolean insertSecondPlayer(int player2, int game_id);
 	public User getSecondPlayerInfo(int game_id);

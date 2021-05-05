@@ -56,12 +56,43 @@ public class GameHistoryServlet extends HttpServlet {
 			//arraylist of moves
 			ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
 			String username = userModel.getUser();
+			int player_id = userModel.getUserID();
 			req.setAttribute("username", username);
 			
 			IDatabase db = DatabaseProvider.getInstance();
-			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = db.findAllGamesForUser(username);
-			req.setAttribute("gameList", gameList);
+			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = db.findAllGamesForUser(player_id);
+			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> newGameList = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
 			
+			
+			ArrayList<String> gameInfo = null;
+			ArrayList<String> moveList = null;
+			ArrayList<String> newGameInfo = new ArrayList<String>();
+			String convertInfo = null;
+			int user_id = 0;
+			User user = new User();
+			
+			for (Pair<ArrayList<String>, ArrayList<String>> game : gameList) {
+				gameInfo = game.getLeft();
+				newGameInfo.add(gameInfo.get(1));
+				
+				convertInfo = gameInfo.get(2);
+				user_id = Integer.parseInt(convertInfo);
+				user = db.getUserInfoByID(user_id);
+				newGameInfo.add(user.getUser());
+				
+				convertInfo = gameInfo.get(3);
+				user_id = Integer.parseInt(convertInfo);
+				user = db.getUserInfoByID(user_id);
+				newGameInfo.add(user.getUser());
+				
+				newGameInfo.add(gameInfo.get(4));
+				newGameInfo.add(gameInfo.get(5));
+				
+				moveList = game.getRight();
+				newGameList.add(new Pair<ArrayList<String>, ArrayList<String>>(newGameInfo, moveList));
+			}
+			
+			req.setAttribute("gameList", newGameList);
 			
 			req.setAttribute("moves", moves);
 			

@@ -857,7 +857,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public ArrayList<Pair<ArrayList<String>, ArrayList<String>>> findAllGamesForUser(String user) {
+	public ArrayList<Pair<ArrayList<String>, ArrayList<String>>> findAllGamesForUser(int id) {
 		return executeTransaction(new Transaction<ArrayList<Pair<ArrayList<String>, ArrayList<String>>>>() {
 			@Override
 			public ArrayList<Pair<ArrayList<String>, ArrayList<String>>> execute(Connection conn) throws SQLException {
@@ -870,11 +870,10 @@ public class DerbyDatabase implements IDatabase {
 							" from users, moves, userGames" +
 							" where ((? = userGames.player1_id)" +
 							" or (? = userGames.player2_id))" +
-							" and moves.game_id = userGames.game_id" +
 							" order by userGames.game_id"
 					);
-					stmt.setString(1, user);
-					stmt.setString(2, user);
+					stmt.setInt(1, id);
+					stmt.setInt(2, id);
 
 					ArrayList<Pair<ArrayList<String>, ArrayList<String>>> result = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
 					ArrayList<String> gameInfo = new ArrayList<String>();
@@ -884,26 +883,51 @@ public class DerbyDatabase implements IDatabase {
 
 					// for testing that a result was returned
 					Boolean found = false;
+					Boolean first = true;
 					int current_game_id = -1;
+					String lastMove = null;
 					
 					while (resultSet.next()) {
 						found = true;
-						
+						System.out.println(resultSet.getInt(1));
 						if(resultSet.getInt(1) == current_game_id) {
-							gameMoves.add(resultSet.getString(6));
+							if(!resultSet.getString(6).equals(lastMove)) {
+								gameMoves.add(resultSet.getString(6));
+								lastMove = resultSet.getString(6);
+							}
+							
+							
 						}
 						else if (resultSet.getInt(1) != -1){
-							result.add(new Pair<ArrayList<String>, ArrayList<String>>(gameInfo, gameMoves));
+							if(first == false) {
+								result.add(new Pair<ArrayList<String>, ArrayList<String>>(gameInfo, gameMoves));
 							
-							gameInfo.clear();
-							gameMoves.clear();
+								gameInfo.clear();
+								gameMoves.clear();
+								
+								
+							}
+							
+							else {
+								
+								first = false;
+								
+							}
 							
 							//gameInfo = loadGameInfo(resultSet, 1);
-							gameMoves.add(resultSet.getString(1));
-							gameMoves.add(resultSet.getString(2));
-							gameMoves.add(resultSet.getString(3));
-							gameMoves.add(resultSet.getString(4));
-							gameMoves.add(resultSet.getString(5));
+							gameInfo.add(resultSet.getString(1));
+							gameInfo.add(resultSet.getString(2));
+							gameInfo.add(resultSet.getString(3));
+							gameInfo.add(resultSet.getString(4));
+							gameInfo.add(resultSet.getString(5));
+							
+							gameMoves.add(resultSet.getString(6));
+							lastMove = resultSet.getString(6);
+							
+							
+							current_game_id = resultSet.getInt(1);
+							
+							
 						}
 						
 					}
