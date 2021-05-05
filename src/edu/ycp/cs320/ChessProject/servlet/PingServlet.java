@@ -45,6 +45,9 @@ public class PingServlet extends HttpServlet
 			ArrayList<String> moves = (ArrayList<String>) userSession.getAttribute("moves");
 			ArrayList<String> testMoves = db.getMoveList(id);
 			
+			System.out.println("Session MoveList: " + moves);
+			System.out.println("Database MoveList: " + testMoves);
+			
 			String response = "";
 				
 			if(testMoves.size() > moves.size()) 
@@ -58,7 +61,7 @@ public class PingServlet extends HttpServlet
 				int ogSquare = 0;
 				int finalSquare = 0;
 					
-				if(playerColor.equals("w"))
+				if(playerColor.equals("white"))
 				{
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getWhitePieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getWhitePieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
@@ -68,7 +71,7 @@ public class PingServlet extends HttpServlet
 					userSession.setAttribute("moves", moves);
 				}
 					
-				else
+				else if(playerColor.equals("black"))
 				{
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));

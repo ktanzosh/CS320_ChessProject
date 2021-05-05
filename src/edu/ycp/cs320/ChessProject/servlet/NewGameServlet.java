@@ -233,7 +233,7 @@ public class NewGameServlet extends HttpServlet {
 		String playerBlack = "Black's move: ";
 		String ResponseString = "";
 		
-		if((friendlyColor == true))
+		if((friendlyColor == true) && (playerColor.equals("white")))
 			
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getWhitePlayer()) == true)
@@ -269,7 +269,7 @@ public class NewGameServlet extends HttpServlet {
 
 		}
 		
-		else if((friendlyColor == false))
+		else if((friendlyColor == false) && (playerColor.equals("black")))
 		{
 			if(playGame.checkMove(dx, dy, playGame.getChessBoard(), movePiece, playGame.getBlackPlayer()) == true)
 			{
@@ -307,6 +307,7 @@ public class NewGameServlet extends HttpServlet {
 		
 		resp.getWriter().write(ResponseString);
 		playGame.printMoveList();
+		
 		
 		if(req.getParameter("index") != null) 
 		{
