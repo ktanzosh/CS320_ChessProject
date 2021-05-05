@@ -73,7 +73,10 @@ public class PingServlet extends HttpServlet
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
 				}
-					
+				
+				System.out.println(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece) + "/" + playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
+				System.out.println(playGame.getLastMoveFinalXPos(lastMoveInfo) + "/" + playGame.getLastMoveFinalYPos(lastMoveInfo));	
+				System.out.println(String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare));
 				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare);
 				//1 to 17 -? 1/17
 			}
