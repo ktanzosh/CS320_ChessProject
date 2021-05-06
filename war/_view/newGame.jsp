@@ -209,7 +209,7 @@ else if (pieceChoice == "pawn"){
 // move to final position -- this works
 //document.getElementById(finalsq).innerHTML = "<span class='pc w rook'>"+bRook+"</span>";
 //broooooo im a genius
-document.getElementById(finalsq).innerHTML = "<span class="+className+">"+bRook+"</span>";
+//document.getElementById(finalsq).innerHTML = "<span class="+className+">"+bRook+"</span>";
 
 
 
@@ -247,15 +247,59 @@ function myFunction() {
 		
 		  postData('ping').then(function(data){
 			  	console.log(data);
-			  	
+			  	//data = "16/30/rook"
 			  	//document.getElementById("chessNotation").innerHTML = data + " " + i;
 			 
 			  	if(data == "No moves to be updated"){
 			  		newMoves = 0;
-			  		//document.getElementById("chessNotation").innerHTML = "NO NEW MOVES " + "time: " +i;
+			  		document.getElementById("chessNotation").innerHTML = "NO NEW MOVES " + "time: " +i;
+			 	
+			  		
 			  	}
+			  	
 			  	else{
-			  		//document.getElementById("chessNotation").innerHTML = data + " " +i;
+			  		//data = "16/30";
+			  		//document.getElementById("chessNotation").innerHTML = data + " new move: " +i;
+			  		 var moves = data.split("/");
+			  		 
+			  		 var initialPos = moves[0];
+			  		 var finalPos = moves[1];
+			  		 var pieceChoice = moves[2];
+			  		 
+			  		
+			  		var className = "''";
+			  		//document.getElementById("chessNotation").innerHTML = moves[0] + " to " +moves[1]+ " piece: " + moves[2] +": "+i;
+
+			  		document.getElementById("chessNotation").innerHTML = pieceChoice;
+			  			
+			  		if (pieceChoice == "king"){
+			  			pieceChoice = bKing;
+			  			className = "'pc b king'";
+			  		}
+			  		else if (pieceChoice == "queen"){
+			  			pieceChoice = bQueen;
+			  			className = "'pc b queen'";
+			  		}
+			  		else if (pieceChoice == "rook"){
+			  			pieceChoice = bRook;
+			  			className = "'pc b rook'";
+			  		}
+			  		else if (pieceChoice == "bishop"){
+			  			pieceChoice = bBishop;
+			  			className = "'pc b bishop'";
+			  		}
+			  		else if (pieceChoice == "knight"){
+			  			pieceChoice = bKnight;
+			  			className = "'pc b knight'";
+			  		}
+			  		else if (pieceChoice == "pawn"){
+			  			pieceChoice = bPawn;
+			  			className = "'pc b pawn'";
+			  		}
+			  		
+			  		
+			  		document.getElementById(initialPos).innerHTML = "";
+			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
 			  	}
 			  	
 			  	
@@ -269,8 +313,6 @@ function myFunction() {
 		}, 2000);
 		  
 }
-
-
 
 var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
 	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
@@ -335,27 +377,18 @@ var S = {
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
-	  
+	
     var child = square.children().eq(0);
     
-    
-    
-    
+
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
       this.ClickPiece(child); // ~child is chess piece~
     }
-    
-    
-
-    
+ 
     else if (this.selectedPiece !== 0) {
     	//squareID = finalPosition
       var squareID = parseInt(square.attr("id"));   // get number associated with square
-      
-      
-      
-      
-      
+
       
       if (squareID < 10){
     	  finalPos = ('0' + squareID).slice(-2);
@@ -383,13 +416,7 @@ var S = {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
-        
-       
-         
-        
-        
-        
-        
+
          // PAWN PROMOTION!
 		// white
         if (this.selectedPiece.hasClass("pawn") && (squareID > 56)) {
@@ -516,12 +543,12 @@ var S = {
 			  
 			  
 		});
-			  
-			 	
+			 
 		
 				square.append(this.selectedPiece);  //append piece to square
 				
-		       	this.ChangeTurn();  //change turn		
+		        this.ChangeTurn();  //change turn	
+		        
 	
       
       }
