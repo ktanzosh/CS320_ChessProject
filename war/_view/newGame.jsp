@@ -375,19 +375,21 @@ var logic;
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
 
-
+if(servletColor == "white")  {
+	turnInt = 1;
+}
+else if (servletColor == "black"){
+	turnInt = 0;
+}
 
 var S = { 	
-  turnInt:1, selectedPiece:0, moves:0, 
+  turnInt, selectedPiece:0, moves:0, 
+  
+
   
   ChangeTurn:function() {
 	  
-	if(servletColor == "white")  {
-		turnInt = 1;
-	}
-	else{
-		turnInt = 0;
-	}
+	
 	  
     $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
     $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
