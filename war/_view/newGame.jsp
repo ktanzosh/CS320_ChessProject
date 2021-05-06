@@ -169,10 +169,18 @@ var bBishop = "&#9821";
 var bKnight = "&#9822";
 var bPawn =  "&#9823";
 
+var wKing = "&#9812";
+var wQueen = "&#9813";
+var wRook = "&#9814";
+var wBishop = "&#9815"; 
+var wKnight = "&#9816";
+var wPawn =  "&#9817";
+
 var pieceChoice;
 var finalsq = '45'; // good for id then append new piece
 var initialsq = '8';
 
+var newMoves = true;
 //var chess = 'chessNotation';
 //document.getElementById(chess).innerHTML = finalsq;
 var className = "'pc b rook'";
@@ -239,7 +247,7 @@ async function postData(address, objectToPost){
 }
 
 
-var newMoves;
+
 var i = 0;
 function myFunction() {
 	
@@ -251,13 +259,12 @@ function myFunction() {
 			  	//document.getElementById("chessNotation").innerHTML = data + " " + i;
 			 
 			  	if(data == "No moves to be updated"){
-			  		newMoves = 0;
+			  		newMoves = false;
 			  		document.getElementById("chessNotation").innerHTML = "NO NEW MOVES " + "time: " +i;
-			 	
-			  		
 			  	}
 			  	
 			  	else{
+			  		newMoves = true;
 			  		//data = "16/30";
 			  		//document.getElementById("chessNotation").innerHTML = data + " new move: " +i;
 			  		 var moves = data.split("/");
@@ -265,13 +272,11 @@ function myFunction() {
 			  		 var initialPos = moves[0];
 			  		 var finalPos = moves[1];
 			  		 var pieceChoice = moves[2];
-			  		 
-			  		
-			  		var className = "''";
+			  		 var className = "''";
 			  		//document.getElementById("chessNotation").innerHTML = moves[0] + " to " +moves[1]+ " piece: " + moves[2] +": "+i;
 
-			  		document.getElementById("chessNotation").innerHTML = pieceChoice;
-			  			
+			  		//document.getElementById("chessNotation").innerHTML = pieceChoice;
+			  if(servletColor == "white"){			
 			  		if (pieceChoice == "king"){
 			  			pieceChoice = bKing;
 			  			className = "'pc b king'";
@@ -301,6 +306,37 @@ function myFunction() {
 			  		document.getElementById(initialPos).innerHTML = "";
 			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
 			  	}
+			  else if(servletColor == "black"){			
+			  		if (pieceChoice == "king"){
+			  			pieceChoice = wKing;
+			  			className = "'pc w king'";
+			  		}
+			  		else if (pieceChoice == "queen"){
+			  			pieceChoice = wQueen;
+			  			className = "'pc w queen'";
+			  		}
+			  		else if (pieceChoice == "rook"){
+			  			pieceChoice = wRook;
+			  			className = "'pc w rook'";
+			  		}
+			  		else if (pieceChoice == "bishop"){
+			  			pieceChoice = wBishop;
+			  			className = "'pc w bishop'";
+			  		}
+			  		else if (pieceChoice == "knight"){
+			  			pieceChoice = wKnight;
+			  			className = "'pc w knight'";
+			  		}
+			  		else if (pieceChoice == "pawn"){
+			  			pieceChoice = wPawn;
+			  			className = "'pc w pawn'";
+			  		}
+			  		
+			  		
+			  		document.getElementById(initialPos).innerHTML = "";
+			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
+			  	}
+			 }
 			  	
 			  	
 				i++;
@@ -547,7 +583,15 @@ var S = {
 		
 				square.append(this.selectedPiece);  //append piece to square
 				
-		        this.ChangeTurn();  //change turn	
+				this.ChangeTurn();  //change turn	
+				//newMoves = true;
+				
+				if(newMoves == true){
+					this.ChangeTurn();  //change turn	
+					document.getElementById("chessNotation").innerHTML = "CHANGE TURN";
+				}
+				
+		       // this.ChangeTurn();  //change turn	
 		        
 	
       
