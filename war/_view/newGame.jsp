@@ -586,10 +586,11 @@ var S = {
 				square.append(this.selectedPiece);  //append piece to square
 				
 				this.ChangeTurn();  //change turn	
+				this.ChangeTurn();  //change tur
 				//newMoves = true;
 				
 				if(newMoves == true){
-					this.ChangeTurn();  //change turn	
+					
 					document.getElementById("chessNotation").innerHTML = "CHANGE TURN";
 				}
 				
