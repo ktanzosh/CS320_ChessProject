@@ -63,6 +63,7 @@ public class PingServlet extends HttpServlet
 				int ogSquare = 0;
 				int finalSquare = 0;
 				String pieceName = "";
+				String state = "";
 
 				//if you are black you are pulling a white move
 				if(playerColor.equals("black"))
@@ -79,6 +80,7 @@ public class PingServlet extends HttpServlet
 					userSession.setAttribute("sessionGame", playGame);
 					moves.add(System.lineSeparator() + " White's Move: " + lastMoveInfo);
 					userSession.setAttribute("moves", moves);
+					state = playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces());
 				}
 					
 				//if you are white you are pulling a black move
@@ -95,6 +97,7 @@ public class PingServlet extends HttpServlet
 					userSession.setAttribute("sessionGame", playGame);
 					moves.add(System.lineSeparator() + " White's Move: " + lastMoveInfo);
 					userSession.setAttribute("moves", moves);
+					state = playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces());
 				}
 				
 				System.out.println(lastMoveInfo);
@@ -102,7 +105,7 @@ public class PingServlet extends HttpServlet
 				System.out.println(playGame.getLastMoveFinalXPos(lastMoveInfo) + "/" + playGame.getLastMoveFinalYPos(lastMoveInfo));	
 				System.out.println(String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare));
 				System.out.println(moves);
-				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare) + "/" + pieceName;
+				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare) + "/" + pieceName + "/" + state;
 				//1 to 17 -? 1/17
 			}
 			
