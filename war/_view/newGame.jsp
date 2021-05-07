@@ -230,7 +230,7 @@ else if (pieceChoice == "pawn"){
 
 
 var servletColor = "${color}";
-//document.getElementById("chessNotation").innerHTML = servletColor;
+document.getElementById("chessNotation").innerHTML = servletColor;
 	
 	
 	
@@ -335,7 +335,40 @@ function myFunction() {
 			  		
 			  		document.getElementById(initialPos).innerHTML = "";
 			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
-			  	}
+			  		
+			  		
+			  		
+			  		
+			  		if(servletColor == "white")  {
+
+			  			
+			  			 moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
+					  	  document.getElementById("moveList").innerHTML = moveList;
+					  		
+					  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+					        document.getElementById("moveList").innerHTML = moveList;
+			  			
+			  		}
+			  		
+			  		else if (servletColor == "black"){
+			  			
+
+			  		  moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
+				  	  document.getElementById("moveList").innerHTML = moveList;
+				  		
+				  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+				        document.getElementById("moveList").innerHTML = moveList;
+			  		}
+			  		
+		/* 	  	  moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
+			  	  document.getElementById("moveList").innerHTML = moveList;
+			  		
+			  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+			        document.getElementById("moveList").innerHTML = moveList; */
+			        
+			        
+			        
+			  }
 			 }
 			  	
 			  	
@@ -411,7 +444,7 @@ var S = {
     }
     //update move list
     moveList.push("<br>" + turn);
-    document.getElementById("moveList").innerHTML = moveList;
+   document.getElementById("moveList").innerHTML = moveList;
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
@@ -585,14 +618,11 @@ var S = {
 		
 				square.append(this.selectedPiece);  //append piece to square
 				
-				this.ChangeTurn();  //change turn	
-				this.ChangeTurn();  //change tur
-				//newMoves = true;
+				this.ChangeTurn();  //change turn
 				
-				if(newMoves == true){
-					
-					document.getElementById("chessNotation").innerHTML = "CHANGE TURN";
-				}
+				this.ChangeTurn();  //change turn
+				//newMoves = true;
+
 				
 		       // this.ChangeTurn();  //change turn	
 		        
