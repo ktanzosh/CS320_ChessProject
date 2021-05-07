@@ -391,7 +391,7 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
-	
+	 
 	
 	// transaction that deletes Book (and possibly its Author) from Library
 	@Override
