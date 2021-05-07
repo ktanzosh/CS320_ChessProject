@@ -248,6 +248,12 @@ public class NewGameServlet extends HttpServlet {
 				
 				IDatabase db = DatabaseProvider.getInstance();
 				db.insertNewMove(id, moveString, pieceID);
+				
+				if(playGame.getFinish() == true) {
+					User user = (User) userSession.getAttribute("userInfo");
+					int user_id = user.getUserID();
+					db.insertGameEnd(id, "Checkmate", user_id);
+				}
 				moves.add(System.lineSeparator() + playerWhite + moveString);
 				userSession.setAttribute("moves", moves);
 				
@@ -283,6 +289,13 @@ public class NewGameServlet extends HttpServlet {
 				int pieceID = playGame.getInfoFromMove(sendMove).getPieceNumber();
 				IDatabase db = DatabaseProvider.getInstance();
 				db.insertNewMove(id, moveString, pieceID);
+				
+				if(playGame.getFinish() == true) {
+					User user = (User) userSession.getAttribute("userInfo");
+					int user_id = user.getUserID();
+					db.insertGameEnd(id, "Checkmate", user_id);
+				}
+				
 				moves.add(System.lineSeparator() + playerBlack + moveString);
 				userSession.setAttribute("moves", moves);
 				

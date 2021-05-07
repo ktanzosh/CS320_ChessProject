@@ -615,7 +615,7 @@ public class DerbyDatabase implements IDatabase {
 				if(result1.next()){
 					int currentID = result1.getInt(1);
 					//System.out.println(currentID);
-					if((currentID != 0) || (currentID != 13)) {
+					if((currentID != 0) && (currentID != 13)) {
 						System.out.println("There is already a player 2");
 						return false;
 					}

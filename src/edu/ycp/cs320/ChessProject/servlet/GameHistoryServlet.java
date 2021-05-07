@@ -79,12 +79,21 @@ public class GameHistoryServlet extends HttpServlet {
 				System.out.println();
 			}
 			
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			
 			req.setAttribute("gameList", gameList);
 			
 			req.setAttribute("moves", moves);
 			
-			
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		
 			req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
 		}
