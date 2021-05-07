@@ -212,7 +212,7 @@ else if (pieceChoice == "pawn"){
 
 
 
-//document.getElementById(chess).innerHTML = className;
+
 
 // move to final position -- this works
 //document.getElementById(finalsq).innerHTML = "<span class='pc w rook'>"+bRook+"</span>";
@@ -306,7 +306,9 @@ function myFunction() {
 			  		document.getElementById(initialPos).innerHTML = "";
 			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
 			  	}
-			  else if(servletColor == "black"){			
+			  
+			  else if(servletColor == "black"){	
+				  
 			  		if (pieceChoice == "king"){
 			  			pieceChoice = wKing;
 			  			className = "'pc w king'";
@@ -491,7 +493,7 @@ var S = {
          // PAWN PROMOTION!
 		// white
         if (this.selectedPiece.hasClass("pawn") && (squareID > 56)) {
-
+        	pawnPromotion = true;
          this.selectedPiece.removeClass("pawn");
           this.selectedPiece.addClass("queen");
 			this.selectedPiece.empty().html("&#9813");
@@ -503,7 +505,7 @@ var S = {
 			// black
 			else if (this.selectedPiece.hasClass("pawn") && 
 		            (squareID < 9)) {
-		        	
+				pawnPromotion = true;
 		         this.selectedPiece.removeClass("pawn");
 		          this.selectedPiece.addClass("queen");
 					this.selectedPiece.empty().html("&#9819");
@@ -517,7 +519,7 @@ var S = {
         
         	
         //do pawn promotion for white pawns
-        if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
+/*         if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
         	
         	pawnPromotion = true;
         	document.getElementById("moveList").style.color = "white";
@@ -539,7 +541,7 @@ var S = {
         else{
         	
         	pawnPromotion = false;
-        }
+        } */
         
        
         
