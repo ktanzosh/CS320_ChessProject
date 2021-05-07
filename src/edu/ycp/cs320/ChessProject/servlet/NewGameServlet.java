@@ -207,7 +207,7 @@ public class NewGameServlet extends HttpServlet {
 		int parsedNew = Integer.parseInt(newOne);
 		
 		int e = total.indexOf(":", d+1);
-		String promotion = total.substring(e+1, e+6);
+		String promotion = total.substring(e+1, e+5);
 		boolean prom = Boolean.parseBoolean(promotion);
 		
 		System.out.println("A: " + a + "B: " + b + "C: " + c + "D: " + d + "E: " + e + " " + promotion);
@@ -255,8 +255,8 @@ public class NewGameServlet extends HttpServlet {
 				{
 					int f = total.indexOf(":", e+1);
 					String piece = total.substring(f+2, f+6);
-					System.out.println("Promotion time " + piece);
-					playGame.PawnPromotion(dx, dy, playGame.getWhitePieces(), piece);
+					System.out.println("Promotion time ");
+					playGame.PawnPromotion(dx, dy, playGame.getWhitePieces(), "quee");
 				}
 				
 				ResponseString += playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces());
@@ -290,8 +290,8 @@ public class NewGameServlet extends HttpServlet {
 				{
 					int f = total.indexOf(":", e+1);
 					String piece = total.substring(f+2, f+6);
-					System.out.println("Promotion time " + piece);
-					playGame.PawnPromotion(dx, dy, playGame.getBlackPieces(), piece);
+					System.out.println("Promotion time ");
+					playGame.PawnPromotion(dx, dy, playGame.getBlackPieces(), "quee");
 				}
 				
 				ResponseString += playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces());
