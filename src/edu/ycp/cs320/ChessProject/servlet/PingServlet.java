@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import edu.ycp.cs320.ChessProject.Chess.ChessPiece;
 import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.Chess.Move;
+import edu.ycp.cs320.ChessProject.Chess.TestMain;
 import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
 import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
 
@@ -27,6 +28,7 @@ public class PingServlet extends HttpServlet
 		HttpSession userSession = req.getSession(false);
 		Game playGame = (Game) userSession.getAttribute(("sessionGame"));
 		String playerColor = (String) userSession.getAttribute("color");
+		TestMain tm = new TestMain();
 		
 		IDatabase db = DatabaseProvider.getInstance();
 		int id = playGame.getGameID();
@@ -45,6 +47,9 @@ public class PingServlet extends HttpServlet
 			ArrayList<String> moves = (ArrayList<String>) userSession.getAttribute("moves");
 			ArrayList<String> testMoves = db.getMoveList(id);
 			
+			//System.out.println("Session MoveList: " + moves);
+			//System.out.println("Database MoveList: " + testMoves);
+			
 			String response = "";
 				
 			if(testMoves.size() > moves.size()) 
@@ -52,27 +57,55 @@ public class PingServlet extends HttpServlet
 				ArrayList<Integer> pieceID = db.getMoveListbyPieceID(id);
 				int lastPiece = pieceID.get(pieceID.size()-1);
 				ArrayList<String> moveList = db.getMoveList(id);
-				String lastMoveInfo = moveList.get(moveList.size() - 1);
-				System.out.println(lastPiece);
+				String lastMoveInfo = moveList.get(testMoves.size() - 1);
+				//System.out.println("PieceID: " + lastPiece + " ,moves: " + moves);
 					
 				int ogSquare = 0;
 				int finalSquare = 0;
-					
-				if(playerColor.equals("white"))
+				String pieceName = "";
+				String state = "";
+
+				//if you are black you are pulling a white move
+				if(playerColor.equals("black"))
 				{
-					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getWhitePieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getWhitePieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+					//pieceName = playGame.getInfoFromMove(null)
+					//System.out.println("Premove");
+					//tm.drawBoard(playGame);
+					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
+					//System.out.println("Postmove");
+					//tm.drawBoard(playGame);
+					pieceName = playGame.getLastMovePieceString(lastMoveInfo);
+					userSession.setAttribute("sessionGame", playGame);
+					moves.add(System.lineSeparator() + " White's Move: " + lastMoveInfo);
+					userSession.setAttribute("moves", moves);
+					state = playGame.getResult(playGame.getBlackPlayer(), playGame.getChessBoard(), playGame.getBlackKing(), playGame.getBlackPieces());
 				}
 					
-				else
+				//if you are white you are pulling a black move
+				else if(playerColor.equals("white"))
 				{
-					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
+					//System.out.println("Premove");
+					//tm.drawBoard(playGame);
+					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
+					//System.out.println("Postmove");
+					//tm.drawBoard(playGame);
+					pieceName = playGame.getLastMovePieceString(lastMoveInfo);
+					userSession.setAttribute("sessionGame", playGame);
+					moves.add(System.lineSeparator() + " White's Move: " + lastMoveInfo);
+					userSession.setAttribute("moves", moves);
+					state = playGame.getResult(playGame.getWhitePlayer(), playGame.getChessBoard(), playGame.getWhiteKing(), playGame.getWhitePieces());
 				}
-					
-				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare);
+				
+				System.out.println(lastMoveInfo);
+				System.out.println(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece) + "/" + playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
+				System.out.println(playGame.getLastMoveFinalXPos(lastMoveInfo) + "/" + playGame.getLastMoveFinalYPos(lastMoveInfo));	
+				System.out.println(String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare));
+				//System.out.println(moves);
+				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare) + "/" + pieceName + "/" + state;
 				//1 to 17 -? 1/17
 			}
 			

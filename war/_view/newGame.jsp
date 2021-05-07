@@ -158,21 +158,79 @@ p {
 
 	</div>
 <button onclick="myFunction()">Try to Ping</button>
-	<script>
+<!----------------------------- START OF JAVASCRIPT ----------------------------->
+<script>
 	
- 	
+
+var bKing = "&#9818";
+var bQueen = "&#9819";
+var bRook = "&#9820";
+var bBishop = "&#9821"; 
+var bKnight = "&#9822";
+var bPawn =  "&#9823";
+
+var wKing = "&#9812";
+var wQueen = "&#9813";
+var wRook = "&#9814";
+var wBishop = "&#9815"; 
+var wKnight = "&#9816";
+var wPawn =  "&#9817";
+
+var pieceChoice;
+var finalsq = '45'; // good for id then append new piece
+var initialsq = '8';
+
+var newMoves = true;
+//var chess = 'chessNotation';
+//document.getElementById(chess).innerHTML = finalsq;
+var className = "'pc b rook'";
+
+if (pieceChoice == "king"){
+	pieceChoice = bKing;
+	className = "'pc b king'";
+}
+else if (pieceChoice == "queen"){
+	pieceChoice = bQueen;
+	className = "'pc b queen'";
+}
+else if (pieceChoice == "rook"){
+	pieceChoice = bRook;
+	className = "'pc b rook'";
+}
+else if (pieceChoice == "bishop"){
+	pieceChoice = bBishop;
+	className = "'pc b bishop'";
+}
+else if (pieceChoice == "knight"){
+	pieceChoice = bKnight;
+	className = "'pc b knight'";
+}
+else if (pieceChoice == "pawn"){
+	pieceChoice = bPawn;
+	className = "'pc b pawn'";
+}
 
 
 
-	
-var yes = "&#9814";
 
-//document.getElementById("18").classList.add("pc");
-//document.getElementById("18").classList.add("w");
-//document.getElementById("18").classList.add("pawn");
+
+// move to final position -- this works
+//document.getElementById(finalsq).innerHTML = "<span class='pc w rook'>"+bRook+"</span>";
+//broooooo im a genius
+//document.getElementById(finalsq).innerHTML = "<span class="+className+">"+bRook+"</span>";
+
+
+
+// GOOD FOR GETTING RID OF INTIIAL POSITION
+//$("#8").empty(); // jQuery route
+//document.getElementById(initialsq).innerHTML = "";
+
+
+
+
 
 var servletColor = "${color}";
-//document.getElementById("chessNotation").innerHTML = servletColor;
+document.getElementById("chessNotation").innerHTML = servletColor;
 	
 	
 	
@@ -197,8 +255,125 @@ function myFunction() {
 		
 		  postData('ping').then(function(data){
 			  	console.log(data);
+			  	//data = "16/30/rook"
+			  	//document.getElementById("chessNotation").innerHTML = data + " " + i;
+			 
+			  	if(data == "No moves to be updated"){
+			  		newMoves = false;
+			  		document.getElementById("chessNotation").innerHTML = "NO NEW MOVES " + "time: " +i;
+			  	}
 			  	
-			  	document.getElementById("chessNotation").innerHTML = data + " " + i;
+			  	else{
+			  		newMoves = true;
+			  		//data = "16/30";
+			  		//document.getElementById("chessNotation").innerHTML = data + " new move: " +i;
+			  		 var moves = data.split("/");
+			  		 
+			  		 var initialPos = moves[0];
+			  		 var finalPos = moves[1];
+			  		 var pieceChoice = moves[2];
+			  		 var className = "''";
+			  		//document.getElementById("chessNotation").innerHTML = moves[0] + " to " +moves[1]+ " piece: " + moves[2] +": "+i;
+
+			  		//document.getElementById("chessNotation").innerHTML = pieceChoice;
+			  if(servletColor == "white"){			
+			  		if (pieceChoice == "king"){
+			  			pieceChoice = bKing;
+			  			className = "'pc b king'";
+			  		}
+			  		else if (pieceChoice == "queen"){
+			  			pieceChoice = bQueen;
+			  			className = "'pc b queen'";
+			  		}
+			  		else if (pieceChoice == "rook"){
+			  			pieceChoice = bRook;
+			  			className = "'pc b rook'";
+			  		}
+			  		else if (pieceChoice == "bishop"){
+			  			pieceChoice = bBishop;
+			  			className = "'pc b bishop'";
+			  		}
+			  		else if (pieceChoice == "knight"){
+			  			pieceChoice = bKnight;
+			  			className = "'pc b knight'";
+			  		}
+			  		else if (pieceChoice == "pawn"){
+			  			pieceChoice = bPawn;
+			  			className = "'pc b pawn'";
+			  		}
+			  		
+			  		
+			  		document.getElementById(initialPos).innerHTML = "";
+			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
+			  	}
+			  
+			  else if(servletColor == "black"){	
+				  
+			  		if (pieceChoice == "king"){
+			  			pieceChoice = wKing;
+			  			className = "'pc w king'";
+			  		}
+			  		else if (pieceChoice == "queen"){
+			  			pieceChoice = wQueen;
+			  			className = "'pc w queen'";
+			  		}
+			  		else if (pieceChoice == "rook"){
+			  			pieceChoice = wRook;
+			  			className = "'pc w rook'";
+			  		}
+			  		else if (pieceChoice == "bishop"){
+			  			pieceChoice = wBishop;
+			  			className = "'pc w bishop'";
+			  		}
+			  		else if (pieceChoice == "knight"){
+			  			pieceChoice = wKnight;
+			  			className = "'pc w knight'";
+			  		}
+			  		else if (pieceChoice == "pawn"){
+			  			pieceChoice = wPawn;
+			  			className = "'pc w pawn'";
+			  		}
+			  		
+			  		
+			  		document.getElementById(initialPos).innerHTML = "";
+			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
+			  		
+			  		
+			  		
+			  		
+			  		if(servletColor == "white")  {
+
+			  			
+			  			 moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
+					  	  document.getElementById("moveList").innerHTML = moveList;
+					  		
+					  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+					        document.getElementById("moveList").innerHTML = moveList;
+			  			
+			  		}
+			  		
+			  		else if (servletColor == "black"){
+			  			
+
+			  		  moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
+				  	  document.getElementById("moveList").innerHTML = moveList;
+				  		
+				  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+				        document.getElementById("moveList").innerHTML = moveList;
+			  		}
+			  		
+		/* 	  	  moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
+			  	  document.getElementById("moveList").innerHTML = moveList;
+			  		
+			  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+			        document.getElementById("moveList").innerHTML = moveList; */
+			        
+			        
+			        
+			  }
+			 }
+			  	
+			  	
 				i++;
 		  });
 		
@@ -209,8 +384,6 @@ function myFunction() {
 		}, 2000);
 		  
 }
-
-
 
 var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
 	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
@@ -237,19 +410,21 @@ var logic;
 var pawnPromotion = false;
 document.getElementById("myBtn").style.visibility = "hidden";
 
-
+if(servletColor == "white")  {
+	turnInt = 1;
+}
+else if (servletColor == "black"){
+	turnInt = 0;
+}
 
 var S = { 	
-  turnInt:1, selectedPiece:0, moves:0, 
+  turnInt, selectedPiece:0, moves:0, 
+  
+
   
   ChangeTurn:function() {
 	  
-	if(servletColor == "white")  {
-		turnInt = 1;
-	}
-	else{
-		turnInt = 0;
-	}
+	
 	  
     $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
     $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
@@ -271,25 +446,22 @@ var S = {
     }
     //update move list
     moveList.push("<br>" + turn);
-    document.getElementById("moveList").innerHTML = moveList;
+   document.getElementById("moveList").innerHTML = moveList;
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
-	  
+	
     var child = square.children().eq(0);
     
-   
-    
-    
+
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
       this.ClickPiece(child); // ~child is chess piece~
     }
-    
-    
+ 
     else if (this.selectedPiece !== 0) {
     	//squareID = finalPosition
       var squareID = parseInt(square.attr("id"));   // get number associated with square
-      
+
       
       if (squareID < 10){
     	  finalPos = ('0' + squareID).slice(-2);
@@ -317,17 +489,11 @@ var S = {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
-        
-       
-         
-        
-        
-        
-        
+
          // PAWN PROMOTION!
 		// white
         if (this.selectedPiece.hasClass("pawn") && (squareID > 56)) {
-
+        	pawnPromotion = true;
          this.selectedPiece.removeClass("pawn");
           this.selectedPiece.addClass("queen");
 			this.selectedPiece.empty().html("&#9813");
@@ -339,7 +505,7 @@ var S = {
 			// black
 			else if (this.selectedPiece.hasClass("pawn") && 
 		            (squareID < 9)) {
-		        	
+				pawnPromotion = true;
 		         this.selectedPiece.removeClass("pawn");
 		          this.selectedPiece.addClass("queen");
 					this.selectedPiece.empty().html("&#9819");
@@ -353,7 +519,7 @@ var S = {
         
         	
         //do pawn promotion for white pawns
-        if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
+/*         if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
         	
         	pawnPromotion = true;
         	document.getElementById("moveList").style.color = "white";
@@ -375,7 +541,7 @@ var S = {
         else{
         	
         	pawnPromotion = false;
-        }
+        } */
         
        
         
@@ -398,7 +564,7 @@ var S = {
 			  	logicB = data;
 			  //	logic = logicB.substring(0, logicB.length - 1);
 			  var logic = logicB.split("/");
-			  document.getElementById("chessNotation").innerHTML = logicB;
+			 // document.getElementById("chessNotation").innerHTML = logicB;
 		
 			  
 			  
@@ -450,10 +616,18 @@ var S = {
 			  
 			  
 		});
-			  
-	
+			 
+		
 				square.append(this.selectedPiece);  //append piece to square
-		       	this.ChangeTurn();  //change turn		
+				
+				this.ChangeTurn();  //change turn
+				
+				this.ChangeTurn();  //change turn
+				//newMoves = true;
+
+				
+		       // this.ChangeTurn();  //change turn	
+		        
 	
       
       }
@@ -469,8 +643,7 @@ var S = {
      // document.getElementById("chessNotation").innerHTML =   $(this.selectedPiece).addClass("pcActive");
       
       this.moves = GetPieceMoveArray(["b","w"][this.turnInt], $(piece)); //go to GetPieceMoveArray and get the next move
-      
-    
+
     }
     
     
@@ -485,6 +658,8 @@ var S = {
     
     this.selectedPiece = 0; // back to none when selected
   }
+  
+  
   
   
 }; //END OF BIG FUNC

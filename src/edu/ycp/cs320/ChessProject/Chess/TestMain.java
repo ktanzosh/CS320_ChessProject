@@ -8,7 +8,28 @@ public class TestMain
 {
 	public static void main(String[] args)
 	{
-		Player WhitePlayer = new Player(true);
+		Game testGame = new Game();
+		testGame.setGame();
+		Move lastMove = new Move(testGame.getChessBoard().getTile(1, 7).getPiece(), 2, 7, "", false, false, false);
+		testGame.getMoves().add(lastMove);
+		System.out.println(lastMove.getMove());
+		
+		//int pieceID = testGame.getChessBoard().getTile(6, 0).getPiece().getPieceNumber();
+		//System.out.println(pieceID);
+		
+		int lastPiece = testGame.getChessBoard().getTile(1, 7).getPiece().getPieceNumber();//pawn id
+		String lastMoveInfo = lastMove.getMove();
+		int ogSquare = testGame.getSquareNumber(testGame.getLastMoveOrigXPos(testGame.getBlackPieces(), lastPiece), testGame.getLastMoveOrigYPos(testGame.getBlackPieces(), lastPiece));
+		int finalSquare = testGame.getSquareNumber(testGame.getLastMoveFinalXPos(lastMoveInfo), testGame.getLastMoveFinalYPos(lastMoveInfo));
+		
+		System.out.println(testGame.getLastMoveOrigXPos(testGame.getBlackPieces(), lastPiece) + "/" + testGame.getLastMoveOrigYPos(testGame.getBlackPieces(), lastPiece));
+		System.out.println(testGame.getLastMoveFinalXPos(lastMoveInfo) + "/" + testGame.getLastMoveFinalYPos(lastMoveInfo));
+		
+		testGame.doLastMove(lastMoveInfo, testGame.getBlackPieces(), lastPiece);
+		String pieceMove = testGame.getLastMovePieceString(lastMoveInfo);
+		
+		System.out.println(ogSquare + "/" + finalSquare + "/" + pieceMove);
+		/*Player WhitePlayer = new Player(true);;
 		Player BlackPlayer = new Player(false);
 		
 		Game testGame = new Game();
@@ -21,7 +42,7 @@ public class TestMain
 		Move lastMove = new Move(testGame.getChessBoard().getTile(1, 0).getPiece(), 3, 0, "", false, false, false);
 		testGame.getMoves().add(lastMove);
 		testGame.doLastMove(testGame.getLastMove().getMove(), testGame.getBlackPieces(), 9);
-		drawBoard(testGame);
+		drawBoard(testGame);*/
 		
 		/*testGame.setWhitePlayer(WhitePlayer);
 		testGame.setBlackPlayer(BlackPlayer);
