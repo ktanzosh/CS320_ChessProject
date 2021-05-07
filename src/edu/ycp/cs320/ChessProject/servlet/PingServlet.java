@@ -47,8 +47,8 @@ public class PingServlet extends HttpServlet
 			ArrayList<String> moves = (ArrayList<String>) userSession.getAttribute("moves");
 			ArrayList<String> testMoves = db.getMoveList(id);
 			
-			System.out.println("Session MoveList: " + moves);
-			System.out.println("Database MoveList: " + testMoves);
+			//System.out.println("Session MoveList: " + moves);
+			//System.out.println("Database MoveList: " + testMoves);
 			
 			String response = "";
 				
@@ -58,7 +58,7 @@ public class PingServlet extends HttpServlet
 				int lastPiece = pieceID.get(pieceID.size()-1);
 				ArrayList<String> moveList = db.getMoveList(id);
 				String lastMoveInfo = moveList.get(testMoves.size() - 1);
-				System.out.println("PieceID: " + lastPiece + " ,moves: " + moves);
+				//System.out.println("PieceID: " + lastPiece + " ,moves: " + moves);
 					
 				int ogSquare = 0;
 				int finalSquare = 0;
@@ -104,7 +104,7 @@ public class PingServlet extends HttpServlet
 				System.out.println(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece) + "/" + playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 				System.out.println(playGame.getLastMoveFinalXPos(lastMoveInfo) + "/" + playGame.getLastMoveFinalYPos(lastMoveInfo));	
 				System.out.println(String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare));
-				System.out.println(moves);
+				//System.out.println(moves);
 				response = String.valueOf(ogSquare) + "/" +  String.valueOf(finalSquare) + "/" + pieceName + "/" + state;
 				//1 to 17 -? 1/17
 			}

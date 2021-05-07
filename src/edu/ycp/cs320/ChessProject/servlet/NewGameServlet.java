@@ -306,7 +306,7 @@ public class NewGameServlet extends HttpServlet {
 		}
 		
 		resp.getWriter().write(ResponseString);
-		playGame.printMoveList();
+		//playGame.printMoveList();
 		
 		
 		if(req.getParameter("index") != null) 
