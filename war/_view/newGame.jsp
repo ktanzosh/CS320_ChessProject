@@ -230,7 +230,7 @@ else if (pieceChoice == "pawn"){
 
 
 var servletColor = "${color}";
-document.getElementById("chessNotation").innerHTML = servletColor;
+//document.getElementById("chessNotation").innerHTML = servletColor;
 	
 	
 	
@@ -248,19 +248,17 @@ async function postData(address, objectToPost){
 
 
 
-var i = 0;
+
 function myFunction() {
 	
 	setInterval(function(){
 		
 		  postData('ping').then(function(data){
 			  	console.log(data);
-			  	//data = "16/30/rook"
-			  	//document.getElementById("chessNotation").innerHTML = data + " " + i;
 			 
 			  	if(data == "No moves to be updated"){
 			  		newMoves = false;
-			  		document.getElementById("chessNotation").innerHTML = "NO NEW MOVES " + "time: " +i;
+			  		//document.getElementById("chessNotation").innerHTML = "NO NEW MOVES " + "time: " +i;
 			  	}
 			  	
 			  	else{
@@ -273,7 +271,7 @@ function myFunction() {
 			  		 var finalPos = moves[1];
 			  		 var pieceChoice = moves[2];
 			  		 var className = "''";
-			  		//document.getElementById("chessNotation").innerHTML = moves[0] + " to " +moves[1]+ " piece: " + moves[2] +": "+i;
+			  		document.getElementById("chessNotation").innerHTML = initialPos + " to " + finalPos + " piece: " + pieceChoice;
 
 			  		//document.getElementById("chessNotation").innerHTML = pieceChoice;
 			  if(servletColor == "white"){			
@@ -340,41 +338,14 @@ function myFunction() {
 			  		
 			  		
 			  		
-			  		
-			  		if(servletColor == "white")  {
-
-			  			
-			  			 moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
-					  	  document.getElementById("moveList").innerHTML = moveList;
+						 moveList.push("<br>" + "OPPONENT PLAYER: " +"<br>"+ "moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + pieceChoice);
+					  	document.getElementById("moveList").innerHTML = moveList;
 					  		
-					  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
-					        document.getElementById("moveList").innerHTML = moveList;
-			  			
-			  		}
-			  		
-			  		else if (servletColor == "black"){
-			  			
-
-			  		  moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
-				  	  document.getElementById("moveList").innerHTML = moveList;
-				  		
-				  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
-				        document.getElementById("moveList").innerHTML = moveList;
-			  		}
-			  		
-		/* 	  	  moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
-			  	  document.getElementById("moveList").innerHTML = moveList;
-			  		
-			  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
-			        document.getElementById("moveList").innerHTML = moveList; */
-			        
-			        
-			        
+					  moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+					    document.getElementById("moveList").innerHTML = moveList;
 			  }
 			 }
-			  	
-			  	
-				i++;
+
 		  });
 		
 		
@@ -432,21 +403,7 @@ var S = {
     this.turnInt = 1 - this.turnInt; //change turn 
     $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
    
-    
-    if(this.turnInt == 0){
-    	document.getElementById("moveList").style.color = "white";
-    	var turn = "WHITES TURN:"
-    	playerColor = "b";
-    	
-    }
-    else{
-    	document.getElementById("moveList").style.color = "black";
-    	var turn = "BLACKS TURN:"
-    	playerColor = "w";
-    }
-    //update move list
-    moveList.push("<br>" + turn);
-   document.getElementById("moveList").innerHTML = moveList;
+
   },  
   //******************************************************************************************
   ClickSquare:function (square) {
@@ -706,11 +663,16 @@ function GetPieceMoveArray (enemyString, piece) {
 	//document.getElementById("chessNotation").innerHTML = squareInt;
 	
 	
+	var pieceSymbol;
+	if (stringOfPieces == "pawn" && enemyString == "w"){
+		pieceSymbol = wPawn;
+	} 
 	
 	//document.getElementById("chessNotation").innerHTML = currentPiece;
 //********LOCATION OF SQUARE && PIECE NAME****************
 	//document.getElementById("chessNotation").innerHTML = stringOfPieces + "has been moved";
-  moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
+  
+  moveList.push("<br>" + "YOUR MOVE: "+"<br>"+ "moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + pieceSymbol);
   document.getElementById("moveList").innerHTML = moveList;
   
   if (squareInt < 10){
@@ -783,7 +745,7 @@ function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
     
     if ($('#' + toSquare).children().eq(0).hasClass(enemyString)) {
      return 1; 
-     document.getElementById("moveList").innerHTML = "legal";
+    // document.getElementById("moveList").innerHTML = "legal";
      }
     else {
     	//document.getElementById("moveList").innerHTML = "illegal";
