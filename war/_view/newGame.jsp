@@ -356,6 +356,8 @@ function myFunction() {
 		  
 }
 
+
+
 var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
 	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
 	"a3", "b3", "c3", "d3","e3", "f3", "g3", "h3",
@@ -395,16 +397,30 @@ var S = {
   
   ChangeTurn:function() {
 	  
-	
+		
 	  
-    $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
-    $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
-    this.selectedPiece = this.moves = 0;  //set equal to none
-    this.turnInt = 1 - this.turnInt; //change turn 
-    $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
-   
-
-  },  
+	    $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
+	    $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
+	    this.selectedPiece = this.moves = 0;  //set equal to none
+	    this.turnInt = 1 - this.turnInt; //change turn 
+	    $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
+	   
+	    
+	    if(this.turnInt == 0){
+	    	document.getElementById("moveList").style.color = "white";
+	    	var turn = "WHITES TURN:"
+	    	playerColor = "b";
+	    	
+	    }
+	    else{
+	    	document.getElementById("moveList").style.color = "black";
+	    	var turn = "BLACKS TURN:"
+	    	playerColor = "w";
+	    }
+	    //update move list
+	    //moveList.push("<br>" + turn);
+	   //document.getElementById("moveList").innerHTML = moveList;
+	  },   
   //******************************************************************************************
   ClickSquare:function (square) {
 	
@@ -421,7 +437,7 @@ var S = {
 
       
       if (squareID < 10){
-    	  finalPos = ('0' + squareID).slice(-2);
+    	  var finalPosi = ('0' + squareID).slice(-2);
     	  squareID_ = finalPos;
       }
       else{
@@ -665,8 +681,44 @@ function GetPieceMoveArray (enemyString, piece) {
 	
 	var pieceSymbol;
 	if (stringOfPieces == "pawn" && enemyString == "w"){
+		pieceSymbol = bPawn;
+	} 
+	else if (stringOfPieces == "rook" && enemyString == "w"){
+		pieceSymbol = bRook;
+	}
+	else if (stringOfPieces == "bishop" && enemyString == "w"){
+		pieceSymbol = bBishop;
+	}
+	else if (stringOfPieces == "queen" && enemyString == "w"){
+		pieceSymbol = bQueen;
+	}
+	else if (stringOfPieces == "king" && enemyString == "w"){
+		pieceSymbol = bKing;
+	}
+	else if (stringOfPieces == "knight" && enemyString == "w"){
+		pieceSymbol = bKnight;
+	}
+	
+	
+	else if (stringOfPieces == "pawn" && enemyString == "b"){
 		pieceSymbol = wPawn;
 	} 
+	else if (stringOfPieces == "rook" && enemyString == "b"){
+		pieceSymbol = wRook;
+	}
+	else if (stringOfPieces == "bishop" && enemyString == "b"){
+		pieceSymbol = wBishop;
+	}
+	else if (stringOfPieces == "queen" && enemyString == "b"){
+		pieceSymbol = wQueen;
+	}
+	else if (stringOfPieces == "king" && enemyString == "b"){
+		pieceSymbol = wKing;
+	}
+	else if (stringOfPieces == "knight" && enemyString == "b"){
+		pieceSymbol = wKnight;
+	}
+	
 	
 	//document.getElementById("chessNotation").innerHTML = currentPiece;
 //********LOCATION OF SQUARE && PIECE NAME****************

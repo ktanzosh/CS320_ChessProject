@@ -318,4 +318,3 @@ public class NewGameServlet extends HttpServlet {
 		//req.getRequestDispatcher("/_view/newGame.jsp").forward(req, resp);
 	}
 }
-
