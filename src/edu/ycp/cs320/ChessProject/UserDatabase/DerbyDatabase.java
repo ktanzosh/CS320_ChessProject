@@ -615,7 +615,7 @@ public class DerbyDatabase implements IDatabase {
 				if(result1.next()){
 					int currentID = result1.getInt(1);
 					//System.out.println(currentID);
-					if(currentID != 0) {
+					if((currentID != 0) || (currentID != 13)) {
 						System.out.println("There is already a player 2");
 						return false;
 					}
@@ -861,74 +861,79 @@ public class DerbyDatabase implements IDatabase {
 		return executeTransaction(new Transaction<ArrayList<Pair<ArrayList<String>, ArrayList<String>>>>() {
 			@Override
 			public ArrayList<Pair<ArrayList<String>, ArrayList<String>>> execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet1 = null;
+				ResultSet resultSet2 = null;
 				
 				try {
-					stmt = conn.prepareStatement(
-							"select userGames.*, moves.move" +
-							" from users, moves, userGames" +
+					stmt1 = conn.prepareStatement(
+							"select userGames.*" +
+							" from userGames" +
 							" where ((? = userGames.player1_id)" +
 							" or (? = userGames.player2_id))" +
 							" order by userGames.game_id"
 					);
-					stmt.setInt(1, id);
-					stmt.setInt(2, id);
+					stmt1.setInt(1, id);
+					stmt1.setInt(2, id);
 
 					ArrayList<Pair<ArrayList<String>, ArrayList<String>>> result = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
-					ArrayList<String> gameInfo = new ArrayList<String>();
-					ArrayList<String> gameMoves = new ArrayList<String>();
+					//ArrayList<String> gameInfo = new ArrayList<String>();
+					//ArrayList<String> gameMoves = new ArrayList<String>();
 					
-					resultSet = stmt.executeQuery();
+					resultSet1 = stmt1.executeQuery();
 
 					// for testing that a result was returned
 					Boolean found = false;
-					Boolean first = true;
 					int current_game_id = -1;
-					String lastMove = null;
+					User temp_user = null;
+					String temp_name = null;
 					
-					while (resultSet.next()) {
+					while (resultSet1.next()) {
 						found = true;
-						System.out.println(resultSet.getInt(1));
-						if(resultSet.getInt(1) == current_game_id) {
-							if(!resultSet.getString(6).equals(lastMove)) {
-								gameMoves.add(resultSet.getString(6));
-								lastMove = resultSet.getString(6);
-							}
+						ArrayList<String> gameInfo = new ArrayList<String>();
+						ArrayList<String> gameMoves = new ArrayList<String>();
+						
+						 gameInfo.add(resultSet1.getString(1)); //gameID
+						 
+						 temp_user = getUserInfoByID(resultSet1.getInt(2));
+						 temp_name = temp_user.getUser();
 							
+						 gameInfo.add(temp_name); //player 1
+						 
+						 temp_user = getUserInfoByID(resultSet1.getInt(3));
+						 temp_name = temp_user.getUser();
 							
+						 gameInfo.add(temp_name); //player 2
+						 
+						 gameInfo.add(resultSet1.getString(4)); //end result
+						 
+						 temp_user = getUserInfoByID(resultSet1.getInt(5));
+						 temp_name = temp_user.getUser();
+							
+						 gameInfo.add(temp_name); //Winner Player
+						
+						
+						System.out.println(resultSet1.getInt(1));
+						current_game_id = resultSet1.getInt(1);
+						
+						stmt2 = conn.prepareStatement(
+								"select moves.move" +
+								" from moves" +
+								" where moves.game_id = ?" +
+								" order by moves.move_id"
+						);
+						stmt2.setInt(1, current_game_id);
+
+						
+						resultSet2 = stmt2.executeQuery();
+						
+						while (resultSet2.next()) {
+							gameMoves.add(resultSet2.getString(1));
 						}
-						else if (resultSet.getInt(1) != -1){
-							if(first == false) {
-								result.add(new Pair<ArrayList<String>, ArrayList<String>>(gameInfo, gameMoves));
-							
-								gameInfo.clear();
-								gameMoves.clear();
-								
-								
-							}
-							
-							else {
-								
-								first = false;
-								
-							}
-							
-							//gameInfo = loadGameInfo(resultSet, 1);
-							gameInfo.add(resultSet.getString(1));
-							gameInfo.add(resultSet.getString(2));
-							gameInfo.add(resultSet.getString(3));
-							gameInfo.add(resultSet.getString(4));
-							gameInfo.add(resultSet.getString(5));
-							
-							gameMoves.add(resultSet.getString(6));
-							lastMove = resultSet.getString(6);
-							
-							
-							current_game_id = resultSet.getInt(1);
-							
-							
-						}
+						
+						result.add(new Pair<ArrayList<String>, ArrayList<String>>(gameInfo, gameMoves));
+
 						
 					}
 					
@@ -939,8 +944,8 @@ public class DerbyDatabase implements IDatabase {
 					
 					return result;
 				} finally {
-					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
 				}
 			}
 		});

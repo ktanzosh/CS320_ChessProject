@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
 <%@page import="edu.ycp.cs320.ChessProject.UserDatabase.Pair"%>
 <html>
 	<head>
@@ -17,44 +16,40 @@
 
 	
 	<body>
-		<!--
-		<c:choose>
-			<c:when test="${moves == null}">
-				<!-The Third Step </br> ->
-				
-				It looks like you don't have any past games!
+		<form action="${pageContext.servletContext.contextPath}/gameHistory" method="POST">
 
-			</c:when> 
-
-			<c:otherwise>    <!- else condition ->
-				<!- The First Step </br> ->
-
-				Here are your past moves!
-				<h2>Your Game</h2>
-				<p>${moves}</p>
-
-			</c:otherwise>
-		</c:choose>
-		-->
-		<h3> Game History </h3>
-
-		<% ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList =  (ArrayList<Pair<ArrayList<String>, ArrayList<String>>>)request.getAttribute("gameList");
+			<input type="Submit" name="index" value="Return to Main Menu"> </br>
+	
+		</form>
+		</br>
 		
-			for (Pair<ArrayList<String>, ArrayList<String>> game : gameList) {
-				
-
-				out.print("Game Information: " + game.getLeft());
+		<% ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = (ArrayList<Pair<ArrayList<String>, ArrayList<String>>>)request.getAttribute("gameList");
+ 		
+			for(Pair<ArrayList<String>, ArrayList<String>> game : gameList) {
+				out.print("Game Information:");
+				out.print("<br/>");
+				out.print("Game ID: " + game.getLeft().get(0));
+				out.print("<br/>");
+				out.print("Player 1: " + game.getLeft().get(1));
+				out.print("<br/>");
+				out.print("Player 2: " + game.getLeft().get(2));
+				out.print("<br/>");
+				out.print("End Result: " + game.getLeft().get(3));
+				out.print("<br/>");
+				out.print("Winner: " + game.getLeft().get(4));
 				out.print("<br/>");
 
+				
 
+				
 				out.print("Move List: " + game.getRight());
 				out.print("<br/>");	
 
 				out.print("<br/>");
 				out.print("<br/>");
 			}
-		
 		%>
+		
 		
 		
 		

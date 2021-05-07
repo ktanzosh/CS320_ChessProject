@@ -60,39 +60,27 @@ public class GameHistoryServlet extends HttpServlet {
 			req.setAttribute("username", username);
 			
 			IDatabase db = DatabaseProvider.getInstance();
-			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = db.findAllGamesForUser(player_id);
-			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> newGameList = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
 			
+			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
+			gameList = db.findAllGamesForUser(player_id);
 			
-			ArrayList<String> gameInfo = null;
-			ArrayList<String> moveList = null;
-			ArrayList<String> newGameInfo = new ArrayList<String>();
-			String convertInfo = null;
-			int user_id = 0;
-			User user = new User();
+			//int temp_num = 0;
+			
 			
 			for (Pair<ArrayList<String>, ArrayList<String>> game : gameList) {
-				gameInfo = game.getLeft();
-				newGameInfo.add(gameInfo.get(1));
-				
-				convertInfo = gameInfo.get(2);
-				user_id = Integer.parseInt(convertInfo);
-				user = db.getUserInfoByID(user_id);
-				newGameInfo.add(user.getUser());
-				
-				convertInfo = gameInfo.get(3);
-				user_id = Integer.parseInt(convertInfo);
-				user = db.getUserInfoByID(user_id);
-				newGameInfo.add(user.getUser());
-				
-				newGameInfo.add(gameInfo.get(4));
-				newGameInfo.add(gameInfo.get(5));
-				
-				moveList = game.getRight();
-				newGameList.add(new Pair<ArrayList<String>, ArrayList<String>>(newGameInfo, moveList));
+				ArrayList<String> gameInfo = game.getLeft();
+				System.out.print("Game Information: ");
+				printArrayListElements(gameInfo);
+				System.out.println();
+
+				ArrayList<String> gameMoves = game.getRight();
+				System.out.print("Move List: ");
+				printArrayListElements(gameMoves);
+				System.out.println();
 			}
 			
-			req.setAttribute("gameList", newGameList);
+			
+			req.setAttribute("gameList", gameList);
 			
 			req.setAttribute("moves", moves);
 			
@@ -123,6 +111,15 @@ public class GameHistoryServlet extends HttpServlet {
 		} 
 		else {
 			return new String (request.getParameter(name));
+		}
+	}
+	
+	public static void printArrayListElements(ArrayList a) {
+		for (int i = 0; i < a.size(); i++) {
+			if (i == a.size()) {
+				System.out.print(a.get(i));
+			}
+			System.out.print(a.get(i) + ", ");
 		}
 	}
 }
