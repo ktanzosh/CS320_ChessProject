@@ -12,7 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.Chess.Move;
+import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
+import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
+import edu.ycp.cs320.ChessProject.UserDatabase.Pair;
 
 
 public class GameHistoryServlet extends HttpServlet {
@@ -52,13 +55,36 @@ public class GameHistoryServlet extends HttpServlet {
 			
 			//arraylist of moves
 			ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
-
+			String username = userModel.getUser();
+			int player_id = userModel.getUserID();
+			req.setAttribute("username", username);
 			
+			IDatabase db = DatabaseProvider.getInstance();
+			
+			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
+			gameList = db.findAllGamesForUser(player_id);
+			
+			//int temp_num = 0;
+			
+			
+			for (Pair<ArrayList<String>, ArrayList<String>> game : gameList) {
+				ArrayList<String> gameInfo = game.getLeft();
+				System.out.print("Game Information: ");
+				printArrayListElements(gameInfo);
+				System.out.println();
+
+				ArrayList<String> gameMoves = game.getRight();
+				System.out.print("Move List: ");
+				printArrayListElements(gameMoves);
+				System.out.println();
+			}
+			
+			
+			req.setAttribute("gameList", gameList);
 			
 			req.setAttribute("moves", moves);
 			
-			String username = userModel.getUser();
-			req.setAttribute("username", username);
+			
 		
 			req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
 		}
@@ -85,6 +111,15 @@ public class GameHistoryServlet extends HttpServlet {
 		} 
 		else {
 			return new String (request.getParameter(name));
+		}
+	}
+	
+	public static void printArrayListElements(ArrayList a) {
+		for (int i = 0; i < a.size(); i++) {
+			if (i == a.size()) {
+				System.out.print(a.get(i));
+			}
+			System.out.print(a.get(i) + ", ");
 		}
 	}
 }

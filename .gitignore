@@ -13,3 +13,4 @@ test-bin/edu/ycp/cs320/ChessProject/model/LoginPageTest.class
 *.ctrl
 DB_cred.txt
 *.txt
+*.class
