@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="edu.ycp.cs320.ChessProject.UserDatabase.Pair"%>
 <html>
 	<head>
 		<title>Game History</title>
@@ -14,23 +16,39 @@
 
 	
 	<body>
-		<c:choose>
-			<c:when test="${moves == null}">
-				<!--The Third Step </br> -->
+		<form action="${pageContext.servletContext.contextPath}/gameHistory" method="POST">
+
+			<input type="Submit" name="index" value="Return to Main Menu"> </br>
+	
+		</form>
+		</br>
+		
+		<% ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = (ArrayList<Pair<ArrayList<String>, ArrayList<String>>>)request.getAttribute("gameList");
+ 		
+			for(Pair<ArrayList<String>, ArrayList<String>> game : gameList) {
+				out.print("Game Information:");
+				out.print("<br/>");
+				out.print("Game ID: " + game.getLeft().get(0));
+				out.print("<br/>");
+				out.print("Player 1: " + game.getLeft().get(1));
+				out.print("<br/>");
+				out.print("Player 2: " + game.getLeft().get(2));
+				out.print("<br/>");
+				out.print("End Result: " + game.getLeft().get(3));
+				out.print("<br/>");
+				out.print("Winner: " + game.getLeft().get(4));
+				out.print("<br/>");
+
 				
-				It looks like you don't have any past games!
 
-			</c:when> 
+				
+				out.print("Move List: " + game.getRight());
+				out.print("<br/>");	
 
-			<c:otherwise>    <!-- else condition -->
-				<!-- The First Step </br> -->
-
-				Here are your past moves!
-				<h2>Your Game</h2>
-				<p>${moves}</p>
-
-			</c:otherwise>
-	</c:choose>
+				out.print("<br/>");
+				out.print("<br/>");
+			}
+		%>
 		
 		
 		
