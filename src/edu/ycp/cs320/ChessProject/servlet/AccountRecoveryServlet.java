@@ -21,6 +21,7 @@ public class AccountRecoveryServlet extends HttpServlet {
 		
 		HttpSession resetSession = req.getSession(true);
 		
+		//Set up variables in Session to make dynamic form
 		boolean securityQAnswered = false;
 		resetSession.setAttribute("securityQAnswered", securityQAnswered);
 		req.setAttribute("securityQAnswered", securityQAnswered);
@@ -40,28 +41,20 @@ public class AccountRecoveryServlet extends HttpServlet {
 		
 		System.out.println("Account Recovery Servlet: doPost");
 		HttpSession resetSession = req.getSession(false);
-		//HttpSession userSession = req.getSession(false);
-		//String securityQAnswereds = "filled";
-		//req.setAttribute("securityQAnswereds", securityQAnswereds);
-		//String usernameFounds = null;
-		//req.setAttribute("usernameFounds", usernameFounds);
-		//boolean securityQAnswered = false;
-		//boolean usernameFound = false;
-		
+
+		//If on first step, get username
 		if((boolean) (resetSession.getAttribute("usernameFound")) == false) {
-			//resetSession = req.getSession(true);
-			//AccountRecovery recoverModel = new AccountRecovery();
+
 			User userModel = new User();
 			boolean usernameFound = false;
 			String user = null;
-			//AccountRecoveryController controller = new AccountRecoveryController();
-			//controller.setModel(model);
+
 			
 			// holds the error message text, if there is any
 			String errorMessage = null;
 			String errorMessageInvalidC = null;
 			
-			// decode POSTed form parameters and dispatch to controller
+			// Get the username
 			try {
 				user = getStringFromParameter(req, "username");
 				usernameFound = userModel.checkIfUserExists(user);
@@ -70,12 +63,11 @@ public class AccountRecoveryServlet extends HttpServlet {
 				errorMessage = "Invalid Entry";
 			}
 			
-			// add result objects as attributes
 			// this adds the errorMessage text and the result to the response
 			req.setAttribute("errorMessage", errorMessage);
-			//req.setAttribute("result", product);
+
 			
-			// Forward to view to render the result HTML document
+			// Check is user account exists
 			if (usernameFound == true) {		
 				resetSession.setAttribute("usernameFound", true);
 				userModel = userModel.getUserInfo(user);
@@ -86,25 +78,27 @@ public class AccountRecoveryServlet extends HttpServlet {
 				req.setAttribute("securityQuestion", securityQuestion);
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
+			
 			else {
 			errorMessageInvalidC = "Invalid Username";
 			req.setAttribute("errorMessage", errorMessageInvalidC);
 			req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
+			
 		}
 		
+		//If the Security answer is correct, allow for new password (Last (3rd) Step)
 		else if((boolean) (resetSession.getAttribute("securityQAnswered")) == true) {
 			boolean passwordsMatch = false;
 			User userModel = new User();
 			String newpass = null;
 			String passcompare = null;
-			//AccountRecovery acctModel = new AccountRecovery();
-			
+
 			// holds the error message text, if there is any
 			String errorMessage = null;
 			String errorMessageInvalidC = null;
 			
-			// decode POSTed form parameters and dispatch to controller
+			// Get password and confirmation
 			try {
 				newpass = getStringFromParameter(req, "newPassword");
 				passcompare = getStringFromParameter(req, "checkPassword");
@@ -118,14 +112,11 @@ public class AccountRecoveryServlet extends HttpServlet {
 				errorMessage = "Invalid Input";
 			}
 
-			// add result objects as attributes
 			// this adds the errorMessage text and the result to the response
 			req.setAttribute("errorMessage", errorMessage);
-			//req.setAttribute("result", product);
+
 			
-			// Forward to view to render the result HTML document
-			//req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
-			
+			// Check if password met the requirements and send to main screen	
 			if (passwordsMatch == true) {
 				userModel = (User) resetSession.getAttribute("userInfo");
 				String username = userModel.getUser();
@@ -135,6 +126,8 @@ public class AccountRecoveryServlet extends HttpServlet {
 				return;
 				
 			}
+			
+			//If password is not good, send error
 			else {
 				errorMessageInvalidC = "Passwords Do Not Match";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
@@ -148,14 +141,18 @@ public class AccountRecoveryServlet extends HttpServlet {
 			}
 		}
 		
+		//If username found, display Security question and check answer (2nd Step)
 		else if((boolean) (resetSession.getAttribute("usernameFound")) == true) {
+			
 			boolean securityAnswerCorrect = false;
 			User userModel = new User();
+			
 			// holds the error message text, if there is any
 			String errorMessage = null;
 			String errorMessageInvalidC = null;
 			String securitya = null;
-			// decode POSTed form parameters and dispatch to controller
+			
+			// Get Security Answer
 			try {
 				securitya = getStringFromParameter(req, "securityAnswer");
 				userModel = (User) resetSession.getAttribute("userInfo");
@@ -167,14 +164,10 @@ public class AccountRecoveryServlet extends HttpServlet {
 				errorMessage = "Invalid Input";
 			}
 
-			// add result objects as attributes
 			// this adds the errorMessage text and the result to the response
 			req.setAttribute("errorMessage", errorMessage);
-			//req.setAttribute("result", product);
 			
-			// Forward to view to render the result HTML document
-			//req.getRequestDispatcher("/_view/security.jsp").forward(req, resp);
-			
+			// Check if the security answer is correct
 			if (securityAnswerCorrect == true) {
 				resetSession.setAttribute("securityQAnswered", true);
 				//String securityAnswer = userModel.getSecurityAnswer();
@@ -187,6 +180,8 @@ public class AccountRecoveryServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 				
 			}
+			
+			//If Security Answer is wrong, send error
 			else {
 				errorMessageInvalidC = "Incorrect Security Answer";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
@@ -197,8 +192,6 @@ public class AccountRecoveryServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/accountRecovery.jsp").forward(req, resp);
 			}
 		}
-		
-		
 		
 	}
 

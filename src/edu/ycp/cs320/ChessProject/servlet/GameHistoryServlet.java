@@ -26,11 +26,9 @@ public class GameHistoryServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("Game History: doGet");
-		boolean gamesExist;
-		
+
+		//Check that the user is logged in
 		HttpSession userSession = req.getSession(false);
-		HttpSession gameSession = req.getSession(false);
-		
 		
 		if(userSession == null) {
 			userSession = req.getSession(true);
@@ -38,12 +36,7 @@ public class GameHistoryServlet extends HttpServlet {
 			return;
 		}
 		
-		if(gameSession == null) {
-			gamesExist = false;
-			req.setAttribute("gamesExist", gamesExist);
-		}
-		
-		
+		//If user is logged in, get their game history
 		else {
 			User userModel = (User) userSession.getAttribute("userInfo");
 			
@@ -52,33 +45,16 @@ public class GameHistoryServlet extends HttpServlet {
 				return;
 			}
 
-			
-			//arraylist of moves
-			ArrayList<String> moves = (ArrayList<String>) gameSession.getAttribute("moves");
 			String username = userModel.getUser();
 			int player_id = userModel.getUserID();
 			req.setAttribute("username", username);
-			
-			IDatabase db = DatabaseProvider.getInstance();
-			
 			ArrayList<Pair<ArrayList<String>, ArrayList<String>>> gameList = new ArrayList<Pair<ArrayList<String>, ArrayList<String>>>();
+			
+			//Get game history
+			IDatabase db = DatabaseProvider.getInstance();
 			gameList = db.findAllGamesForUser(player_id);
-			
-			//int temp_num = 0;
-			
-			
-			for (Pair<ArrayList<String>, ArrayList<String>> game : gameList) {
-				ArrayList<String> gameInfo = game.getLeft();
-				System.out.print("Game Information: ");
-				printArrayListElements(gameInfo);
-				System.out.println();
-
-				ArrayList<String> gameMoves = game.getRight();
-				System.out.print("Move List: ");
-				printArrayListElements(gameMoves);
-				System.out.println();
-			}
-			
+	
+			//Sleep statements to ensure previous code ran
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -86,15 +62,6 @@ public class GameHistoryServlet extends HttpServlet {
 			}
 			
 			req.setAttribute("gameList", gameList);
-			
-			req.setAttribute("moves", moves);
-			
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		
 			req.getRequestDispatcher("/_view/gameHistory.jsp").forward(req, resp);
 		}
 	
@@ -106,6 +73,7 @@ public class GameHistoryServlet extends HttpServlet {
 		
 		System.out.println("Game History Servlet: doPost");
 			
+			//Return to main screen if button clicked
 			if(req.getParameter("index") != null) {
 				resp.sendRedirect("/ChessProject/index");
 				return;		
@@ -113,16 +81,7 @@ public class GameHistoryServlet extends HttpServlet {
 
 		}
 	
-	
-	private String getStringFromParameter(HttpServletRequest request, String name) {
-		if (request.getParameter(name) == null || request.getParameter(name).equals("")) {
-			return null;
-		} 
-		else {
-			return new String (request.getParameter(name));
-		}
-	}
-	
+	//Print function for an ArrayList, found online at https://stackoverflow.com/questions/9265719/print-arraylist
 	public static void printArrayListElements(ArrayList a) {
 		for (int i = 0; i < a.size(); i++) {
 			if (i == a.size()) {

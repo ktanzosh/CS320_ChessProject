@@ -21,15 +21,17 @@ public class IndexServlet extends HttpServlet {
 		System.out.println("Index Servlet / Main Menu: doGet");
 		
 		
-		
+		//Check if User is logged in
 		HttpSession userSession = req.getSession(false);
 		
+		//Send to login page if not logged in
 		if(userSession == null) {
 			userSession = req.getSession(true);
 			resp.sendRedirect("/ChessProject/loginPage");
 			return;
 		}
 		
+		//Display username if logged in
 		else {
 			User userModel = (User) userSession.getAttribute("userInfo");
 			
@@ -43,32 +45,37 @@ public class IndexServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 		}
 	}
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
 		
 		System.out.println("Index Servlet: doPost");
 			
-			if(req.getParameter("newGame") != null) {
-				resp.sendRedirect("/ChessProject/newGame");
-				return;		
-			}
-			
-			else if(req.getParameter("joinGame") != null) {
-				resp.sendRedirect("/ChessProject/joinGame");
-				return;		
-			}
-			
-			else if(req.getParameter("gameHistory") != null) {
-				resp.sendRedirect("/ChessProject/gameHistory");
-				return;		
-			}
-			
-			else if(req.getParameter("logout") != null) {
-				resp.sendRedirect("/ChessProject/logoutPage");
-				return;		
-			}
-
+		//To a new Game if respective button is clicked
+		if(req.getParameter("newGame") != null) {
+			resp.sendRedirect("/ChessProject/newGame");
+			return;		
 		}
+		
+		//To enter a Game ID to a join a game if respective button is clicked
+		else if(req.getParameter("joinGame") != null) {
+			resp.sendRedirect("/ChessProject/joinGame");
+			return;		
+		}
+		
+		//To Game History if respective button is clicked
+		else if(req.getParameter("gameHistory") != null) {
+			resp.sendRedirect("/ChessProject/gameHistory");
+			return;		
+		}
+		
+		//To logout landing page if respective button is clicked
+		else if(req.getParameter("logout") != null) {
+			resp.sendRedirect("/ChessProject/logoutPage");
+			return;		
+		}
+
+	}
 
 }
