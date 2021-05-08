@@ -785,6 +785,17 @@ public class Game
 			Game updatedGame = new Game();
 			updatedGame.setGame();
 			updatedGame.setChessBoard(this.getChessBoard());
+			ChessPiece takesPiece = null;
+			
+			try
+			{
+				takesPiece = this.getChessBoard().getTile(newx, newy).getPiece();
+			}
+			
+			catch(NullPointerException n)
+			{
+				//Dont worry about it
+			}
 			updatedGame.testMove(cb, cp, newx, newy);
 			
 			if(cp.getColor() == true)
@@ -793,6 +804,12 @@ public class Game
 				{
 					//reset board
 					updatedGame.testMove(cb, cp, oldx, oldy);
+					if(takesPiece != null)
+					{
+						System.out.println("piece is being replaced");
+						Tile resetTile = new Tile(takesPiece);
+						this.getChessBoard().setTile(newx, newy, resetTile);
+					}
 					return false;
 				}
 				
@@ -800,6 +817,12 @@ public class Game
 				{
 					//reset board
 					updatedGame.testMove(cb, cp, oldx, oldy);
+					if(takesPiece != null)
+					{
+						System.out.println("piece is being replaced");
+						Tile resetTile = new Tile(takesPiece);
+						this.getChessBoard().setTile(newx, newy, resetTile);
+					}
 					return true;
 				}
 			}
@@ -810,6 +833,12 @@ public class Game
 				{
 					//reset board
 					updatedGame.testMove(cb, cp, oldx, oldy);
+					if(takesPiece != null)
+					{
+						System.out.println("piece is being replaced");
+						Tile resetTile = new Tile(takesPiece);
+						this.getChessBoard().setTile(newx, newy, resetTile);
+					}
 					return false;
 				}
 				
@@ -817,6 +846,12 @@ public class Game
 				{
 					//reset board
 					updatedGame.testMove(cb, cp, oldx, oldy);
+					if(takesPiece != null)
+					{
+						System.out.println("piece is being replaced");
+						Tile resetTile = new Tile(takesPiece);
+						this.getChessBoard().setTile(newx, newy, resetTile);
+					}
 					return true;
 				}
 			}

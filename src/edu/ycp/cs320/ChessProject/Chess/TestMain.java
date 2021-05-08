@@ -10,7 +10,8 @@ public class TestMain
 	{
 		Game testGame = new Game();
 		testGame.setGame();
-		Move lastMove = new Move(testGame.getChessBoard().getTile(1, 7).getPiece(), 2, 7, "", false, false, false);
+		
+		/*Move lastMove = new Move(testGame.getChessBoard().getTile(1, 7).getPiece(), 2, 7, "", false, false, false);
 		testGame.getMoves().add(lastMove);
 		System.out.println(lastMove.getMove());
 		
@@ -28,7 +29,7 @@ public class TestMain
 		testGame.doLastMove(lastMoveInfo, testGame.getBlackPieces(), lastPiece);
 		String pieceMove = testGame.getLastMovePieceString(lastMoveInfo);
 		
-		System.out.println(ogSquare + "/" + finalSquare + "/" + pieceMove);
+		System.out.println(ogSquare + "/" + finalSquare + "/" + pieceMove);*/
 		/*Player WhitePlayer = new Player(true);;
 		Player BlackPlayer = new Player(false);
 		
@@ -44,7 +45,10 @@ public class TestMain
 		testGame.doLastMove(testGame.getLastMove().getMove(), testGame.getBlackPieces(), 9);
 		drawBoard(testGame);*/
 		
-		/*testGame.setWhitePlayer(WhitePlayer);
+		Player WhitePlayer = new Player(true);;
+		Player BlackPlayer = new Player(false);
+		
+		testGame.setWhitePlayer(WhitePlayer);
 		testGame.setBlackPlayer(BlackPlayer);
 		testGame.setGame(true);
 		
@@ -77,7 +81,7 @@ public class TestMain
 		if(testGame.checkMove(7, 1, testGame.getChessBoard(), testGame.getChessBoard().getTile(7,  4).getPiece(), testGame.getWhitePlayer()))
 		{
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(7,  4).getPiece(), 7, 1);
-			testGame.PawnPromotion(0, 2, testGame.getWhitePieces(), "quee");
+			//testGame.PawnPromotion(0, 2, testGame.getWhitePieces(), "quee");
 			drawBoard(testGame);
 			testGame.printMoveList();
 		}
@@ -88,24 +92,13 @@ public class TestMain
 			drawBoard(testGame);
 		}
 		
-		//can get the piece here, but not in the method
-		try
-		{
-			System.out.println("The piece at  7, 2 is " + testGame.getChessBoard().getTile(7,  2).getPiece());
-		}
-		
-		catch(NullPointerException ne)
-		{
-			
-		}
-		
 		PawnPiece TakerPawn = new PawnPiece(6, 3, false, 2);
 		testGame.getBlackPieces().add(TakerPawn);
 		Tile BlackPawnTile = new Tile(TakerPawn);
 		cb.setTile(6,  3, BlackPawnTile);
 		drawBoard(testGame);
 		
-		if(testGame.checkMove(7, 2, testGame.getChessBoard(), testGame.getChessBoard().getTile(6, 3).getPiece(), testGame.getWhitePlayer()))
+		if(testGame.checkMove(7, 2, testGame.getChessBoard(), testGame.getChessBoard().getTile(6, 3).getPiece(), testGame.getBlackPlayer()))
 		{
 			testGame.doMove(testGame.getChessBoard(), testGame.getChessBoard().getTile(6, 3).getPiece(), 7, 2);
 			testGame.PawnPromotion(7, 2, testGame.getBlackPieces(), "bish");
