@@ -13,8 +13,6 @@ import edu.ycp.cs320.ChessProject.Chess.Game;
 import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
 import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
-//import edu.ycp.cs320.ChessProject.controller.LoginPageController;
-//import edu.ycp.cs320.ChessProject.model.LoginPage;
 
 public class JoinGameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,16 +23,17 @@ public class JoinGameServlet extends HttpServlet {
 		
 		System.out.println("Join Game: doGet");
 		
-		
-		
+		//Check if user is logged in
 		HttpSession userSession = req.getSession(false);
 		
+		//If not logged in, send to the login page
 		if(userSession == null) {
 			userSession = req.getSession(true);
 			resp.sendRedirect("/ChessProject/loginPage");
 			return;
 		}
 		
+		// If logged in, display username
 		else {
 			User userModel = (User) userSession.getAttribute("userInfo");
 			
@@ -64,16 +63,18 @@ public class JoinGameServlet extends HttpServlet {
 		HttpSession userSession = req.getSession(false);
 		User user = (User) userSession.getAttribute("userInfo");
 		
+		//If main screen button is clicked, send to main screen
 		if(req.getParameter("main") != null) {
 			resp.sendRedirect("/ChessProject/index");
 			return;		
 		}
+		
+		// Get game id, if entered
 		else {
-			// decode POSTed form parameters and dispatch to controller
+			// Get game ID
 			try {
 				stringGameID = getStringFromParameter(req, "gameID");
 				
-				// check for errors in the form data before using is in a calculation
 				if (stringGameID == null) {
 					errorMessage = "Please enter a Game ID";
 				}
@@ -86,13 +87,13 @@ public class JoinGameServlet extends HttpServlet {
 		if(errorMessage == null) {
 			
 			int player2ID = user.getUserID();
-			
 			int gameID = Integer.parseInt(stringGameID);
-			//System.out.println(gameID);
-			
+
+			//Check if user can join game
 			IDatabase db = DatabaseProvider.getInstance();
 			boolean success = db.insertSecondPlayer(player2ID, gameID);
 			
+			//If join was successful, setup session for game to interact with NewGameServlet
 			if(success == true) {
 				Game sessionGame = new Game();
 				sessionGame.setGame();
@@ -107,6 +108,8 @@ public class JoinGameServlet extends HttpServlet {
 				resp.sendRedirect("/ChessProject/newGame");
 				return;		
 			}
+			
+			// If game ID is not good, send error
 			else {
 				errorMessageInvalidC = "Invalid Game ID.";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
@@ -115,6 +118,7 @@ public class JoinGameServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/joinGame.jsp").forward(req, resp);
 			}
 		}
+		
 		else {
 			req.setAttribute("errorMessage", errorMessage);
 			String username = user.getUser();

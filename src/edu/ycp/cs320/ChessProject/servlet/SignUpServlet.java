@@ -13,9 +13,6 @@ import edu.ycp.cs320.ChessProject.UserDatabase.InitDatabase;
 import edu.ycp.cs320.ChessProject.UserDatabase.DatabaseProvider;
 import edu.ycp.cs320.ChessProject.UserDatabase.IDatabase;
 
-
-
-
 public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +22,7 @@ public class SignUpServlet extends HttpServlet {
 
 		System.out.println("SignUpPage Servlet: doGet");	
 		
-		// call JSP to generate empty form
+		//Get empty form of sign up info required
 		req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
 	}
 	
@@ -35,7 +32,6 @@ public class SignUpServlet extends HttpServlet {
 		
 		System.out.println("SignUpPage Servlet: doPost");
 		
-
 		User userModel = new User();
 		String user = null;
 		String password = null;
@@ -53,17 +49,15 @@ public class SignUpServlet extends HttpServlet {
 		String errorMessageInvalidC = null;
 
 		
-		// decode POSTed form parameters and dispatch to controller
+		// Get the sign up info
 		try {
 			user = getStringFromParameter(req, "user");
 			password = getStringFromParameter(req,"password");
-			//System.out.println(password.length());
 			confirmPassword = getStringFromParameter(req, "confirmPassword");
 			securityQ = getStringFromParameter(req,"sec_question");
-			//System.out.println(securityQ);
 			securityA = getStringFromParameter(req,"sec_answer");
 
-			// check for errors in the form data before using is in a calculation
+			// Check for any empty fields
 			if (user == null) {
 				errorMessage = "Please enter a username";
 			}
@@ -84,37 +78,35 @@ public class SignUpServlet extends HttpServlet {
 				errorMessage = "Please enter a security answer";
 			}
 			
+			//Ensure passwords match
 			if((password.equals(confirmPassword)) == true) {
 				passwordMatch = true;
 			}
 			
+			//Ensure password length is appropriate
 			if((password.length() > 9) && (password.length() < 25)) {
 				passwordLong = true;
 			}
 			
+			//Check is security answer is appropriate
 			if(securityA.length() < 25) {
 				answerShort = true;
 			}
 			
-			// otherwise, data is good, do the calculation
-			// must create the controller each time, since it doesn't persist between POSTs
-			// the view does not alter data, only controller methods should be used for that
-			// thus, always call a controller method to operate on the data
 			userExists = userModel.checkIfUserExists(user);
 				
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid entry";
 		}
 		
-		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
 		
-		// Forward to view to render the result HTML document
+		// If user does not already exist, add the suer
 		if (!userExists == true) {
+			//ensure checks passed
 			if ((passwordMatch == true) && (passwordLong == true) && (answerShort == true)) {
 
-				//TODO: CREATE NEW USER IN DATABASE
 				InitDatabase.init();
 				
 				String[] pass_info = new String[2];
@@ -136,12 +128,14 @@ public class SignUpServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/index.jsp").forward(req, resp);
 			}
 			
+			// If password do not match, send error
 			else if (passwordMatch != true){
 				errorMessageInvalidC = "Passwords do not Match.";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
 				req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
 			}
 			
+			// If password is wrong length, send error
 			else if (passwordLong != true){
 				if(password.length() > 31) {
 					errorMessageInvalidC = "Password must be less than 25 characters long.";
@@ -153,12 +147,15 @@ public class SignUpServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
 			}
 			
+			// If security answer is too long, send error
 			else if (answerShort != true){
 				errorMessageInvalidC = "Security Answer must be less than 25 characters long.";
 				req.setAttribute("errorMessage", errorMessageInvalidC);
 				req.getRequestDispatcher("/_view/signupPage.jsp").forward(req, resp);
 			}
 		}
+		
+		//If username is not available 
 		else {
 			errorMessageInvalidC = "Username already taken.";
 			req.setAttribute("errorMessage", errorMessageInvalidC);

@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.ycp.cs320.ChessProject.UserDatabase.User;
-//import edu.ycp.cs320.ChessProject.controller.LoginPageController;
-//import edu.ycp.cs320.ChessProject.model.LoginPage;
 
 public class LoginPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -23,12 +21,12 @@ public class LoginPageServlet extends HttpServlet {
 		
 		HttpSession userSession = req.getSession(false);
 		
+		//Give login error message if sent from another web page
 		if(userSession != null) {
 			String errorMessageNoLogin = "Please Login";
 			req.setAttribute("errorMessage", errorMessageNoLogin);
 		}
-		
-		// call JSP to generate empty form
+
 		req.getRequestDispatcher("/_view/loginPage.jsp").forward(req, resp);
 	}
 	
@@ -38,28 +36,22 @@ public class LoginPageServlet extends HttpServlet {
 		
 		System.out.println("LoginPage Servlet: doPost");
 		
-
-		//LoginPage loginModel = new LoginPage();
 		User userModel = new User();
 		boolean userFound = false;
 		String user = null;
 		String password = null;
 
-		//LoginPageController controller = new LoginPageController();
-		//controller.setModel(model);
-		
 		// holds the error message text, if there is any
 		String errorMessage = null;
 		
 		String errorMessageInvalidC = null;
 
 		
-		// decode POSTed form parameters and dispatch to controller
+		// Get username and password
 		try {
 			user = getStringFromParameter(req, "user");
 			password = getStringFromParameter(req,"password");
 
-			// check for errors in the form data before using is in a calculation
 			if (user == null) {
 				errorMessage = "Please enter a username";
 			}
@@ -68,34 +60,22 @@ public class LoginPageServlet extends HttpServlet {
 				errorMessage = "Please enter a password";
 			}
 			
-			// otherwise, data is good, do the calculation
-			// must create the controller each time, since it doesn't persist between POSTs
-			// the view does not alter data, only controller methods should be used for that
-			// thus, always call a controller method to operate on the data
+			//Check user info if nothing is blank
 			else {
 				userFound = userModel.checkInfo(user, password);
-				//userFound = true;
 			}
 			
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid entry";
 		}
-		
-		// Add parameters as request attributes
-		// this creates attributes named "first" and "second for the response, and grabs the
-		// values that were originally assigned to the request attributes, also named "first" and "second"
-		// they don't have to be named the same, but in this case, since we are passing them back
-		// and forth, it's a good idea
+
 		req.setAttribute("model", userModel);
-		//req.setAttribute("second", req.getParameter("second"));
-		//req.setAttribute("third", req.getParameter("third"));
-		
-		// add result objects as attributes
+
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
-		//req.setAttribute("result", result);
+
 		
-		// Forward to view to render the result HTML document
+		// Set up session if log-in is valid
 		if (userFound == true) {
 			userModel = userModel.getUserInfo(user);
 			HttpSession userSession = req.getSession(true);
@@ -103,6 +83,8 @@ public class LoginPageServlet extends HttpServlet {
 			resp.sendRedirect("/ChessProject/index");
 			return;
 		}
+		
+		//If info is not good, send error
 		else {
 			errorMessageInvalidC = "Invalid Username or Password";
 			req.setAttribute("errorMessage", errorMessageInvalidC);
