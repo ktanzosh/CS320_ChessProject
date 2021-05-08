@@ -14,11 +14,8 @@ public class User {
 	private int userID;
 	private List<Game> gameList = new ArrayList<Game>();
 	
-	//private User blankUser = new User();
-	//private List<User> usersList;
-	//private ArrayList<User> usersList = new ArrayList<User>();
-	//private usersList.addAll(UsersList.createUsersList());
 	
+	//setters and getters
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
@@ -68,6 +65,7 @@ public class User {
 		return SALT;
 	}
 
+	//Get the user information from the DB
 	public User getUserInfo(String User) {
 		InitDatabase.init();
 		IDatabase db = DatabaseProvider.getInstance();
@@ -76,6 +74,7 @@ public class User {
 		
 	}
 
+	//Check if username is present in the DB
 	public boolean checkIfUserExists(String User) {
 		InitDatabase.init();
 		IDatabase db = DatabaseProvider.getInstance();
@@ -90,6 +89,7 @@ public class User {
 		}
 	}
 	
+	//Check is security answer matches the DB
 	public boolean checkUserSecurityAnswer(String User, String Answer, String SALT) {
 		User user = getUserInfo(User);
 		
@@ -103,6 +103,7 @@ public class User {
 		}
 	}
 
+	//Update password in the DB
 	public void setNewPassword(String User, String newpass, String SALT) {
 		InitDatabase.init();
 		IDatabase db = DatabaseProvider.getInstance();
@@ -111,6 +112,7 @@ public class User {
 		
 	}
 	
+	//Check if passwor matches in the DB
 	public boolean checkInfo(String User, String Password) {
 		if(checkIfUserExists(User) == false) {
 			return false;
@@ -129,26 +131,8 @@ public class User {
 		}
 	}
 	
-	public List<Game> getGameList() {
-		return gameList;
-	}
-	
-	public void addGameToGameList(Game g) {
-		gameList.add(g);
-	}
-	
-	public void printMoves() {
-		for (Game g : gameList) {
-				g.printMoveList();
-		}
-	}
-	
-	public void getMoves() {
-		for (Game g : gameList) {
-				g.getMoveList();
-		}
-	}
-	
+	//Encrypt a given string (For use with password and security answer to be added to DB)
+	//NOTE: Generates a SALT to add uniqueness to result
 	//This encryption method was found at: https://www.geeksforgeeks.org/sha-512-hash-in-java/
 	public static String[] encryptThisString(String input) {
 	     try {
@@ -180,7 +164,6 @@ public class User {
 	         result[0] = hashtext;
 	         result[1] = SALT;
 	         
-	         //System.out.println("enc:" + hashtext);
 	         // return the HashText
 	         return result;
 	     }
@@ -189,7 +172,10 @@ public class User {
 	         throw new RuntimeException(e);
 	     }
 	}
-	     
+	 
+	//Encrypt a given string (For use with password and security answer to be added to DB)
+	//NOTE: Uses a given SALT generated previously for user
+	//This encryption method was found at: https://www.geeksforgeeks.org/sha-512-hash-in-java/
      public static String decryptThisString(String input, String SALT) {
 	     try {
 	         // getInstance() method is called with algorithm SHA-512
@@ -213,7 +199,6 @@ public class User {
 	             hashtext = "0" + hashtext;
 	         }
 	         
-	         //System.out.println("dec:" + hashtext);
 	         // return the HashText
 	         return hashtext;
 	     }
