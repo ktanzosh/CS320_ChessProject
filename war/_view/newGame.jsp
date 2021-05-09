@@ -29,7 +29,7 @@
 	<h2> Heres your game id, ${game_id}</h2>
 	<br> </br>
 	
-	<style>
+	<%-- <style>
 		h3{
 			position:absolute;
 			top:300px;
@@ -39,7 +39,7 @@
 		}
 	
 	</style>
-	<h3> ${color}, made the game</h3>
+	<h3> ${color}, made the game</h3> --%>
 
 	<div class="wrapper">
 		<div class="row">
@@ -124,7 +124,7 @@ p {
 	
 
 
-<div id = ></div>
+<div id="winner"></div>
 
 <form action="${pageContext.servletContext.contextPath}/index">
     <input type="submit" value="Go to Main Menu" />
@@ -134,6 +134,7 @@ p {
 
 <!----------------------------- START OF JAVASCRIPT ----------------------------->
 <script>
+document.getElementById("winner").style.visibility = "hidden";
 
 //----BLACK UNICODE----//
 var bKing = "&#9818";
@@ -217,6 +218,7 @@ function myFunction() {
 			  		 var initialPos = moves[0];
 			  		 var finalPos = moves[1];
 			  		 var pieceChoice = moves[2];
+			  		 var gameState = moves[3];
 			  		 var className = "''";
 			  		 
 			  		document.getElementById("chessNotation").innerHTML = initialPos + " to " + finalPos + " piece: " + pieceChoice;
@@ -246,6 +248,11 @@ function myFunction() {
 			  		else if (pieceChoice == "pawn"){
 			  			pieceChoice = bPawn;
 			  			className = "'pc b pawn'";
+			  		}
+			  		
+			  		if(gameState == "Check"){
+			  			moveList.push("<br>" + "White player in check");
+					    document.getElementById("moveList").innerHTML = moveList;
 			  		}
 			  		
 			  		document.getElementById(initialPos).innerHTML = "";
@@ -280,6 +287,10 @@ function myFunction() {
 			  			className = "'pc w pawn'";
 			  		}
 			  		
+			  		if(gameState == "Check"){
+			  			moveList.push("<br>" + "Black player in check");
+					    document.getElementById("moveList").innerHTML = moveList;
+			  		}
 //---------------------------APPEND PIECE---------------------------//			  		
 			  		document.getElementById(initialPos).innerHTML = "";
 			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
@@ -291,6 +302,18 @@ function myFunction() {
 					  		
 					  moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
 					    document.getElementById("moveList").innerHTML = moveList;
+					    
+					if(servletColor == "white" && gameState == "Checkmate"){
+						document.getElementById("winner").style.visibility = "visible";
+						document.getElementById("winner").innerHTML("BLACK WINS!");
+					}   
+					else if(servletColor == "black" && gameState == "Checkmate"){
+						document.getElementById("winner").style.visibility = "visible";
+						document.getElementById("winner").innerHTML("WHITE WINS!");
+					}
+					
+					
+					    
 			  }
 			 }
 		  });
