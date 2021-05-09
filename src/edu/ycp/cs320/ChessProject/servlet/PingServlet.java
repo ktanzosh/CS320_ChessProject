@@ -71,11 +71,11 @@ public class PingServlet extends HttpServlet
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getWhitePieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getWhitePieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
 					//pieceName = playGame.getInfoFromMove(null)
-					//System.out.println("Premove");
-					//tm.drawBoard(playGame);
+					System.out.println("Premove");
+					tm.drawBoard(playGame);
 					playGame.doLastMove(lastMoveInfo, playGame.getWhitePieces(), lastPiece);
-					//System.out.println("Postmove");
-					//tm.drawBoard(playGame);
+					System.out.println("Postmove");
+					tm.drawBoard(playGame);
 					pieceName = playGame.getLastMovePieceString(lastMoveInfo);
 					userSession.setAttribute("sessionGame", playGame);
 					moves.add(System.lineSeparator() + " White's Move: " + lastMoveInfo);
@@ -88,11 +88,11 @@ public class PingServlet extends HttpServlet
 				{
 					ogSquare = playGame.getSquareNumber(playGame.getLastMoveOrigXPos(playGame.getBlackPieces(), lastPiece), playGame.getLastMoveOrigYPos(playGame.getBlackPieces(), lastPiece));
 					finalSquare = playGame.getSquareNumber(playGame.getLastMoveFinalXPos(lastMoveInfo), playGame.getLastMoveFinalYPos(lastMoveInfo));
-					//System.out.println("Premove");
-					//tm.drawBoard(playGame);
+					System.out.println("Premove");
+					tm.drawBoard(playGame);
 					playGame.doLastMove(lastMoveInfo, playGame.getBlackPieces(), lastPiece);
-					//System.out.println("Postmove");
-					//tm.drawBoard(playGame);
+					System.out.println("Postmove");
+					tm.drawBoard(playGame);
 					pieceName = playGame.getLastMovePieceString(lastMoveInfo);
 					userSession.setAttribute("sessionGame", playGame);
 					moves.add(System.lineSeparator() + " White's Move: " + lastMoveInfo);
