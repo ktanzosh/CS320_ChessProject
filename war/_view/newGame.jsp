@@ -175,7 +175,7 @@ var promoChoice;
 var logicB; 
 var logic;
 var pawnPromotion = false;
-
+document.getElementById("winner").style.animationPlayState = "paused";
 
 
 // move to final position -- this works
@@ -310,9 +310,11 @@ function myFunction() {
 					document.getElementById("winner").style.visibility = "visible";
 					if(servletColor == "white"){
 						document.getElementById("winner").append("BLACK WINS!");
+						document.getElementById("winner").style.animationPlayState = "running";
 					}
 					else if(servletColor == "black"){
 						document.getElementById("winner").append("WHITE WINS!");
+						document.getElementById("winner").style.animationPlayState = "running";
 					}
 				} 
 				
@@ -471,7 +473,8 @@ var S = {
 				  
 				var check = "White in checkmate";
 				document.getElementById("winner").style.visibility = "visible";
-				document.getElementById("winner").append("BLACK WINS!");
+				document.getElementById("winner").append("WHITE WINS!");
+				document.getElementById("winner").style.animationPlayState = "running";
 				moveList.push("<br>" + check);
 		    	document.getElementById("moveList").innerHTML = moveList;
 				goodMove = 0;
@@ -489,6 +492,7 @@ var S = {
 				  var check = "Black in checkmate";
 				  document.getElementById("winner").style.visibility = "visible";
 					document.getElementById("winner").append("WHITE WINS!");
+					document.getElementById("winner").style.animationPlayState = "running";
 				  moveList.push("<br>" + check);
 		    	document.getElementById("moveList").innerHTML = moveList;
 		    	goodMove = 0;
