@@ -54,11 +54,29 @@ ul{
 	font-size: 40px;
 	font-family: 'Courier New', monospace;
 }
-
-button{
+.ping{
 	position: absolute;
 	top: 900px;
 	left: 50px;
+	 background-color: blue;
+font-family: 'Courier New', monospace; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+input{
+	position: absolute;
+	top: 900px;
+	left: 500px;
 	 background-color: blue;
 font-family: 'Courier New', monospace; 
   border: none;
@@ -211,11 +229,6 @@ font-family: 'Courier New', monospace;
   cursor: pointer;
 }
 
-
-
-
-
-
 .pawn {
   font-size:  70px;
 }
@@ -235,33 +248,28 @@ font-family: 'Courier New', monospace;
    font-size:  70px;
 }
 
-
-
-.wrap {
-  width:200px;
-  margin:auto;
-  z-index:1;
-}
-
-.msg {
-  color: white;
-  text-align:center;
+#winner {
+  height: 100px;
+  padding: 90px;
+  color: blue;
+  font-size:100px;
   font-family: 'Courier New', monospace;
-  font-size:3em;
-  width:200px;
-  position:absolute;
-  margin:55px 0 0 2px;
+  justify-content: center;
+  align-items: center;
+  border: 7px solid blue;
+  border-style: inset;
+  text-align: center;
+  position: relative;
+  animation-name: winner;
+  animation-duration: 3s;  
+  animation-fill-mode: both;
 }
 
-.winner {
-  width:200px;
-  height:200px;
-  position:absolute;
-  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/13034/sticker.png) top center no-repeat; 
-  animation: spin 20s linear infinite;
-
+@keyframes winner {
+  from {top: 250px;left: 0px; background-color: blue;}
+  to {top:250px; left: 0px; background-color: white;}
 }
 
-@keyframes spin {
-  100% {transform: rotate(1turn); }
+ite);}
 }
+

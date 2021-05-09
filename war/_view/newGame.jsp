@@ -6,7 +6,7 @@
 <title>New Game</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="_view/newGameDesign.css" />
+<link rel="stylesheet" type="text/css" href="_view/newGameCSS1.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -29,7 +29,7 @@
 	<h2> Heres your game id, ${game_id}</h2>
 	<br> </br>
 	
-	<style>
+	<%-- <style>
 		h3{
 			position:absolute;
 			top:300px;
@@ -39,7 +39,7 @@
 		}
 	
 	</style>
-	<h3> ${color}, made the game</h3>
+	<h3> ${color}, made the game</h3> --%>
 
 	<div class="wrapper">
 		<div class="row">
@@ -116,59 +116,34 @@ p {
 	top: 850px;
 	position: absolute;
 	color: white;
+	font-size: 20px;
 }
 </style>
 	<p id="chessNotation"></p>
 	<p id="pawnPromo"></p>
-	<button type="button" onclick="resetGame()" onmouseout="mOut(this)"
-		onmouseover="mOver(this)">Restart Game</button>
-
-
-
-
-	<!-- Trigger/Open The Modal -->
-	<button id="myBtn">Pawn Promotion!</button>
-
-	<!-- The Modal -->
-	<div id="myModal" class="modal">
-
-		<!-- Modal content -->
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<h2>Pick which piece you want to promote!</h2>
-			<form action="/action_page.php">
-				<input type="radio" id="queen" name="piece" value="queen"> 
-				<label for="queen">Queen</label><br> 
-				
-				<input type="radio" id="bishop" name="piece" value="bishop"> 
-				<label for="bishop">Bishop</label><br>
-				
-				<input type="radio" id="rook" name="piece" value="rook"> 
-				<label for="king">Rook</label><br>
-				
-				<input type="radio" id="knight" name="piece" value="knight"> 
-				<label for="king">Knight</label><br>
-				<div>
-					<button id="submit" type="submit">Submit</button>
-				</div>
-			</form>
-			<pre id="log">
-			</pre>
-		</div>
-
-	</div>
-<button onclick="myFunction()">Try to Ping</button>
-<!----------------------------- START OF JAVASCRIPT ----------------------------->
-<script>
 	
 
+
+<div id="winner"></div>
+
+<form action="${pageContext.servletContext.contextPath}/index">
+    <input type="submit" value="Go to Main Menu" />
+</form>
+
+<button class="ping" onclick="myFunction()">Start Game!</button>
+
+<!----------------------------- START OF JAVASCRIPT ----------------------------->
+<script>
+document.getElementById("winner").style.visibility = "hidden";
+
+//----BLACK UNICODE----//
 var bKing = "&#9818";
 var bQueen = "&#9819";
 var bRook = "&#9820";
 var bBishop = "&#9821"; 
 var bKnight = "&#9822";
 var bPawn =  "&#9823";
-
+//----WHITE UNICODE----//
 var wKing = "&#9812";
 var wQueen = "&#9813";
 var wRook = "&#9814";
@@ -177,62 +152,41 @@ var wKnight = "&#9816";
 var wPawn =  "&#9817";
 
 var pieceChoice;
-var finalsq = '45'; // good for id then append new piece
-var initialsq = '8';
-
+//var finalsq = '45'; // good for id then append new piece
+//var initialsq = '8';
 var newMoves = true;
-//var chess = 'chessNotation';
-//document.getElementById(chess).innerHTML = finalsq;
-var className = "'pc b rook'";
 
-if (pieceChoice == "king"){
-	pieceChoice = bKing;
-	className = "'pc b king'";
-}
-else if (pieceChoice == "queen"){
-	pieceChoice = bQueen;
-	className = "'pc b queen'";
-}
-else if (pieceChoice == "rook"){
-	pieceChoice = bRook;
-	className = "'pc b rook'";
-}
-else if (pieceChoice == "bishop"){
-	pieceChoice = bBishop;
-	className = "'pc b bishop'";
-}
-else if (pieceChoice == "knight"){
-	pieceChoice = bKnight;
-	className = "'pc b knight'";
-}
-else if (pieceChoice == "pawn"){
-	pieceChoice = bPawn;
-	className = "'pc b pawn'";
-}
-
-
+var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
+	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
+	"a3", "b3", "c3", "d3","e3", "f3", "g3", "h3",
+	"a4", "b4", "c4", "d4","e4", "f4", "g4", "h4",
+	"a5", "b5", "c5", "d5","e5", "f5", "g5", "h5",
+	"a6", "b6", "c6", "d6","e6", "f6", "g6", "h6",
+	"a7", "b7", "c7", "d7","e7", "f7", "g7", "h7",
+	"a8", "b8", "c8", "d8","e8", "f8", "g8", "h8"];
+//----TEMPORARY VARIABLES----//
+var intialPosition;
+var squareID_;
+var playerColor;
+var pieceName;
+var currentPiece;
+var promo = null;
+var promoChoice;
+var logicB; 
+var logic;
+var pawnPromotion = false;
 
 
 
 // move to final position -- this works
-//document.getElementById(finalsq).innerHTML = "<span class='pc w rook'>"+bRook+"</span>";
-//broooooo im a genius
 //document.getElementById(finalsq).innerHTML = "<span class="+className+">"+bRook+"</span>";
-
-
 
 // GOOD FOR GETTING RID OF INTIIAL POSITION
 //$("#8").empty(); // jQuery route
 //document.getElementById(initialsq).innerHTML = "";
 
-
-
-
-
 var servletColor = "${color}";
-document.getElementById("chessNotation").innerHTML = servletColor;
-	
-	
+//document.getElementById("chessNotation").innerHTML = servletColor;
 	
 var moveList = [];
 document.getElementById("moveList").innerHTML = "Your moves will go here: ";
@@ -245,37 +199,31 @@ async function postData(address, objectToPost){
 		body: JSON.stringify(objectToPost)
 	})).text();
 }
-
-
-
-var i = 0;
+//---------------------------PINGING INTERVAL FUNCTION---------------------------//
 function myFunction() {
 	
 	setInterval(function(){
 		
 		  postData('ping').then(function(data){
 			  	console.log(data);
-			  	//data = "16/30/rook"
-			  	//document.getElementById("chessNotation").innerHTML = data + " " + i;
 			 
 			  	if(data == "No moves to be updated"){
 			  		newMoves = false;
-			  		document.getElementById("chessNotation").innerHTML = "NO NEW MOVES " + "time: " +i;
+			  		document.getElementById("chessNotation").innerHTML = "Game has started";
 			  	}
 			  	
 			  	else{
 			  		newMoves = true;
-			  		//data = "16/30";
-			  		//document.getElementById("chessNotation").innerHTML = data + " new move: " +i;
 			  		 var moves = data.split("/");
-			  		 
 			  		 var initialPos = moves[0];
 			  		 var finalPos = moves[1];
 			  		 var pieceChoice = moves[2];
+			  		 var gameState = moves[3];
 			  		 var className = "''";
-			  		//document.getElementById("chessNotation").innerHTML = moves[0] + " to " +moves[1]+ " piece: " + moves[2] +": "+i;
-
-			  		//document.getElementById("chessNotation").innerHTML = pieceChoice;
+			  		 
+			  		document.getElementById("chessNotation").innerHTML = initialPos + " to " + finalPos + " piece: " + pieceChoice;
+			 
+//---------------------------IF PLAYER WHITE APPEND BLACK PIECE---------------------------//			  		
 			  if(servletColor == "white"){			
 			  		if (pieceChoice == "king"){
 			  			pieceChoice = bKing;
@@ -302,10 +250,15 @@ function myFunction() {
 			  			className = "'pc b pawn'";
 			  		}
 			  		
+			  		if(gameState == "Check"){
+			  			moveList.push("<br>" + "White player in check");
+					    document.getElementById("moveList").innerHTML = moveList;
+			  		}
 			  		
 			  		document.getElementById(initialPos).innerHTML = "";
 			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
 			  	}
+//---------------------------IF PLAYER BLACK APPEND WHITE PIECE---------------------------//
 			  
 			  else if(servletColor == "black"){	
 				  
@@ -334,126 +287,72 @@ function myFunction() {
 			  			className = "'pc w pawn'";
 			  		}
 			  		
-			  		
+			  		if(gameState == "Check"){
+			  			moveList.push("<br>" + "Black player in check");
+					    document.getElementById("moveList").innerHTML = moveList;
+			  		}
+//---------------------------APPEND PIECE---------------------------//			  		
 			  		document.getElementById(initialPos).innerHTML = "";
 			  		document.getElementById(finalPos).innerHTML = "<span class="+className+">"+pieceChoice+"</span>";
 			  		
 			  		
-			  		
-			  		
-			  		if(servletColor == "white")  {
-
-			  			
-			  			 moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
-					  	  document.getElementById("moveList").innerHTML = moveList;
+//---------------------------ADD ENEMY MOVE TO MOVE LIST---------------------------//
+						 moveList.push("<br>" + "OPPONENT PLAYER: " +"<br>"+ "moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + pieceChoice);
+					  	document.getElementById("moveList").innerHTML = moveList;
 					  		
-					  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
-					        document.getElementById("moveList").innerHTML = moveList;
-			  			
-			  		}
-			  		
-			  		else if (servletColor == "black"){
-			  			
-
-			  		  moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
-				  	  document.getElementById("moveList").innerHTML = moveList;
-				  		
-				  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
-				        document.getElementById("moveList").innerHTML = moveList;
-			  		}
-			  		
-		/* 	  	  moveList.push("<br>" + "Moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + stringOfPieces);
-			  	  document.getElementById("moveList").innerHTML = moveList;
-			  		
-			  		moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
-			        document.getElementById("moveList").innerHTML = moveList; */
-			        
-			        
-			        
+					  moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+					    document.getElementById("moveList").innerHTML = moveList;
+					    
+					if(servletColor == "white" && gameState == "Checkmate"){
+						document.getElementById("winner").style.visibility = "visible";
+						document.getElementById("winner").innerHTML("BLACK WINS!");
+					}   
+					else if(servletColor == "black" && gameState == "Checkmate"){
+						document.getElementById("winner").style.visibility = "visible";
+						document.getElementById("winner").innerHTML("WHITE WINS!");
+					}
+					
+					
+					    
 			  }
 			 }
-			  	
-			  	
-				i++;
 		  });
-		
-		
-		
-		//document.getElementById("chessNotation").innerHTML = "interval" + i;
-		//i++;
-		}, 2000);
-		  
+		}, 2000);	  
 }
-
-var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
-	"a2", "b2", "c2", "d2","e2", "f2", "g2", "h2",
-	"a3", "b3", "c3", "d3","e3", "f3", "g3", "h3",
-	"a4", "b4", "c4", "d4","e4", "f4", "g4", "h4",
-	"a5", "b5", "c5", "d5","e5", "f5", "g5", "h5",
-	"a6", "b6", "c6", "d6","e6", "f6", "g6", "h6",
-	"a7", "b7", "c7", "d7","e7", "f7", "g7", "h7",
-	"a8", "b8", "c8", "d8","e8", "f8", "g8", "h8"];
-//temp varibles?
-var intialPosition;
-var squareID_;
-var playerColor;
-var pieceName;
-var currentPiece;
-var promo = null;
-var promoChoice;
-var logicB; 
-var logic;
-//var goodMove;
-
-
-// pawn promotion 
-var pawnPromotion = false;
-document.getElementById("myBtn").style.visibility = "hidden";
-
+//---------------------------DETERMINE WHETHER WHITE OR BLACK---------------------------//
 if(servletColor == "white")  {
 	turnInt = 1;
 }
 else if (servletColor == "black"){
 	turnInt = 0;
 }
-
 var S = { 	
   turnInt, selectedPiece:0, moves:0, 
   
-
-  
   ChangeTurn:function() {
-	  
-	
-	  
-    $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
-    $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
-    this.selectedPiece = this.moves = 0;  //set equal to none
-    this.turnInt = 1 - this.turnInt; //change turn 
-    $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
-   
-    
-    if(this.turnInt == 0){
-    	document.getElementById("moveList").style.color = "white";
-    	var turn = "WHITES TURN:"
-    	playerColor = "b";
-    	
-    }
-    else{
-    	document.getElementById("moveList").style.color = "black";
-    	var turn = "BLACKS TURN:"
-    	playerColor = "w";
-    }
-    //update move list
-    moveList.push("<br>" + turn);
-   document.getElementById("moveList").innerHTML = moveList;
-  },  
-  //******************************************************************************************
+
+	    $(this.selectedPiece).removeClass("pcActive");  //removes selected piece from activePiece  
+	    $([".w",".b"][this.turnInt]).removeClass("pcTurn"); //removes pcTurn class from turnInt
+	    this.selectedPiece = this.moves = 0;  //set equal to none
+	    this.turnInt = 1 - this.turnInt; //change turn 
+	    $([".w",".b"][this.turnInt]).addClass("pcTurn");   //add pcTurn as class in .w and .b
+	   	    
+	    if(this.turnInt == 0){
+	    	document.getElementById("moveList").style.color = "white";
+	    	var turn = "WHITES TURN:"
+	    	playerColor = "b";	
+	    }
+	    else{
+	    	document.getElementById("moveList").style.color = "black";
+	    	var turn = "BLACKS TURN:"
+	    	playerColor = "w";
+	    }
+	  },   
+ //******************************************************************************************
   ClickSquare:function (square) {
 	
     var child = square.children().eq(0);
     
-
     if (child.hasClass(["w","b"][this.turnInt])){ //if has piece to select, do so
       this.ClickPiece(child); // ~child is chess piece~
     }
@@ -461,63 +360,57 @@ var S = {
     else if (this.selectedPiece !== 0) {
     	//squareID = finalPosition
       var squareID = parseInt(square.attr("id"));   // get number associated with square
-
       
       if (squareID < 10){
-    	  finalPos = ('0' + squareID).slice(-2);
+    	  var finalPosi = ('0' + squareID).slice(-2);
     	  squareID_ = finalPos;
       }
       else{
     	  squareID_ = squareID;
       }
       
-      //final position?
+      //FINAL POSITION FOR PLAYER
      // document.getElementById("chessNotation").innerHTML = squareID_;
       
-    //update move list
+//---------------------------UPDATE MOVELIST FOR PLAYER---------------------------//
       moveList.push("<br>" + "Moved to: " + chessNotation[squareID - 1]);
       document.getElementById("moveList").innerHTML = moveList;
       
-      // IF THE PIECE HAS MOVED  - for kevin?
+      // IF THE PIECE HAS MOVED FROM INITIAL POSITION - DO SOMETHING
       if (initialPosition != squareID_){
     	  var x = document.getElementsByClassName("pawn")[0].id;
     	}
-      
-      
-      
+
       if ($.inArray(squareID, this.moves) > -1) {
         if (child.hasClass(["b","w"][this.turnInt])) {  //if square has piece -> remove piece       
           child.remove();
         }
-
-         // PAWN PROMOTION!
-		// white
+        
+//---------------------------PAWN PROMOTION---------------------------//
+		// WHITE
         if (this.selectedPiece.hasClass("pawn") && (squareID > 56)) {
         	pawnPromotion = true;
          this.selectedPiece.removeClass("pawn");
           this.selectedPiece.addClass("queen");
 			this.selectedPiece.empty().html("&#9813");
-			var promotion = " whites pawn promoted to queen";
+			var promotion = " White pawn promoted to queen";
 			moveList.push("<br>" + promotion);
     		document.getElementById("moveList").innerHTML = moveList;
         }
 			
-			// black
+			// BLACK
 			else if (this.selectedPiece.hasClass("pawn") && 
 		            (squareID < 9)) {
 				pawnPromotion = true;
 		         this.selectedPiece.removeClass("pawn");
 		          this.selectedPiece.addClass("queen");
 					this.selectedPiece.empty().html("&#9819");
-					var promotion = " blacks pawn promoted to queen";
+					var promotion = " Black pawn promoted to queen";
 					moveList.push("<br>" + promotion);
 		    		document.getElementById("moveList").innerHTML = moveList;
          
         }
- 
-        
-        
-        	
+
         //do pawn promotion for white pawns
 /*         if(squareID_ > 57 && pieceName == "pawn" && playerColor == "w"){
         	
@@ -543,8 +436,6 @@ var S = {
         	pawnPromotion = false;
         } */
         
-       
-        
         val = {
 				initialPosition: initialPosition,
 				pieceName: pieceName,
@@ -554,39 +445,33 @@ var S = {
 				promotionChoice: promoChoice
 				
 			  };
-        
-        
-        	
+
 			  postData('newGame', val).then(function(data){
 				
 			  	console.log(data);
 			
 			  	logicB = data;
-			  //	logic = logicB.substring(0, logicB.length - 1);
-			  var logic = logicB.split("/");
-			 // document.getElementById("chessNotation").innerHTML = logicB;
+			  	
+				var logic = logicB.split("/");
 		
 			  
 			  
 			  // white checkmate
 			  if(logic[1] == "Checkmate" && playerColor == "b"){
 				  
-				  var check = "White in checkmate";
-				  moveList.push("<br>" + check);
-		    		document.getElementById("moveList").innerHTML = moveList;
-		    		goodMove = 0;
+				var check = "White in checkmate";
+				moveList.push("<br>" + check);
+		    	document.getElementById("moveList").innerHTML = moveList;
+				goodMove = 0;
 		    		
 			  }
 			  else if(logic[1] == "Check" && playerColor == "b"){
 				  
-				  var check = "White in check";
-				  moveList.push("<br>" + check);
-		    		document.getElementById("moveList").innerHTML = moveList;
-		    		goodMove = 1;
+				var check = "White in check";
+				moveList.push("<br>" + check);
+				document.getElementById("moveList").innerHTML = moveList;
+				goodMove = 1;
 			  }
-			  
-			  
-			  
 			  else if(logic[1] == "Checkmate" && playerColor == "w"){
 				  
 				  var check = "Black in checkmate";
@@ -610,59 +495,46 @@ var S = {
 			  }
 				
 			  else if (logic[0] == "true"){
-				  // 1 is true
+				  // goodMove is true?
 				  goodMove = 1;
 			  }
-			  
-			  
+			  			  
 		});
-			 
-		
+			 		
 				square.append(this.selectedPiece);  //append piece to square
 				
 				this.ChangeTurn();  //change turn
 				
-				this.ChangeTurn();  //change turn
-				//newMoves = true;
+				this.ChangeTurn();
 
-				
-		       // this.ChangeTurn();  //change turn	
-		        
-	
-      
       }
     }
   },
-  
+//******************************************************************************************
   ClickPiece:function (piece) {
     if (piece.hasClass(["w","b",][this.turnInt])) {  //if piece has a .w or .b 
-      $(this.selectedPiece).removeClass("pcActive");  //remove pcActive class from selected piece
-      this.selectedPiece = piece; //set selected piece to piece passed in
-      $(this.selectedPiece).addClass("pcActive"); //add class pcActive to selected piece
+		$(this.selectedPiece).removeClass("pcActive");  //remove pcActive class from selected piece
+		this.selectedPiece = piece; //set selected piece to piece passed in
+		$(this.selectedPiece).addClass("pcActive"); //add class pcActive to selected piece
      
-     // document.getElementById("chessNotation").innerHTML =   $(this.selectedPiece).addClass("pcActive");
-      
-      this.moves = GetPieceMoveArray(["b","w"][this.turnInt], $(piece)); //go to GetPieceMoveArray and get the next move
-
+		this.moves = GetPieceMoveArray(["b","w"][this.turnInt], $(piece)); //go to GetPieceMoveArray and get the next move
     }
     
     
     else if (this.selectedPiece !== 0) {
-      this.ClickSquare($(piece.parent())); //else just click the square
-      }
+		this.ClickSquare($(piece.parent())); //else just click the square
+	}
     
   },  
   Deselect:function () {
-    $(this.selectedPiece).removeClass("pcActive"); //remove pcActive class from selectedPiece
-    
-    
-    this.selectedPiece = 0; // back to none when selected
+	$(this.selectedPiece).removeClass("pcActive"); //remove pcActive class from selectedPiece
+	this.selectedPiece = 0; // back to none when selected
   }
   
-  
-  
-  
 }; //END OF BIG FUNC
+
+
+//******************************************************************************************
 S.ChangeTurn();
 $(document).ready(function() {  //CLICK EVENT
   $(document).mousedown(function( event ) { //once mousedown event triggered  
@@ -680,15 +552,12 @@ $(document).ready(function() {  //CLICK EVENT
 			  
   });
 });
+//******************************************************************************************
 function GetPieceString (piece) {
 	
   var classList = $(piece).attr('class').split(/\s+/);  // classList = array of pieces [1,2,3,4...] from "class="
-  //document.getElementById("chessNotation").innerHTML = classList;
-  
- // document.getElementById("chessNotation").innerHTML = $(piece).attr('class');
-  
-  
-  
+
+
   for (var i = 0; i < classList.length; i++) {  //for the length of classList array, if the length is greater than 2 return
      if (classList[i].length > 2) {
        return classList[i]; 
@@ -697,20 +566,58 @@ function GetPieceString (piece) {
   
   
 }
+//******************************************************************************************
 function GetPieceMoveArray (enemyString, piece) {
 	var squareInt = parseInt($(piece).parent().attr('id')); //get number related to square accessing through parent
 	var stringOfPieces = GetPieceString($(piece)); //set stringOfPieces to the pieces passed in
 	currentPiece = stringOfPieces;	// current piece selected to be replaced in pawn promotion
 	
-	//initial position
+	//INITIAL POSITION OF PLAYER
 	//document.getElementById("chessNotation").innerHTML = squareInt;
 	
-	
+	var pieceSymbol;
+	if (stringOfPieces == "pawn" && enemyString == "w"){
+		pieceSymbol = bPawn;
+	} 
+	else if (stringOfPieces == "rook" && enemyString == "w"){
+		pieceSymbol = bRook;
+	}
+	else if (stringOfPieces == "bishop" && enemyString == "w"){
+		pieceSymbol = bBishop;
+	}
+	else if (stringOfPieces == "queen" && enemyString == "w"){
+		pieceSymbol = bQueen;
+	}
+	else if (stringOfPieces == "king" && enemyString == "w"){
+		pieceSymbol = bKing;
+	}
+	else if (stringOfPieces == "knight" && enemyString == "w"){
+		pieceSymbol = bKnight;
+	}
+	else if (stringOfPieces == "pawn" && enemyString == "b"){
+		pieceSymbol = wPawn;
+	} 
+	else if (stringOfPieces == "rook" && enemyString == "b"){
+		pieceSymbol = wRook;
+	}
+	else if (stringOfPieces == "bishop" && enemyString == "b"){
+		pieceSymbol = wBishop;
+	}
+	else if (stringOfPieces == "queen" && enemyString == "b"){
+		pieceSymbol = wQueen;
+	}
+	else if (stringOfPieces == "king" && enemyString == "b"){
+		pieceSymbol = wKing;
+	}
+	else if (stringOfPieces == "knight" && enemyString == "b"){
+		pieceSymbol = wKnight;
+	}
 	
 	//document.getElementById("chessNotation").innerHTML = currentPiece;
 //********LOCATION OF SQUARE && PIECE NAME****************
 	//document.getElementById("chessNotation").innerHTML = stringOfPieces + "has been moved";
-  moveList.push("<br>" + "Moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + stringOfPieces);
+  
+  moveList.push("<br>" + "YOUR MOVE: "+"<br>"+ "moved from: " + chessNotation[squareInt - 1],"<br>" +  "Piece: " + pieceSymbol);
   document.getElementById("moveList").innerHTML = moveList;
   
   if (squareInt < 10){
@@ -743,6 +650,7 @@ pieceName = stringOfPieces;
       return GetMoves(enemyString, stringOfPieces, squareInt, [7 * mult,8 * mult, 9 * mult], 2);
   }
 }
+//******************************************************************************************
 function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
   var moves = [];
   var squareStatus;
@@ -762,138 +670,49 @@ function GetMoves (enemyString, stringOfPieces, squareInt, dirArr, maxSteps) {
  
   return moves;
 }
+//******************************************************************************************
 function GetSquareStatus (enemyString, stringOfPieces, startSquare, step, dir) {
   var fromSquare = startSquare + ((step - 1) * dir); //intial
   var toSquare = startSquare + (step * dir); //move to 
   
   
-    // 0=move and go
-    // 1=move and stop 
-    //2=illegal 
-    //4=pawnFail
-    //0=move and go  1=move and Stop 2=illegal 3=blocked 4=pawn move fail 
+    // 0 = move -> go
+    // 1 = move -> stop
+    //2 = illegal
+    //3 = block
+    //4 = pawn movement failed 
+    
   if (startSquare === toSquare || toSquare < 1 || toSquare > 64) {  //if starting pos is same as chosen OR out of bounds
     return 0; 
   }
   
   if ($('#' + toSquare).children().length > 0) {
     if (stringOfPieces === "pawn" && (dir % 8 === 0 || step > 1)) {
-     return 3; 
+		return 3; 
      }
-    
+
     if ($('#' + toSquare).children().eq(0).hasClass(enemyString)) {
-     return 1; 
-     document.getElementById("moveList").innerHTML = "legal";
+		return 1; 
      }
     else {
-    	//document.getElementById("moveList").innerHTML = "illegal";
-     return 3; 
+		return 3; 
      }
   }
   
   if (stringOfPieces === "pawn") { // if piece is pawn -> 
     if (dir % 8 !== 0) {
-      return 4; 
+		return 4; 
     }
     if (step > 1) {
-      if ((dir > 0 && startSquare > 16) || (dir < 0 && startSquare < 49)) {
-    	  
+      if ((dir > 0 && startSquare > 16) || (dir < 0 && startSquare < 49)) { 
         return 4; 
       }
     }
   }  
   return 0;
 }
-// fix for later on 
-	$('#restart-btn').on('click', function() {
-		resetGame();
-	});
-	function mOver(obj) {
-		  obj.innerHTML = "Are you sure?"
-	}
 	
-	function mOut(obj) {
-		  obj.innerHTML = "Restart Game"
-		}
-	
-	var resetGame = function() {
-    alert("Resetting game");
-    location.reload();
-    val = {
-			resetGame: "refreshed"
-		  };
-		  postData('newGame', val).then(function(data){
-		  	console.log(data);
-		  });
-  }
-	
-	
-	
-	var form = document.querySelector("form");
-	var log = document.querySelector("#log");
-	promoChoice;
-	form.addEventListener("submit", function(event) {
-	  var data = new FormData(form);
-	  promoChoice = "";
-	  for (const entry of data) {
-	    promoChoice = entry[1];
-	    moveList.push("<br>" + "successfully chose " + promoChoice + "!");
-	    document.getElementById("moveList").innerHTML = moveList;
-	   
-	  };
-	  event.preventDefault();
-	}, false);
-	
-	var modal = document.getElementById("myModal");
-	var btn = document.getElementById("myBtn");
-	var span = document.getElementsByClassName("close")[0];
-	btn.onclick = function() {
-	  modal.style.display = "block";
-	}
- 	span.onclick = function() {
-		
-		 val = {
-					initialPosition: initialPosition,
-					pieceName: pieceName,
-					playerColor: playerColor,
-					finalPosition: squareID_,
-					pawnPromotion: pawnPromotion,
-					promotionChoice: promoChoice
-					
-				  };
-				  postData('newGame', val).then(function(data){
-				  	console.log(data);
-			});
-				  
-	  modal.style.display = "none";
-	  document.getElementById("myBtn").style.visibility = "hidden";
-	  
-	  // PAWN PROMOTION FOR WHITE
-		// USING SELECTED PIECE AND ASSIGNING?
-	  if (pieceName === "pawn" && playerColor == "w"){
-		  
-		  if(promoChoice == "queen"){
-			  promo = "&#9813";
-		  }
-		  else if(promoChoice == "knight"){
-			  promo = "&#9816";
-		  }
-		  else if(promoChoice == "bishop"){
-			  promo = "&#9815";
-		  }
-		  else if(promoChoice == "rook"){
-			  promo = "&#9814";
-		  }
-	  }
-  	currentPiece = promoChoice;
 
-	} 
-	// When the user clicks anywhere outside of the modal, close it
-	window.onclick = function(event) {
-	  if (event.target == modal) {
-	    modal.style.display = "none";
-	  }
-	}
 </script>
 </body>
 </html>
