@@ -491,7 +491,7 @@ var S = {
 				  
 				  var check = "Black in checkmate";
 				  document.getElementById("winner").style.visibility = "visible";
-					document.getElementById("winner").append("WHITE WINS!");
+					document.getElementById("winner").append("BLACK WINS!");
 					document.getElementById("winner").style.animationPlayState = "running";
 				  moveList.push("<br>" + check);
 		    	document.getElementById("moveList").innerHTML = moveList;
