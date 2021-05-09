@@ -6,7 +6,7 @@
 <title>New Game</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="_view/newGameCSS.css" />
+<link rel="stylesheet" type="text/css" href="_view/newGameCSS1.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -125,7 +125,13 @@ p {
 
 
 <div id = ></div>
-<button onclick="myFunction()">Start Game!</button>
+
+<form action="${pageContext.servletContext.contextPath}/index">
+    <input type="submit" value="Go to Main Menu" />
+</form>
+
+<button class="ping" onclick="myFunction()">Start Game!</button>
+
 <!----------------------------- START OF JAVASCRIPT ----------------------------->
 <script>
 
