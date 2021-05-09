@@ -251,7 +251,7 @@ function myFunction() {
 			  		}
 			  		
 			  		if(gameState == "Check"){
-			  			moveList.push("<br>" + "White player in check");
+			  			moveList.push("<br>" + "Black player in check");
 					    document.getElementById("moveList").innerHTML = moveList;
 			  		}
 			  		
@@ -288,7 +288,7 @@ function myFunction() {
 			  		}
 			  		
 			  		if(gameState == "Check"){
-			  			moveList.push("<br>" + "Black player in check");
+			  			moveList.push("<br>" + "White player in check");
 					    document.getElementById("moveList").innerHTML = moveList;
 			  		}
 //---------------------------APPEND PIECE---------------------------//			  		
@@ -297,24 +297,34 @@ function myFunction() {
 			  		
 			  		
 //---------------------------ADD ENEMY MOVE TO MOVE LIST---------------------------//
-						 moveList.push("<br>" + "OPPONENT PLAYER: " +"<br>"+ "moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + pieceChoice);
-					  	document.getElementById("moveList").innerHTML = moveList;
-					  		
-					  moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
-					    document.getElementById("moveList").innerHTML = moveList;
-					    
-					if(servletColor == "white" && gameState == "Checkmate"){
-						document.getElementById("winner").style.visibility = "visible";
-						document.getElementById("winner").innerHTML("BLACK WINS!");
-					}   
-					else if(servletColor == "black" && gameState == "Checkmate"){
-						document.getElementById("winner").style.visibility = "visible";
-						document.getElementById("winner").innerHTML("WHITE WINS!");
-					}
-					
-					
-					    
+			    
 			  }
+				 moveList.push("<br>" + "OPPONENT PLAYER: " +"<br>"+ "moved from: " + chessNotation[initialPos - 1],"<br>" +  "Piece: " + pieceChoice);
+				  	document.getElementById("moveList").innerHTML = moveList;
+				  		
+				  moveList.push("<br>" + "Moved to: " + chessNotation[finalPos - 1]);
+				    document.getElementById("moveList").innerHTML = moveList;
+
+				    
+				if(gameState == "Checkmate"){
+					document.getElementById("winner").style.visibility = "visible";
+					if(servletColor == "white"){
+						document.getElementById("winner").append("BLACK WINS!");
+					}
+					else if(servletColor == "black"){
+						document.getElementById("winner").append("WHITE WINS!");
+					}
+				} 
+				
+				else if(gameState == "Draw"){
+					document.getElementById("winner").style.visibility = "visible";
+					document.getElementById("winner").append("IT'S A DRAW!");
+				}
+				
+				/* else if(servletColor == "black" && gameState == "Checkmate"){
+					document.getElementById("winner").style.visibility = "visible";
+					document.getElementById("winner").innerHTML("WHITE WINS!");
+				} */
 			 }
 		  });
 		}, 2000);	  
@@ -460,6 +470,8 @@ var S = {
 			  if(logic[1] == "Checkmate" && playerColor == "b"){
 				  
 				var check = "White in checkmate";
+				document.getElementById("winner").style.visibility = "visible";
+				document.getElementById("winner").append("BLACK WINS!");
 				moveList.push("<br>" + check);
 		    	document.getElementById("moveList").innerHTML = moveList;
 				goodMove = 0;
@@ -475,6 +487,8 @@ var S = {
 			  else if(logic[1] == "Checkmate" && playerColor == "w"){
 				  
 				  var check = "Black in checkmate";
+				  document.getElementById("winner").style.visibility = "visible";
+					document.getElementById("winner").append("WHITE WINS!");
 				  moveList.push("<br>" + check);
 		    	document.getElementById("moveList").innerHTML = moveList;
 		    	goodMove = 0;
@@ -489,6 +503,8 @@ var S = {
 			  else if(logic[1] == "Draw"){
 				  
 				  var check = "Draw";
+				  document.getElementById("winner").style.visibility = "visible";
+					document.getElementById("winner").append("IT'S A DRAW!");
 				  moveList.push("<br>" + check);
 		    		document.getElementById("moveList").innerHTML = moveList;
 		    		goodMove = 0;
