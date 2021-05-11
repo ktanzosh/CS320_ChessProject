@@ -6,7 +6,7 @@
 <title>New Game</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="_view/newGameCSS1.css" />
+<link rel="stylesheet" type="text/css" href="_view/newGameCSS5.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
