@@ -152,8 +152,7 @@ var wKnight = "&#9816";
 var wPawn =  "&#9817";
 
 var pieceChoice;
-//var finalsq = '45'; // good for id then append new piece
-//var initialsq = '8';
+
 var newMoves = true;
 
 var chessNotation = ["a1", "b1", "c1", "d1","e1", "f1", "g1", "h1", 
@@ -190,6 +189,7 @@ var servletColor = "${color}";
 	
 var moveList = [];
 document.getElementById("moveList").innerHTML = "Your moves will go here: ";
+
 async function postData(address, objectToPost){
 	return await(await fetch(address,{
 		method: 'POST',
@@ -213,6 +213,7 @@ function myFunction() {
 			  	}
 			  	
 			  	else{
+			  		
 			  		newMoves = true;
 			  		 var moves = data.split("/");
 			  		 var initialPos = moves[0];
@@ -221,7 +222,7 @@ function myFunction() {
 			  		 var gameState = moves[3];
 			  		 var className = "''";
 			  		 
-			  		document.getElementById("chessNotation").innerHTML = initialPos + " to " + finalPos + " piece: " + pieceChoice;
+			  		//document.getElementById("chessNotation").innerHTML = initialPos + " to " + finalPos + " piece: " + pieceChoice;
 			 
 //---------------------------IF PLAYER WHITE APPEND BLACK PIECE---------------------------//			  		
 			  if(servletColor == "white"){			
@@ -329,7 +330,7 @@ function myFunction() {
 				} */
 			 }
 		  });
-		}, 2000);	  
+		}, 1000);	  
 }
 //---------------------------DETERMINE WHETHER WHITE OR BLACK---------------------------//
 if(servletColor == "white")  {
@@ -466,8 +467,6 @@ var S = {
 			  	
 				var logic = logicB.split("/");
 		
-			  
-			  
 			  // white checkmate
 			  if(logic[1] == "Checkmate" && playerColor == "b"){
 				  
