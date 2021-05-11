@@ -44,7 +44,6 @@ body {
 ul{
 	width: 20%;
  	height: 500px;
-  	overflow: auto;
   	border: 1px dotted white;
 	color: white;
 	list-style-type: circle;
@@ -53,6 +52,9 @@ ul{
 	left: 900px;
 	font-size: 40px;
 	font-family: 'Courier New', monospace;
+overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
 }
 .ping{
 	position: absolute;
