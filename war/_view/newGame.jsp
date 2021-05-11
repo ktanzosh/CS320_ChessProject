@@ -312,10 +312,12 @@ function myFunction() {
 					if(servletColor == "white"){
 						document.getElementById("winner").append("BLACK WINS!");
 						document.getElementById("winner").style.animationPlayState = "running";
+						$("#winner").delay(3200).fadeOut(300);
 					}
 					else if(servletColor == "black"){
 						document.getElementById("winner").append("WHITE WINS!");
 						document.getElementById("winner").style.animationPlayState = "running";
+						$("#winner").delay(3200).fadeOut(300);
 					}
 				} 
 				
@@ -474,6 +476,7 @@ var S = {
 				document.getElementById("winner").style.visibility = "visible";
 				document.getElementById("winner").append("WHITE WINS!");
 				document.getElementById("winner").style.animationPlayState = "running";
+				$("#winner").delay(3200).fadeOut(300);
 				moveList.push("<br>" + check);
 		    	document.getElementById("moveList").innerHTML = moveList;
 				goodMove = 0;
@@ -492,6 +495,7 @@ var S = {
 				  document.getElementById("winner").style.visibility = "visible";
 					document.getElementById("winner").append("BLACK WINS!");
 					document.getElementById("winner").style.animationPlayState = "running";
+					$("#winner").delay(3200).fadeOut(300);
 				  moveList.push("<br>" + check);
 		    	document.getElementById("moveList").innerHTML = moveList;
 		    	goodMove = 0;
@@ -508,6 +512,7 @@ var S = {
 				  var check = "Draw";
 				  document.getElementById("winner").style.visibility = "visible";
 					document.getElementById("winner").append("IT'S A DRAW!");
+					$("#winner").delay(3200).fadeOut(300);
 				  moveList.push("<br>" + check);
 		    		document.getElementById("moveList").innerHTML = moveList;
 		    		goodMove = 0;
